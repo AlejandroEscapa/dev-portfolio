@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Code2, Brain, Cloud, Database, Smartphone, Layers } from "lucide-react";
+import { Code2, Brain, Database, Smartphone, Layers } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 interface BentoItem {

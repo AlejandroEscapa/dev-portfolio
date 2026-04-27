@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Github, Linkedin, ArrowDown, Sparkles } from "lucide-react";
+import { Github, Linkedin, ArrowDown, Sparkles, Phone, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const title = "Construyo software que se siente";
@@ -82,6 +82,26 @@ export const Hero = () => {
           >
             <Github className="h-4 w-4" />
             GitHub
+            <span className="absolute inset-0 -z-10 rounded-full bg-accent/30 opacity-0 blur-xl transition-opacity duration-300 group-hover:opacity-80" />
+          </a>
+
+          <a
+            href="tel:+34601175067"
+            aria-label="Teléfono"
+            className="group relative inline-flex items-center gap-2 rounded-full glass px-6 py-3 text-sm font-medium text-foreground transition-all duration-300 hover:scale-105 hover:border-primary-glow/50"
+          >
+            <Phone className="h-4 w-4" />
+            Teléfono
+            <span className="absolute inset-0 -z-10 rounded-full bg-primary-glow/30 opacity-0 blur-xl transition-opacity duration-300 group-hover:opacity-80" />
+          </a>
+
+          <a
+            href="mailto:alejandro.oliesc97@gmail.com"
+            aria-label="Email"
+            className="group relative inline-flex items-center gap-2 rounded-full glass px-6 py-3 text-sm font-medium text-foreground transition-all duration-300 hover:scale-105 hover:border-accent/50"
+          >
+            <Mail className="h-4 w-4" />
+            Email
             <span className="absolute inset-0 -z-10 rounded-full bg-accent/30 opacity-0 blur-xl transition-opacity duration-300 group-hover:opacity-80" />
           </a>
         </motion.div>
