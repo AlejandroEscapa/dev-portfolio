@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Github, Linkedin } from "lucide-react";
+import { Github, Linkedin, Phone, Mail } from "lucide-react";
 
 export const Footer = () => {
   return (
@@ -37,6 +37,20 @@ export const Footer = () => {
               className="flex h-10 w-10 items-center justify-center rounded-full glass transition-all hover:scale-110 hover:border-accent/50"
             >
               <Github className="h-4 w-4" />
+            </a>
+            <a
+              href="tel:+34601175067"
+              aria-label="Teléfono"
+              className="flex h-10 w-10 items-center justify-center rounded-full glass transition-all hover:scale-110 hover:border-primary-glow/50"
+            >
+              <Phone className="h-4 w-4" />
+            </a>
+            <a
+              href="mailto:alejandro.oliesc97@gmail.com"
+              aria-label="Email"
+              className="flex h-10 w-10 items-center justify-center rounded-full glass transition-all hover:scale-110 hover:border-accent/50"
+            >
+              <Mail className="h-4 w-4" />
             </a>
           </div>
         </motion.div>
