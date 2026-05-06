@@ -54,7 +54,7 @@ export const Profile = () => {
               <span className="text-foreground font-medium">relentless self-study and late-night dedication</span>{" "}
               while working in high-pressure kitchens. Today, as a{" "}
               <span className="text-foreground font-medium">Mobile & Frontend Tech Lead</span>, I translate that{" "}
-              <span className="text-foreground font-medium">"operational resilience"</span> into building
+              <span className="text-foreground font-medium">'operational resilience'</span> into building
               production-ready applications.
             </motion.p>
 
@@ -63,10 +63,8 @@ export const Profile = () => {
               variants={fadeUp}
               className="mt-6 text-lg leading-relaxed text-muted-foreground"
             >
-              I specialize in{" "}
-              <span className="text-foreground font-medium">native Android (Kotlin), iOS (Swift), and Angular</span>,
-              leveraging agentic AI and local LLM workflows to maximize development velocity. I don't just write
-              code; I know how to lead, prioritize, and execute under the most demanding technical deadlines.{" "}
+              I don't just write code; I know how to{" "}
+              <span className="text-foreground font-medium">prioritize and execute when the pressure is on</span>.{" "}
               <span className="text-foreground font-medium">Results-driven, no fluff.</span>
             </motion.p>
           </motion.div>
