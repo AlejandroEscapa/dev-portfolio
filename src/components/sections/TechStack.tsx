@@ -73,7 +73,7 @@ export const TechStack = () => {
         >
           <div className="mb-4 flex items-center gap-3 text-sm uppercase tracking-[0.3em] text-muted-foreground">
             <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
-            <span>02 — Stack</span>
+            <span>03 — Stack</span>
           </div>
           <h2 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
             <span className="text-gradient">The tools</span>{" "}
