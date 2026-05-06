@@ -2,8 +2,8 @@ import { motion } from "framer-motion";
 import { Github, Linkedin, ArrowDown, Sparkles, Phone, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const title = "Construyo software que se siente";
-const subtitle = "Desarrollador Software · Mobile Native (Android & iOS) · Frontend & APIs REST · Agentic AI & local LLM tooling";
+const title = "I build software that feels";
+const subtitle = "Frontend & Mobile (Android & iOS) Developer · AI-Assisted Development";
 
 const words = title.split(" ");
 
@@ -19,7 +19,7 @@ export const Hero = () => {
           className="mb-8 inline-flex items-center gap-2 rounded-full glass px-4 py-2 text-sm text-muted-foreground"
         >
           <Sparkles className="h-3.5 w-3.5 text-accent" />
-          <span>Disponible para nuevos retos</span>
+          <span>Available for new challenges</span>
         </motion.div>
 
         {/* Word-by-word headline */}
@@ -43,7 +43,7 @@ export const Hero = () => {
             transition={{ duration: 0.6, delay: 0.15 + words.length * 0.08 }}
             className="text-gradient-accent inline-block"
           >
-            vivo.
+            alive.
           </motion.span>
         </h1>
 
@@ -87,11 +87,11 @@ export const Hero = () => {
 
           <a
             href="tel:+34601175067"
-            aria-label="Teléfono"
+            aria-label="Phone"
             className="group relative inline-flex items-center gap-2 rounded-full glass px-6 py-3 text-sm font-medium text-foreground transition-all duration-300 hover:scale-105 hover:border-primary-glow/50"
           >
             <Phone className="h-4 w-4" />
-            Teléfono
+            Phone
             <span className="absolute inset-0 -z-10 rounded-full bg-primary-glow/30 opacity-0 blur-xl transition-opacity duration-300 group-hover:opacity-80" />
           </a>
 

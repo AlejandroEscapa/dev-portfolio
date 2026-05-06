@@ -13,9 +13,9 @@ export const Footer = () => {
           className="flex flex-col items-center justify-between gap-6 sm:flex-row"
         >
           <div>
-            <p className="text-sm font-semibold text-foreground">Construyamos algo juntos.</p>
+            <p className="text-sm font-semibold text-foreground">Let's build something together.</p>
             <p className="mt-1 text-xs text-muted-foreground">
-              © {new Date().getFullYear()} · Hecho con código y café.
+              © {new Date().getFullYear()} · Made with code and coffee.
             </p>
           </div>
 
@@ -40,7 +40,7 @@ export const Footer = () => {
             </a>
             <a
               href="tel:+34601175067"
-              aria-label="Teléfono"
+              aria-label="Phone"
               className="flex h-10 w-10 items-center justify-center rounded-full glass transition-all hover:scale-110 hover:border-primary-glow/50"
             >
               <Phone className="h-4 w-4" />

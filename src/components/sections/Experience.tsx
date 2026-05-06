@@ -15,41 +15,41 @@ const experiences: Experience[] = [
   {
     company: "MAS Ingeniería",
     role: "Tech Lead",
-    period: "Actualidad",
+    period: "Present",
     description:
-      "Liderazgo técnico de equipos multidisciplinares. Arquitectura mobile-first, integración de APIs y adopción de tooling con Agentic AI / LLMs locales para acelerar el ciclo de desarrollo.",
-    highlights: ["Mobile Native", "Cloud Infra", "AI Tooling", "Code Reviews", "Mentoring"],
+      "Technical leadership of cross-functional teams on production Angular projects. Mobile-first architecture, API integration and adoption of Agentic AI / local LLM tooling to accelerate the development cycle.",
+    highlights: ["Mobile Native", "Angular", "AI Tooling", "Code Reviews", "Mentoring"],
     featured: true,
   },
   {
     company: "UDON Asian Food",
-    role: "Hostelería",
+    role: "Hospitality",
     period: "Pre-tech",
-    description: "Operativa de servicio en cadena de restauración. Trabajo en equipo y rendimiento bajo presión.",
+    description: "Service operations in a restaurant chain. Teamwork and performance under pressure.",
   },
   {
     company: "PEZ TOMILLO",
-    role: "Hostelería",
+    role: "Hospitality",
     period: "Pre-tech",
-    description: "Cocina y servicio. Atención al detalle y consistencia.",
+    description: "Kitchen and service. Attention to detail and consistency.",
   },
   {
     company: "Leasba",
-    role: "Hostelería",
+    role: "Hospitality",
     period: "Pre-tech",
-    description: "Operaciones, gestión de turnos y atención al cliente.",
+    description: "Operations, shift management and customer service.",
   },
   {
     company: "Alsea",
-    role: "Hostelería",
+    role: "Hospitality",
     period: "Pre-tech",
-    description: "Marcas internacionales. Estandarización de procesos.",
+    description: "International brands. Process standardization.",
   },
   {
     company: "Hilton Foods",
-    role: "Operario industrial",
+    role: "Industrial Operator",
     period: "Pre-tech",
-    description: "Producción industrial alimentaria. Disciplina y cumplimiento de calidad.",
+    description: "Industrial food production. Discipline and quality compliance.",
   },
 ];
 
@@ -91,11 +91,11 @@ export const Experience = () => {
         >
           <div className="mb-4 flex items-center gap-3 text-sm uppercase tracking-[0.3em] text-muted-foreground">
             <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
-            <span>03 — Trayectoria</span>
+            <span>03 — Journey</span>
           </div>
           <h2 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
-            <span className="text-gradient">Impacto</span>{" "}
-            <span className="text-gradient-accent">en cada parada.</span>
+            <span className="text-gradient">Impact</span>{" "}
+            <span className="text-gradient-accent">at every stop.</span>
           </h2>
         </motion.div>
 

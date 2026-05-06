@@ -24,7 +24,7 @@ export const Profile = () => {
           className="mb-16 flex items-center gap-3 text-sm uppercase tracking-[0.3em] text-muted-foreground"
         >
           <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
-          <span>01 — Perfil</span>
+          <span>01 — Profile</span>
         </motion.div>
 
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
@@ -40,9 +40,9 @@ export const Profile = () => {
               variants={fadeUp}
               className="text-4xl font-bold leading-tight tracking-tighter sm:text-5xl md:text-6xl"
             >
-              <span className="text-gradient">De los fogones</span>
+              <span className="text-gradient">From the kitchen</span>
               <br />
-              <span className="text-gradient-primary">al código.</span>
+              <span className="text-gradient-primary">to the code.</span>
             </motion.h2>
 
             <motion.p
@@ -50,10 +50,11 @@ export const Profile = () => {
               variants={fadeUp}
               className="mt-8 text-lg leading-relaxed text-muted-foreground"
             >
-              Desarrollador de software con foco en{" "}
-              <span className="text-foreground font-medium">Mobile nativo (Android & iOS)</span>,
-              frontend y APIs REST. Mi recorrido empieza en cocinas de alta presión, donde aprendí a
-              trabajar con precisión, ritmo y trabajo en equipo bajo cualquier circunstancia.
+              Mobile and Frontend Developer with proven leadership experience as{" "}
+              <span className="text-foreground font-medium">Tech Lead on production Angular projects</span>,
+              coordinating architecture decisions with backend and product teams. Specialized in
+              native Android (Kotlin/Jetpack Compose) and iOS (Swift) development with strong
+              backend API design skills using Spring Boot and FastAPI.
             </motion.p>
 
             <motion.p
@@ -61,10 +62,11 @@ export const Profile = () => {
               variants={fadeUp}
               className="mt-6 text-lg leading-relaxed text-muted-foreground"
             >
-              Hoy aplico esa misma mentalidad construyendo experiencias móviles, herramientas con{" "}
-              <span className="text-foreground font-medium">Agentic AI y LLMs locales</span>, e
-              infraestructura escalable. Aprendizaje continuo, código limpio y entrega real desde el
-              primer día.
+              Leverages{" "}
+              <span className="text-foreground font-medium">AI-assisted development workflows</span>{" "}
+              with local LLM infrastructure and agentic tooling for enhanced productivity. Brings
+              operational resilience from high-pressure hospitality environments, translating to
+              effective prioritization and execution under demanding technical deadlines.
             </motion.p>
           </motion.div>
 
@@ -86,7 +88,7 @@ export const Profile = () => {
                     <ChefHat className="h-6 w-6 text-accent" />
                   </div>
                   <span className="text-xs uppercase tracking-wider text-muted-foreground">
-                    Hostelería
+                    Hospitality
                   </span>
                 </div>
 
@@ -104,9 +106,9 @@ export const Profile = () => {
 
               <div className="relative mt-8 border-t border-white/10 pt-6">
                 <p className="text-sm leading-relaxed text-muted-foreground">
-                  <span className="font-semibold text-foreground">Resiliencia.</span> Una transición
-                  no improvisada: noches estudiando arquitecturas, fines de semana de side-projects,
-                  y la disciplina de quien ha trabajado servicios de 200 cubiertos.
+                  <span className="font-semibold text-foreground">Resilience.</span> No improvised
+                  transition: nights studying architectures, weekends on side-projects, and the
+                  discipline of someone who has worked 200-cover services.
                 </p>
               </div>
             </div>

@@ -14,11 +14,11 @@ export const Education = () => {
         >
           <div className="mb-4 flex items-center gap-3 text-sm uppercase tracking-[0.3em] text-muted-foreground">
             <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
-            <span>05 — Formación</span>
+            <span>05 — Education</span>
           </div>
           <h2 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
-            <span className="text-gradient">Aprender</span>{" "}
-            <span className="text-gradient-accent">no es opcional.</span>
+            <span className="text-gradient">Learning</span>{" "}
+            <span className="text-gradient-accent">is not optional.</span>
           </h2>
         </motion.div>
 
@@ -36,10 +36,10 @@ export const Education = () => {
                 <GraduationCap className="h-6 w-6 text-primary-foreground" />
               </div>
               <h3 className="mt-6 text-2xl font-semibold tracking-tight text-foreground">
-                Máster en Desarrollo Mobile
+                Master's in Mobile Development
               </h3>
               <p className="mt-2 text-sm text-muted-foreground">
-                Trabajo Final de Máster · GameVision · 9/10
+                Master's Thesis · GameVision · 9/10
               </p>
               <div className="mt-6 flex flex-wrap gap-2">
                 {["Android Native", "Compose", "MVVM", "Clean Arch"].map((t) => (
@@ -70,7 +70,7 @@ export const Education = () => {
                 IBM Artificial Intelligence Fundamentals
               </h3>
               <p className="mt-2 text-sm text-muted-foreground">
-                Certificación oficial IBM
+                Official IBM certification
               </p>
 
               <div className="mt-6 rounded-xl border border-white/10 bg-black/30 p-4">
@@ -84,7 +84,7 @@ export const Education = () => {
 
               <div className="mt-5 inline-flex items-center gap-1.5 text-xs text-accent transition-colors group-hover:text-primary-glow">
                 <ExternalLink className="h-3 w-3" />
-                Verificable
+                Verifiable
               </div>
             </div>
           </motion.div>
