@@ -5,51 +5,34 @@ import { Briefcase, Sparkles } from "lucide-react";
 interface Experience {
   company: string;
   role: string;
+  location: string;
   period: string;
-  description: string;
-  highlights?: string[];
+  bullets: string[];
   featured?: boolean;
 }
 
 const experiences: Experience[] = [
   {
     company: "MAS Ingeniería",
-    role: "Tech Lead",
-    period: "Present",
-    description:
-      "Technical leadership of cross-functional teams on production Angular projects. Mobile-first architecture, API integration and adoption of Agentic AI / local LLM tooling to accelerate the development cycle.",
-    highlights: ["Mobile Native", "Angular", "AI Tooling", "Code Reviews", "Mentoring"],
+    role: "Frontend Developer · Tech Lead",
+    location: "Remote, Spain",
+    period: "Mar 2026 – Present",
+    bullets: [
+      "Lead frontend architecture and end-to-end development for a production vending kiosk application, defining the technical foundation and system design patterns.",
+      "Coordinate directly with backend engineering and product management teams to align technical implementation with business requirements and API contracts.",
+      "Manage continuous evolution of the application from initial development through production deployment and iterative feature releases.",
+    ],
     featured: true,
   },
   {
-    company: "UDON Asian Food",
-    role: "Hospitality",
-    period: "Pre-tech",
-    description: "Service operations in a restaurant chain. Teamwork and performance under pressure.",
-  },
-  {
-    company: "PEZ TOMILLO",
-    role: "Hospitality",
-    period: "Pre-tech",
-    description: "Kitchen and service. Attention to detail and consistency.",
-  },
-  {
     company: "Leasba",
-    role: "Hospitality",
-    period: "Pre-tech",
-    description: "Operations, shift management and customer service.",
-  },
-  {
-    company: "Alsea",
-    role: "Hospitality",
-    period: "Pre-tech",
-    description: "International brands. Process standardization.",
-  },
-  {
-    company: "Hilton Foods",
-    role: "Industrial Operator",
-    period: "Pre-tech",
-    description: "Industrial food production. Discipline and quality compliance.",
+    role: "Software Developer Intern",
+    location: "León, Spain",
+    period: "Mar 2023 – May 2023",
+    bullets: [
+      "Developed and maintained ERP system modules, implementing business logic and data processing workflows.",
+      "Contributed to planning and implementation of resource management features across multiple business domains.",
+    ],
   },
 ];
 
@@ -141,21 +124,15 @@ export const Experience = () => {
                   <p className={`mt-1 text-sm font-medium ${exp.featured ? "text-accent" : "text-primary"}`}>
                     {exp.role}
                   </p>
-                  <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
-                    {exp.description}
-                  </p>
-                  {exp.highlights && (
-                    <div className="mt-5 flex flex-wrap gap-2">
-                      {exp.highlights.map((h) => (
-                        <span
-                          key={h}
-                          className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs text-foreground"
-                        >
-                          {h}
-                        </span>
-                      ))}
-                    </div>
-                  )}
+                  <p className="mt-1 text-xs text-muted-foreground">{exp.location}</p>
+                  <ul className="mt-4 space-y-2 text-sm leading-relaxed text-muted-foreground sm:text-base">
+                    {exp.bullets.map((b) => (
+                      <li key={b} className="flex gap-2">
+                        <span className="mt-2 h-1 w-1 flex-shrink-0 rounded-full bg-primary" />
+                        <span>{b}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </motion.div>
             ))}
