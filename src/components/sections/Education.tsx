@@ -1,5 +1,38 @@
 import { motion } from "framer-motion";
-import { GraduationCap, BadgeCheck, ExternalLink } from "lucide-react";
+import { GraduationCap, BadgeCheck, School, ExternalLink } from "lucide-react";
+
+const items = [
+  {
+    icon: GraduationCap,
+    institution: "Tokio School",
+    title: "Master's Degree in Mobile Application Development",
+    location: "Remote",
+    period: "June 2025 – Dec 2025",
+    tags: ["Android Native", "iOS", "Compose", "Swift"],
+    accent: "from-primary to-primary-glow",
+    glow: "bg-primary/20",
+  },
+  {
+    icon: School,
+    institution: "IES San Andrés",
+    title: "FP in Multiplatform Application Development",
+    location: "León, España",
+    period: "Nov 2021 – May 2023",
+    tags: ["Java", "Kotlin", "SQL", "Spring"],
+    accent: "from-accent to-primary",
+    glow: "bg-accent/20",
+  },
+  {
+    icon: BadgeCheck,
+    institution: "IBM",
+    title: "Certification in Artificial Intelligence Fundamentals",
+    location: "Remote",
+    period: "Feb 2026 – Feb 2026",
+    credential: "1965d5c5-2593-47ca-bed5-a5190bfa7667",
+    accent: "from-primary-glow to-accent",
+    glow: "bg-primary-glow/25",
+  },
+];
 
 export const Education = () => {
   return (
@@ -22,72 +55,69 @@ export const Education = () => {
           </h2>
         </motion.div>
 
-        <div className="grid gap-6 md:grid-cols-2">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.7 }}
-            className="group relative overflow-hidden rounded-3xl glass p-8 hover-glow"
-          >
-            <div className="absolute -right-20 -top-20 h-48 w-48 rounded-full bg-primary/20 blur-3xl" />
-            <div className="relative">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-primary-glow">
-                <GraduationCap className="h-6 w-6 text-primary-foreground" />
-              </div>
-              <h3 className="mt-6 text-2xl font-semibold tracking-tight text-foreground">
-                Master's in Mobile Development
-              </h3>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Master's Thesis · GameVision · 9/10
-              </p>
-              <div className="mt-6 flex flex-wrap gap-2">
-                {["Android Native", "Compose", "MVVM", "Clean Arch"].map((t) => (
-                  <span
-                    key={t}
-                    className="rounded-full border border-white/10 px-3 py-1 text-xs text-muted-foreground"
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </motion.div>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {items.map((it, i) => {
+            const Icon = it.icon;
+            return (
+              <motion.div
+                key={it.institution}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.7, delay: i * 0.1 }}
+                className="group relative overflow-hidden rounded-3xl glass p-8 hover-glow"
+              >
+                <div className={`absolute -right-20 -top-20 h-48 w-48 rounded-full blur-3xl ${it.glow}`} />
+                <div className="relative">
+                  <div className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${it.accent}`}>
+                    <Icon className="h-6 w-6 text-primary-foreground" />
+                  </div>
+                  <p className="mt-6 text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                    {it.period}
+                  </p>
+                  <h3 className="mt-2 text-xl font-semibold tracking-tight text-foreground">
+                    {it.institution}
+                  </h3>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {it.title}
+                  </p>
+                  <p className="mt-1 text-xs text-muted-foreground/70">
+                    {it.location}
+                  </p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="group relative overflow-hidden rounded-3xl glass p-8 hover-glow"
-          >
-            <div className="absolute -left-20 -bottom-20 h-48 w-48 rounded-full bg-accent/25 blur-3xl" />
-            <div className="relative">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-accent to-primary">
-                <BadgeCheck className="h-6 w-6 text-accent-foreground" />
-              </div>
-              <h3 className="mt-6 text-2xl font-semibold tracking-tight text-foreground">
-                IBM Artificial Intelligence Fundamentals
-              </h3>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Official IBM certification
-              </p>
+                  {it.tags && (
+                    <div className="mt-6 flex flex-wrap gap-2">
+                      {it.tags.map((t) => (
+                        <span
+                          key={t}
+                          className="rounded-full border border-white/10 px-3 py-1 text-xs text-muted-foreground"
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  )}
 
-              <div className="mt-6 rounded-xl border border-white/10 bg-black/30 p-4">
-                <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                  Credential ID
-                </p>
-                <p className="mt-1 break-all font-mono text-xs text-foreground">
-                  1965d5c5-2593-47ca-bed5-a5190bfa7667
-                </p>
-              </div>
-
-              <div className="mt-5 inline-flex items-center gap-1.5 text-xs text-accent transition-colors group-hover:text-primary-glow">
-                <ExternalLink className="h-3 w-3" />
-                Verifiable
-              </div>
-            </div>
-          </motion.div>
+                  {it.credential && (
+                    <>
+                      <div className="mt-6 rounded-xl border border-white/10 bg-black/30 p-4">
+                        <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                          Credential ID
+                        </p>
+                        <p className="mt-1 break-all font-mono text-xs text-foreground">
+                          {it.credential}
+                        </p>
+                      </div>
+                      <div className="mt-5 inline-flex items-center gap-1.5 text-xs text-accent transition-colors group-hover:text-primary-glow">
+                        <ExternalLink className="h-3 w-3" />
+                        Verifiable
+                      </div>
+                    </>
+                  )}
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>
