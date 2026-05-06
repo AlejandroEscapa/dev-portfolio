@@ -13,7 +13,7 @@ interface BentoItem {
 
 const bento: BentoItem[] = [
   {
-    title: "Lenguajes",
+    title: "Languages",
     subtitle: "Native & web",
     items: ["TypeScript", "Kotlin", "Java", "Swift"],
     icon: Code2,
@@ -76,11 +76,11 @@ export const TechStack = () => {
             <span>02 — Stack</span>
           </div>
           <h2 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
-            <span className="text-gradient">Las herramientas</span>{" "}
-            <span className="text-gradient-primary">que importan.</span>
+            <span className="text-gradient">The tools</span>{" "}
+            <span className="text-gradient-primary">that matter.</span>
           </h2>
           <p className="mt-4 max-w-2xl text-muted-foreground">
-            Pragmatismo sobre dogma. Cada elección responde a un problema real.
+            Pragmatism over dogma. Every choice answers a real problem.
           </p>
         </motion.div>
 

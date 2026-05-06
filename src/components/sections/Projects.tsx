@@ -16,11 +16,11 @@ export const Projects = () => {
         >
           <div className="mb-4 flex items-center gap-3 text-sm uppercase tracking-[0.3em] text-muted-foreground">
             <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
-            <span>04 — Proyectos</span>
+            <span>04 — Projects</span>
           </div>
           <h2 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
-            <span className="text-gradient">La prueba</span>{" "}
-            <span className="text-gradient-primary">en código.</span>
+            <span className="text-gradient">The proof</span>{" "}
+            <span className="text-gradient-primary">in code.</span>
           </h2>
         </motion.div>
 
@@ -49,9 +49,9 @@ export const Projects = () => {
               </h3>
 
               <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
-                Trabajo Final de Máster: aplicación Android nativa que reimagina el descubrimiento de
-                videojuegos. Arquitectura limpia, testeable y escalable, construida íntegramente con
-                Jetpack Compose y MVVM.
+                Master's Thesis: native Android application that reimagines video game discovery.
+                Clean, testable and scalable architecture, built entirely with Jetpack Compose and
+                MVVM.
               </p>
 
               <div className="mt-8 flex flex-wrap gap-2">
@@ -66,9 +66,9 @@ export const Projects = () => {
               </div>
 
               <div className="mt-10 grid grid-cols-3 gap-4 border-t border-white/10 pt-8">
-                <Stat icon={Smartphone} label="Plataforma" value="Android" />
-                <Stat icon={Layers} label="Arquitectura" value="Clean" />
-                <Stat icon={Award} label="Calificación" value="9 / 10" />
+                <Stat icon={Smartphone} label="Platform" value="Android" />
+                <Stat icon={Layers} label="Architecture" value="Clean" />
+                <Stat icon={Award} label="Grade" value="9 / 10" />
               </div>
             </div>
 
@@ -117,7 +117,7 @@ export const Projects = () => {
                       </div>
 
                       <div className="mt-auto rounded-xl bg-gradient-to-r from-primary to-primary-glow p-3 text-center text-xs font-medium text-primary-foreground">
-                        Explorar catálogo
+                        Browse catalog
                       </div>
                     </div>
                   </div>

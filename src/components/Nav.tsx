@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const links = [
-  { label: "Perfil", href: "#profile" },
+  { label: "Profile", href: "#profile" },
   { label: "Stack", href: "#stack" },
-  { label: "Trayectoria", href: "#experience" },
-  { label: "Proyectos", href: "#projects" },
-  { label: "Formación", href: "#education" },
+  { label: "Journey", href: "#experience" },
+  { label: "Projects", href: "#projects" },
+  { label: "Education", href: "#education" },
 ];
 
 export const Nav = () => {
