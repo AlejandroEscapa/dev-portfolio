@@ -1,0 +1,31 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gradA" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#8A5CFF"></stop>
+      <stop offset="50%" stop-color="#6C7BFF"></stop>
+      <stop offset="100%" stop-color="#22D3EE"></stop>
+    </linearGradient>
+  </defs>
+
+  <!-- A asimétrica -->
+  <path d="M120 400 
+       L240 100 
+       Q250 80 270 100 
+       L390 400 
+       Q400 420 370 420 
+       L330 420 
+       Q310 420 300 390 
+       L270 310 
+       Q260 290 240 310 
+       L210 390 
+       Q200 420 180 420 
+       L140 420 
+       Q110 420 120 400 Z" fill="url(#gradA)"></path>
+
+  <!-- Corte interno (detalle asimétrico) -->
+  <path d="M250 300 
+       L310 300 
+       L270 350 
+       Q260 360 240 350 
+       Z" fill="#0B0F1A" opacity="0.15"></path>
+</svg>
