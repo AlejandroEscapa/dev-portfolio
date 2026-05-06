@@ -113,39 +113,6 @@ export const About = () => {
             </div>
           </div>
         </motion.div>
-
-        {/* From the kitchen to the code */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8, delay: 0.1, ease: EASE }}
-          className="mt-16"
-        >
-          <div className="mb-6 flex items-center gap-3 text-xs uppercase tracking-[0.3em] text-muted-foreground">
-            <span className="h-px w-10 bg-gradient-to-r from-accent to-transparent" />
-            <span>Story</span>
-          </div>
-          <h3 className="text-3xl font-bold leading-tight tracking-tighter sm:text-4xl md:text-5xl">
-            <span className="text-gradient">From the kitchen</span>{" "}
-            <span className="text-gradient-accent">to the code.</span>
-          </h3>
-          <div className="glass-strong relative mt-8 overflow-hidden rounded-3xl p-8 sm:p-10">
-            <div className="absolute -right-24 -bottom-24 h-48 w-48 rounded-full bg-accent/20 blur-3xl" />
-            <p className="relative text-base leading-relaxed text-muted-foreground sm:text-lg">
-              I transitioned into software engineering through{" "}
-              <span className="font-medium text-foreground">relentless self-study and late-night dedication</span>{" "}
-              while working in high-pressure kitchens. Today, as a{" "}
-              <span className="font-medium text-foreground">Mobile & Frontend Tech Lead</span>, I translate that{" "}
-              <span className="font-medium text-foreground">"operational resilience"</span> into building
-              production-ready applications. I specialize in{" "}
-              <span className="font-medium text-foreground">native Android (Kotlin), iOS (Swift), and Angular</span>,
-              leveraging agentic AI and local LLM workflows to maximize development velocity. I don't just write
-              code; I know how to lead, prioritize, and execute under the most demanding technical deadlines.{" "}
-              <span className="font-medium text-foreground">Results-driven, no fluff.</span>
-            </p>
-          </div>
-        </motion.div>
       </div>
     </section>
   );
