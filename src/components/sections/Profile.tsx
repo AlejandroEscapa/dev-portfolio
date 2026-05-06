@@ -50,11 +50,12 @@ export const Profile = () => {
               variants={fadeUp}
               className="mt-8 text-lg leading-relaxed text-muted-foreground"
             >
-              Mobile and Frontend Developer with proven leadership experience as{" "}
-              <span className="text-foreground font-medium">Tech Lead on production Angular projects</span>,
-              coordinating architecture decisions with backend and product teams. Specialized in
-              native Android (Kotlin/Jetpack Compose) and iOS (Swift) development with strong
-              backend API design skills using Spring Boot and FastAPI.
+              I transitioned into software engineering through{" "}
+              <span className="text-foreground font-medium">relentless self-study and late-night dedication</span>{" "}
+              while working in high-pressure kitchens. Today, as a{" "}
+              <span className="text-foreground font-medium">Mobile & Frontend Tech Lead</span>, I translate that{" "}
+              <span className="text-foreground font-medium">"operational resilience"</span> into building
+              production-ready applications.
             </motion.p>
 
             <motion.p
@@ -62,11 +63,11 @@ export const Profile = () => {
               variants={fadeUp}
               className="mt-6 text-lg leading-relaxed text-muted-foreground"
             >
-              Leverages{" "}
-              <span className="text-foreground font-medium">AI-assisted development workflows</span>{" "}
-              with local LLM infrastructure and agentic tooling for enhanced productivity. Brings
-              operational resilience from high-pressure hospitality environments, translating to
-              effective prioritization and execution under demanding technical deadlines.
+              I specialize in{" "}
+              <span className="text-foreground font-medium">native Android (Kotlin), iOS (Swift), and Angular</span>,
+              leveraging agentic AI and local LLM workflows to maximize development velocity. I don't just write
+              code; I know how to lead, prioritize, and execute under the most demanding technical deadlines.{" "}
+              <span className="text-foreground font-medium">Results-driven, no fluff.</span>
             </motion.p>
           </motion.div>
 
