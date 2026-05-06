@@ -16,7 +16,7 @@ export const Projects = () => {
         >
           <div className="mb-4 flex items-center gap-3 text-sm uppercase tracking-[0.3em] text-muted-foreground">
             <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
-            <span>04 — Projects</span>
+            <span>05 — Projects</span>
           </div>
           <h2 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
             <span className="text-gradient">The proof</span>{" "}

@@ -2,6 +2,7 @@ import { MeshBackground } from "@/components/MeshBackground";
 import { Nav } from "@/components/Nav";
 import { Hero } from "@/components/sections/Hero";
 import { Profile } from "@/components/sections/Profile";
+import { About } from "@/components/sections/About";
 import { TechStack } from "@/components/sections/TechStack";
 import { Experience } from "@/components/sections/Experience";
 import { Projects } from "@/components/sections/Projects";
@@ -15,6 +16,7 @@ const Index = () => {
       <Nav />
       <Hero />
       <Profile />
+      <About />
       <TechStack />
       <Experience />
       <Projects />
