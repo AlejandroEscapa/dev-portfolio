@@ -124,21 +124,15 @@ export const Experience = () => {
                   <p className={`mt-1 text-sm font-medium ${exp.featured ? "text-accent" : "text-primary"}`}>
                     {exp.role}
                   </p>
-                  <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
-                    {exp.description}
-                  </p>
-                  {exp.highlights && (
-                    <div className="mt-5 flex flex-wrap gap-2">
-                      {exp.highlights.map((h) => (
-                        <span
-                          key={h}
-                          className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs text-foreground"
-                        >
-                          {h}
-                        </span>
-                      ))}
-                    </div>
-                  )}
+                  <p className="mt-1 text-xs text-muted-foreground">{exp.location}</p>
+                  <ul className="mt-4 space-y-2 text-sm leading-relaxed text-muted-foreground sm:text-base">
+                    {exp.bullets.map((b) => (
+                      <li key={b} className="flex gap-2">
+                        <span className="mt-2 h-1 w-1 flex-shrink-0 rounded-full bg-primary" />
+                        <span>{b}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </motion.div>
             ))}
