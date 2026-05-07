@@ -2,6 +2,7 @@ import { motion, type Variants } from "framer-motion";
 import type { MotionValue } from "framer-motion";
 import { ChefHat, ArrowRight, Code2 } from "lucide-react";
 import { SectionContainer } from "@/components/ui/SectionContainer";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface ProfileProps {
   id?: string;
@@ -27,6 +28,8 @@ const fadeUp: Variants = {
 };
 
 export const Profile = ({ id = SECTION_ID, innerRef, motionStyle }: ProfileProps) => {
+  const { t } = useLanguage();
+
   return (
     <SectionContainer maxWidth="lg" id={id} innerRef={innerRef} motionStyle={motionStyle}>
       <motion.div
@@ -37,7 +40,7 @@ export const Profile = ({ id = SECTION_ID, innerRef, motionStyle }: ProfileProps
         className="mb-12 flex items-center gap-3 text-sm uppercase tracking-[0.3em] text-muted-foreground"
       >
           <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
-          <span>02 — Profile</span>
+          <span>{t("profile.section_label")}</span>
         </motion.div>
 
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
@@ -53,9 +56,9 @@ export const Profile = ({ id = SECTION_ID, innerRef, motionStyle }: ProfileProps
               variants={fadeUp}
               className="text-4xl font-bold leading-tight tracking-tighter sm:text-5xl md:text-6xl"
             >
-              <span className="text-gradient">From the kitchen</span>
+              <span className="text-gradient">{t("profile.heading_before")}</span>
               <br />
-              <span className="text-gradient-primary">to the code.</span>
+              <span className="text-gradient-primary">{t("profile.heading_after")}</span>
             </motion.h2>
 
             <motion.p
@@ -63,12 +66,7 @@ export const Profile = ({ id = SECTION_ID, innerRef, motionStyle }: ProfileProps
               variants={fadeUp}
               className="mt-8 text-lg leading-relaxed text-muted-foreground"
             >
-              I transitioned into software engineering through{" "}
-              <span className="text-foreground font-medium">relentless self-study and late-night dedication</span>{" "}
-              while working in high-pressure kitchens. Today, as a{" "}
-              <span className="text-foreground font-medium">Mobile & Frontend Tech Lead</span>, I translate that{" "}
-              <span className="text-foreground font-medium">'operational resilience'</span> into building
-              production-ready applications.
+              {t("profile.bio_p1_before")} <span className="text-foreground font-medium">{t("profile.bio_p1_highlight")}</span> {t("profile.bio_p1_middle")} <span className="text-foreground font-medium">{t("profile.bio_p1_title")}</span>{t("profile.bio_p1_after")} <span className="text-foreground font-medium">{t("profile.bio_p1_term")}</span>{t("profile.bio_p1_final")}
             </motion.p>
 
             <motion.p
@@ -76,9 +74,7 @@ export const Profile = ({ id = SECTION_ID, innerRef, motionStyle }: ProfileProps
               variants={fadeUp}
               className="mt-6 text-lg leading-relaxed text-muted-foreground"
             >
-              I don't just write code; I know how to{" "}
-              <span className="text-foreground font-medium">prioritize and execute when the pressure is on</span>.{" "}
-              <span className="text-foreground font-medium">Results-driven, no fluff.</span>
+              {t("profile.bio_p2_before")} <span className="text-foreground font-medium">{t("profile.bio_p2_highlight")}</span>{t("profile.bio_p2_after")} <span className="text-foreground font-medium">{t("profile.bio_p2_tagline")}</span>
             </motion.p>
           </motion.div>
 
@@ -100,7 +96,7 @@ export const Profile = ({ id = SECTION_ID, innerRef, motionStyle }: ProfileProps
                     <ChefHat className="h-6 w-6 text-accent" />
                   </div>
                   <span className="text-xs uppercase tracking-wider text-muted-foreground">
-                    Hospitality
+                    {t("profile.from_label")}
                   </span>
                 </div>
 
@@ -111,16 +107,14 @@ export const Profile = ({ id = SECTION_ID, innerRef, motionStyle }: ProfileProps
                     <Code2 className="h-6 w-6 text-primary-foreground" />
                   </div>
                   <span className="text-xs uppercase tracking-wider text-muted-foreground">
-                    Tech
+                    {t("profile.to_label")}
                   </span>
                 </div>
               </div>
 
               <div className="relative mt-8 border-t border-white/10 pt-6">
                 <p className="text-sm leading-relaxed text-muted-foreground">
-                  <span className="font-semibold text-foreground">Resilience.</span> No improvised
-                  transition: nights studying architectures, weekends on side-projects, and the
-                  discipline of someone who has worked 200-cover services.
+                  <span className="font-semibold text-foreground">{t("profile.card_heading")}</span> {t("profile.card_body")}
                 </p>
               </div>
             </div>
@@ -129,3 +123,4 @@ export const Profile = ({ id = SECTION_ID, innerRef, motionStyle }: ProfileProps
     </SectionContainer>
   );
 };
+

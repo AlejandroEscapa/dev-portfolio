@@ -1,13 +1,13 @@
 import { motion } from "framer-motion";
 import { Github, Linkedin, ArrowDown, Sparkles, Phone, Mail } from "lucide-react";
-import { Button } from "@/components/ui/button";
-
-const title = "I build software that feels";
-const subtitle = "Frontend & Mobile (Android & iOS) Developer · AI-Assisted Development";
-
-const words = title.split(" ");
+import { useLanguage } from "@/context/LanguageContext";
 
 export const Hero = () => {
+  const { t } = useLanguage();
+  const title = t("hero.title");
+  const subtitle = t("hero.subtitle");
+  const words = title.split(" ");
+
   return (
     <section id="hero" className="relative flex min-h-[100dvh] items-center justify-center px-6 pt-20 pb-20">
       <div className="container relative z-10 mx-auto max-w-5xl text-center">
@@ -19,7 +19,7 @@ export const Hero = () => {
           className="mb-12 inline-flex items-center gap-2 rounded-full glass px-4 py-2 text-sm text-muted-foreground"
         >
           <Sparkles className="h-3.5 w-3.5 text-accent" />
-          <span>Available for new challenges</span>
+          <span>{t("hero.available")}</span>
         </motion.div>
 
         {/* Word-by-word headline */}
@@ -43,7 +43,7 @@ export const Hero = () => {
             transition={{ duration: 0.6, delay: 0.15 + words.length * 0.08 }}
             className="text-gradient-accent inline-block"
           >
-            alive.
+            {t("hero.title_final")}
           </motion.span>
         </h1>
 
@@ -70,7 +70,7 @@ export const Hero = () => {
             className="group relative inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-primary to-primary-glow px-6 py-3 text-sm font-medium text-primary-foreground transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_hsl(var(--primary)/0.6)]"
           >
             <Linkedin className="h-4 w-4" />
-            LinkedIn
+            {t("hero.cta_linkedin")}
             <span className="absolute inset-0 -z-10 rounded-full bg-gradient-to-r from-primary to-primary-glow opacity-0 blur-xl transition-opacity duration-300 group-hover:opacity-70" />
           </a>
 
@@ -81,7 +81,7 @@ export const Hero = () => {
             className="group relative inline-flex items-center gap-2 rounded-full glass px-6 py-3 text-sm font-medium text-foreground transition-all duration-300 hover:scale-105 hover:border-accent/50"
           >
             <Github className="h-4 w-4" />
-            GitHub
+            {t("hero.cta_github")}
             <span className="absolute inset-0 -z-10 rounded-full bg-accent/30 opacity-0 blur-xl transition-opacity duration-300 group-hover:opacity-80" />
           </a>
 
@@ -91,7 +91,7 @@ export const Hero = () => {
             className="group relative inline-flex items-center gap-2 rounded-full glass px-6 py-3 text-sm font-medium text-foreground transition-all duration-300 hover:scale-105 hover:border-primary-glow/50"
           >
             <Phone className="h-4 w-4" />
-            Phone
+            {t("hero.cta_phone")}
             <span className="absolute inset-0 -z-10 rounded-full bg-primary-glow/30 opacity-0 blur-xl transition-opacity duration-300 group-hover:opacity-80" />
           </a>
 
@@ -101,7 +101,7 @@ export const Hero = () => {
             className="group relative inline-flex items-center gap-2 rounded-full glass px-6 py-3 text-sm font-medium text-foreground transition-all duration-300 hover:scale-105 hover:border-accent/50"
           >
             <Mail className="h-4 w-4" />
-            Email
+            {t("hero.cta_email")}
             <span className="absolute inset-0 -z-10 rounded-full bg-accent/30 opacity-0 blur-xl transition-opacity duration-300 group-hover:opacity-80" />
           </a>
         </motion.div>
@@ -118,7 +118,7 @@ export const Hero = () => {
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             className="flex flex-col items-center gap-2 text-xs uppercase tracking-widest text-muted-foreground"
           >
-            <span>Scroll</span>
+            <span>{t("hero.scroll_hint")}</span>
             <ArrowDown className="h-4 w-4" />
           </motion.div>
         </motion.div>

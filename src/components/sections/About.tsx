@@ -1,7 +1,8 @@
 import { motion, type Variants } from "framer-motion";
 import type { MotionValue } from "framer-motion";
-import { User, Sparkles } from "lucide-react";
+import { User, ChefHat, Sparkles } from "lucide-react";
 import { SectionContainer } from "@/components/ui/SectionContainer";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface AboutProps {
   id?: string;
@@ -27,6 +28,8 @@ const fadeUp: Variants = {
 };
 
 export const About = ({ id = SECTION_ID, innerRef, motionStyle }: AboutProps) => {
+  const { t } = useLanguage();
+
   return (
     <SectionContainer maxWidth="lg" id={id} innerRef={innerRef} motionStyle={motionStyle}>
       <motion.div
@@ -37,7 +40,7 @@ export const About = ({ id = SECTION_ID, innerRef, motionStyle }: AboutProps) =>
           className="mb-12 flex items-center gap-3 text-sm uppercase tracking-[0.3em] text-muted-foreground"
         >
           <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
-          <span>01 — About</span>
+          <span>{t("about.section_label")}</span>
         </motion.div>
 
         <motion.h2
@@ -48,8 +51,8 @@ export const About = ({ id = SECTION_ID, innerRef, motionStyle }: AboutProps) =>
           variants={fadeUp}
           className="text-4xl font-bold leading-tight tracking-tighter sm:text-5xl md:text-6xl"
         >
-          <span className="text-gradient">Professional</span>{" "}
-          <span className="text-gradient-primary">summary.</span>
+          <span className="text-gradient">{t("about.heading_before")}</span>{" "}
+          <span className="text-gradient-primary">{t("about.heading_after")}</span>
         </motion.h2>
 
         <motion.div
@@ -66,66 +69,73 @@ export const About = ({ id = SECTION_ID, innerRef, motionStyle }: AboutProps) =>
 
               <div className="relative space-y-5 text-base leading-relaxed text-muted-foreground sm:text-lg">
                 <p>
-                  Mobile and Frontend Developer with proven leadership experience as{" "}
-                  <span className="font-medium text-foreground">
-                    Tech Lead on production Angular projects
-                  </span>
-                  , coordinating architecture decisions with backend and product teams.
+                  {t("about.bio_p1")} <span className="font-medium text-foreground">{t("about.bio_p1_highlight")}</span>{t("about.bio_p1_after")}
                 </p>
                 <p>
-                  Specialized in{" "}
-                  <span className="font-medium text-foreground">
-                    native Android (Kotlin/Jetpack Compose) and iOS (Swift)
-                  </span>{" "}
-                  development with strong backend API design skills using{" "}
-                  <span className="font-medium text-foreground">Spring Boot and FastAPI</span>.
+                  {t("about.bio_p2")} <span className="font-medium text-foreground">{t("about.bio_p2_highlight")}</span> {t("about.bio_p2_after")} <span className="font-medium text-foreground">{t("about.bio_p2_tech")}</span>.
                 </p>
                 <p>
-                  Leverages{" "}
-                  <span className="font-medium text-foreground">
-                    AI-assisted development workflows
-                  </span>{" "}
-                  with local LLM infrastructure and agentic tooling for enhanced productivity.
+                  {t("about.bio_p3")} <span className="font-medium text-foreground">{t("about.bio_p3_highlight")}</span>{t("about.bio_p3_after")}
                 </p>
                 <p>
-                  Brings operational resilience from high-pressure hospitality environments,
-                  translating to effective prioritization and execution under demanding technical
-                  deadlines.
+                  {t("about.bio_p4")}
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="flex flex-col gap-6 lg:col-span-4">
-            <div className="glass relative flex-1 overflow-hidden rounded-3xl p-6">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-primary-glow glow-primary">
-                <User className="h-5 w-5 text-primary-foreground" />
+          <div className="flex flex-col gap-4 lg:col-span-4">
+            <div className="glass relative flex items-center gap-4 overflow-hidden rounded-3xl p-5 pr-6">
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl glass">
+                <User className="h-7 w-7 text-accent" />
               </div>
-              <p className="mt-5 text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                Role
-              </p>
-              <p className="mt-2 text-lg font-semibold tracking-tight text-foreground">
-                Frontend & Mobile Developer
-              </p>
-              <p className="mt-1 text-sm text-primary">Tech Lead</p>
+              <div>
+                <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                  {t("about.role_label")}
+                </p>
+                <p className="text-base font-semibold tracking-tight text-foreground">
+                  {t("about.role_value")}
+                </p>
+                <p className="text-sm text-primary">{t("about.role_detail")}</p>
+              </div>
             </div>
 
-            <div className="glass relative flex-1 overflow-hidden rounded-3xl p-6">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl glass">
-                <Sparkles className="h-5 w-5 text-accent" />
+            <div className="glass relative flex items-center gap-4 overflow-hidden rounded-3xl p-5 pr-6">
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl glass">
+                <ChefHat className="h-7 w-7 text-accent" />
               </div>
-              <p className="mt-5 text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                Edge
-              </p>
-              <p className="mt-2 text-lg font-semibold tracking-tight text-foreground">
-                AI-assisted workflows
-              </p>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Local LLMs · Agentic tooling
-              </p>
+              <div>
+                <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                  {t("about.background_label")}
+                </p>
+                <p className="text-base font-semibold tracking-tight text-foreground">
+                  {t("about.background_value")}
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  {t("about.background_detail")}
+                </p>
+              </div>
+            </div>
+
+            <div className="glass relative flex items-center gap-4 overflow-hidden rounded-3xl p-5 pr-6">
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl glass">
+                <Sparkles className="h-7 w-7 text-accent" />
+              </div>
+              <div>
+                <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                  {t("about.edge_label")}
+                </p>
+                <p className="text-base font-semibold tracking-tight text-foreground">
+                  {t("about.edge_value")}
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  {t("about.edge_detail")}
+                </p>
+              </div>
             </div>
           </div>
         </motion.div>
     </SectionContainer>
   );
 };
+

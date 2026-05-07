@@ -1,4 +1,5 @@
 import { MeshBackground } from "@/components/MeshBackground";
+import { CodeBackground } from "@/components/CodeBackground";
 import { Nav } from "@/components/Nav";
 import { SectionZoom } from "@/components/SectionZoom";
 import { Hero } from "@/components/sections/Hero";
@@ -16,6 +17,7 @@ const Index = () => {
   return (
     <main className="relative min-h-screen">
       <MeshBackground />
+      <CodeBackground />
       <Nav />
       <Hero />
       <SectionZoom><About /></SectionZoom>

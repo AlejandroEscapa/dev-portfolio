@@ -1,22 +1,25 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { Globe } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
-const links = [
-  { label: "About", href: "#about" },
-  { label: "Profile", href: "#profile" },
-  { label: "Stack", href: "#stack" },
-  { label: "Journey", href: "#experience" },
-  { label: "Projects", href: "#projects" },
-  { label: "Education", href: "#education" },
+const linksConfig = [
+  { labelKey: "nav.about", href: "#about" },
+  { labelKey: "nav.profile", href: "#profile" },
+  { labelKey: "nav.techStack", href: "#stack" },
+  { labelKey: "nav.experience", href: "#experience" },
+  { labelKey: "nav.projects", href: "#projects" },
+  { labelKey: "nav.education", href: "#education" },
 ];
 
-const allSections = ["hero", ...links.map((l) => l.href.slice(1))];
-
 export const Nav = () => {
+  const { lang, toggleLang, t } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
 
   useEffect(() => {
+    const allSections = ["hero", ...linksConfig.map((l) => l.href.slice(1))];
+
     const onScroll = () => {
       setScrolled(window.scrollY > 40);
 
@@ -76,10 +79,10 @@ export const Nav = () => {
               : "text-gradient-primary hover:text-foreground"
           }`}
         >
-          ME
+          {t("nav.hero")}
         </a>
         <div className="hidden items-center sm:flex">
-          {links.map((l) => (
+          {linksConfig.map((l) => (
             <a
               key={l.href}
               href={l.href}
@@ -90,9 +93,39 @@ export const Nav = () => {
                   : "text-muted-foreground hover:text-foreground"
               }`}
             >
-              {l.label}
+              {t(l.labelKey)}
             </a>
           ))}
+          <button
+            onClick={toggleLang}
+            aria-label={lang === "en" ? t("nav.lang_switch_to_es") : t("nav.lang_switch_to_en")}
+            className="relative flex h-8 items-center gap-0.5 rounded-full bg-white/5 pl-2.5 pr-1.5 text-xs font-medium tracking-wide"
+          >
+            <span className="relative flex h-5 w-5 items-center justify-center">
+              <Globe className="absolute h-3.5 w-3.5 text-muted-foreground" />
+            </span>
+            <span className="flex items-center gap-0.5 py-1">
+              <span
+                className={`rounded-md px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider transition-all duration-300 ${
+                  lang === "en"
+                    ? "bg-primary/20 text-primary shadow-[0_0_8px_hsl(248_90%_66%/0.4)]"
+                    : "text-muted-foreground"
+                }`}
+              >
+                EN
+              </span>
+              <span className="text-muted-foreground/40">/</span>
+              <span
+                className={`rounded-md px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider transition-all duration-300 ${
+                  lang === "es"
+                    ? "bg-primary/20 text-primary shadow-[0_0_8px_hsl(248_90%_66%/0.4)]"
+                    : "text-muted-foreground"
+                }`}
+              >
+                ES
+              </span>
+            </span>
+          </button>
         </div>
       </div>
     </motion.nav>

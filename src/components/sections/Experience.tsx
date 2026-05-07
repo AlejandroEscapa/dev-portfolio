@@ -3,6 +3,7 @@ import type { MotionValue } from "framer-motion";
 import { useRef } from "react";
 import { Briefcase, Sparkles } from "lucide-react";
 import { SectionContainer } from "@/components/ui/SectionContainer";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface ExperienceProps {
   id?: string;
@@ -16,39 +17,14 @@ interface ExperienceProps {
 
 const SECTION_ID = "experience";
 
-interface Experience {
+interface ExperienceItem {
   company: string;
-  role: string;
-  location: string;
-  period: string;
-  bullets: string[];
+  roleKey: string;
+  locationKey: string;
+  periodKey: string;
+  bulletKeys: string[];
   featured?: boolean;
 }
-
-const experiences: Experience[] = [
-  {
-    company: "MAS Ingeniería",
-    role: "Frontend Developer · Tech Lead",
-    location: "Remote, Spain",
-    period: "Mar 2026 – Present",
-    bullets: [
-      "Lead frontend architecture and end-to-end development for a production vending kiosk application, defining the technical foundation and system design patterns.",
-      "Coordinate directly with backend engineering and product management teams to align technical implementation with business requirements and API contracts.",
-      "Manage continuous evolution of the application from initial development through production deployment and iterative feature releases.",
-    ],
-    featured: true,
-  },
-  {
-    company: "Leasba",
-    role: "Software Developer Intern",
-    location: "León, Spain",
-    period: "Mar 2023 – May 2023",
-    bullets: [
-      "Developed and maintained ERP system modules, implementing business logic and data processing workflows.",
-      "Contributed to planning and implementation of resource management features across multiple business domains.",
-    ],
-  },
-];
 
 const TimelineNode = ({ featured }: { featured?: boolean }) => (
   <div className="relative">
@@ -72,9 +48,28 @@ const TimelineNode = ({ featured }: { featured?: boolean }) => (
 );
 
 export const Experience = ({ id = SECTION_ID, innerRef, motionStyle }: ExperienceProps) => {
+  const { t } = useLanguage();
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const lineHeight = useTransform(scrollYProgress, [0, 0.9], ["0%", "100%"]);
+
+  const experiences: ExperienceItem[] = [
+    {
+      company: "MAS Ingeniería",
+      roleKey: "experience.mas_role",
+      locationKey: "experience.mas_location",
+      periodKey: "experience.mas_period",
+      bulletKeys: ["experience.mas_bullet_1", "experience.mas_bullet_2", "experience.mas_bullet_3"],
+      featured: true,
+    },
+    {
+      company: "Leasba",
+      roleKey: "experience.leasba_role",
+      locationKey: "experience.leasba_location",
+      periodKey: "experience.leasba_period",
+      bulletKeys: ["experience.leasba_bullet_1", "experience.leasba_bullet_2"],
+    },
+  ];
 
   return (
     <SectionContainer maxWidth="lg" id={id} innerRef={innerRef} motionStyle={motionStyle}>
@@ -83,15 +78,15 @@ export const Experience = ({ id = SECTION_ID, innerRef, motionStyle }: Experienc
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.7 }}
-          className="mb-12"
+          className="mb-8"
         >
           <div className="mb-4 flex items-center gap-3 text-sm uppercase tracking-[0.3em] text-muted-foreground">
             <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
-            <span>04 — Journey</span>
+            <span>{t("experience.section_label")}</span>
           </div>
           <h2 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
-            <span className="text-gradient">Impact</span>{" "}
-            <span className="text-gradient-accent">at every stop.</span>
+            <span className="text-gradient">{t("experience.heading_before")}</span>{" "}
+            <span className="text-gradient-accent">{t("experience.heading_after")}</span>
           </h2>
         </motion.div>
 
@@ -131,18 +126,18 @@ export const Experience = ({ id = SECTION_ID, innerRef, motionStyle }: Experienc
                       {exp.company}
                     </h3>
                     <span className="text-xs uppercase tracking-wider text-muted-foreground">
-                      {exp.period}
+                      {t(exp.periodKey)}
                     </span>
                   </div>
                   <p className={`mt-1 text-sm font-medium ${exp.featured ? "text-accent" : "text-primary"}`}>
-                    {exp.role}
+                    {t(exp.roleKey)}
                   </p>
-                  <p className="mt-1 text-xs text-muted-foreground">{exp.location}</p>
+                  <p className="mt-1 text-xs text-muted-foreground">{t(exp.locationKey)}</p>
                   <ul className="mt-4 space-y-2 text-sm leading-relaxed text-muted-foreground sm:text-base">
-                    {exp.bullets.map((b) => (
-                      <li key={b} className="flex gap-2">
+                    {exp.bulletKeys.map((key) => (
+                      <li key={key} className="flex gap-2">
                         <span className="mt-2 h-1 w-1 flex-shrink-0 rounded-full bg-primary" />
-                        <span>{b}</span>
+                        <span>{t(key)}</span>
                       </li>
                     ))}
                   </ul>

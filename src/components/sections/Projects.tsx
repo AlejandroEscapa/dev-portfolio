@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import type { MotionValue } from "framer-motion";
 import { Gamepad2, Award, Layers, Smartphone } from "lucide-react";
 import { SectionContainer } from "@/components/ui/SectionContainer";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface ProjectsProps {
   id?: string;
@@ -18,6 +19,8 @@ const SECTION_ID = "projects";
 const techTags = ["Android", "Jetpack Compose", "MVVM", "Clean Architecture", "TFM"];
 
 export const Projects = ({ id = SECTION_ID, innerRef, motionStyle }: ProjectsProps) => {
+  const { t } = useLanguage();
+
   return (
     <SectionContainer maxWidth="lg" id={id} innerRef={innerRef} motionStyle={motionStyle}>
       <motion.div
@@ -25,15 +28,15 @@ export const Projects = ({ id = SECTION_ID, innerRef, motionStyle }: ProjectsPro
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.7 }}
-          className="mb-8"
+          className="mb-6"
         >
           <div className="mb-4 flex items-center gap-3 text-sm uppercase tracking-[0.3em] text-muted-foreground">
             <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
-            <span>05 — Projects</span>
+            <span>{t("projects.section_label")}</span>
           </div>
           <h2 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
-            <span className="text-gradient">The proof</span>{" "}
-            <span className="text-gradient-primary">in code.</span>
+            <span className="text-gradient">{t("projects.heading_before")}</span>{" "}
+            <span className="text-gradient-primary">{t("projects.heading_after")}</span>
           </h2>
         </motion.div>
 
@@ -53,35 +56,33 @@ export const Projects = ({ id = SECTION_ID, innerRef, motionStyle }: ProjectsPro
             <div className="flex flex-col">
               <div className="inline-flex w-fit items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-3 py-1 text-xs uppercase tracking-wider text-accent">
                 <Award className="h-3 w-3" />
-                Featured · TFM 9/10
+                {t("projects.featured_badge")}
               </div>
 
               <h3 className="mt-6 flex items-center gap-3 text-4xl font-bold tracking-tighter sm:text-5xl">
-                GameVision
+                {t("projects.gamevision_name")}
                 <span className="text-3xl">🎮</span>
               </h3>
 
               <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
-                Master's Thesis: native Android application that reimagines video game discovery.
-                Clean, testable and scalable architecture, built entirely with Jetpack Compose and
-                MVVM.
+                {t("projects.gamevision_desc")}
               </p>
 
               <div className="mt-8 flex flex-wrap gap-2">
-                {techTags.map((t) => (
+                {techTags.map((t_tag) => (
                   <span
-                    key={t}
+                    key={t_tag}
                     className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs text-foreground"
                   >
-                    {t}
+                    {t_tag}
                   </span>
                 ))}
               </div>
 
               <div className="mt-10 grid grid-cols-3 gap-4 border-t border-white/10 pt-8">
-                <Stat icon={Smartphone} label="Platform" value="Android" />
-                <Stat icon={Layers} label="Architecture" value="Clean" />
-                <Stat icon={Award} label="Grade" value="9 / 10" />
+                <Stat icon={Smartphone} label={t("projects.stat_platform_label")} value={t("projects.stat_platform_value")} />
+                <Stat icon={Layers} label={t("projects.stat_architecture_label")} value={t("projects.stat_architecture_value")} />
+                <Stat icon={Award} label={t("projects.stat_grade_label")} value={t("projects.stat_grade_value")} />
               </div>
             </div>
 
@@ -105,9 +106,9 @@ export const Projects = ({ id = SECTION_ID, innerRef, motionStyle }: ProjectsPro
                         <Gamepad2 className="h-6 w-6 text-primary-glow" />
                         <div className="h-2 w-2 rounded-full bg-accent animate-pulse" />
                       </div>
-                      <h4 className="mt-3 text-lg font-bold text-foreground">GameVision</h4>
+                      <h4 className="mt-3 text-lg font-bold text-foreground">{t("projects.gamevision_name")}</h4>
                       <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                        Discover · Track · Play
+                        {t("projects.phone_tagline")}
                       </p>
 
                       <div className="mt-5 space-y-3">
@@ -130,7 +131,7 @@ export const Projects = ({ id = SECTION_ID, innerRef, motionStyle }: ProjectsPro
                       </div>
 
                       <div className="mt-auto rounded-xl bg-gradient-to-r from-primary to-primary-glow p-3 text-center text-xs font-medium text-primary-foreground">
-                        Browse catalog
+                        {t("projects.phone_cta")}
                       </div>
                     </div>
                   </div>

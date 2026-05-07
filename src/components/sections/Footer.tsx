@@ -1,7 +1,10 @@
 import { motion } from "framer-motion";
 import { Github, Linkedin, Phone, Mail } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 export const Footer = () => {
+  const { t } = useLanguage();
+
   return (
     <footer className="relative px-6 py-12 border-t border-white/5">
       <div className="container mx-auto max-w-6xl">
@@ -13,9 +16,9 @@ export const Footer = () => {
           className="flex flex-col items-center justify-between gap-6 sm:flex-row"
         >
           <div>
-            <p className="text-sm font-semibold text-foreground">Let's build something together.</p>
+            <p className="text-sm font-semibold text-foreground">{t("footer.heading")}</p>
             <p className="mt-1 text-xs text-muted-foreground">
-              © {new Date().getFullYear()} · Made with code and coffee.
+              {t("footer.subheading").replace("{year}", String(new Date().getFullYear()))}
             </p>
           </div>
 

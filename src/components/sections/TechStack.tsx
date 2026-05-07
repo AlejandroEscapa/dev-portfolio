@@ -3,6 +3,7 @@ import type { MotionValue } from "framer-motion";
 import { Code2, Brain, Database, Smartphone, Layers } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { SectionContainer } from "@/components/ui/SectionContainer";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface TechStackProps {
   id?: string;
@@ -17,56 +18,13 @@ interface TechStackProps {
 const SECTION_ID = "stack";
 
 interface BentoItem {
-  title: string;
-  subtitle: string;
+  titleKey: string;
+  subtitleKey: string;
   items: string[];
   icon: LucideIcon;
   className: string;
   accent?: "primary" | "accent" | "glow";
 }
-
-const bento: BentoItem[] = [
-  {
-    title: "Languages",
-    subtitle: "Native & web",
-    items: ["TypeScript", "Kotlin", "Java", "Swift"],
-    icon: Code2,
-    className: "col-span-2 lg:col-span-2",
-    accent: "primary",
-  },
-  {
-    title: "AI Stack",
-    subtitle: "Agentic & local LLMs",
-    items: ["Ollama", "Claude Code"],
-    icon: Brain,
-    className: "col-span-2 lg:col-span-2",
-    accent: "accent",
-  },
-  {
-    title: "Mobile",
-    subtitle: "Android & iOS",
-    items: ["Jetpack Compose", "SwiftUI", "MVVM"],
-    icon: Smartphone,
-    className: "col-span-2 lg:col-span-2",
-    accent: "glow",
-  },
-  {
-    title: "Frontend",
-    subtitle: "Modern web",
-    items: ["React", "Next.js"],
-    icon: Layers,
-    className: "col-span-2 lg:col-span-3",
-    accent: "primary",
-  },
-  {
-    title: "Databases",
-    subtitle: "SQL & NoSQL",
-    items: ["PostgreSQL", "SQLite", "MySQL", "MongoDB"],
-    icon: Database,
-    className: "col-span-2 lg:col-span-3",
-    accent: "glow",
-  },
-];
 
 const accentMap = {
   primary: "text-primary",
@@ -75,6 +33,51 @@ const accentMap = {
 };
 
 export const TechStack = ({ id = SECTION_ID, innerRef, motionStyle }: TechStackProps) => {
+  const { t } = useLanguage();
+
+  const bento: BentoItem[] = [
+    {
+      titleKey: "tech.languages_title",
+      subtitleKey: "tech.languages_subtitle",
+      items: ["TypeScript", "Kotlin", "Java", "Swift"],
+      icon: Code2,
+      className: "col-span-2 lg:col-span-2",
+      accent: "primary",
+    },
+    {
+      titleKey: "tech.ai_title",
+      subtitleKey: "tech.ai_subtitle",
+      items: ["Ollama", "Claude Code"],
+      icon: Brain,
+      className: "col-span-2 lg:col-span-2",
+      accent: "accent",
+    },
+    {
+      titleKey: "tech.mobile_title",
+      subtitleKey: "tech.mobile_subtitle",
+      items: ["Jetpack Compose", "SwiftUI", "MVVM"],
+      icon: Smartphone,
+      className: "col-span-2 lg:col-span-2",
+      accent: "glow",
+    },
+    {
+      titleKey: "tech.frontend_title",
+      subtitleKey: "tech.frontend_subtitle",
+      items: ["React", "Next.js"],
+      icon: Layers,
+      className: "col-span-2 lg:col-span-3",
+      accent: "primary",
+    },
+    {
+      titleKey: "tech.databases_title",
+      subtitleKey: "tech.databases_subtitle",
+      items: ["PostgreSQL", "SQLite", "MySQL", "MongoDB"],
+      icon: Database,
+      className: "col-span-2 lg:col-span-3",
+      accent: "glow",
+    },
+  ];
+
   return (
     <SectionContainer maxWidth="lg" id={id} innerRef={innerRef} motionStyle={motionStyle}>
       <motion.div
@@ -86,14 +89,14 @@ export const TechStack = ({ id = SECTION_ID, innerRef, motionStyle }: TechStackP
         >
           <div className="mb-4 flex items-center gap-3 text-sm uppercase tracking-[0.3em] text-muted-foreground">
             <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
-            <span>03 — Stack</span>
+            <span>{t("tech.section_label")}</span>
           </div>
           <h2 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
-            <span className="text-gradient">The tools</span>{" "}
-            <span className="text-gradient-primary">that matter.</span>
+            <span className="text-gradient">{t("tech.heading_before")}</span>{" "}
+            <span className="text-gradient-primary">{t("tech.heading_after")}</span>
           </h2>
           <p className="mt-3 max-w-2xl text-muted-foreground">
-            Pragmatism over dogma. Every choice answers a real problem.
+            {t("tech.subheading")}
           </p>
         </motion.div>
 
@@ -111,7 +114,7 @@ export const TechStack = ({ id = SECTION_ID, innerRef, motionStyle }: TechStackP
             const Icon = item.icon;
             return (
               <motion.div
-                key={item.title}
+                key={item.titleKey}
                 variants={{
                   hidden: { opacity: 0, y: 30, scale: 0.96 },
                   show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
@@ -128,12 +131,12 @@ export const TechStack = ({ id = SECTION_ID, innerRef, motionStyle }: TechStackP
                       <Icon className="h-5 w-5" />
                     </div>
                     <span className="text-xs uppercase tracking-wider text-muted-foreground">
-                      {item.subtitle}
+                      {t(item.subtitleKey)}
                     </span>
                   </div>
 
                   <h3 className="mt-4 text-xl font-semibold tracking-tight text-foreground">
-                    {item.title}
+                    {t(item.titleKey)}
                   </h3>
 
                   <div className="mt-auto flex flex-wrap gap-2 pt-4">

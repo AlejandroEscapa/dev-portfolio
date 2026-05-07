@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import type { MotionValue } from "framer-motion";
 import { GraduationCap, BadgeCheck, School, ExternalLink } from "lucide-react";
 import { SectionContainer } from "@/components/ui/SectionContainer";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface EducationProps {
   id?: string;
@@ -15,40 +16,42 @@ interface EducationProps {
 
 const SECTION_ID = "education";
 
-const items = [
-  {
-    icon: GraduationCap,
-    institution: "Tokio School",
-    title: "Master's Degree in Mobile Application Development",
-    location: "Remote",
-    period: "June 2025 – Dec 2025",
-    tags: ["Android Native", "iOS", "Compose", "Swift"],
-    accent: "from-primary to-primary-glow",
-    glow: "bg-primary/20",
-  },
-  {
-    icon: School,
-    institution: "IES San Andrés",
-    title: "FP in Multiplatform Application Development",
-    location: "León, España",
-    period: "Nov 2021 – May 2023",
-    tags: ["Java", "Kotlin", "SQL", "Spring"],
-    accent: "from-accent to-primary",
-    glow: "bg-accent/20",
-  },
-  {
-    icon: BadgeCheck,
-    institution: "IBM",
-    title: "Certification in Artificial Intelligence Fundamentals",
-    location: "Remote",
-    period: "Feb 2026 – Feb 2026",
-    credential: "1965d5c5-2593-47ca-bed5-a5190bfa7667",
-    accent: "from-primary-glow to-accent",
-    glow: "bg-primary-glow/25",
-  },
-];
-
 export const Education = ({ id = SECTION_ID, innerRef, motionStyle }: EducationProps) => {
+  const { t } = useLanguage();
+
+  const items = [
+    {
+      icon: GraduationCap,
+      institution: "Tokio School",
+      titleKey: "education.tokio_title",
+      locationKey: "education.tokio_location",
+      periodKey: "education.tokio_period",
+      tags: ["Android Native", "iOS", "Compose", "Swift"],
+      accent: "from-primary to-primary-glow",
+      glow: "bg-primary/20",
+    },
+    {
+      icon: School,
+      institution: "IES San Andrés",
+      titleKey: "education.sanandres_title",
+      locationKey: "education.sanandres_location",
+      periodKey: "education.sanandres_period",
+      tags: ["Java", "Kotlin", "SQL", "Spring"],
+      accent: "from-accent to-primary",
+      glow: "bg-accent/20",
+    },
+    {
+      icon: BadgeCheck,
+      institution: "IBM",
+      titleKey: "education.ibm_title",
+      locationKey: "education.ibm_location",
+      periodKey: "education.ibm_period",
+      credential: "1965d5c5-2593-47ca-bed5-a5190bfa7667",
+      accent: "from-primary-glow to-accent",
+      glow: "bg-primary-glow/25",
+    },
+  ];
+
   return (
     <SectionContainer maxWidth="lg" id={id} innerRef={innerRef} motionStyle={motionStyle}>
       <motion.div
@@ -60,11 +63,11 @@ export const Education = ({ id = SECTION_ID, innerRef, motionStyle }: EducationP
       >
         <div className="mb-4 flex items-center gap-3 text-sm uppercase tracking-[0.3em] text-muted-foreground">
           <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
-          <span>06 — Education</span>
+          <span>{t("education.section_label")}</span>
         </div>
         <h2 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
-          <span className="text-gradient">Learning</span>{" "}
-          <span className="text-gradient-accent">is not optional.</span>
+          <span className="text-gradient">{t("education.heading_before")}</span>{" "}
+          <span className="text-gradient-accent">{t("education.heading_after")}</span>
         </h2>
       </motion.div>
 
@@ -86,26 +89,26 @@ export const Education = ({ id = SECTION_ID, innerRef, motionStyle }: EducationP
                     <Icon className="h-6 w-6 text-primary-foreground" />
                   </div>
                   <p className="mt-6 text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                    {it.period}
+                    {t(it.periodKey)}
                   </p>
                   <h3 className="mt-2 text-xl font-semibold tracking-tight text-foreground">
                     {it.institution}
                   </h3>
                   <p className="mt-1 text-sm text-muted-foreground">
-                    {it.title}
+                    {t(it.titleKey)}
                   </p>
                   <p className="mt-1 text-xs text-muted-foreground/70">
-                    {it.location}
+                    {t(it.locationKey)}
                   </p>
 
                   {it.tags && (
                     <div className="mt-6 flex flex-wrap gap-2">
-                      {it.tags.map((t) => (
+                      {it.tags.map((tag) => (
                         <span
-                          key={t}
+                          key={tag}
                           className="rounded-full border border-white/10 px-3 py-1 text-xs text-muted-foreground"
                         >
-                          {t}
+                          {tag}
                         </span>
                       ))}
                     </div>
@@ -115,7 +118,7 @@ export const Education = ({ id = SECTION_ID, innerRef, motionStyle }: EducationP
                     <>
                       <div className="mt-6 rounded-xl border border-white/10 bg-black/30 p-4">
                         <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                          Credential ID
+                          {t("education.credential_label")}
                         </p>
                         <p className="mt-1 break-all font-mono text-xs text-foreground">
                           {it.credential}
@@ -123,7 +126,7 @@ export const Education = ({ id = SECTION_ID, innerRef, motionStyle }: EducationP
                       </div>
                       <div className="mt-5 inline-flex items-center gap-1.5 text-xs text-accent transition-colors group-hover:text-primary-glow">
                         <ExternalLink className="h-3 w-3" />
-                        Verifiable
+                        {t("education.verifiable")}
                       </div>
                     </>
                   )}
