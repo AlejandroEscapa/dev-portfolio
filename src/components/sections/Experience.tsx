@@ -113,8 +113,8 @@ export const Experience = ({ id = SECTION_ID, innerRef, motionStyle }: Experienc
                 </div>
 
                 <div
-                  className={`flex-1 rounded-2xl glass p-6 transition-all duration-300 hover:border-white/20 ${
-                    exp.featured ? "lg:p-10 glass-strong" : ""
+                  className={`flex-1 rounded-2xl glass p-6 transition-all duration-300 hover:border-white/20 liquid-glass ${
+                    exp.featured ? "lg:p-10 liquid-glass-strong" : ""
                   }`}
                 >
                   <div className="flex flex-wrap items-baseline justify-between gap-2">

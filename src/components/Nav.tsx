@@ -66,8 +66,8 @@ export const Nav = () => {
       className="fixed left-1/2 top-6 z-50 -translate-x-1/2"
     >
       <div
-        className={`flex items-center gap-1 rounded-full px-2 py-1.5 transition-all duration-500 ${
-          scrolled ? "glass-strong" : "glass"
+        className={`flex items-center gap-1 rounded-full px-2 py-1.5 transition-all duration-500 liquid-glass ${
+          scrolled ? "liquid-glass-strong" : "liquid-glass"
         }`}
       >
         <a

@@ -86,7 +86,7 @@ export const Profile = ({ id = SECTION_ID, innerRef, motionStyle }: ProfileProps
             transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
             className="lg:col-span-5 lg:pt-12"
           >
-            <div className="glass-strong relative overflow-hidden rounded-3xl p-8">
+            <div className="glass-strong relative overflow-hidden rounded-3xl p-8 liquid-glass">
               <div className="absolute -right-20 -top-20 h-40 w-40 rounded-full bg-primary/30 blur-3xl" />
               <div className="absolute -bottom-16 -left-16 h-40 w-40 rounded-full bg-accent/20 blur-3xl" />
 

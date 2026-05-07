@@ -47,7 +47,7 @@ export const TechStack = ({ id = SECTION_ID, innerRef, motionStyle }: TechStackP
     {
       titleKey: "tech.ai_title",
       subtitleKey: "tech.ai_subtitle",
-      items: ["Ollama", "Claude Code"],
+      items: ["Ollama", "Open Code", "LLMs locales"],
       icon: Brain,
       className: "col-span-2 lg:col-span-2",
       accent: "accent",
@@ -63,7 +63,7 @@ export const TechStack = ({ id = SECTION_ID, innerRef, motionStyle }: TechStackP
     {
       titleKey: "tech.frontend_title",
       subtitleKey: "tech.frontend_subtitle",
-      items: ["React", "Next.js"],
+      items: ["Angular", "React"],
       icon: Layers,
       className: "col-span-2 lg:col-span-3",
       accent: "primary",

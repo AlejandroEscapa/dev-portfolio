@@ -23,38 +23,42 @@ export const Footer = () => {
           </div>
 
           <div className="flex items-center gap-3">
-            <a
+            <motion.a
               href="https://www.linkedin.com"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn"
-              className="flex h-10 w-10 items-center justify-center rounded-full glass transition-all hover:scale-110 hover:border-primary/50"
+              whileTap={{ scale: 0.9 }}
+              className="flex h-10 w-10 items-center justify-center rounded-full liquid-glass transition-all hover:scale-110 hover:border-primary/50"
             >
               <Linkedin className="h-4 w-4" />
-            </a>
-            <a
+            </motion.a>
+            <motion.a
               href="https://github.com"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub"
-              className="flex h-10 w-10 items-center justify-center rounded-full glass transition-all hover:scale-110 hover:border-accent/50"
+              whileTap={{ scale: 0.9 }}
+              className="flex h-10 w-10 items-center justify-center rounded-full liquid-glass transition-all hover:scale-110 hover:border-accent/50"
             >
               <Github className="h-4 w-4" />
-            </a>
-            <a
+            </motion.a>
+            <motion.a
               href="tel:+34601175067"
               aria-label="Phone"
-              className="flex h-10 w-10 items-center justify-center rounded-full glass transition-all hover:scale-110 hover:border-primary-glow/50"
+              whileTap={{ scale: 0.9 }}
+              className="flex h-10 w-10 items-center justify-center rounded-full liquid-glass transition-all hover:scale-110 hover:border-primary-glow/50"
             >
               <Phone className="h-4 w-4" />
-            </a>
-            <a
+            </motion.a>
+            <motion.a
               href="mailto:alejandro.oliesc97@gmail.com"
               aria-label="Email"
-              className="flex h-10 w-10 items-center justify-center rounded-full glass transition-all hover:scale-110 hover:border-accent/50"
+              whileTap={{ scale: 0.9 }}
+              className="flex h-10 w-10 items-center justify-center rounded-full liquid-glass transition-all hover:scale-110 hover:border-accent/50"
             >
-              <Mail className="h-4 w-4" />
-            </a>
+<Mail className="h-4 w-4" />
+              </motion.a>
           </div>
         </motion.div>
       </div>

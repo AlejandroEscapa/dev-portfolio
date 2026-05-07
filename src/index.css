@@ -174,4 +174,64 @@
     filter: blur(40px) contrast(120%);
     will-change: filter;
   }
+
+  /* === Liquid Glass Chrome === */
+  /* Nav, cards, buttons CTA - Fase 1: Cinematic Design */
+  .liquid-glass {
+    background: hsl(248 90% 66% / 0.02);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    box-shadow: inset 0 1px 1px hsl(0 0% 100% / 0.08);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .liquid-glass::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.4px;
+    background: linear-gradient(180deg,
+      hsl(0 0% 100% / 0.4) 0%,
+      hsl(0 0% 100% / 0.12) 15%,
+      hsl(0 0% 100% / 0.02) 35%,
+      hsl(0 0% 100% / 0) 50%,
+      hsl(0 0% 100% / 0.02) 65%,
+      hsl(0 0% 100% / 0.12) 85%,
+      hsl(0 0% 100% / 0.4) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  .liquid-glass-strong {
+    background: hsl(248 90% 66% / 0.04);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: inset 0 1px 1px hsl(0 0% 100% / 0.12);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .liquid-glass-strong::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.4px;
+    background: linear-gradient(180deg,
+      hsl(0 0% 100% / 0.45) 0%,
+      hsl(0 0% 100% / 0.15) 15%,
+      hsl(0 0% 100% / 0.02) 35%,
+      hsl(0 0% 100% / 0) 50%,
+      hsl(0 0% 100% / 0.02) 65%,
+      hsl(0 0% 100% / 0.15) 85%,
+      hsl(0 0% 100% / 0.45) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
 }

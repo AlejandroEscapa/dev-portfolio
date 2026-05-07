@@ -5,7 +5,6 @@ import { useLanguage } from "@/context/LanguageContext";
 export const Hero = () => {
   const { t } = useLanguage();
   const title = t("hero.title");
-  const subtitle = t("hero.subtitle");
   const words = title.split(" ");
 
   return (
@@ -16,7 +15,7 @@ export const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="mb-12 inline-flex items-center gap-2 rounded-full glass px-4 py-2 text-sm text-muted-foreground"
+          className="mb-8 inline-flex items-center gap-2 rounded-full glass px-4 py-2 text-sm text-muted-foreground"
         >
           <Sparkles className="h-3.5 w-3.5 text-accent" />
           <span>{t("hero.available")}</span>
@@ -47,15 +46,6 @@ export const Hero = () => {
           </motion.span>
         </h1>
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.9 }}
-          className="mx-auto mt-12 max-w-3xl text-base text-muted-foreground sm:text-lg md:text-xl"
-        >
-          {subtitle}
-        </motion.p>
-
         {/* CTAs with glow */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -63,47 +53,51 @@ export const Hero = () => {
           transition={{ duration: 0.7, delay: 1.05 }}
           className="mt-10 flex flex-wrap items-center justify-center gap-4"
         >
-          <a
+          <motion.a
             href="https://www.linkedin.com/in/alejandro-olivares-escapa/"
             target="_blank"
             rel="noopener noreferrer"
+            whileTap={{ scale: 0.97 }}
             className="group relative inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-primary to-primary-glow px-6 py-3 text-sm font-medium text-primary-foreground transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_hsl(var(--primary)/0.6)]"
           >
             <Linkedin className="h-4 w-4" />
             {t("hero.cta_linkedin")}
             <span className="absolute inset-0 -z-10 rounded-full bg-gradient-to-r from-primary to-primary-glow opacity-0 blur-xl transition-opacity duration-300 group-hover:opacity-70" />
-          </a>
+          </motion.a>
 
-          <a
+          <motion.a
             href="https://github.com/alejandrooliesc"
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative inline-flex items-center gap-2 rounded-full glass px-6 py-3 text-sm font-medium text-foreground transition-all duration-300 hover:scale-105 hover:border-accent/50"
+            whileTap={{ scale: 0.97 }}
+            className="group relative inline-flex items-center gap-2 rounded-full liquid-glass px-6 py-3 text-sm font-medium text-foreground transition-all duration-300 hover:scale-105 hover:border-accent/50"
           >
             <Github className="h-4 w-4" />
             {t("hero.cta_github")}
             <span className="absolute inset-0 -z-10 rounded-full bg-accent/30 opacity-0 blur-xl transition-opacity duration-300 group-hover:opacity-80" />
-          </a>
+          </motion.a>
 
-          <a
+          <motion.a
             href="tel:+34601175067"
             aria-label="Phone"
-            className="group relative inline-flex items-center gap-2 rounded-full glass px-6 py-3 text-sm font-medium text-foreground transition-all duration-300 hover:scale-105 hover:border-primary-glow/50"
+            whileTap={{ scale: 0.97 }}
+            className="group relative inline-flex items-center gap-2 rounded-full liquid-glass px-6 py-3 text-sm font-medium text-foreground transition-all duration-300 hover:scale-105 hover:border-primary-glow/50"
           >
             <Phone className="h-4 w-4" />
             {t("hero.cta_phone")}
             <span className="absolute inset-0 -z-10 rounded-full bg-primary-glow/30 opacity-0 blur-xl transition-opacity duration-300 group-hover:opacity-80" />
-          </a>
+          </motion.a>
 
-          <a
+          <motion.a
             href="mailto:alejandro.oliesc97@gmail.com"
             aria-label="Email"
-            className="group relative inline-flex items-center gap-2 rounded-full glass px-6 py-3 text-sm font-medium text-foreground transition-all duration-300 hover:scale-105 hover:border-accent/50"
+            whileTap={{ scale: 0.97 }}
+            className="group relative inline-flex items-center gap-2 rounded-full liquid-glass px-6 py-3 text-sm font-medium text-foreground transition-all duration-300 hover:scale-105 hover:border-accent/50"
           >
             <Mail className="h-4 w-4" />
             {t("hero.cta_email")}
             <span className="absolute inset-0 -z-10 rounded-full bg-accent/30 opacity-0 blur-xl transition-opacity duration-300 group-hover:opacity-80" />
-          </a>
+          </motion.a>
         </motion.div>
 
         {/* Scroll cue */}
