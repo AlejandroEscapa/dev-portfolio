@@ -1,6 +1,20 @@
 import { motion } from "framer-motion";
+import type { MotionValue } from "framer-motion";
 import { Code2, Brain, Database, Smartphone, Layers } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { SectionContainer } from "@/components/ui/SectionContainer";
+
+interface TechStackProps {
+  id?: string;
+  innerRef?: React.RefObject<HTMLElement>;
+  motionStyle?: {
+    scale?: MotionValue<number>;
+    y?: MotionValue<number>;
+    opacity?: MotionValue<number>;
+  };
+}
+
+const SECTION_ID = "stack";
 
 interface BentoItem {
   title: string;
@@ -17,7 +31,7 @@ const bento: BentoItem[] = [
     subtitle: "Native & web",
     items: ["TypeScript", "Kotlin", "Java", "Swift"],
     icon: Code2,
-    className: "lg:col-span-2 lg:row-span-2",
+    className: "col-span-2 lg:col-span-2",
     accent: "primary",
   },
   {
@@ -25,7 +39,7 @@ const bento: BentoItem[] = [
     subtitle: "Agentic & local LLMs",
     items: ["Ollama", "Claude Code"],
     icon: Brain,
-    className: "lg:col-span-2",
+    className: "col-span-2 lg:col-span-2",
     accent: "accent",
   },
   {
@@ -33,7 +47,7 @@ const bento: BentoItem[] = [
     subtitle: "Android & iOS",
     items: ["Jetpack Compose", "SwiftUI", "MVVM"],
     icon: Smartphone,
-    className: "lg:col-span-2",
+    className: "col-span-2 lg:col-span-2",
     accent: "glow",
   },
   {
@@ -41,7 +55,7 @@ const bento: BentoItem[] = [
     subtitle: "Modern web",
     items: ["React", "Next.js"],
     icon: Layers,
-    className: "lg:col-span-2",
+    className: "col-span-2 lg:col-span-3",
     accent: "primary",
   },
   {
@@ -49,7 +63,7 @@ const bento: BentoItem[] = [
     subtitle: "SQL & NoSQL",
     items: ["PostgreSQL", "SQLite", "MySQL", "MongoDB"],
     icon: Database,
-    className: "lg:col-span-4",
+    className: "col-span-2 lg:col-span-3",
     accent: "glow",
   },
 ];
@@ -60,16 +74,15 @@ const accentMap = {
   glow: "text-primary-glow",
 };
 
-export const TechStack = () => {
+export const TechStack = ({ id = SECTION_ID, innerRef, motionStyle }: TechStackProps) => {
   return (
-    <section id="stack" className="relative px-6 py-32">
-      <div className="container mx-auto max-w-6xl">
-        <motion.div
+    <SectionContainer maxWidth="lg" id={id} innerRef={innerRef} motionStyle={motionStyle}>
+      <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.7 }}
-          className="mb-16"
+          className="mb-12"
         >
           <div className="mb-4 flex items-center gap-3 text-sm uppercase tracking-[0.3em] text-muted-foreground">
             <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
@@ -79,7 +92,7 @@ export const TechStack = () => {
             <span className="text-gradient">The tools</span>{" "}
             <span className="text-gradient-primary">that matter.</span>
           </h2>
-          <p className="mt-4 max-w-2xl text-muted-foreground">
+          <p className="mt-3 max-w-2xl text-muted-foreground">
             Pragmatism over dogma. Every choice answers a real problem.
           </p>
         </motion.div>
@@ -92,7 +105,7 @@ export const TechStack = () => {
             hidden: {},
             show: { transition: { staggerChildren: 0.08 } },
           }}
-          className="grid auto-rows-[minmax(180px,auto)] grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
+          className="grid grid-cols-2 min-h-[140px] gap-4 sm:gap-5 lg:grid-cols-6"
         >
           {bento.map((item) => {
             const Icon = item.icon;
@@ -105,13 +118,13 @@ export const TechStack = () => {
                 }}
                 whileHover={{ scale: 1.02, y: -4 }}
                 transition={{ type: "spring", stiffness: 300, damping: 22 }}
-                className={`group relative overflow-hidden rounded-3xl glass p-6 hover-glow ${item.className}`}
+                className={`group relative overflow-hidden rounded-3xl glass p-5 hover-glow ${item.className}`}
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-white/[0.04] to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
                 <div className="relative flex h-full flex-col">
                   <div className="flex items-start justify-between">
-                    <div className={`flex h-11 w-11 items-center justify-center rounded-xl glass ${accentMap[item.accent || "primary"]}`}>
+                    <div className={`flex h-10 w-10 items-center justify-center rounded-xl glass ${accentMap[item.accent || "primary"]}`}>
                       <Icon className="h-5 w-5" />
                     </div>
                     <span className="text-xs uppercase tracking-wider text-muted-foreground">
@@ -119,11 +132,11 @@ export const TechStack = () => {
                     </span>
                   </div>
 
-                  <h3 className="mt-6 text-2xl font-semibold tracking-tight text-foreground">
+                  <h3 className="mt-4 text-xl font-semibold tracking-tight text-foreground">
                     {item.title}
                   </h3>
 
-                  <div className="mt-auto flex flex-wrap gap-2 pt-6">
+                  <div className="mt-auto flex flex-wrap gap-2 pt-4">
                     {item.items.map((tag) => (
                       <span
                         key={tag}
@@ -138,7 +151,6 @@ export const TechStack = () => {
             );
           })}
         </motion.div>
-      </div>
-    </section>
+    </SectionContainer>
   );
 };

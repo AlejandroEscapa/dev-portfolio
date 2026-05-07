@@ -9,14 +9,14 @@ const words = title.split(" ");
 
 export const Hero = () => {
   return (
-    <section className="relative flex min-h-screen items-center justify-center overflow-hidden px-6 pt-32 pb-20">
+    <section id="hero" className="relative flex min-h-[100dvh] items-center justify-center px-6 pt-20 pb-20">
       <div className="container relative z-10 mx-auto max-w-5xl text-center">
         {/* Pill */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="mb-8 inline-flex items-center gap-2 rounded-full glass px-4 py-2 text-sm text-muted-foreground"
+          className="mb-12 inline-flex items-center gap-2 rounded-full glass px-4 py-2 text-sm text-muted-foreground"
         >
           <Sparkles className="h-3.5 w-3.5 text-accent" />
           <span>Available for new challenges</span>
@@ -51,7 +51,7 @@ export const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.9 }}
-          className="mx-auto mt-8 max-w-3xl text-base text-muted-foreground sm:text-lg md:text-xl"
+          className="mx-auto mt-12 max-w-3xl text-base text-muted-foreground sm:text-lg md:text-xl"
         >
           {subtitle}
         </motion.p>
@@ -64,7 +64,7 @@ export const Hero = () => {
           className="mt-10 flex flex-wrap items-center justify-center gap-4"
         >
           <a
-            href="https://www.linkedin.com"
+            href="https://www.linkedin.com/in/alejandro-olivares-escapa/"
             target="_blank"
             rel="noopener noreferrer"
             className="group relative inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-primary to-primary-glow px-6 py-3 text-sm font-medium text-primary-foreground transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_hsl(var(--primary)/0.6)]"
@@ -75,7 +75,7 @@ export const Hero = () => {
           </a>
 
           <a
-            href="https://github.com"
+            href="https://github.com/alejandrooliesc"
             target="_blank"
             rel="noopener noreferrer"
             className="group relative inline-flex items-center gap-2 rounded-full glass px-6 py-3 text-sm font-medium text-foreground transition-all duration-300 hover:scale-105 hover:border-accent/50"

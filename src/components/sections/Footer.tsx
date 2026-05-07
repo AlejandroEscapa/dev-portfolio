@@ -3,7 +3,7 @@ import { Github, Linkedin, Phone, Mail } from "lucide-react";
 
 export const Footer = () => {
   return (
-    <footer className="relative px-6 py-16 border-t border-white/5">
+    <footer className="relative px-6 py-12 border-t border-white/5">
       <div className="container mx-auto max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

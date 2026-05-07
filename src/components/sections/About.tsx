@@ -1,5 +1,19 @@
 import { motion, type Variants } from "framer-motion";
+import type { MotionValue } from "framer-motion";
 import { User, Sparkles } from "lucide-react";
+import { SectionContainer } from "@/components/ui/SectionContainer";
+
+interface AboutProps {
+  id?: string;
+  innerRef?: React.RefObject<HTMLElement>;
+  motionStyle?: {
+    scale?: MotionValue<number>;
+    y?: MotionValue<number>;
+    opacity?: MotionValue<number>;
+  };
+}
+
+const SECTION_ID = "about";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -12,11 +26,10 @@ const fadeUp: Variants = {
   }),
 };
 
-export const About = () => {
+export const About = ({ id = SECTION_ID, innerRef, motionStyle }: AboutProps) => {
   return (
-    <section id="about" className="relative px-6 py-32">
-      <div className="container mx-auto max-w-5xl">
-        <motion.div
+    <SectionContainer maxWidth="lg" id={id} innerRef={innerRef} motionStyle={motionStyle}>
+      <motion.div
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-100px" }}
@@ -24,7 +37,7 @@ export const About = () => {
           className="mb-12 flex items-center gap-3 text-sm uppercase tracking-[0.3em] text-muted-foreground"
         >
           <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
-          <span>02 — About me</span>
+          <span>01 — About</span>
         </motion.div>
 
         <motion.h2
@@ -44,7 +57,7 @@ export const About = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8, delay: 0.2, ease: EASE }}
-          className="mt-12 grid gap-6 lg:grid-cols-12"
+          className="mt-10 grid gap-6 lg:grid-cols-12"
         >
           <div className="lg:col-span-8">
             <div className="glass-strong relative overflow-hidden rounded-3xl p-8 sm:p-10">
@@ -113,7 +126,6 @@ export const About = () => {
             </div>
           </div>
         </motion.div>
-      </div>
-    </section>
+    </SectionContainer>
   );
 };

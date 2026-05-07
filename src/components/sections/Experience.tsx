@@ -1,6 +1,20 @@
 import { motion, useScroll, useTransform } from "framer-motion";
+import type { MotionValue } from "framer-motion";
 import { useRef } from "react";
 import { Briefcase, Sparkles } from "lucide-react";
+import { SectionContainer } from "@/components/ui/SectionContainer";
+
+interface ExperienceProps {
+  id?: string;
+  innerRef?: React.RefObject<HTMLElement>;
+  motionStyle?: {
+    scale?: MotionValue<number>;
+    y?: MotionValue<number>;
+    opacity?: MotionValue<number>;
+  };
+}
+
+const SECTION_ID = "experience";
 
 interface Experience {
   company: string;
@@ -57,20 +71,19 @@ const TimelineNode = ({ featured }: { featured?: boolean }) => (
   </div>
 );
 
-export const Experience = () => {
+export const Experience = ({ id = SECTION_ID, innerRef, motionStyle }: ExperienceProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const lineHeight = useTransform(scrollYProgress, [0, 0.9], ["0%", "100%"]);
 
   return (
-    <section id="experience" className="relative px-6 py-32">
-      <div className="container mx-auto max-w-6xl">
-        <motion.div
+    <SectionContainer maxWidth="lg" id={id} innerRef={innerRef} motionStyle={motionStyle}>
+      <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.7 }}
-          className="mb-16"
+          className="mb-12"
         >
           <div className="mb-4 flex items-center gap-3 text-sm uppercase tracking-[0.3em] text-muted-foreground">
             <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
@@ -138,7 +151,6 @@ export const Experience = () => {
             ))}
           </div>
         </div>
-      </div>
-    </section>
+    </SectionContainer>
   );
 };

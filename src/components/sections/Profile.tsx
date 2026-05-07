@@ -1,5 +1,19 @@
 import { motion, type Variants } from "framer-motion";
+import type { MotionValue } from "framer-motion";
 import { ChefHat, ArrowRight, Code2 } from "lucide-react";
+import { SectionContainer } from "@/components/ui/SectionContainer";
+
+interface ProfileProps {
+  id?: string;
+  innerRef?: React.RefObject<HTMLElement>;
+  motionStyle?: {
+    scale?: MotionValue<number>;
+    y?: MotionValue<number>;
+    opacity?: MotionValue<number>;
+  };
+}
+
+const SECTION_ID = "profile";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -12,19 +26,18 @@ const fadeUp: Variants = {
   }),
 };
 
-export const Profile = () => {
+export const Profile = ({ id = SECTION_ID, innerRef, motionStyle }: ProfileProps) => {
   return (
-    <section id="profile" className="relative px-6 py-32">
-      <div className="container mx-auto max-w-6xl">
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={fadeUp}
-          className="mb-16 flex items-center gap-3 text-sm uppercase tracking-[0.3em] text-muted-foreground"
-        >
+    <SectionContainer maxWidth="lg" id={id} innerRef={innerRef} motionStyle={motionStyle}>
+      <motion.div
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: "-100px" }}
+        variants={fadeUp}
+        className="mb-12 flex items-center gap-3 text-sm uppercase tracking-[0.3em] text-muted-foreground"
+      >
           <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
-          <span>01 — Profile</span>
+          <span>02 — Profile</span>
         </motion.div>
 
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
@@ -113,7 +126,6 @@ export const Profile = () => {
             </div>
           </motion.div>
         </div>
-      </div>
-    </section>
+    </SectionContainer>
   );
 };

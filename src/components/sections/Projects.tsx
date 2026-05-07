@@ -1,18 +1,31 @@
 import { motion } from "framer-motion";
+import type { MotionValue } from "framer-motion";
 import { Gamepad2, Award, Layers, Smartphone } from "lucide-react";
+import { SectionContainer } from "@/components/ui/SectionContainer";
+
+interface ProjectsProps {
+  id?: string;
+  innerRef?: React.RefObject<HTMLElement>;
+  motionStyle?: {
+    scale?: MotionValue<number>;
+    y?: MotionValue<number>;
+    opacity?: MotionValue<number>;
+  };
+}
+
+const SECTION_ID = "projects";
 
 const techTags = ["Android", "Jetpack Compose", "MVVM", "Clean Architecture", "TFM"];
 
-export const Projects = () => {
+export const Projects = ({ id = SECTION_ID, innerRef, motionStyle }: ProjectsProps) => {
   return (
-    <section id="projects" className="relative px-6 py-32">
-      <div className="container mx-auto max-w-6xl">
-        <motion.div
+    <SectionContainer maxWidth="lg" id={id} innerRef={innerRef} motionStyle={motionStyle}>
+      <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.7 }}
-          className="mb-16"
+          className="mb-8"
         >
           <div className="mb-4 flex items-center gap-3 text-sm uppercase tracking-[0.3em] text-muted-foreground">
             <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
@@ -129,8 +142,7 @@ export const Projects = () => {
             </div>
           </div>
         </motion.div>
-      </div>
-    </section>
+    </SectionContainer>
   );
 };
 

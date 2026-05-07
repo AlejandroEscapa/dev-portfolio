@@ -74,6 +74,7 @@
 
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 4rem;
   }
 
   body {
@@ -141,8 +142,8 @@
 
   .grid-bg {
     background-image:
-      linear-gradient(hsl(0 0% 100% / 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(0 0% 100% / 0.04) 1px, transparent 1px);
+      linear-gradient(hsl(0 0% 100% / 0.016) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(0 0% 100% / 0.016) 1px, transparent 1px);
     background-size: 64px 64px;
   }
 
