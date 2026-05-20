@@ -1,4 +1,4 @@
-import { forwardRef } from "react";
+import { forwardRef, useMemo } from "react";
 import { 
   motion, 
   useTransform, 
@@ -90,6 +90,19 @@ const OrbitalBlob = forwardRef<HTMLDivElement, OrbitalBlobProps>(
       waypoints.map(w => w.blur)
     );
 
+    const mouseBlurMod = useSpring(mousePos.y * 0.35, { stiffness: 25, damping: 20 });
+
+    const combinedBlur = useTransform(
+      [blur, mouseBlurMod],
+      useMemo(() => {
+        const rm = reducedMotion;
+        return ([b, mb]: number[]) =>
+          rm ? b : Math.max(30, b * (1 + mb));
+      }, [reducedMotion])
+    );
+
+    const combinedBlurFilter = useTransform(combinedBlur, (b) => `blur(${b}px)`);
+
     const finalX = useTransform(
       [xPct, mouseX],
       ([px, mx]) => {
@@ -113,7 +126,7 @@ const OrbitalBlob = forwardRef<HTMLDivElement, OrbitalBlobProps>(
           x: finalX,
           y: finalY,
           scale,
-          filter: `blur(${blur}px)`,
+          filter: combinedBlurFilter,
           willChange: "transform, filter",
         }}
         className={`absolute ${actualSize} rounded-full pointer-events-none`}

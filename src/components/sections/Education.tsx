@@ -24,6 +24,7 @@ export const Education = ({ id = SECTION_ID, innerRef, motionStyle }: EducationP
       icon: GraduationCap,
       institution: "Tokio School",
       titleKey: "education.tokio_title",
+      descriptionKey: "education.tokio_description",
       locationKey: "education.tokio_location",
       periodKey: "education.tokio_period",
       tags: ["Android Native", "iOS", "Compose", "Swift"],
@@ -32,8 +33,9 @@ export const Education = ({ id = SECTION_ID, innerRef, motionStyle }: EducationP
     },
     {
       icon: School,
-      institution: "IES San Andrés",
+      institution: "IES San Andr\u00e9s",
       titleKey: "education.sanandres_title",
+      descriptionKey: "education.sanandres_description",
       locationKey: "education.sanandres_location",
       periodKey: "education.sanandres_period",
       tags: ["Java", "Kotlin", "SQL", "Spring"],
@@ -100,6 +102,12 @@ export const Education = ({ id = SECTION_ID, innerRef, motionStyle }: EducationP
                   <p className="mt-1 text-xs text-muted-foreground/70">
                     {t(it.locationKey)}
                   </p>
+
+                  {it.descriptionKey && (
+                    <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                      {t(it.descriptionKey)}
+                    </p>
+                  )}
 
                   {it.tags && (
                     <div className="mt-6 flex flex-wrap gap-2">

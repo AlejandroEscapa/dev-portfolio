@@ -1,0 +1,18 @@
+# Estilos (lo que pedías)
+**/*.md
+
+# Archivos de configuración de herramientas (pesados y poco útiles para lógica)
+package-lock.json
+yarn.lock
+.angular/
+dist/
+node_modules/
+
+# Tests (si solo quieres que la IA vea la lógica de los servicios/componentes)
+**/*.spec.ts
+**/*node_modules
+
+# Multimedia
+**/*.svg
+**/*.png
+**/*.jpg

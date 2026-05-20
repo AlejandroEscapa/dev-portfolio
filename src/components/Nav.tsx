@@ -52,8 +52,9 @@ export const Nav = () => {
     const id = href.slice(1);
     const el = document.getElementById(id);
     if (el) {
+      const navHeight = 60;
       const rect = el.getBoundingClientRect();
-      const targetScrollY = window.scrollY + rect.top + rect.height / 2 - window.innerHeight / 2;
+      const targetScrollY = window.scrollY + rect.top - navHeight;
       window.scrollTo({ top: targetScrollY, behavior: "smooth" });
     }
   };

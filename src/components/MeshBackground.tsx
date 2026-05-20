@@ -3,6 +3,7 @@ import { useFluidGradient } from "@/hooks/useFluidGradient";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useMousePosition } from "@/hooks/useMousePosition";
 import { OrbitalBlob } from "./OrbitalBlob";
+import { LensFlareOverlay } from "./LensFlareOverlay";
 
 export const MeshBackground = () => {
   const isMobile = useIsMobile();
@@ -54,6 +55,8 @@ export const MeshBackground = () => {
         ref={gridRef}
         className="absolute inset-0 grid-bg will-change-[opacity] z-20"
       />
+
+      <LensFlareOverlay />
 
       <div className="absolute inset-0 bg-gradient-to-b from-[hsl(230,35%,5%)]/30 via-transparent to-[hsl(230,35%,5%)]/85 z-30" />
     </div>
