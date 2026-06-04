@@ -125,7 +125,7 @@ export const Projects = ({ id = SECTION_ID, innerRef, motionStyle }: ProjectsPro
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: index * 0.15 }}
-            className="group relative overflow-hidden rounded-3xl glass-strong"
+            className="group relative overflow-hidden rounded-3xl glass"
           >
             {/* Glow accents */}
             <div className="pointer-events-none absolute -right-32 -top-32 h-80 w-80 rounded-full bg-primary/30 blur-3xl transition-opacity duration-700 group-hover:opacity-100" />

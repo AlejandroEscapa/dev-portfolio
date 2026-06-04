@@ -31,15 +31,15 @@ export const BrowserPreview = ({ src, url, tilt = true }: BrowserPreviewProps) =
   return (
     <div className="relative flex items-center justify-center">
       <motion.div
-        initial={tilt ? { rotate: -3, y: 0 } : {}}
-        whileHover={tilt ? { rotate: 0, y: -6, scale: 1.02 } : {}}
+        initial={tilt ? { rotate: -1, y: 0 } : {}}
+        whileHover={tilt ? { rotate: 0, y: -4, scale: 1.01 } : {}}
         transition={{ type: "spring", stiffness: 200, damping: 18 }}
         className="relative group"
         onHoverStart={() => setIsHovered(true)}
         onHoverEnd={() => setIsHovered(false)}
       >
         {/* Browser frame */}
-        <div className="relative w-[640px] rounded-xl border border-white/10 bg-gradient-to-b from-zinc-800 to-zinc-900 shadow-[0_30px_80px_-20px_hsl(248_90%_66%/0.5)] overflow-hidden">
+        <div className="relative w-[540px] max-w-full rounded-xl border border-white/10 bg-gradient-to-b from-zinc-800 to-zinc-900 shadow-[0_30px_80px_-20px_hsl(248_90%_66%/0.5)] overflow-hidden">
           {/* Top bar */}
           <div className="flex items-center gap-3 px-4 py-3 border-b border-white/10">
             {/* macOS-style dots */}
@@ -95,7 +95,7 @@ export const BrowserPreview = ({ src, url, tilt = true }: BrowserPreviewProps) =
         </div>
 
         {/* Floating glow behind browser */}
-        <div className="absolute -inset-8 -z-10 rounded-[3rem] bg-gradient-to-br from-primary/30 to-accent/30 blur-3xl" />
+        <div className="absolute -inset-4 -z-10 rounded-[3rem] bg-gradient-to-br from-primary/30 to-accent/30 blur-3xl" />
       </motion.div>
     </div>
   );
