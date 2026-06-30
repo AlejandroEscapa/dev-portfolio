@@ -1,4 +1,5 @@
-import { MeshBackground } from "@/components/MeshBackground";
+import { Scene } from '@/components/three/Scene';
+import { FlowFieldBackground } from '@/components/three/FlowFieldBackground';
 import { Nav } from "@/components/Nav";
 import { WindowChrome } from "@/components/window/WindowChrome";
 import { Hero } from "@/components/sections/Hero";
@@ -14,7 +15,11 @@ import { SidePanel } from "@/components/SidePanel";
 const Index = () => {
   return (
     <main className="relative min-h-screen pb-32">
-      <MeshBackground />
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <Scene className="!fixed inset-0" camera={{ position: [0, 0, 5], fov: 75 }}>
+          <FlowFieldBackground />
+        </Scene>
+      </div>
       <Nav />
       <div className="relative z-10 pt-20">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
