@@ -21,7 +21,7 @@ export function WindowChrome({ title, id, children, className, defaultOpen = tru
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      className={cn("relative mx-auto my-16 max-w-6xl", className)}
+      className={cn("relative mx-auto my-8 max-w-5xl", className)}
     >
       {open && (
         <div className="overflow-hidden rounded-2xl border border-white/10 glass-strong shadow-2xl">
@@ -56,7 +56,7 @@ export function WindowChrome({ title, id, children, className, defaultOpen = tru
             transition={{ duration: 0.2 }}
             className="overflow-hidden"
           >
-            <div className="p-6 md:p-10">{children}</div>
+            <div className="p-4 md:p-6">{children}</div>
           </motion.div>
         </div>
       )}

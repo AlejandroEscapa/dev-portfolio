@@ -26,7 +26,7 @@ export const SectionContainer = ({
   children,
   maxWidth = "md",
   className = "",
-  padding = "py-24",
+  padding = "py-12",
   id,
   innerRef,
   motionStyle,
@@ -41,7 +41,7 @@ export const SectionContainer = ({
         opacity: motionStyle?.opacity,
         willChange: "transform, opacity",
       }}
-      className={`relative flex min-h-screen flex-col justify-center px-6 ${padding} ${className}`}
+      className={`relative flex min-h-[60vh] flex-col justify-center px-4 ${padding} ${className}`}
     >
       <div className={`container mx-auto ${maxWidthMap[maxWidth]}`}>
         {children}

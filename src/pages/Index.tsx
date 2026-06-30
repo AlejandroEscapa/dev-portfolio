@@ -9,6 +9,7 @@ import { Experience } from "@/components/sections/Experience";
 import { Projects } from "@/components/sections/Projects";
 import { Education } from "@/components/sections/Education";
 import { Footer } from "@/components/sections/Footer";
+import { SidePanel } from "@/components/SidePanel";
 
 const Index = () => {
   return (
@@ -16,14 +17,26 @@ const Index = () => {
       <MeshBackground />
       <Nav />
       <div className="relative z-10 pt-20">
-        <WindowChrome title="~/welcome.sh — zsh" id="hero"><Hero /></WindowChrome>
-        <WindowChrome title="~/about.md" id="about"><About /></WindowChrome>
-        <WindowChrome title="~/profile.json" id="profile"><Profile /></WindowChrome>
-        <WindowChrome title="~/stack — npx skills" id="stack"><TechStack /></WindowChrome>
-        <WindowChrome title="~/experience.log — tail -f" id="experience"><Experience /></WindowChrome>
-        <WindowChrome title="~/projects — ls -la" id="projects"><Projects /></WindowChrome>
-        <WindowChrome title="~/education.txt" id="education"><Education /></WindowChrome>
-        <WindowChrome title="~/contact — mail" id="contact"><Footer /></WindowChrome>
+        <div className="mx-auto max-w-7xl px-4 lg:px-8">
+          <div className="grid gap-8 lg:grid-cols-12">
+            {/* Main content - left column */}
+            <div className="lg:col-span-8">
+              <WindowChrome title="~/welcome.sh — zsh" id="hero"><Hero /></WindowChrome>
+              <WindowChrome title="~/about.md" id="about"><About /></WindowChrome>
+              <WindowChrome title="~/profile.json" id="profile"><Profile /></WindowChrome>
+              <WindowChrome title="~/stack — npx skills" id="stack"><TechStack /></WindowChrome>
+              <WindowChrome title="~/experience.log — tail -f" id="experience"><Experience /></WindowChrome>
+              <WindowChrome title="~/projects — ls -la" id="projects"><Projects /></WindowChrome>
+              <WindowChrome title="~/education.txt" id="education"><Education /></WindowChrome>
+              <WindowChrome title="~/contact — mail" id="contact"><Footer /></WindowChrome>
+            </div>
+
+            {/* Side panel - right column */}
+            <aside className="hidden lg:block lg:col-span-4">
+              <SidePanel />
+            </aside>
+          </div>
+        </div>
       </div>
     </main>
   );

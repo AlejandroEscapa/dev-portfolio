@@ -43,13 +43,13 @@ export const Profile = ({ id = SECTION_ID, innerRef, motionStyle }: ProfileProps
           <span>{t("profile.section_label")}</span>
         </motion.div>
 
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+        <div className="grid gap-8 lg:grid-cols-1">
           {/* Asymmetric: left big text */}
           <motion.div
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, margin: "-100px" }}
-            className="lg:col-span-7"
+            className="lg:col-span-1"
           >
             <motion.h2
               custom={0}
@@ -84,7 +84,7 @@ export const Profile = ({ id = SECTION_ID, innerRef, motionStyle }: ProfileProps
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="lg:col-span-5 lg:pt-12"
+            className="lg:col-span-1 lg:pt-0"
           >
             <div className="glass-strong relative overflow-hidden rounded-3xl p-8 liquid-glass">
               <div className="absolute -right-20 -top-20 h-40 w-40 rounded-full bg-primary/30 blur-3xl" />

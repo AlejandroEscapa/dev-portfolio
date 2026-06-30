@@ -1,0 +1,14 @@
+{
+  "name": "Alejandro Olivares",
+  "tagline": "Frontend & Mobile Developer · AI-Assisted Development",
+  "email": "alejandro.oliesc97@gmail.com",
+  "phone": "+34601175067",
+  "linkedin": "https://www.linkedin.com/in/alejandro-olivares-escapa/",
+  "github": "https://github.com/alejandrooliesc",
+  "primaryColor": "#7c5cff",
+  "accentColor": "#22d3ee",
+  "displayFont": "Space Grotesk",
+  "keepCli": "yes",
+  "keepBoot": "yes",
+  "aiCoderSection": "yes"
+}

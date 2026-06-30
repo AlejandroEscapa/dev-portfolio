@@ -60,9 +60,9 @@ export const About = ({ id = SECTION_ID, innerRef, motionStyle }: AboutProps) =>
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8, delay: 0.2, ease: EASE }}
-          className="mt-10 grid gap-6 lg:grid-cols-12"
+          className="mt-10 grid gap-6 lg:grid-cols-1"
         >
-          <div className="lg:col-span-8">
+          <div className="lg:col-span-1">
             <div className="glass-strong relative overflow-hidden rounded-3xl p-8 sm:p-10">
               <div className="absolute -right-24 -top-24 h-48 w-48 rounded-full bg-primary/30 blur-3xl" />
               <div className="absolute -bottom-24 -left-24 h-48 w-48 rounded-full bg-accent/20 blur-3xl" />
@@ -84,7 +84,7 @@ export const About = ({ id = SECTION_ID, innerRef, motionStyle }: AboutProps) =>
             </div>
           </div>
 
-          <div className="flex flex-col gap-4 lg:col-span-4">
+          <div className="flex flex-col gap-4 lg:col-span-1">
             <div className="glass relative flex items-center gap-4 overflow-hidden rounded-3xl p-5 pr-6">
               <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl glass">
                 <User className="h-7 w-7 text-accent" />

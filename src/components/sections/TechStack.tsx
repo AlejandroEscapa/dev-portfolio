@@ -41,7 +41,7 @@ export const TechStack = ({ id = SECTION_ID, innerRef, motionStyle }: TechStackP
       subtitleKey: "tech.languages_subtitle",
       items: ["TypeScript", "Kotlin", "Java", "Swift"],
       icon: Code2,
-      className: "col-span-2 lg:col-span-2",
+      className: "col-span-1 lg:col-span-1",
       accent: "primary",
     },
     {
@@ -49,7 +49,7 @@ export const TechStack = ({ id = SECTION_ID, innerRef, motionStyle }: TechStackP
       subtitleKey: "tech.ai_subtitle",
       items: ["Ollama", "Open Code", "LLMs locales"],
       icon: Brain,
-      className: "col-span-2 lg:col-span-2",
+      className: "col-span-1 lg:col-span-1",
       accent: "accent",
     },
     {
@@ -57,7 +57,7 @@ export const TechStack = ({ id = SECTION_ID, innerRef, motionStyle }: TechStackP
       subtitleKey: "tech.mobile_subtitle",
       items: ["Jetpack Compose", "SwiftUI", "MVVM"],
       icon: Smartphone,
-      className: "col-span-2 lg:col-span-2",
+      className: "col-span-1 lg:col-span-1",
       accent: "glow",
     },
     {
@@ -65,7 +65,7 @@ export const TechStack = ({ id = SECTION_ID, innerRef, motionStyle }: TechStackP
       subtitleKey: "tech.frontend_subtitle",
       items: ["Angular", "React"],
       icon: Layers,
-      className: "col-span-2 lg:col-span-3",
+      className: "col-span-1 lg:col-span-1",
       accent: "primary",
     },
     {
@@ -73,7 +73,7 @@ export const TechStack = ({ id = SECTION_ID, innerRef, motionStyle }: TechStackP
       subtitleKey: "tech.databases_subtitle",
       items: ["PostgreSQL", "SQLite", "MySQL", "MongoDB"],
       icon: Database,
-      className: "col-span-2 lg:col-span-3",
+      className: "col-span-1 lg:col-span-1",
       accent: "glow",
     },
   ];
@@ -108,7 +108,7 @@ export const TechStack = ({ id = SECTION_ID, innerRef, motionStyle }: TechStackP
             hidden: {},
             show: { transition: { staggerChildren: 0.08 } },
           }}
-          className="grid grid-cols-2 min-h-[140px] gap-4 sm:gap-5 lg:grid-cols-6"
+          className="grid grid-cols-1 min-h-[140px] gap-4 sm:gap-5 lg:grid-cols-2"
         >
           {bento.map((item) => {
             const Icon = item.icon;

@@ -8,7 +8,7 @@ export const Hero = () => {
   const words = title.split(" ");
 
   return (
-    <section id="hero" className="relative flex min-h-[100dvh] items-center justify-center px-6 pt-20 pb-20">
+    <section id="hero" className="relative flex min-h-[60vh] items-center justify-center px-4 pt-10 pb-10">
       <div className="container relative z-10 mx-auto max-w-5xl text-center">
         {/* Pill */}
         <motion.div
@@ -22,7 +22,7 @@ export const Hero = () => {
         </motion.div>
 
         {/* Word-by-word headline */}
-        <h1 className="text-5xl font-bold leading-[0.95] sm:text-6xl md:text-7xl lg:text-8xl">
+        <h1 className="text-4xl font-bold leading-[0.95] sm:text-5xl md:text-6xl">
           {words.map((word, i) => (
             <motion.span
               key={i}
