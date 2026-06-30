@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import { Github, Linkedin, ArrowDown, Sparkles, Phone, Mail } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+import { Scene } from "@/components/three/Scene";
+import { Hero3D } from "@/components/three/Hero3D";
 
 export const Hero = () => {
   const { t } = useLanguage();
@@ -9,6 +11,11 @@ export const Hero = () => {
 
   return (
     <section id="hero" className="relative flex min-h-[60vh] items-center justify-center px-4 pt-10 pb-10">
+      <div className="absolute inset-0 z-0 opacity-60 pointer-events-none">
+        <Scene camera={{ position: [0, 0, 5], fov: 75 }}>
+          <Hero3D />
+        </Scene>
+      </div>
       <div className="container relative z-10 mx-auto max-w-5xl text-center">
         {/* Pill */}
         <motion.div
