@@ -5,23 +5,37 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import { BootSequence } from "@/components/boot/BootSequence";
+import { Dock } from "@/components/dock/Dock";
+import { CliTerminal } from "@/components/cli/CliTerminal";
+import { Spotlight, useSpotlightToggle } from "@/components/spotlight/Spotlight";
+import { CrtOverlay } from "@/components/crt/CrtOverlay";
+import { CRTToggle } from "@/components/crt/CRTToggle";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+const App = () => {
+  const { open, setOpen } = useSpotlightToggle();
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BootSequence />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+        <Spotlight open={open} onOpenChange={setOpen} />
+        <CliTerminal />
+        <Dock onOpenSpotlight={() => setOpen(true)} />
+        <CrtOverlay />
+        <CRTToggle />
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;

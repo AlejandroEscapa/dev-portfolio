@@ -58,7 +58,7 @@ export const Hero = () => {
             target="_blank"
             rel="noopener noreferrer"
             whileTap={{ scale: 0.97 }}
-            className="group relative inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-primary to-primary-glow px-6 py-3 text-sm font-medium text-primary-foreground transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_hsl(var(--primary)/0.6)]"
+            className="group relative inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-primary to-primary-glow px-6 py-3 text-sm font-medium text-primary-foreground transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_var(--shadow-glow)]"
           >
             <Linkedin className="h-4 w-4" />
             {t("hero.cta_linkedin")}

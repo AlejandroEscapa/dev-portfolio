@@ -109,7 +109,7 @@ export const Nav = () => {
               <span
                 className={`rounded-md px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider transition-all duration-300 ${
                   lang === "en"
-                    ? "bg-primary/20 text-primary shadow-[0_0_8px_hsl(248_90%_66%/0.4)]"
+                    ? "bg-primary/20 text-primary shadow-[0_0_8px_var(--shadow-glow)]"
                     : "text-muted-foreground"
                 }`}
               >
@@ -119,7 +119,7 @@ export const Nav = () => {
               <span
                 className={`rounded-md px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider transition-all duration-300 ${
                   lang === "es"
-                    ? "bg-primary/20 text-primary shadow-[0_0_8px_hsl(248_90%_66%/0.4)]"
+                    ? "bg-primary/20 text-primary shadow-[0_0_8px_var(--shadow-glow)]"
                     : "text-muted-foreground"
                 }`}
               >
@@ -127,6 +127,7 @@ export const Nav = () => {
               </span>
             </span>
           </button>
+          <kbd className="ml-1 hidden items-center gap-0.5 rounded border border-white/10 bg-white/5 px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground md:inline-flex">⌘K</kbd>
         </div>
       </div>
     </motion.nav>

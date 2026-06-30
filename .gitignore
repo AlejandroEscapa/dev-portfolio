@@ -22,3 +22,41 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# === Testing ===
+coverage
+*.lcov
+
+# === Build caches ===
+.cache
+.parcel-cache
+.next
+.nuxt
+.svelte-kit
+.turbo
+.vite
+
+# === TypeScript incremental ===
+*.tsbuildinfo
+
+# === OS — Windows ===
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# === OS — macOS ===
+.AppleDouble
+._*
+
+# === OS — Linux ===
+*~
+
+# === Editor extensions ===
+.cursor/
+*.iml
+
+# === Env files (extends *.local above) ===
+.env
+.env.*
+!.env.example
