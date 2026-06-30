@@ -4,6 +4,8 @@ import { Code2, Brain, Database, Smartphone, Layers } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { SectionContainer } from "@/components/ui/SectionContainer";
 import { useLanguage } from "@/context/LanguageContext";
+import { Scene } from "@/components/three/Scene";
+import { TechStack3D } from "@/components/three/TechStack3D";
 
 interface TechStackProps {
   id?: string;
@@ -100,6 +102,12 @@ export const TechStack = ({ id = SECTION_ID, innerRef, motionStyle }: TechStackP
           </p>
         </motion.div>
 
+        <div className="relative h-[400px] w-full rounded-3xl overflow-hidden glass">
+          <Scene className="absolute inset-0" camera={{ position: [0, 0, 8], fov: 60 }}>
+            <TechStack3D />
+          </Scene>
+        </div>
+
         <motion.div
           initial="hidden"
           whileInView="show"
@@ -108,7 +116,7 @@ export const TechStack = ({ id = SECTION_ID, innerRef, motionStyle }: TechStackP
             hidden: {},
             show: { transition: { staggerChildren: 0.08 } },
           }}
-          className="grid grid-cols-1 min-h-[140px] gap-4 sm:gap-5 lg:grid-cols-2"
+          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mt-8"
         >
           {bento.map((item) => {
             const Icon = item.icon;
@@ -116,40 +124,13 @@ export const TechStack = ({ id = SECTION_ID, innerRef, motionStyle }: TechStackP
               <motion.div
                 key={item.titleKey}
                 variants={{
-                  hidden: { opacity: 0, y: 30, scale: 0.96 },
-                  show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
+                  hidden: { opacity: 0, y: 20, scale: 0.96 },
+                  show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
                 }}
-                whileHover={{ scale: 1.02, y: -4 }}
-                transition={{ type: "spring", stiffness: 300, damping: 22 }}
-                className={`group relative overflow-hidden rounded-3xl glass p-5 hover-glow ${item.className}`}
+                className="flex items-center gap-2 rounded-xl glass px-3 py-2"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-white/[0.04] to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-
-                <div className="relative flex h-full flex-col">
-                  <div className="flex items-start justify-between">
-                    <div className={`flex h-10 w-10 items-center justify-center rounded-xl glass ${accentMap[item.accent || "primary"]}`}>
-                      <Icon className="h-5 w-5" />
-                    </div>
-                    <span className="text-xs uppercase tracking-wider text-muted-foreground">
-                      {t(item.subtitleKey)}
-                    </span>
-                  </div>
-
-                  <h3 className="mt-4 text-xl font-semibold tracking-tight text-foreground">
-                    {t(item.titleKey)}
-                  </h3>
-
-                  <div className="mt-auto flex flex-wrap gap-2 pt-4">
-                    {item.items.map((tag) => (
-                      <span
-                        key={tag}
-                        className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs text-muted-foreground transition-colors group-hover:border-white/20 group-hover:text-foreground"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+                <Icon className={`h-4 w-4 ${accentMap[item.accent || "primary"]}`} />
+                <span className="text-xs font-medium text-foreground">{t(item.titleKey)}</span>
               </motion.div>
             );
           })}
