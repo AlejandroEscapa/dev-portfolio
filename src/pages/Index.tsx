@@ -11,8 +11,10 @@ import { Projects } from "@/components/sections/Projects";
 import { Education } from "@/components/sections/Education";
 import { Footer } from "@/components/sections/Footer";
 import { SidePanel } from "@/components/SidePanel";
+import { useLenis } from "@/hooks/useLenis";
 
 const Index = () => {
+  useLenis();
   return (
     <main className="relative min-h-screen pb-32">
       <div className="fixed inset-0 z-0 pointer-events-none">

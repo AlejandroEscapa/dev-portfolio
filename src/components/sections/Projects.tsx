@@ -5,6 +5,7 @@ import { SectionContainer } from "@/components/ui/SectionContainer";
 import { PhoneVideo } from "@/components/ui/PhoneVideo";
 import { BrowserPreview } from "@/components/ui/BrowserPreview";
 import { useLanguage } from "@/context/LanguageContext";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 interface ProjectsProps {
   id?: string;
@@ -97,6 +98,7 @@ const projects: ProjectData[] = [
 
 export const Projects = ({ id = SECTION_ID, innerRef, motionStyle }: ProjectsProps) => {
   const { t } = useLanguage();
+  const revealRef = useScrollReveal<HTMLDivElement>({ y: 60, duration: 0.9, stagger: 0.15 });
 
   return (
     <SectionContainer maxWidth="lg" id={id} innerRef={innerRef} motionStyle={motionStyle}>
@@ -117,14 +119,11 @@ export const Projects = ({ id = SECTION_ID, innerRef, motionStyle }: ProjectsPro
         </h2>
       </motion.div>
 
-      <div className="flex flex-col gap-12">
-        {projects.map((project, index) => (
-          <motion.div
+      <div ref={revealRef} className="flex flex-col gap-12">
+        {projects.map((project) => (
+          <div
             key={project.id}
-            initial={{ opacity: 0, y: 60 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: index * 0.15 }}
+            data-reveal
             className="group relative overflow-hidden rounded-3xl glass"
           >
             {/* Glow accents */}
@@ -191,7 +190,7 @@ export const Projects = ({ id = SECTION_ID, innerRef, motionStyle }: ProjectsPro
                 )}
               </div>
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
     </SectionContainer>

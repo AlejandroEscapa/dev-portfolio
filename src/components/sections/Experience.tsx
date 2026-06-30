@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { Briefcase, Sparkles } from "lucide-react";
 import { SectionContainer } from "@/components/ui/SectionContainer";
 import { useLanguage } from "@/context/LanguageContext";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 interface ExperienceProps {
   id?: string;
@@ -50,6 +51,7 @@ const TimelineNode = ({ featured }: { featured?: boolean }) => (
 export const Experience = ({ id = SECTION_ID, innerRef, motionStyle }: ExperienceProps) => {
   const { t } = useLanguage();
   const ref = useRef<HTMLDivElement>(null);
+  const revealRef = useScrollReveal<HTMLDivElement>({ y: 50, duration: 0.8, stagger: 0.12 });
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const lineHeight = useTransform(scrollYProgress, [0, 0.9], ["0%", "100%"]);
 
@@ -98,14 +100,11 @@ export const Experience = ({ id = SECTION_ID, innerRef, motionStyle }: Experienc
             className="absolute left-5 top-2 w-px bg-gradient-to-b from-primary via-primary-glow to-accent sm:left-6"
           />
 
-          <div className="space-y-10">
+          <div ref={revealRef} className="space-y-10">
             {experiences.map((exp, i) => (
-              <motion.div
+              <div
                 key={exp.company}
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.7, delay: i * 0.05, ease: [0.22, 1, 0.36, 1] }}
+                data-reveal
                 className="relative flex gap-6 pl-0 sm:gap-8"
               >
                 <div className="flex-shrink-0">
@@ -142,7 +141,7 @@ export const Experience = ({ id = SECTION_ID, innerRef, motionStyle }: Experienc
                     ))}
                   </ul>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
