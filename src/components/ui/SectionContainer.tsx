@@ -41,7 +41,10 @@ export const SectionContainer = ({
         opacity: motionStyle?.opacity,
         willChange: "transform, opacity",
       }}
-      className={`relative flex min-h-[60vh] flex-col justify-center px-4 ${padding} ${className}`}
+      // Horizontal padding is provided by the outer .section-px wrapper.
+      // Do NOT add px-* here — it would stack on top of the chrome's
+      // own p-4 md:p-6 and produce inconsistent section widths.
+      className={`relative flex min-h-[60vh] flex-col justify-center ${padding} ${className}`}
     >
       <div className={`container mx-auto ${maxWidthMap[maxWidth]}`}>
         {children}

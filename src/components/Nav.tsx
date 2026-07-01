@@ -4,7 +4,6 @@ import { useLanguage } from "@/context/LanguageContext";
 const linksConfig = [
   { labelKey: "nav.about", href: "#about" },
   { labelKey: "nav.profile", href: "#profile" },
-  { labelKey: "nav.techStack", href: "#stack" },
   { labelKey: "nav.experience", href: "#experience" },
   { labelKey: "nav.projects", href: "#projects" },
   { labelKey: "nav.education", href: "#education" },
@@ -19,12 +18,19 @@ export const Nav = () => {
   useEffect(() => {
     const allSections = ["hero", ...linksConfig.map((l) => l.href.slice(1))];
 
+    const computeThreshold = () => {
+      const profileEl = document.getElementById("profile");
+      if (!profileEl) return 500;
+      return profileEl.getBoundingClientRect().top + window.scrollY - 100;
+    };
+
+    let threshold = computeThreshold();
+
     const onScroll = () => {
       const scrollY = window.scrollY;
       setScrolled(scrollY > 40);
 
-      // Show nav when scroll exceeds 500px (when Hero split section starts scrolling)
-      setVisible(scrollY > 500);
+      setVisible(scrollY >= threshold);
 
       const viewportCenter = window.innerHeight / 2;
       let closestSection = "hero";
@@ -45,9 +51,17 @@ export const Nav = () => {
       setActiveSection(closestSection);
     };
 
+    const onResize = () => {
+      threshold = computeThreshold();
+    };
+
     window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onResize);
     onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onResize);
+    };
   }, []);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -64,14 +78,14 @@ export const Nav = () => {
 
   return (
     <nav
-      className={`fixed left-0 right-0 top-0 z-50 transition-all duration-500 ${
+      className={`fixed left-0 right-0 top-0 z-50 transition-all duration-200 ease-out ${
         visible
           ? "opacity-100 translate-y-0"
           : "opacity-0 -translate-y-full pointer-events-none"
       }`}
     >
       <div
-        className={`flex items-center justify-center px-5 py-3 transition-all duration-500 border-b border-white/[0.06] ${
+        className={`flex items-center justify-center px-5 py-3 transition-all duration-200 ease-out border-b border-white/[0.06] ${
           scrolled
             ? "bg-background/60 backdrop-blur-xl"
             : "bg-background/30 backdrop-blur-md"

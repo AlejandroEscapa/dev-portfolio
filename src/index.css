@@ -1,5 +1,20 @@
 @import "tailwindcss";
 
+.hero-showcase {
+  padding-top: var(--hero-pad-top, 32px);
+}
+
+/* === App-wide layout tokens (single source of truth) === */
+/* Registered via Tailwind v4's @utility so its variants (`lg:`,
+   `max-lg:`, etc.) are auto-generated. Without this directive,
+   Tailwind only emits `viewport-content` — `lg:viewport-content`
+   would silently do nothing and arbitrary-value utilities like
+   `h-[55vh]` would still win the cascade at the same breakpoint.
+   Change `--nav-height` in :root to retune top-folding heights. */
+@utility viewport-content {
+  height: calc(100vh - var(--nav-height, 60px));
+}
+
 /* === Terminal Portfolio Design System — Tailwind v4 === */
 
 :root {
@@ -33,6 +48,19 @@
   --ring: hsl(248 90% 66%);
 
   --radius: 1rem;
+
+  /* Layout tokens — single source of truth for app-wide measurements.
+     Change HERE to affect every section / window at once. */
+  --nav-height: 60px;       /* matches Nav.tsx scroll offset (const navHeight = 60) */
+  --hero-pad-top: 32px;     /* HeroShowcase top breathing room. Sized as
+                                1/4 of `<main>`'s pb-32 (128px) and equal
+                                to the right column's gap-8, so the section
+                                feels proportional to the rest of the page.
+                                The sticky LEFT col stops at this offset
+                                (see HeroShowcase.tsx) — the gap stays
+                                visible while scrolling through
+                                HeroShowcase, then unpins near #profile. */
+
 
   --sidebar-background: hsl(230 35% 5%);
   --sidebar-foreground: hsl(210 40% 98%);
@@ -177,7 +205,6 @@
     border-color: var(--border);
   }
   html {
-    scroll-behavior: smooth;
     scroll-padding-top: 4rem;
   }
   body {
@@ -224,7 +251,11 @@
     box-shadow: var(--shadow-glass);
   }
   .glass-strong {
-    background: hsl(230 30% 12% / 0.7);
+    /* Slightly more transparent so the pexels background reads through
+       the windows a touch more — affects ALL WindowChrome instances
+       (Welcome, About, Profile, Stack, Experience, Projects,
+       Education, Footer) in one place. Tweak here to retune globally. */
+    background: hsl(230 30% 12% / 0.6);
     backdrop-filter: blur(32px) saturate(180%);
     -webkit-backdrop-filter: blur(32px) saturate(180%);
     border: 1px solid hsl(0 0% 100% / 0.12);
@@ -381,7 +412,10 @@
   }
 
   /* Shared horizontal section padding — single source of truth.
-     Change here to adjust all section margins at once. */
+     Change HERE to adjust all section margins at once:
+       @media px-6 mobile  /  md:px-8  /  lg:px-10
+     Components nested inside .section-px MUST NOT add their own
+     horizontal padding (no px-* on inner sections). */
   .section-px {
     padding-inline: 1.5rem;          /* px-6 */
     @media (width >= 48rem) {        /* md */

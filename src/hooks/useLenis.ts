@@ -8,6 +8,7 @@ gsap.registerPlugin(ScrollTrigger);
 export function useLenis() {
   useEffect(() => {
     const lenis = new Lenis({ duration: 1.2, smoothWheel: true });
+    gsap.ticker.lagSmoothing(0);
     lenis.on('scroll', ScrollTrigger.update);
     const raf = (time: number) => {
       lenis.raf(time * 1000);

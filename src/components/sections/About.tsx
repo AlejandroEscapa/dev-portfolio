@@ -3,6 +3,8 @@ import type { MotionValue } from "framer-motion";
 import { Code2, Brain, Database, Smartphone, Layers } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { SectionContainer } from "@/components/ui/SectionContainer";
+import { Scene } from "@/components/three/Scene";
+import { TechStack3D } from "@/components/three/TechStack3D";
 import { useLanguage } from "@/context/LanguageContext";
 
 interface AboutProps {
@@ -85,7 +87,12 @@ export const About = ({ id = SECTION_ID, innerRef, motionStyle }: AboutProps) =>
 
   return (
     <SectionContainer maxWidth="lg" id={id} innerRef={innerRef} motionStyle={motionStyle} padding="py-0">
-      <div className="flex h-full min-h-[calc(100vh)] flex-col justify-center">
+      {/* Was: `min-h-[calc(100vh)]` — that forced the About window to be
+          100vh tall and broke the "all three windows same height" model
+          (the Welcome / 3D windows are .viewport-content = 100vh − nav).
+          With fullHeight on the WindowChrome, the content scrolls
+          internally inside the fixed-size window. */}
+      <div className="flex h-full flex-col justify-center">
         <motion.div
           initial="hidden"
           whileInView="show"
@@ -119,6 +126,19 @@ export const About = ({ id = SECTION_ID, innerRef, motionStyle }: AboutProps) =>
           {t("tech.subheading")}
         </motion.p>
 
+        {/* === Merged from former TechStack section === */}
+        {/* The 400px panel hosts the rotating 3D tech icons. Window size
+            is preserved (viewport-content on the WindowChrome) and the
+            content scrolls internally because of `fullHeight`. */}
+        <div className="relative h-[400px] w-full rounded-3xl overflow-hidden glass mt-8">
+          <Scene
+            className="absolute inset-0"
+            camera={{ position: [0, 0, 8], fov: 60 }}
+          >
+            <TechStack3D />
+          </Scene>
+        </div>
+
         <motion.div
           initial="hidden"
           whileInView="show"
@@ -127,7 +147,7 @@ export const About = ({ id = SECTION_ID, innerRef, motionStyle }: AboutProps) =>
             hidden: {},
             show: { transition: { staggerChildren: 0.08 } },
           }}
-          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mt-8"
+          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mt-6"
         >
           {bento.map((item) => {
             const Icon = item.icon;
