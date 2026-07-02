@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Award, Briefcase, GraduationCap, Linkedin, Sparkles } from "lucide-react";
+import { Linkedin } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { trayectoriaItems, type TrayectoriaItem } from "@/data/trayectoria";
@@ -22,14 +22,8 @@ const formatPeriod = (item: TrayectoriaItem, presentLabel: string): string => {
   return `${start} \u2013 ${end}`;
 };
 
-const CategoryIcon = ({ category }: { category: TrayectoriaItem["category"] }) => {
-  const Icon = category === "education" ? GraduationCap : category === "certification" ? Award : Briefcase;
-  return <Icon className="h-3 w-3" />;
-};
-
 const CategoryLabel = ({ category, t }: { category: TrayectoriaItem["category"]; t: (k: string) => string }) => (
-  <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/40 bg-accent/10 px-2.5 py-1 text-[10px] uppercase tracking-wider text-accent">
-    <CategoryIcon category={category} />
+  <span className="inline-flex items-center rounded-full border border-accent/40 bg-accent/10 px-2.5 py-1 text-[10px] uppercase tracking-wider text-accent">
     {t(`trayectoria.cat_${category}`)}
   </span>
 );
@@ -142,15 +136,22 @@ const DesktopTrayectoria = ({ t, presentLabel }: { t: (k: string) => string; pre
     const total = trayectoriaItems.length;
 
     const ctx = gsap.context(() => {
+      const getTarget = () => {
+        const cta = track?.querySelector<HTMLAnchorElement>('a');
+        if (!cta) return 0;
+        const r = cta.getBoundingClientRect();
+        return Math.min(0, window.innerWidth / 2 - (r.left + r.width / 2));
+      };
+
       gsap.to(track, {
-        x: () => Math.min(0, -(track.scrollWidth - window.innerWidth)),
+        x: getTarget,
         ease: "none",
         scrollTrigger: {
           trigger: section,
           start: "top top",
-          end: () => `+=${Math.max(0, track.scrollWidth - window.innerWidth)}`,
+          end: () => `+=${Math.max(0, Math.abs(getTarget()))}`,
           pin: true,
-          scrub: 1,
+          scrub: true,
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
@@ -165,22 +166,7 @@ const DesktopTrayectoria = ({ t, presentLabel }: { t: (k: string) => string; pre
   }, []);
 
   return (
-    <section ref={sectionRef} id="trayectoria" className={styles.section}>
-      <div className={styles.header}>
-        <div className={styles.headerLabel}>
-          <span className={styles.headerLine} />
-          <span>{t("trayectoria.section_label")}</span>
-        </div>
-        <h2 className={styles.heading}>
-          <span className={styles.headingBefore}>{t("trayectoria.heading_before")}</span>{" "}
-          <span className={styles.headingAfter}>{t("trayectoria.heading_after")}</span>
-        </h2>
-        <div className={styles.progress}>
-          <Sparkles className="h-3 w-3 text-primary" />
-          <span>{progress.current} / {progress.total}</span>
-        </div>
-      </div>
-
+    <section ref={sectionRef} id="trayectoria" aria-label={t("trayectoria.heading_after")} className={styles.section}>
       <div className={styles.trackArea}>
         <div ref={trackRef} className={styles.track}>
           <TitleCard t={t} />
@@ -205,18 +191,7 @@ const DesktopTrayectoria = ({ t, presentLabel }: { t: (k: string) => string; pre
 };
 
 const MobileTrayectoria = ({ t, presentLabel }: { t: (k: string) => string; presentLabel: string }) => (
-  <section id="trayectoria" className={styles.mobileSection}>
-    <div className={styles.mobileHeader}>
-      <div className={styles.headerLabel}>
-        <span className={styles.headerLine} />
-        <span>{t("trayectoria.section_label")}</span>
-      </div>
-      <h2 className={styles.heading}>
-        <span className={styles.headingBefore}>{t("trayectoria.heading_before")}</span>{" "}
-        <span className={styles.headingAfter}>{t("trayectoria.heading_after")}</span>
-      </h2>
-    </div>
-
+  <section id="trayectoria" aria-label={t("trayectoria.heading_after")} className={styles.mobileSection}>
     <div className={styles.mobileTimeline}>
       <div className={styles.mobileLine} />
       {trayectoriaItems.map((item) => (

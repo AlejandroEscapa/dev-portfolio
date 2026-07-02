@@ -1,10 +1,7 @@
 import { motion, type Variants } from "framer-motion";
 import type { MotionValue } from "framer-motion";
-import { Code2, Brain, Database, Smartphone, Layers } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
 import { SectionContainer } from "@/components/ui/SectionContainer";
-import { Scene } from "@/components/three/Scene";
-import { TechStack3D } from "@/components/three/TechStack3D";
+import { TechBento } from "@/components/sections/TechBento";
 import { useLanguage } from "@/context/LanguageContext";
 
 interface AboutProps {
@@ -30,69 +27,12 @@ const fadeUp: Variants = {
   }),
 };
 
-interface BentoItem {
-  titleKey: string;
-  subtitleKey: string;
-  items: string[];
-  icon: LucideIcon;
-  accent?: "primary" | "accent" | "glow";
-}
-
-const accentMap = {
-  primary: "text-primary",
-  accent: "text-accent",
-  glow: "text-primary-glow",
-};
-
 export const About = ({ id = SECTION_ID, innerRef, motionStyle }: AboutProps) => {
   const { t } = useLanguage();
 
-  const bento: BentoItem[] = [
-    {
-      titleKey: "tech.languages_title",
-      subtitleKey: "tech.languages_subtitle",
-      items: ["TypeScript", "Kotlin", "Java", "Swift"],
-      icon: Code2,
-      accent: "primary",
-    },
-    {
-      titleKey: "tech.ai_title",
-      subtitleKey: "tech.ai_subtitle",
-      items: ["Ollama", "Open Code", "LLMs locales"],
-      icon: Brain,
-      accent: "accent",
-    },
-    {
-      titleKey: "tech.mobile_title",
-      subtitleKey: "tech.mobile_subtitle",
-      items: ["Jetpack Compose", "SwiftUI", "MVVM"],
-      icon: Smartphone,
-      accent: "glow",
-    },
-    {
-      titleKey: "tech.frontend_title",
-      subtitleKey: "tech.frontend_subtitle",
-      items: ["Angular", "React"],
-      icon: Layers,
-      accent: "primary",
-    },
-    {
-      titleKey: "tech.databases_title",
-      subtitleKey: "tech.databases_subtitle",
-      items: ["PostgreSQL", "SQLite", "MySQL", "MongoDB"],
-      icon: Database,
-      accent: "glow",
-    },
-  ];
-
   return (
-    <SectionContainer maxWidth="lg" id={id} innerRef={innerRef} motionStyle={motionStyle} padding="py-0">
-      {/* Was: `min-h-[calc(100vh)]` — that forced the About window to be
-          100vh tall and broke the "all three windows same height" model
-          (the Welcome / 3D windows are .viewport-content = 100vh − nav).
-          With fullHeight on the WindowChrome, the content scrolls
-          internally inside the fixed-size window. */}
-      <div className="flex h-full flex-col justify-center">
+    <SectionContainer maxWidth="lg" id={id} innerRef={innerRef} motionStyle={motionStyle} padding="py-0" className="h-full">
+      <div className="flex flex-col">
         <motion.div
           initial="hidden"
           whileInView="show"
@@ -126,46 +66,7 @@ export const About = ({ id = SECTION_ID, innerRef, motionStyle }: AboutProps) =>
           {t("tech.subheading")}
         </motion.p>
 
-        {/* === Merged from former TechStack section === */}
-        {/* The 400px panel hosts the rotating 3D tech icons. Window size
-            is preserved (viewport-content on the WindowChrome) and the
-            content scrolls internally because of `fullHeight`. */}
-        <div className="relative h-[400px] w-full rounded-3xl overflow-hidden glass mt-8">
-          <Scene
-            className="absolute inset-0"
-            camera={{ position: [0, 0, 8], fov: 60 }}
-          >
-            <TechStack3D />
-          </Scene>
-        </div>
-
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-50px" }}
-          variants={{
-            hidden: {},
-            show: { transition: { staggerChildren: 0.08 } },
-          }}
-          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mt-6"
-        >
-          {bento.map((item) => {
-            const Icon = item.icon;
-            return (
-              <motion.div
-                key={item.titleKey}
-                variants={{
-                  hidden: { opacity: 0, y: 20, scale: 0.96 },
-                  show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
-                }}
-                className="flex items-center gap-2 rounded-xl glass px-3 py-2"
-              >
-                <Icon className={`h-4 w-4 ${accentMap[item.accent || "primary"]}`} />
-                <span className="text-xs font-medium text-foreground">{t(item.titleKey)}</span>
-              </motion.div>
-            );
-          })}
-        </motion.div>
+        <TechBento />
       </div>
     </SectionContainer>
   );

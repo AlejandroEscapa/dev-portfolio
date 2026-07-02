@@ -23,9 +23,15 @@ export function Hero3D() {
     const updateColor = () => {
       if (!materialRef.current) return;
       const style = getComputedStyle(document.documentElement);
-      const primary = style.getPropertyValue('--primary').trim();
+      // CSS vars are stored as raw HSL triples (`248 90% 66%`) so the alpha
+      // placeholder convention `hsl(var(--primary) / α)` keeps working.
+      // THREE.Color.set() expects a valid CSS color string, so we wrap the
+      // triple in `hsl(...)` here. The try/catch with the hex fallback
+      // remains as a defensive net for malformed runtime values.
+      const primaryTriple = style.getPropertyValue('--primary').trim();
+      const primaryCss = primaryTriple ? `hsl(${primaryTriple})` : '';
       try {
-        materialRef.current.color.set(primary || '#7c5cff');
+        materialRef.current.color.set(primaryCss || '#7c5cff');
       } catch {
         materialRef.current.color.set('#7c5cff');
       }

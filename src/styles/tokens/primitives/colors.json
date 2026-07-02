@@ -1,0 +1,38 @@
+{
+  "$description": "Primitive color palette scales. HSL triples stored without `hsl()` wrapper so the alpha-placeholder convention `hsl(var(--semantic) / α)` keeps working in CSS. Theme-invariant: per-theme deltas live in `semantic/*` and `themes/*`.",
+
+
+  "palette": {
+    "indigo": {
+
+      "500": { "$value": "248 90% 66%", "$type": "color", "$description": "Brand violet — used as default theme primary." },
+
+      "300": { "$value": "270 95% 75%", "$type": "color", "$description": "Soft violet — default theme primary-glow." }
+
+    },
+    "cyan": {
+
+      "400": { "$value": "190 95% 60%", "$type": "color", "$description": "Brand cyan — default theme accent." }
+
+    },
+    "magenta": {
+
+      "500": { "$value": "320 85% 65%", "$type": "color", "$description": "Brand magenta — default theme mesh-3." }
+
+    },
+    "green": {
+
+      "500": { "$value": "155 70% 55%", "$type": "color", "$description": "Brand green-teal — default theme mesh-4 (harmonizes with pexels background)." }
+
+    }
+  },
+
+
+  "status": {
+
+    "destructive":       { "$value": "0 84% 60%", "$type": "color", "$description": "Error / destructive tone (rose-500 equivalent)." },
+
+    "destructive-foreground": { "$value": "210 40% 98%", "$type": "color" }
+
+  }
+}

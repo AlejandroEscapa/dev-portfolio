@@ -1,0 +1,15 @@
+{
+  "$description": "DTCG root index for the build script. Lists source files in load order: primitives before semantic (semantic can reference primitives via {alias} placeholders), then per-theme overrides.",
+
+
+  "sources": [
+    "primitives/colors.json",
+    "semantic/colors.json",
+    "semantic/layout.json",
+    "semantic/typography.json",
+    "themes/indigo.json",
+    "themes/catppuccin.json",
+    "themes/dracula.json",
+    "themes/tokyo-night.json"
+  ]
+}

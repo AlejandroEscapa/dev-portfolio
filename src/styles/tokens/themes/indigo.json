@@ -1,0 +1,6 @@
+{
+  "$description": "Indigo (default) theme. NO overrides — defaults live in semantic/colors.json. This file remains as a placeholder so the build script indexes all four themes; future indigo tweaks should be added here as { overrides: { ... } } and the semantic baseline stays untouched.",
+
+
+  "overrides": {}
+}

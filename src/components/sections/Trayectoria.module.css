@@ -5,77 +5,6 @@
   height: 100vh;
   width: 100%;
   overflow: hidden;
-  background: hsl(var(--background) / 0.4);
-}
-
-/* ─── Header (fixed at top while pinned) ─── */
-
-.header {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 30;
-  padding: 40px 5vw 0;
-  text-align: center;
-  pointer-events: none;
-}
-
-.headerLabel {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.3em;
-  color: hsl(var(--muted-foreground));
-}
-
-.headerLine {
-  display: inline-block;
-  width: 48px;
-  height: 1px;
-  background: linear-gradient(to right, hsl(var(--primary)), transparent);
-}
-
-.heading {
-  margin: 12px 0 0;
-  font-size: clamp(2rem, 5vw, 4rem);
-  font-weight: 700;
-  letter-spacing: -0.025em;
-  line-height: 1;
-}
-
-.headingBefore {
-  background: linear-gradient(135deg, hsl(var(--foreground)), hsl(var(--muted-foreground)));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-}
-
-.headingAfter {
-  background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-}
-
-.progress {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 14px;
-  padding: 6px 14px;
-  border-radius: 9999px;
-  background: hsl(var(--background) / 0.6);
-  backdrop-filter: blur(12px);
-  border: 1px solid hsl(var(--border) / 0.5);
-  font-family: var(--font-mono, ui-monospace, monospace);
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: hsl(var(--muted-foreground));
 }
 
 /* ─── Track area (below header, full width) ─── */
@@ -89,7 +18,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding-top: 110px;
+  padding-top: 80px;
   padding-bottom: 32px;
   pointer-events: none;
 }
@@ -99,7 +28,7 @@
   display: flex;
   align-items: center;
   gap: 100px;
-  padding: 0 25vw 0 15vw;
+  padding: 0 calc(50vw - 220px) 0 15vw;
   height: 600px;
   will-change: transform;
   perspective: 1000px;
@@ -127,7 +56,7 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(to right, transparent 0%, hsl(0 0% 100% / 0.18) 3%, hsl(0 0% 100% / 0.22) 50%, hsl(0 0% 100% / 0.18) 97%, transparent 100%);
+  background: linear-gradient(to right, transparent 0%, hsl(0 0% 100% / 0.18) 1.5%, hsl(0 0% 100% / 0.22) 50%, hsl(0 0% 100% / 0.18) 98.5%, transparent 100%);
   transform: translateY(-50%);
   z-index: 1;
   pointer-events: none;
@@ -154,14 +83,12 @@
   height: 12px;
   background: white;
   border-radius: 50%;
-  border: 2px solid hsl(var(--background));
   z-index: 3;
-  box-shadow: 0 0 0 4px hsl(var(--background) / 0.6);
 }
 
 .connectorDot[data-latest="true"] {
   background: hsl(var(--primary));
-  box-shadow: 0 0 0 4px hsl(var(--background) / 0.6), 0 0 16px hsl(var(--primary) / 0.6);
+  box-shadow: 0 0 16px hsl(var(--primary) / 0.6);
 }
 
 .itemContent {
@@ -410,12 +337,6 @@
 .mobileSection {
   position: relative;
   padding: 64px 20px 96px;
-  background: hsl(var(--background) / 0.4);
-}
-
-.mobileHeader {
-  margin-bottom: 40px;
-  text-align: left;
 }
 
 .mobileTimeline {
@@ -449,7 +370,6 @@
   height: 12px;
   background: white;
   border-radius: 50%;
-  border: 2px solid hsl(var(--background));
   z-index: 2;
 }
 

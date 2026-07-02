@@ -1,0 +1,32 @@
+{
+  "$description": "Dracula — community palette. Preserved literally. Do not amend.",
+
+
+  "overrides": {
+
+    "background":           "290 15% 15%",
+    "foreground":           "290 10% 92%",
+    "card":                 "290 15% 18%",
+    "card-foreground":      "290 10% 92%",
+    "popover":              "290 15% 16%",
+    "popover-foreground":   "290 10% 92%",
+    "primary":              "340 70% 65%",
+    "primary-foreground":   "290 15% 12%",
+    "primary-glow":         "340 60% 72%",
+    "secondary":            "290 12% 20%",
+    "secondary-foreground": "290 10% 92%",
+    "muted":                "290 12% 20%",
+    "muted-foreground":     "290 8% 55%",
+    "accent":               "140 55% 60%",
+    "accent-foreground":    "290 15% 12%",
+    "border":               "290 12% 25%",
+    "input":                "290 12% 20%",
+    "ring":                 "340 70% 65%",
+    "mesh-1":               "340 70% 65%",
+    "mesh-2":               "140 55% 60%",
+    "mesh-3":               "280 55% 60%",
+    "mesh-4":               "340 60% 72%",
+    "shadow-glow":          "0 0 60px hsl(340 70% 65% / 0.45)",
+    "shadow-glow-accent":   "0 0 60px hsl(140 55% 60% / 0.4)"
+  }
+}

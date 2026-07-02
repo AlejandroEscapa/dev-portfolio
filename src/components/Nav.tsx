@@ -3,10 +3,10 @@ import { useLanguage } from "@/context/LanguageContext";
 
 const linksConfig = [
   { labelKey: "nav.about", href: "#about" },
-  { labelKey: "nav.profile", href: "#profile" },
-  { labelKey: "nav.experience", href: "#experience" },
   { labelKey: "nav.projects", href: "#projects" },
+  { labelKey: "nav.experience", href: "#experience" },
   { labelKey: "nav.education", href: "#education" },
+  { labelKey: "nav.profile", href: "#profile" },
 ];
 
 export const Nav = () => {
