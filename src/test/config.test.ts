@@ -6,6 +6,6 @@ describe('portfolioConfig', () => {
     expect(portfolioConfig.name).toBeTypeOf('string');
     expect(portfolioConfig.primaryColor).toMatch(/^#[0-9a-fA-F]{6}$/);
     expect(portfolioConfig.accentColor).toMatch(/^#[0-9a-fA-F]{6}$/);
-    expect(['Space Grotesk', 'Syne', 'JetBrains Mono', 'Sora', 'Geist']).toContain(portfolioConfig.displayFont);
+    expect(['Space Grotesk', 'Syne', 'JetBrains Mono']).toContain(portfolioConfig.displayFont);
   });
 });

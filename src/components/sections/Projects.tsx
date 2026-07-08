@@ -107,23 +107,23 @@ export const Projects = ({ id = SECTION_ID, innerRef, motionStyle }: ProjectsPro
       className={cn("relative flex min-h-[60vh] flex-col justify-center py-12")}
     >
       <div className="container mx-auto max-w-7xl">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.7 }}
-          className="mb-10"
-        >
-          <h2 className="text-center text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
-            <span className="text-gradient">{t("projects.heading_before")}</span>
-            <span className="text-gradient-primary">{t("projects.heading_after")}</span>
-          </h2>
-        </motion.div>
+        {viewMode === "carousel" && (
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7 }}
+            className="mb-10"
+          >
+            <h2 className="text-center text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
+              <span className="text-gradient">{t("projects.heading_before")}</span>
+              <span className="text-gradient-primary">{t("projects.heading_after")}</span>
+            </h2>
+          </motion.div>
+        )}
 
         <div className={styles.stage}>
           {viewMode === "carousel" ? (
-            // column-reverse: DOM keeps chips → cards (filter-first tab order),
-            // visually the cards stay on top and chips render below.
             <div className={cn(styles.viewFlip, isExiting ? styles.exiting : styles.entering)}>
               <ProjectCategoryChips
                 activeCategories={activeCategories}

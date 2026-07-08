@@ -99,11 +99,11 @@ const accentBorder = {
 
 function TechIcon({ item, accent }: { item: TechItem; accent: TechCategory["accent"] }) {
   if (item.svg) {
-    return <img src={item.svg} alt={item.name} className="h-4 w-4 shrink-0 object-contain" />;
+    return <img src={item.svg} alt={item.name} className="h-[18px] w-[18px] shrink-0 object-contain" />;
   }
   if (item.iconLucide) {
     const Icon = item.iconLucide;
-    return <Icon className={`h-4 w-4 shrink-0 ${accentChipIcon[accent]}`} />;
+    return <Icon className={`h-[18px] w-[18px] shrink-0 ${accentChipIcon[accent]}`} />;
   }
   return null;
 }
@@ -133,12 +133,13 @@ export function TechBento() {
               </h3>
             </div>
 
-            {/* Chips */}
-            <div className="grid grid-cols-3 gap-2">
+            {/* Chips — flex layout: 3 per row, last 2 fill 50% each */}
+            <div className="flex flex-wrap gap-2">
               {cat.items.map((item) => (
                 <span
                   key={item.name}
-                  className="flex items-center justify-center gap-1.5 rounded-sm border border-white/[0.06] bg-white/[0.03] px-2.5 py-1.5 text-xs font-medium text-foreground/75 transition-colors duration-200 hover:border-white/[0.12] hover:bg-white/[0.06] hover:text-foreground"
+                  className="tech-chip flex items-center justify-center gap-1.5 rounded-md border border-white/[0.08] bg-white/[0.04] px-3 py-2.5 text-xs font-medium text-foreground/80 backdrop-blur-sm transition-all duration-200 hover:border-white/[0.15] hover:bg-white/[0.08] hover:text-foreground hover:shadow-[0_0_12px_hsl(var(--primary)/0.1)]"
+                  style={{ minWidth: "calc(33.333% - 6px)", flex: "1 1 0" }}
                 >
                   <TechIcon item={item} accent={cat.accent} />
                   {item.name}

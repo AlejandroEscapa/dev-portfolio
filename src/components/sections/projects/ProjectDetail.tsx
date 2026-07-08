@@ -48,7 +48,21 @@ export const ProjectDetail = ({ project, isExiting, onBack }: ProjectDetailProps
       role="region"
       aria-label={t(project.nameKey)}
     >
-      <div className={styles.detailGrid}>
+      {/* Block 1: Header — back button left, title centered */}
+      <div className={styles.detailHeader}>
+        <button
+          type="button"
+          onClick={onBack}
+          className={styles.detailBackBtn}
+        >
+          <ArrowLeft className="h-4 w-4" />
+          <span>{t("projects.back")}</span>
+        </button>
+        <h2 className={styles.detailTitle}>{t(project.nameKey)}</h2>
+      </div>
+
+      {/* Block 2: Bento content — media large left, info right */}
+      <div className={styles.detailContent}>
         <div className={styles.detailMedia}>
           {project.media.type === "video" ? (
             <video
@@ -66,18 +80,6 @@ export const ProjectDetail = ({ project, isExiting, onBack }: ProjectDetailProps
         </div>
 
         <div className={styles.detailInfo}>
-          <div className={styles.detailHeader}>
-            <button
-              type="button"
-              onClick={onBack}
-              className={styles.detailBackBtn}
-            >
-              <ArrowLeft className="h-4 w-4" />
-              <span>{t("projects.back")}</span>
-            </button>
-            <h2 className={styles.detailTitle}>{t(project.nameKey)}</h2>
-          </div>
-
           <div className={styles.highlights}>
             {project.highlights.map((h) => {
               const Icon = HIGHLIGHT_ICONS[h.icon];
@@ -95,38 +97,41 @@ export const ProjectDetail = ({ project, isExiting, onBack }: ProjectDetailProps
             <h4 className={styles.detailSectionTitle}>{t("projects.about")}</h4>
             <p className={styles.detailDesc}>{t(project.longDescKey)}</p>
           </div>
+        </div>
+      </div>
 
-          <div className={styles.stack}>
-            {stack.map(({ category, items }) => (
-              <div key={category} className={styles.stackCategory}>
-                <span className={styles.stackCategoryLabel}>
-                  {t(`projects.category_${category}` as `projects.category_${StackCategoryId}`)}
-                </span>
-                <div className={styles.stackItems}>
-                  {items.map((item) => (
-                    <span key={item} className={styles.stackItem}>{item}</span>
-                  ))}
-                </div>
+      {/* Block 3: Tech stack strip + actions */}
+      <div className={styles.detailStackStrip}>
+        <div className={styles.stack}>
+          {stack.map(({ category, items }) => (
+            <div key={category} className={styles.stackCategory}>
+              <span className={styles.stackCategoryLabel}>
+                {t(`projects.category_${category}` as `projects.category_${StackCategoryId}`)}
+              </span>
+              <div className={styles.stackItems}>
+                {items.map((item) => (
+                  <span key={item} className={styles.stackItem}>{item}</span>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
+        </div>
 
-          <div className={styles.detailActions}>
-            {project.liveUrl && (
-              <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                <Button variant="default" size="sm">
-                  <ExternalLink className="h-4 w-4" />
-                  {t("projects.view_site")}
-                </Button>
-              </a>
-            )}
-            <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-              <Button variant={project.liveUrl ? "outline" : "default"} size="sm">
-                <Github className="h-4 w-4" />
-                {t("projects.view_repo")}
+        <div className={styles.detailActions}>
+          {project.liveUrl && (
+            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+              <Button variant="default" size="sm">
+                <ExternalLink className="h-4 w-4" />
+                {t("projects.view_site")}
               </Button>
             </a>
-          </div>
+          )}
+          <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+            <Button variant={project.liveUrl ? "outline" : "default"} size="sm">
+              <Github className="h-4 w-4" />
+              {t("projects.view_repo")}
+            </Button>
+          </a>
         </div>
       </div>
     </div>

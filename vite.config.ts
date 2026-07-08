@@ -26,6 +26,7 @@ function watchTokensPlugin() {
       server.watcher.add("src/styles/tokens/**/*.json");
       const run = (file: string) => {
         if (!file.includes("tokens")) return;
+        if (file.includes("generated")) return;
         server.config.logger.info(
           `[tokens] ${path.relative(process.cwd(), file)} changed -> regenerating`,
         );

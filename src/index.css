@@ -40,7 +40,7 @@
   body {
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
-    font-family: var(--font-body);
+    font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
   }
@@ -126,6 +126,31 @@
     box-shadow: inset 0 1px 1px hsl(0 0% 100% / 0.08);
     position: relative;
     overflow: hidden;
+  }
+  /* Tech chips — subtle shine sweep on hover */
+  .tech-chip {
+    position: relative;
+    overflow: hidden;
+  }
+  .tech-chip::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -75%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      hsl(0 0% 100% / 0.06),
+      transparent
+    );
+    transform: skewX(-25deg);
+    transition: left 0.5s ease;
+    pointer-events: none;
+  }
+  .tech-chip:hover::before {
+    left: 125%;
   }
   .liquid-glass::before {
     content: "";

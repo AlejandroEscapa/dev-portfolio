@@ -118,7 +118,7 @@ const emitCSS = ({ flat, themes }) => {
   themeInline.push('  --radius-sm: calc(var(--radius) - 8px);');
   themeInline.push('  --radius-md: calc(var(--radius) - 4px);');
   themeInline.push('  --radius-lg: var(--radius);');
-  for (const t of ['font-display','font-sans','font-body']) {
+  for (const t of ['font-display','font-sans','font-mono']) {
     if (flat[t] !== undefined) themeInline.push('  --' + t + ': ' + flat[t] + ';');
   }
   themeInline.push('}');

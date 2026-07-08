@@ -9,7 +9,7 @@ export interface PortfolioConfig {
   github: string;
   primaryColor: string;
   accentColor: string;
-  displayFont: 'Space Grotesk' | 'Syne' | 'JetBrains Mono' | 'Sora' | 'Geist';
+  displayFont: 'Space Grotesk' | 'Syne' | 'JetBrains Mono';
   keepCli: 'yes' | 'no';
   keepBoot: 'yes' | 'no';
   aiCoderSection: 'yes' | 'no';
