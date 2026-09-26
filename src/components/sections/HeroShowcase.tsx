@@ -25,10 +25,12 @@
  * content scrolls below normally (no sticky).
  */
 
-import { type ReactNode } from 'react';
+import { type ReactNode, lazy, Suspense } from 'react';
 import { WindowChrome } from '@/components/window/WindowChrome';
-import { Scene } from '@/components/three/Scene';
-import { Hero3D } from '@/components/three/Hero3D';
+
+// The whole R3F tree (fiber + drei + postprocessing + GLB) is code-split
+// out of the initial bundle; the mono "loading" line covers the fetch.
+const HeroScene = lazy(() => import('@/components/three/HeroScene'));
 
 interface HeroShowcaseProps {
   /** Right-column content. Typically:
@@ -56,14 +58,19 @@ export function HeroShowcase({ children }: HeroShowcaseProps) {
             fullHeight
           >
             <div className="relative h-full min-h-[360px]">
-              {/* Soft primary glow behind the wireframe */}
+              {/* Soft primary glow behind the 3D figure */}
               <div className="pointer-events-none absolute inset-0 -z-10 scale-90 rounded-full bg-primary/15 blur-3xl" />
-              <Scene
-                camera={{ position: [0, 0, 5], fov: 75 }}
-                className="!absolute inset-0"
+              <Suspense
+                fallback={
+                  <div className="absolute inset-0 grid place-items-center">
+                    <span className="animate-pulse font-mono text-xs text-muted-foreground">
+                      loading ~/object.glb …
+                    </span>
+                  </div>
+                }
               >
-                <Hero3D />
-              </Scene>
+                <HeroScene />
+              </Suspense>
             </div>
           </WindowChrome>
         </div>
