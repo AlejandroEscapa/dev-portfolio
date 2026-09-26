@@ -15,32 +15,16 @@ interface TechCategory {
   icon: LucideIcon;
   /** Spans both columns of the bento grid. DOM order must keep the 2-col
       cells adjacent to a row boundary or auto-placement leaves a hole:
-      frontend featured(2) | languages-tools + backend(1+1). */
+      languages-tools featured(2) | frontend + backend(1+1). */
   featured?: boolean;
 }
 
 const CATEGORIES: TechCategory[] = [
   {
-    titleKey: "tech.frontend_title",
-    accent: "accent",
-    icon: Layout,
-    featured: true,
-    items: [
-      { name: "HTML", svg: "/icons/html5.svg", iconLucide: null },
-      { name: "CSS", svg: "/icons/css.svg", iconLucide: null },
-      { name: "React", svg: "/icons/react.svg", iconLucide: null },
-      { name: "Vue", svg: "/icons/vue.svg", iconLucide: null },
-      { name: "Next.js", svg: "/icons/nextjs.svg", iconLucide: null },
-      { name: "Tailwind CSS", svg: "/icons/tailwindcss.svg", iconLucide: null },
-      { name: "GSAP", svg: "/icons/gsap.svg", iconLucide: null },
-      { name: "Three.js", svg: "/icons/three.svg", iconLucide: null },
-      { name: "Flutter", svg: "/icons/flutter.svg", iconLucide: null },
-    ],
-  },
-  {
     titleKey: "tech.lang_tools_title",
     accent: "primary",
     icon: Code2,
+    featured: true,
     items: [
       { name: "C", svg: "/icons/c.svg", iconLucide: null },
       { name: "Python", svg: "/icons/python.svg", iconLucide: null },
@@ -51,6 +35,22 @@ const CATEGORIES: TechCategory[] = [
       { name: "Make", svg: "/icons/make.svg", iconLucide: null },
       { name: "Swagger", svg: "/icons/swagger.svg", iconLucide: null },
       { name: "Integración de IA", svg: null, iconLucide: Brain },
+    ],
+  },
+  {
+    titleKey: "tech.frontend_title",
+    accent: "accent",
+    icon: Layout,
+    items: [
+      { name: "HTML", svg: "/icons/html5.svg", iconLucide: null },
+      { name: "CSS", svg: "/icons/css.svg", iconLucide: null },
+      { name: "React", svg: "/icons/react.svg", iconLucide: null },
+      { name: "Vue", svg: "/icons/vue.svg", iconLucide: null },
+      { name: "Next.js", svg: "/icons/nextjs.svg", iconLucide: null },
+      { name: "Tailwind CSS", svg: "/icons/tailwindcss.svg", iconLucide: null },
+      { name: "GSAP", svg: "/icons/gsap.svg", iconLucide: null },
+      { name: "Three.js", svg: "/icons/three.svg", iconLucide: null },
+      { name: "Flutter", svg: "/icons/flutter.svg", iconLucide: null },
     ],
   },
   {
