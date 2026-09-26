@@ -7,8 +7,8 @@
 ## 0. Project at a glance
 
 A single-page portfolio site for a Mobile & Frontend developer, themed
-as a desktop OS (windows with traffic-lights, dock, terminal, spotlight,
-CRT toggle). Single routing entry (`/`); everything else is `<NotFound>`.
+as a desktop OS (windows with traffic-lights, left side-rail dock,
+terminal, spotlight, CRT toggle). Single routing entry (`/`); everything else is `<NotFound>`.
 
 - **Entry**: `index.html` → `src/main.tsx` → `src/App.tsx`
 - **Page**: `src/pages/Index.tsx`
@@ -30,7 +30,7 @@ Real versions live in `package.json`. Highlights:
 | Routing          | React Router v6 (`/` + `*` → `NotFound`)                                      |
 | Data layer       | TanStack Query (provider mounted but used minimally)                          |
 | Animation / 3D   | Framer Motion 12, GSAP 3 + `ScrollTrigger`, Lenis 1, **R3F 8** + drei + post |
-| Icons            | **Phosphor** (`@phosphor-icons/react`, dock), Lucide (UI primitives)         |
+| Icons            | **Lucide** (dock actions + UI primitives), `simple-icons` (brand marks)      |
 | Smooth scroll    | Lenis hooked into GSAP ticker (`src/hooks/useLenis.ts`)                       |
 | Forms / schema   | react-hook-form 7 + Zod 3                                                     |
 | i18n             | Custom `LanguageProvider` (NOT i18next at runtime — see §5)                  |
@@ -44,10 +44,12 @@ Real versions live in `package.json`. Highlights:
 > `scripts/optimize-pexels.mjs` (off-build image preprocessing) — it
 > is not a runtime dependency.
 >
-> Icons: Phosphor (`@phosphor-icons/react`) drives the Dock,
-> Lucide handles UI primitives. `src/components/brand-icons.tsx`
-> exists from an earlier iteration and is not currently wired into
-> any rendered section — leave as historical / delete when convenient.
+> Icons: Lucide drives the Dock's action glyphs; official brand marks
+> come from the `simple-icons` npm package — EXCEPT LinkedIn, removed
+> from simple-icons in v11 (trademark): its last published path is
+> kept as an in-repo constant in `src/components/brand-icons.tsx`,
+> which is also imported by `Contact.tsx`. `@phosphor-icons/react`
+> remains installed but has zero imports — candidate for removal.
 
 ---
 
@@ -211,9 +213,10 @@ Honour this in any new animation.
   *and is the absence of the attribute*; never set
   `data-theme="indigo"`.
 - Persistence: `localStorage["portfolio-theme"]`.
-- Toggle UX: `ThemeSwitcher` in the dock opens a popover with all
-  themes; `cli theme <name>` swaps themes from the CLI terminal;
-  Spotlight groups a "Theme: …" entry per theme.
+- Toggle UX: `ThemeMenu` (`src/components/theme-switcher/ThemeMenu.tsx`)
+  in the dock rail opens a popover with all themes; `cli theme <name>`
+  swaps themes from the CLI terminal; Spotlight groups a "Theme: …"
+  entry per theme.
 - Source: `src/lib/themes.ts` (`THEMES`, `ThemeId`, `DEFAULT_THEME`,
   `THEME_STORAGE_KEY`).
 
@@ -373,15 +376,15 @@ around every major window.
 | `boot/BootSequence.tsx`           | First visit only              | `useBootSequence(N, 120ms)`; LS key `portfolio-booted`  |
 | `cli/CliTerminal.tsx`             | Dock terminal icon            | `useTerminalHistory` + `executeCommand` (`src/lib/cli-commands.ts`) |
 | `spotlight/Spotlight.tsx`         | `⌘K` / `Ctrl+K`              | `useSpotlightToggle` + `getSpotlightItems({ setTheme })` |
-| `dock/Dock.tsx`                   | Always (bottom-fixed)         | `useDockHover` (magnify-on-hover)                       |
+| `dock/Dock.tsx`                   | Always (LEFT vertical rail, collapsed 52px by default; chevron expands to 184px) | `useDockHover("y")` (glyph magnify-on-hover, 3px nudge — never the button) |
 | `crt/CrtOverlay.tsx`+`CRTToggle`  | Top-right toggle              | Body class `crt-on` (scanlines + vignette)              |
 | `Nav.tsx`                         | Always (top-fixed)            | Scroll + resize listeners, hides itself before `#projects` |
 | `background/ImageBackground.tsx`  | Mounted once                  | Responsive `<img>` w/ srcSet/sizes                      |
 
 CLI commands are a single switch in `src/lib/cli-commands.ts`
 (`help`, `whoami`, `projects`, `skills`, `experience`, `education`,
-`contact`, `theme [name]`, `clear`/`cls`, `history`, `ls`, `pwd`,
-`date`, `banner`, `neofetch`, `sudo`, `rm`, `exit`). To add a command:
+`contact`, `theme [name]`, `clear`, `history`, `neofetch`, `ls`,
+`pwd`, `date`, `banner`, `sudo`). To add a command:
 extend that switch and add help-line text in the `HELP` const.
 
 Spotlight items: add to `src/lib/spotlight-items.ts` via
@@ -406,8 +409,8 @@ Spotlight items: add to `src/lib/spotlight-items.ts` via
 - **`useDeviceTier`** (`src/hooks/useDeviceTier.ts`): combines
   `(max-width: 767px)` + `prefers-reduced-motion` + a WebGL renderer
   sniff (regex on `WEBGL_debug_renderer_info.UNMASKED_RENDERER_WEBGL`
-  → `low`/`mid`/`high`). Single boolean `shouldUseFallback` swaps
-  between 3D/sticky paths and mobile equivalents.
+  → `low`/`mid`/`high`). Single boolean `shouldUseFallback` gates the
+  hero 3D fallback (see §8 3D components); it has no other consumers.
 
 ---
 
