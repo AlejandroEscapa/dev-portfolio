@@ -583,3 +583,41 @@ Min-height de 78vh en la sección (la ventana medía 639px a 1440×900): ~10% m�
 de aire vertical, repartido simétrico por el justify-center existente.
 
 **Gates Ronda 3:** tokens 90×4 · lint 0/10 · tests 55/55 · build OK · tsc 0/0.
+
+---
+
+# Ronda 4 — Altura de Education, dock en layout y Contact (2026-09-26)
+
+Tras la Ronda 2 el humano reportó tres frentes. Decisiones preguntadas y
+elegidas: iconos **Lucide + Simple Icons**, expansión del dock **flotando sin
+desplazar contenido** (empuje fijo colapsado), y **etiquetas visibles** en el
+formulario de contacto.
+
+### R4-1 — Education: altura asentada · COMPLETA (`db30b77`)
+
+78vh disparó la ventana a 821px (casi viewport); asentada en 65vh → **705px**
+(original 639px): aire visible sin rozar el alto de pantalla.
+
+### R4-2 — Dock: iconos y encaje · COMPLETA (`58e352e`, `8940ea0`)
+
+**Iconos:** acciones a **Lucide** (Search, SquareTerminal, Mail, FileText,
+Globe, Palette — la familia del resto del web; el dock dejaba de ser la isla
+Phosphor) y marcas oficiales vía **simple-icons**: GitHub como glifo oficial;
+LinkedIn se retiró de simple-icons en v11 (trademark) y se conserva el path
+oficial de su última versión publicada en el repo, documentado. **Desborde
+resuelto:** el botón ya no se transforma — el glifo empuja 3px y escala máx
+1.18x dentro de su área de 44px. Split de `ariaLabel` vs label visible
+("Open terminal" vs "Terminal", que antes truncaba).
+**Encaje:** `main` reserva canal izquierdo permanente de 64px en md+ (el Nav
+fixed queda a ancho completo); al expandir el rail flota sobre su margen sin
+re-flujos — verificado: el borde izquierdo de education se mantiene en 104px
+colapsado y expandido.
+
+### R4-3 — Contact profesionalizado · COMPLETA (`contact commit`)
+
+Fuera el indent arbitrario de 144px (`pl-36`) de la columna del título;
+formulario con **etiquetas visibles** mono-uppercase sobre Nombre/Email/Mensaje
+(3 claves i18n simétricas), placeholders como ejemplo; ritmo interno gap-3/p-4 →
+gap-5/p-6.
+
+**Gates Ronda 4:** tokens 90×4 · lint 0/10 · tests 55/55 · build OK · tsc 0/0.
