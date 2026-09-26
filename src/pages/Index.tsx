@@ -36,14 +36,14 @@ const Index = () => {
         {/* Vertical rhythm is declared HERE, once per section, via .section-y.
             .section-px owns horizontal padding; WindowChrome adds no margins. */}
         <div className="section-px">
-          <WindowChrome title="~/projects — ls -la" id="projects" className="max-w-none w-full section-y">
+          <WindowChrome title="~/projects — ls -la" id="projects" className="w-full max-w-6xl section-y">
             <Projects />
           </WindowChrome>
           <Trayectoria />
-          <WindowChrome title="~/education.txt" id="education" className="max-w-none w-full section-y">
+          <WindowChrome title="~/education.txt" id="education" className="w-full max-w-6xl section-y">
             <Education />
           </WindowChrome>
-          <WindowChrome title="~/contact — mail" id="contact" className="max-w-none w-full section-y">
+          <WindowChrome title="~/contact — mail" id="contact" className="w-full max-w-6xl section-y">
             <Contact />
           </WindowChrome>
         </div>
