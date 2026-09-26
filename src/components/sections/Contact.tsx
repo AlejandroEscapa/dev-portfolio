@@ -12,6 +12,7 @@ import {
   Form,
   FormField,
   FormItem,
+  FormLabel,
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
@@ -32,6 +33,8 @@ const inputCls =
 const textareaCls =
   "bg-transparent border-neutral-tint/10 text-foreground placeholder:text-muted-foreground focus-visible:border-primary/50 focus-visible:ring-1 focus-visible:ring-primary/30 focus-visible:ring-offset-0 min-h-[80px] resize-none transition-colors";
 const messageCls = "text-xs";
+const labelCls =
+  "font-mono text-label uppercase tracking-label text-muted-foreground";
 
 export const Contact = () => {
   const { t, lang } = useLanguage();
@@ -106,8 +109,9 @@ export const Contact = () => {
       {/* No internal reveal: the content rides the WindowChrome entry moment. */}
       <div className="flex-1 flex flex-col">
         <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12">
-          {/* Left: 5/12 — Title + 2nd phrase (slightly smaller, no 3rd phrase) + Location */}
-          <div className="lg:col-span-5 flex flex-col justify-center gap-8 pl-16 md:pl-24 lg:pl-36">
+          {/* Left: 5/12 — Title + 2nd phrase + Location (aligned to the app's
+              standard horizontal rhythm; no extra indentation) */}
+          <div className="lg:col-span-5 flex flex-col justify-center gap-8">
             <div className="space-y-3">
               <h2 className="text-display font-display font-bold tracking-heading leading-none">
                 {t("contact.heading")}
@@ -141,15 +145,18 @@ export const Contact = () => {
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
-                  className="grid gap-3 p-4"
+                  className="grid gap-5 p-5 md:p-6"
                 >
-                  {/* Row 1: name + email — placeholders + aria-label for a11y */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {/* Row 1: name + email — visible mono labels, placeholders as examples */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <FormField
                       control={form.control}
                       name="name"
                       render={({ field }) => (
-                        <FormItem>
+                        <FormItem className="grid gap-2">
+                          <FormLabel className={labelCls}>
+                            {t("contact.field_name")}
+                          </FormLabel>
                           <FormControl>
                             <Input
                               placeholder={t("contact.form_name")}
@@ -167,7 +174,10 @@ export const Contact = () => {
                       control={form.control}
                       name="email"
                       render={({ field }) => (
-                        <FormItem>
+                        <FormItem className="grid gap-2">
+                          <FormLabel className={labelCls}>
+                            {t("contact.field_email")}
+                          </FormLabel>
                           <FormControl>
                             <Input
                               type="email"
@@ -185,12 +195,15 @@ export const Contact = () => {
                   </div>
 
                   {/* Row 2: message + submit button — items-stretch */}
-                  <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-3 items-stretch">
+                  <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-5 items-stretch">
                     <FormField
                       control={form.control}
                       name="message"
                       render={({ field }) => (
-                        <FormItem>
+                        <FormItem className="grid gap-2">
+                          <FormLabel className={labelCls}>
+                            {t("contact.field_message")}
+                          </FormLabel>
                           <FormControl>
                             <Textarea
                               placeholder={t(
