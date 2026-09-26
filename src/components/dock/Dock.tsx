@@ -1,17 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  GithubLogo,
-  LinkedinLogo,
-  EnvelopeSimple,
-  FileText,
-  Terminal,
-  MagnifyingGlass,
-  GlobeHemisphereWest,
-  Palette,
-  CaretLeft,
-  CaretRight,
-} from "@phosphor-icons/react";
+import { FileText, Globe, Mail, Palette, Search, SquareTerminal, ChevronLeft, ChevronRight } from "lucide-react";
+import { siGithub } from "simple-icons";
 import { useDockHover } from "@/hooks/useDockHover";
 import { DockItem } from "./DockItem";
 import { ThemeMenu } from "@/components/theme-switcher/ThemeMenu";
@@ -26,12 +16,25 @@ interface DockProps {
 }
 
 const RADIUS = 56;
-const ICON_SIZE = 22;
+const ICON_SIZE = 20;
 
-function LanguageIcon({ weight = "duotone" as const }) {
+// simple-icons dropped the LinkedIn mark in v11 (trademark policy); this is
+// the official glyph path from the last published version, kept in-repo.
+const LINKEDIN_PATH =
+  "M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z";
+
+function BrandIcon({ path, className }: { path: string; className?: string }) {
+  return (
+    <svg role="img" viewBox="0 0 24 24" aria-hidden="true" className={cn("h-[18px] w-[18px] fill-current", className)}>
+      <path d={path} />
+    </svg>
+  );
+}
+
+function LanguageIcon() {
   const { lang } = useLanguage();
   return (
-    <div className="relative h-6 w-6 [perspective:600px]">
+    <div className="relative h-5 w-5 [perspective:600px]">
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={lang}
@@ -42,7 +45,7 @@ function LanguageIcon({ weight = "duotone" as const }) {
           className="absolute inset-0 flex items-center justify-center text-foreground"
           style={{ transformStyle: "preserve-3d" }}
         >
-          <GlobeHemisphereWest size={ICON_SIZE} weight={weight} />
+          <Globe size={ICON_SIZE} strokeWidth={2} />
         </motion.div>
       </AnimatePresence>
     </div>
@@ -67,20 +70,14 @@ export function Dock({ onOpenSpotlight, terminalOpen, onToggleTerminal }: DockPr
     {
       id: "spotlight",
       dockIdx: 0,
-      node: <MagnifyingGlass size={ICON_SIZE} weight="duotone" className="text-foreground" />,
+      node: <Search size={ICON_SIZE} strokeWidth={2} className="text-foreground" />,
       label: t("dock.spotlight"),
       onClick: onOpenSpotlight,
     },
     {
       id: "cli",
       dockIdx: 1,
-      node: (
-        <Terminal
-          size={ICON_SIZE}
-          weight="duotone"
-          className="text-accent transition-colors"
-        />
-      ),
+      node: <SquareTerminal size={ICON_SIZE} strokeWidth={2} className="text-accent" />,
       label: t("dock.terminal"),
       ariaLabel: terminalOpen ? t("dock.close_terminal") : t("dock.open_terminal"),
       onClick: onToggleTerminal,
@@ -94,20 +91,14 @@ export function Dock({ onOpenSpotlight, terminalOpen, onToggleTerminal }: DockPr
     {
       id: "github",
       dockIdx: 2,
-      node: <GithubLogo size={ICON_SIZE} weight="duotone" className="text-foreground" />,
+      node: <BrandIcon path={siGithub.path} className="text-foreground" />,
       label: t("dock.github"),
       onClick: () => window.open("https://github.com/alejandrooliesc", "_blank"),
     },
     {
       id: "linkedin",
       dockIdx: 3,
-      node: (
-        <LinkedinLogo
-          size={ICON_SIZE}
-          weight="duotone"
-          className="text-icon-linkedin"
-        />
-      ),
+      node: <BrandIcon path={LINKEDIN_PATH} className="text-icon-linkedin" />,
       label: t("dock.linkedin"),
       onClick: () =>
         window.open(
@@ -119,13 +110,7 @@ export function Dock({ onOpenSpotlight, terminalOpen, onToggleTerminal }: DockPr
     {
       id: "mail",
       dockIdx: 4,
-      node: (
-        <EnvelopeSimple
-          size={ICON_SIZE}
-          weight="duotone"
-          className="text-icon-mail"
-        />
-      ),
+      node: <Mail size={ICON_SIZE} strokeWidth={2} className="text-icon-mail" />,
       label: t("dock.email"),
       onClick: () => {
         window.location.href = "mailto:alejandro.oliesc97@gmail.com";
@@ -135,13 +120,7 @@ export function Dock({ onOpenSpotlight, terminalOpen, onToggleTerminal }: DockPr
     {
       id: "resume",
       dockIdx: 5,
-      node: (
-        <FileText
-          size={ICON_SIZE}
-          weight="duotone"
-          className="text-icon-resume"
-        />
-      ),
+      node: <FileText size={ICON_SIZE} strokeWidth={2} className="text-icon-resume" />,
       label: resumeFeedback ?? t("dock.resume"),
       onClick: () => {
         // TODO: drop the actual CV at public/cv.pdf — until then the click 404s.
@@ -170,7 +149,7 @@ export function Dock({ onOpenSpotlight, terminalOpen, onToggleTerminal }: DockPr
     {
       id: "theme",
       dockIdx: 7,
-      node: <Palette size={ICON_SIZE} weight="duotone" className="text-foreground" />,
+      node: <Palette size={ICON_SIZE} strokeWidth={2} className="text-foreground" />,
       label: t("dock.theme"),
       onClick: () => setThemeMenuOpen((o) => !o),
       active: themeMenuOpen,
@@ -220,7 +199,8 @@ export function Dock({ onOpenSpotlight, terminalOpen, onToggleTerminal }: DockPr
           return (
             <DockItem
               key={it.id}
-              label={("ariaLabel" in it && it.ariaLabel) || it.label}
+              label={it.label}
+              ariaLabel={"ariaLabel" in it ? it.ariaLabel : undefined}
               onClick={it.onClick}
               scale={scale}
               active={"active" in it ? it.active : false}
@@ -241,7 +221,7 @@ export function Dock({ onOpenSpotlight, terminalOpen, onToggleTerminal }: DockPr
           aria-label={expanded ? t("dock.collapse") : t("dock.expand")}
           className="mt-1 flex h-9 w-full items-center justify-center gap-2 rounded-md border border-neutral-tint/[0.06] bg-neutral-tint/[0.03] px-3 text-muted-foreground transition-all duration-200 hover:bg-neutral-tint/[0.08] hover:border-neutral-tint/[0.12] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70"
         >
-          {expanded ? <CaretLeft size={16} weight="duotone" /> : <CaretRight size={16} weight="duotone" />}
+          {expanded ? <ChevronLeft size={16} strokeWidth={2} /> : <ChevronRight size={16} strokeWidth={2} />}
           {expanded && (
             <span className="whitespace-nowrap font-mono text-xs">
               {t("dock.collapse")}
