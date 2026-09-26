@@ -12,7 +12,6 @@ import {
   Form,
   FormField,
   FormItem,
-  FormLabel,
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
@@ -33,8 +32,6 @@ const inputCls =
 const textareaCls =
   "bg-transparent border-neutral-tint/10 text-foreground placeholder:text-muted-foreground focus-visible:border-primary/50 focus-visible:ring-1 focus-visible:ring-primary/30 focus-visible:ring-offset-0 min-h-[80px] resize-none transition-colors";
 const messageCls = "text-xs";
-const labelCls =
-  "font-mono text-label uppercase tracking-label text-muted-foreground";
 
 export const Contact = () => {
   const { t, lang } = useLanguage();
@@ -108,11 +105,15 @@ export const Contact = () => {
     <section className="relative min-h-[60vh] flex flex-col justify-between pt-7 md:pt-10 pb-3 md:pb-2 gap-4 md:gap-6">
       {/* No internal reveal: the content rides the WindowChrome entry moment. */}
       <div className="flex-1 flex flex-col">
-        <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12">
-          {/* Left: 5/12 — Title + 2nd phrase + Location (aligned to the app's
-              standard horizontal rhythm; no extra indentation) */}
-          <div className="lg:col-span-5 flex flex-col justify-center gap-8">
+        <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12">
+          {/* Left half — numbered label + title + location, vertically centered
+              to mirror the form card on the right (symmetric 6/6 grid) */}
+          <div className="flex flex-col justify-center gap-8">
             <div className="space-y-3">
+              <div className="mb-4 flex items-center gap-3 text-sm uppercase tracking-label text-muted-foreground">
+                <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
+                <span>{t("contact.section_label")}</span>
+              </div>
               <h2 className="text-display font-display font-bold tracking-heading leading-none">
                 {t("contact.heading")}
               </h2>
@@ -133,9 +134,10 @@ export const Contact = () => {
             </div>
           </div>
 
-          {/* Right: 7/12 — translucent card */}
-          <div className="lg:col-span-7 flex flex-col justify-center items-center">
-            <div className="relative w-full max-w-2xl rounded-lg glass border border-neutral-tint/[0.08] overflow-hidden transition-[transform,border-color,background] duration-300 hover:-translate-y-0.5">
+          {/* Right half — the form card fills its half so both sides read as
+              equal, mirrored blocks */}
+          <div className="flex flex-col justify-center">
+            <div className="relative w-full rounded-lg glass border border-neutral-tint/[0.08] overflow-hidden transition-[transform,border-color,background] duration-300 hover:-translate-y-0.5">
               {/* Primary accent border */}
               <div
                 aria-hidden="true"
@@ -145,7 +147,7 @@ export const Contact = () => {
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
-                  className="grid gap-5 p-5 md:p-6"
+                  className="grid gap-5 p-6 md:p-8"
                 >
                   {/* Row 1: name + email — visible mono labels, placeholders as examples */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -154,9 +156,6 @@ export const Contact = () => {
                       name="name"
                       render={({ field }) => (
                         <FormItem className="grid gap-2">
-                          <FormLabel className={labelCls}>
-                            {t("contact.field_name")}
-                          </FormLabel>
                           <FormControl>
                             <Input
                               placeholder={t("contact.form_name")}
@@ -175,9 +174,6 @@ export const Contact = () => {
                       name="email"
                       render={({ field }) => (
                         <FormItem className="grid gap-2">
-                          <FormLabel className={labelCls}>
-                            {t("contact.field_email")}
-                          </FormLabel>
                           <FormControl>
                             <Input
                               type="email"
@@ -201,9 +197,6 @@ export const Contact = () => {
                       name="message"
                       render={({ field }) => (
                         <FormItem className="grid gap-2">
-                          <FormLabel className={labelCls}>
-                            {t("contact.field_message")}
-                          </FormLabel>
                           <FormControl>
                             <Textarea
                               placeholder={t(
@@ -254,10 +247,10 @@ export const Contact = () => {
           </div>
         </div>
 
-        {/* Bottom divider + signature line — pushed to the very bottom of the
-            container via flex-1 on the grid above; signature sits tight on it. */}
-        <div className="mt-auto pt-3 border-t border-neutral-tint/10">
-          <p className="text-center text-xs sm:text-[11px] font-medium text-muted-foreground/90">
+        {/* Bottom divider + signature line — a fixed-height footer band with
+            the text vertically centred on it. */}
+        <div className="mt-auto flex min-h-12 items-center justify-center border-t border-neutral-tint/10">
+          <p className="text-center text-xs sm:text-[11px] font-medium leading-none text-muted-foreground/90">
             {t("contact.signature")}
           </p>
         </div>
