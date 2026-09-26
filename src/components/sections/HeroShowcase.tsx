@@ -51,8 +51,8 @@ export function HeroShowcase({ children }: HeroShowcaseProps) {
             title="~/object.glb"
             id="hero-3d"
             // h-full fills the sticky left column; overrides WindowChrome's
-            // max-w-5xl / mx-auto / my-8 defaults.
-            className="h-full max-w-none mx-0 my-0"
+            // max-w-5xl / mx-auto defaults.
+            className="h-full max-w-none mx-0"
             fullHeight
           >
             <div className="relative h-full min-h-[360px]">

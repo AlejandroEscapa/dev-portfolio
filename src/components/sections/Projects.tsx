@@ -104,7 +104,7 @@ export const Projects = ({ id = SECTION_ID, innerRef, motionStyle }: ProjectsPro
         opacity: motionStyle?.opacity,
         willChange: "transform, opacity",
       }}
-      className={cn("relative flex min-h-[60vh] flex-col justify-center py-12")}
+      className={cn("relative flex flex-col justify-center")}
     >
       <div className="container mx-auto max-w-7xl">
         {viewMode === "carousel" && (

@@ -9,8 +9,8 @@
   "radius-full": { "$value": "9999px", "$type": "dimension", "$description": "Pill. Owned so `rounded-full` and raw CSS blocks (chips, dots, CTAs) share one value instead of each spelling 9999px." },
 
 
-  "section-gap":    { "$value": "clamp(5rem, 9vw, 8rem)",    "$type": "dimension", "$description": "Vertical rhythm owner — consumed by .section-y. Windows must NOT add their own my-* on top of it." },
-  "section-gap-sm": { "$value": "clamp(2.5rem, 5vw, 4rem)",  "$type": "dimension", "$description": "Dense blocks / intra-section spacing." },
+  "section-gap":    { "$value": "1rem", "$type": "dimension", "$description": "Vertical rhythm owner, consumed by .section-y. Calibrated to the legacy painted rhythm it replaced (WindowChrome my-8 = 32px between windows) so Phase 3 does not move the layout; retune HERE from now on. Windows must NOT add their own my-* on top of it." },
+  "section-gap-sm": { "$value": "0.875rem", "$type": "dimension", "$description": "Dense blocks / intra-section spacing (also the terminal-fog anti-FOUC headroom p-4 in Index.tsx, whose sum with section-gap is 28px = the old p-4)." },
 
 
   "nav-height":      { "$value": "60px",  "$type": "dimension", "$description": "Must match `const navHeight = 60` in Nav.tsx." },

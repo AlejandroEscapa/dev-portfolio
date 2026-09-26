@@ -31,7 +31,7 @@ export const About = ({ id = SECTION_ID, innerRef, motionStyle }: AboutProps) =>
   const { t } = useLanguage();
 
   return (
-    <SectionContainer maxWidth="lg" id={id} innerRef={innerRef} motionStyle={motionStyle} padding="py-0" className="h-full">
+    <SectionContainer maxWidth="lg" id={id} innerRef={innerRef} motionStyle={motionStyle} className="h-full">
       <div className="flex flex-col">
         <motion.div
           initial="hidden"

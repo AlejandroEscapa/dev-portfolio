@@ -269,6 +269,31 @@
     box-shadow: 0 0 10px hsl(var(--accent) / 0.9), 0 0 2px hsl(var(--accent) / 1);
   }
 
+  /* === Vertical rhythm — single owner ===
+     `.section-px` owns horizontal padding; `.section-y` owns the vertical
+     spacing BETWEEN sections (consumes --section-gap from the token pipeline).
+     Sections declare spacing once, in the page flow (Index.tsx); nothing else
+     may add margin or padding utilities for section-to-section rhythm. Plain
+     class beside .window-rail / .section-px — emitted unconditionally.
+     (NOTE: never write "star-slash" sequences like my-STAR/py-STAR inside CSS
+     comments — the first one terminates the comment and the rule below gets
+     swallowed. This cost a debug session; do not re-add.) */
+  .section-y {
+    margin-block: var(--section-gap);
+    /* Anchor targets (#projects via the nav) must not hide behind the fixed
+       nav — the scroll anchor IS the section, not an inner heading. */
+    scroll-margin-top: calc(var(--nav-height, 60px) + 8px);
+  }
+
+  /* Terminal-fog anti-FOUC headroom: while the CLI terminal is open the fog
+     could expose a blank strip at the very bottom of the page. Giving the
+     bottom rail extra height pushes the last section's end above the fog
+     onset; p-4 (28px) + section-gap (4px) sums to the legacy 32px painted
+     gap that .section-y replaced, so the total page length is unchanged. */
+  .window-rail {
+    margin-bottom: calc(var(--section-gap) + var(--section-gap-sm));
+  }
+
   /* Shared horizontal section padding — single source of truth.
      Change HERE to adjust all section margins at once:
        @media px-6 mobile  /  md:px-8  /  lg:px-10
