@@ -49,17 +49,17 @@
   "sidebar-ring":                  { "$value": "{palette.indigo.500}", "$type": "color" },
 
 
-  "surface-glass":                 { "$value": "hsl(var(--card) / 0.60)", "$type": "color", "$description": "Base material (windows, cards). Composes with --surface-glass-blur/-saturate/-border. Theme-aware via var(--card), so the old hardcoded 230 30% 10%/12% literals retire." },
-  "surface-glass-blur":            { "$value": "32px", "$type": "dimension" },
-  "surface-glass-border":          { "$value": "hsl(0 0% 100% / 0.12)", "$type": "color" },
-  "surface-glass-elevated":        { "$value": "hsl(var(--card) / 0.72)", "$type": "color", "$description": "Raised material (popovers, spotlight, theme switcher, modals)." },
-  "surface-glass-elevated-blur":   { "$value": "40px", "$type": "dimension" },
-  "surface-glass-elevated-border": { "$value": "hsl(0 0% 100% / 0.16)", "$type": "color" },
-  "surface-glass-saturate":        { "$value": "180%", "$type": "dimension" },
+  "surface-glass":                 { "$value": "hsl(var(--card) / 0.45)", "$type": "color", "$description": "Base material (.glass: bento cards, contact panel, CRT toggle). One owner for the whole recipe: colour + blur + saturate + border. Theme-aware via var(--card) -- the old hsl(230 30% 10% / 0.45) literal was blue-black in every theme." },
+  "surface-glass-blur":            { "$value": "24px", "$type": "dimension" },
+  "surface-glass-saturate":        { "$value": "160%", "$type": "dimension" },
+  "surface-glass-border":          { "$value": "hsl(var(--neutral-tint) / 0.08)", "$type": "color" },
+  "surface-glass-elevated":        { "$value": "hsl(var(--card) / 0.60)", "$type": "color", "$description": "Raised material (.glass-strong: every WindowChrome, popover, spotlight, theme switcher, the Trayectoria cards). Three duplicated 230 30% 12% / 0.6 recipes collapse here." },
+  "surface-glass-elevated-blur":   { "$value": "32px", "$type": "dimension" },
+  "surface-glass-elevated-saturate": { "$value": "180%", "$type": "dimension" },
+  "surface-glass-elevated-border": { "$value": "hsl(var(--neutral-tint) / 0.12)", "$type": "color" },
 
 
-  "icon-terminal": { "$value": "{palette.cyan.400}", "$type": "color", "$description": "Dock app-icon hues: intentionally hue-stable across themes, like OS app icons. Deliberately NOT aliased to accent/foreground — that would make the dock change hue per theme. There is intentionally no icon-github: the GitHub mark follows --foreground so it stays theme-aware." },
-  "icon-linkedin": { "$value": "210 90% 62%", "$type": "color" },
+  "icon-linkedin": { "$value": "210 90% 62%", "$type": "color", "$description": "Dock app-icon hues. The defaults are the original hand-picked values; every non-default theme overrides them with a hue taken from its own palette (see themes/*.json), so changing theme repaints the dock. The terminal icon is not here: it maps to --accent, which is the same cyan in the default theme. There is deliberately no icon-github — the mark follows --foreground so it stays theme-aware." },
   "icon-mail":     { "$value": "140 60% 60%", "$type": "color" },
   "icon-resume":   { "$value": "280 85% 72%", "$type": "color" },
 
@@ -67,5 +67,15 @@
   "shadow-glow":          { "$value": "0 0 60px hsl({palette.indigo.500} / 0.45)", "$type": "shadow", "$description": "Glow halo for primary / hero elements. Refreshed on every theme." },
   "shadow-glow-accent":   { "$value": "0 0 60px hsl({palette.cyan.400} / 0.40)",   "$type": "shadow" },
   "shadow-elegant":       { "$value": "0 25px 60px -20px hsl({palette.indigo.500} / 0.35)", "$type": "shadow" },
-  "shadow-glass":         { "$value": "0 8px 32px hsl(230 50% 2% / 0.50)",         "$type": "shadow" }
+  "shadow-glass":         { "$value": "0 8px 32px hsl(230 50% 2% / 0.50)",         "$type": "shadow" },
+  "shadow-dock":          { "$value": "0 8px 32px -8px hsl(0 0% 0% / 0.40)",        "$type": "shadow", "$description": "Dock container elevation (was an inline rgba literal)." },
+  "shadow-dock-item":     { "$value": "0 4px 20px -4px hsl(0 0% 0% / 0.30)",        "$type": "shadow", "$description": "Dock item hover lift." },
+
+
+  "neutral-tint":  { "$value": "0 0% 100%", "$type": "color", "$description": "Achromatic white. Exists so overlays, hairlines and grid lines can be written hsl(var(--neutral-tint) / <alpha>) instead of hand-written hsl(0 0% 100% / a) or hex literals." },
+  "neutral-scrim": { "$value": "0 0% 0%",   "$type": "color", "$description": "Achromatic black, for scanline/vignette scrims." },
+
+
+  "gradient-text-from": { "$value": "0 0% 100%",   "$type": "color", "$description": "The .text-gradient recipe, tokenized so it can follow a theme (it was white to grey in every theme)." },
+  "gradient-text-to":   { "$value": "230 30% 75%", "$type": "color" }
 }

@@ -6,6 +6,7 @@
   "radius-sm": { "$value": "8px",  "$type": "dimension" },
   "radius-md": { "$value": "12px", "$type": "dimension" },
   "radius-lg": { "$value": "16px", "$type": "dimension", "$description": "Base window / card radius (was the old `radius` token, which had no var() consumers)." },
+  "radius-full": { "$value": "9999px", "$type": "dimension", "$description": "Pill. Owned so `rounded-full` and raw CSS blocks (chips, dots, CTAs) share one value instead of each spelling 9999px." },
 
 
   "section-gap":    { "$value": "clamp(5rem, 9vw, 8rem)",    "$type": "dimension", "$description": "Vertical rhythm owner — consumed by .section-y. Windows must NOT add their own my-* on top of it." },

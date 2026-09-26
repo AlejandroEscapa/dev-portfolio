@@ -122,24 +122,21 @@ export const buildTokenModel = ({ sources, defaultTheme = DEFAULT_THEME, onUnres
 
 // ----- emit policy -----
 
-// Keys that get a Tailwind v4 `--color-X: hsl(var(--X))` alias in @theme inline.
-export const COLOR_ALIASES = [
-  'background','foreground','card','card-foreground','popover','popover-foreground',
-  'primary','primary-foreground','secondary','secondary-foreground',
-  'muted','muted-foreground','accent','accent-foreground',
-  'destructive','destructive-foreground','border','input','ring',
-];
-export const SIDEBAR_ALIASES = [
-  'sidebar-background','sidebar-foreground','sidebar-primary','sidebar-primary-foreground',
-  'sidebar-accent','sidebar-accent-foreground','sidebar-border','sidebar-ring',
-];
+// A token is addressable as a Tailwind colour utility exactly when its value is
+// a RAW HSL triple. Shape, not a roster: any new triple (icon-*, neutral-*,
+// mesh-*, a future palette entry) is picked up automatically, and -- the reason
+// this is a rule and not a list -- tokens that are already a full colour
+// expression (`--surface-glass: hsl(var(--card) / 0.45)`) can never be wrapped
+// into the invalid `hsl(hsl(...))`.
+export const RAW_TRIPLE_RE = /^[\d.]+\s+[\d.]+%\s+[\d.]+%$/;
+export const isRawTriple = (value) => typeof value === 'string' && RAW_TRIPLE_RE.test(value.trim());
 
 // Tailwind v4 namespaces whose *values* we own. Anything matching a prefix is
 // copied verbatim into @theme inline so Tailwind generates the matching
 // utilities (rounded-*, text-*, tracking-*, font-*) from our tokens instead of
 // from its own defaults. Adding a namespace is one string here — the emitters
 // never name an individual token.
-export const THEME_INLINE_PREFIXES = ['radius-', 'font-', 'text-', 'tracking-'];
+export const THEME_INLINE_PREFIXES = ['radius-', 'font-', 'text-', 'tracking-', 'shadow-'];
 
 // :root carries every non-dotted token EXCEPT the inline-only font families
 // (which belong in @theme inline as raw values).
@@ -171,15 +168,15 @@ export const emitCSS = ({ flat, themes, defaultTheme = DEFAULT_THEME }) => {
   rootBlock.push('}');
 
   // @theme inline -- Tailwind v4: color aliases + every namespace we own.
-  // Color aliases use the `hsl(var(--X))` wrap so Tailwind utilities
-  // (bg-primary, text-foreground, ...) get a valid CSS color even though the
-  // underlying vars store raw HSL triples (alpha-placeholder convention).
+  // Color utilities use the `hsl(var(--X))` wrap so `bg-primary`,
+  // `text-icon-linkedin`, `border-neutral-tint/10`, ... get a valid CSS color
+  // even though the underlying vars store raw HSL triples (alpha-placeholder
+  // convention). Only raw triples qualify -- see isRawTriple.
   const themeInline = ['@theme inline {'];
-  for (const t of COLOR_ALIASES) {
-    if (flat[t] !== undefined) themeInline.push('  --color-' + t + ': hsl(var(--' + t + '));');
-  }
-  for (const t of SIDEBAR_ALIASES) {
-    if (flat[t] !== undefined) themeInline.push('  --color-' + t + ': hsl(var(--' + t + '));');
+  for (const k of Object.keys(flat).sort()) {
+    if (!isEmittedToken(k, flat[k])) continue;
+    if (!isRawTriple(flat[k])) continue;
+    themeInline.push('  --color-' + k + ': hsl(var(--' + k + '));');
   }
   for (const k of Object.keys(flat).sort()) {
     if (!isEmittedToken(k, flat[k])) continue;
