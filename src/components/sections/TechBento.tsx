@@ -1,4 +1,4 @@
-import { Code2, Brain, Layout, Cloud, Wrench } from "lucide-react";
+import { Code2, Brain, Layout, Cloud } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -15,7 +15,7 @@ interface TechCategory {
   icon: LucideIcon;
   /** Spans both columns of the bento grid. DOM order must keep the 2-col
       cells adjacent to a row boundary or auto-placement leaves a hole:
-      featured(2) | languages + backend(1+1) | tools(2). */
+      frontend featured(2) | languages-tools + backend(1+1). */
   featured?: boolean;
 }
 
@@ -38,7 +38,7 @@ const CATEGORIES: TechCategory[] = [
     ],
   },
   {
-    titleKey: "tech.languages_title",
+    titleKey: "tech.lang_tools_title",
     accent: "primary",
     icon: Code2,
     items: [
@@ -47,6 +47,10 @@ const CATEGORIES: TechCategory[] = [
       { name: "PHP", svg: "/icons/php.svg", iconLucide: null },
       { name: "JavaScript", svg: "/icons/javascript.svg", iconLucide: null },
       { name: "TypeScript", svg: "/icons/ts.svg", iconLucide: null },
+      { name: "Git", svg: "/icons/git.svg", iconLucide: null },
+      { name: "Make", svg: "/icons/make.svg", iconLucide: null },
+      { name: "Swagger", svg: "/icons/swagger.svg", iconLucide: null },
+      { name: "Integración de IA", svg: null, iconLucide: Brain },
     ],
   },
   {
@@ -63,18 +67,6 @@ const CATEGORIES: TechCategory[] = [
       { name: "Supabase", svg: "/icons/supabase.svg", iconLucide: null },
       { name: "Docker", svg: "/icons/docker.svg", iconLucide: null },
       { name: "Apicalypse", svg: null, iconLucide: Code2 },
-    ],
-  },
-  {
-    titleKey: "tech.tools_title",
-    accent: "primary",
-    icon: Wrench,
-    featured: true,
-    items: [
-      { name: "Git", svg: "/icons/git.svg", iconLucide: null },
-      { name: "Make", svg: "/icons/make.svg", iconLucide: null },
-      { name: "Swagger", svg: "/icons/swagger.svg", iconLucide: null },
-      { name: "Integración de IA", svg: null, iconLucide: Brain },
     ],
   },
 ];

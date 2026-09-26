@@ -48,18 +48,9 @@ export const translations: Record<Lang, Translations> = {
     "tech.heading_before": "The tools",
     "tech.heading_after": "that matter.",
     "tech.subheading": "Pragmatism over dogma. Every choice answers a real problem.",
-    "tech.languages_title": "Languages",
-    "tech.languages_subtitle": "Native & web",
-    "tech.ai_title": "AI Stack",
-    "tech.ai_subtitle": "Agentic & local LLMs",
-    "tech.mobile_title": "Mobile",
-    "tech.mobile_subtitle": "Android & iOS",
+    "tech.lang_tools_title": "Languages & Tools",
     "tech.frontend_title": "Frontend",
-    "tech.frontend_subtitle": "Modern web",
-    "tech.databases_title": "Databases",
-    "tech.databases_subtitle": "SQL & NoSQL",
     "tech.backend_title": "Backend & Cloud",
-    "tech.tools_title": "Tools",
 
     "trayectoria.section_label": "04 \u2014 Journey",
     "trayectoria.heading_before": "My",
@@ -267,22 +258,10 @@ export const translations: Record<Lang, Translations> = {
     "tech.heading_after": "que importan.",
     "tech.subheading": "Pragmatismo sobre dogma. Cada elecci\u00f3n responde a un problema real.",
 
-    "tech.languages_title": "Lenguajes",
-    "tech.languages_subtitle": "Nativos y web",
+    "tech.lang_tools_title": "Lenguajes y Herramientas",
 
-    "tech.ai_title": "Backend",
-    "tech.ai_subtitle": "Servidor y APIs",
-
-    "tech.mobile_title": "Mobile",
-    "tech.mobile_subtitle": "Android e iOS",
-
-    "tech.frontend_title": "Frontend y Móvil",
-    "tech.frontend_subtitle": "Web y apps",
-
-    "tech.databases_title": "Herramientas",
-    "tech.databases_subtitle": "Entorno y flujo de trabajo",
+    "tech.frontend_title": "Frontend y M\u00f3vil",
     "tech.backend_title": "Backend y Cloud",
-    "tech.tools_title": "Herramientas",
 
     "trayectoria.section_label": "04 \u2014 Trayectoria",
     "trayectoria.heading_before": "Mi",
