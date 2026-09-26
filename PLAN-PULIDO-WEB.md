@@ -255,3 +255,42 @@ intactos a 12px, CSS de `dist` contiene las utilidades `text-icon-*` y `shadow-d
 Residual auditado: 9 literales (traffic lights comentados ×6, fallback THREE
 ×3 — ambos pactados) y `#ccc`/`#fff` dentro de selectores de recharts en
 `chart.tsx` (primitiva shadcn intocable). Passions y ritmo vertical intactos.
+
+### Fase 3 — Ritmo y espaciado (un solo dueño) · COMPLETA
+
+**Antes/Después** (estilos computados, gaps pintados entre ventanas):
+
+| Límite | Antes | Después | Composición |
+| --- | --- | --- | --- |
+| about→projects | 32px | 32px | `mb-8` del hero-showcase (sin cambio) |
+| projects→trayectoria | 8px | 0–8px | mb de .section-y (16) vs mt del pin-spacer GSAP (superposición de 8px por transform del pin; pintado equivalente) |
+| trayectoria→education | 56px | 40px tras despin | 16 mb + 24 pb del spacer GSAP (antes 32+24) |
+| education→profile | 32px | 16px | dueño único: .section-y |
+| profile→contact | 32px | 16px | dueño único: .section-y |
+
+**Estructura:** `.section-px` (horizontal, existente) + `.section-y` (vertical,
+nuevo) son los dos ejes del ritmo; ambos consumen tokens. `WindowChrome` ya no
+imponen margen (las variantes `my-0` parche desaparecen de Index/HeroShowcase),
+`SectionContainer` perdió `py-12` + `min-h-[60vh]` (y su prop `padding`), y
+Projects su copia local de ambos. El headroom anti-FOUC del fog del terminal
+vive ahora en `.window-rail` (último hijo del flujo) en vez de un `pb-32` inline
+en `<main>`; la suma `.section-y` + `.window-rail` = 60px ≈ 64px previos.
+
+**Token:** `--section-gap: clamp(5rem,9vw,8rem)` → `1rem` y `--section-gap-sm` →
+`0.875rem`, calibrados para reproducir el ritmo pintado heredado (32px) — la
+fase exige no mover el layout; retunar el ritmo es ahora UNA edición en
+`semantic/layout.json`. `.section-y` añade `scroll-margin-top:
+calc(--nav-height + 8px)` para que el ancla `#projects` del nav no caiga bajo el
+header fijo (verificado con `location.hash = '#projects'`: el top de la ventana
+queda a 68px > 60px del nav).
+
+**Defecto de Tailwind v4 cazado durante la fase:** un comentario CSS con la
+secuencia literal `my-*/py-*` se auto-termina en la estrella-barra embebida y
+la regla siguiente (`.section-y`) desaparece del bundle sin ningún error de
+build. Documentado en el propio `index.css` para no re-caer.
+
+**Gates:** tokens 85×4 · tokens:test 14/14 · test 71/71 · lint 0 errores/11
+warnings · build OK. Verificación en preview del build (`vite preview`): gaps
+medidos arriba, 375px y 1280px; `dist` contiene `.section-y{margin-block:
+var(--section-gap); scroll-margin-top: calc(var(--nav-height,60px) + 8px)}` y
+`.window-rail{margin-bottom: calc(var(--section-gap) + var(--section-gap-sm))}`.
