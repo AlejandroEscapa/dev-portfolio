@@ -95,16 +95,13 @@ export function Dock({ onOpenSpotlight, terminalOpen, onToggleTerminal }: DockPr
         <Terminal
           size={ICON_SIZE}
           weight="duotone"
-          className={cn(
-            "transition-colors",
-            terminalOpen ? "text-[hsl(190_95%_60%)]" : "text-cyan-300"
-          )}
+          className="text-accent transition-colors"
         />
       ),
       label: terminalOpen ? "Close terminal" : "Open terminal",
       onClick: onToggleTerminal,
       active: terminalOpen,
-      accentClass: "text-[hsl(190_95%_60%)]",
+      accentClass: "text-accent",
     },
     {
       id: "divider-1",
@@ -122,7 +119,7 @@ export function Dock({ onOpenSpotlight, terminalOpen, onToggleTerminal }: DockPr
         <LinkedinLogo
           size={ICON_SIZE}
           weight="duotone"
-          className="text-[hsl(210_90%_62%)]"
+          className="text-icon-linkedin"
         />
       ),
       label: "LinkedIn",
@@ -131,7 +128,7 @@ export function Dock({ onOpenSpotlight, terminalOpen, onToggleTerminal }: DockPr
           "https://www.linkedin.com/in/alejandro-olivares-escapa/",
           "_blank"
         ),
-      accentClass: "text-[hsl(210_90%_62%)]",
+      accentClass: "text-icon-linkedin",
     },
     {
       id: "mail",
@@ -139,14 +136,14 @@ export function Dock({ onOpenSpotlight, terminalOpen, onToggleTerminal }: DockPr
         <EnvelopeSimple
           size={ICON_SIZE}
           weight="duotone"
-          className="text-[hsl(140_60%_60%)]"
+          className="text-icon-mail"
         />
       ),
       label: "Email",
       onClick: () => {
         window.location.href = "mailto:alejandro.oliesc97@gmail.com";
       },
-      accentClass: "text-[hsl(140_60%_60%)]",
+      accentClass: "text-icon-mail",
     },
     {
       id: "resume",
@@ -154,7 +151,7 @@ export function Dock({ onOpenSpotlight, terminalOpen, onToggleTerminal }: DockPr
         <FileText
           size={ICON_SIZE}
           weight="duotone"
-          className="text-[hsl(280_85%_72%)]"
+          className="text-icon-resume"
         />
       ),
       label: resumeFeedback ?? "Resume",
@@ -168,7 +165,7 @@ export function Dock({ onOpenSpotlight, terminalOpen, onToggleTerminal }: DockPr
         link.remove();
         setResumeFeedback("Downloading…");
       },
-      accentClass: "text-[hsl(280_85%_72%)]",
+      accentClass: "text-icon-resume",
     },
     {
       id: "divider-2",
@@ -195,7 +192,7 @@ export function Dock({ onOpenSpotlight, terminalOpen, onToggleTerminal }: DockPr
         ref={ref}
         onMouseMove={onMouseMove}
         onMouseLeave={onMouseLeave}
-        className="fixed bottom-3 left-1/2 z-30 hidden -translate-x-1/2 items-end gap-1.5 rounded-xl border border-white/[0.06] bg-background/25 backdrop-blur-xl px-3 py-2 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.4)] md:flex"
+        className="fixed bottom-3 left-1/2 z-30 hidden -translate-x-1/2 items-end gap-1.5 rounded-md border border-neutral-tint/[0.06] bg-background/25 backdrop-blur-xl px-3 py-2 shadow-dock md:flex"
       >
         {items.map((it, i) => {
           if ("divider" in it && it.divider) {
@@ -203,7 +200,7 @@ export function Dock({ onOpenSpotlight, terminalOpen, onToggleTerminal }: DockPr
               <span
                 key={it.id}
                 aria-hidden="true"
-                className="mx-1 h-7 w-px bg-white/[0.08]"
+                className="mx-1 h-7 w-px bg-neutral-tint/[0.08]"
               />
             );
           }
@@ -235,7 +232,7 @@ export function Dock({ onOpenSpotlight, terminalOpen, onToggleTerminal }: DockPr
           );
         })}
       </div>
-      <div className="fixed bottom-3 left-1/2 z-30 flex -translate-x-1/2 gap-1 rounded-xl border border-white/[0.06] bg-background/25 backdrop-blur-xl px-2.5 py-1.5 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.4)] md:hidden">
+      <div className="fixed bottom-3 left-1/2 z-30 flex -translate-x-1/2 gap-1 rounded-md border border-neutral-tint/[0.06] bg-background/25 backdrop-blur-xl px-2.5 py-1.5 shadow-dock md:hidden">
         {items
           .filter((it) => !("divider" in it) && !("isLanguage" in it))
           .slice(0, 4)
@@ -244,7 +241,7 @@ export function Dock({ onOpenSpotlight, terminalOpen, onToggleTerminal }: DockPr
               key={it.id}
               onClick={"onClick" in it ? it.onClick : undefined}
               aria-label={it.label}
-              className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/[0.06] bg-white/[0.03] transition-all duration-200 hover:bg-white/[0.08] hover:border-white/[0.12]"
+              className="flex h-10 w-10 items-center justify-center rounded-md border border-neutral-tint/[0.06] bg-neutral-tint/[0.03] transition-all duration-200 hover:bg-neutral-tint/[0.08] hover:border-neutral-tint/[0.12]"
             >
               {it.node}
             </button>

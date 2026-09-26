@@ -119,11 +119,11 @@ export function TechBento() {
         return (
           <div
             key={cat.titleKey}
-            className={`glass rounded-2xl border-t-2 p-6 transition-all duration-300 hover:bg-white/[0.03] hover:-translate-y-0.5 ${accentBorder[cat.accent]}`}
+            className={`glass rounded-lg border-t-2 p-6 transition-all duration-300 hover:bg-neutral-tint/[0.03] hover:-translate-y-0.5 ${accentBorder[cat.accent]}`}
           >
             {/* Header */}
             <div className="mb-4 flex items-center gap-2">
-              <div className={`rounded-lg bg-white/[0.04] p-2 ${accentHeaderIcon[cat.accent]}`}>
+              <div className={`rounded-sm bg-neutral-tint/[0.04] p-2 ${accentHeaderIcon[cat.accent]}`}>
                 <HeaderIcon className="h-4 w-4" />
               </div>
               <h3
@@ -138,7 +138,7 @@ export function TechBento() {
               {cat.items.map((item) => (
                 <span
                   key={item.name}
-                  className="tech-chip flex items-center justify-center gap-1.5 rounded-md border border-white/[0.08] bg-white/[0.04] px-3 py-2.5 text-xs font-medium text-foreground/80 backdrop-blur-sm transition-all duration-200 hover:border-white/[0.15] hover:bg-white/[0.08] hover:text-foreground hover:shadow-[0_0_12px_hsl(var(--primary)/0.1)]"
+                  className="tech-chip flex items-center justify-center gap-1.5 rounded-sm border border-neutral-tint/[0.08] bg-neutral-tint/[0.04] px-3 py-2.5 text-xs font-medium text-foreground/80 backdrop-blur-sm transition-all duration-200 hover:border-neutral-tint/[0.15] hover:bg-neutral-tint/[0.08] hover:text-foreground hover:shadow-[0_0_12px_hsl(var(--primary)/0.1)]"
                   style={{ minWidth: "calc(33.333% - 6px)", flex: "1 1 0" }}
                 >
                   <TechIcon item={item} accent={cat.accent} />

@@ -85,7 +85,7 @@ export const Nav = () => {
       }`}
     >
       <div
-        className={`flex items-center justify-center px-5 py-3 transition-all duration-200 ease-out border-b border-white/[0.06] ${
+        className={`flex items-center justify-center px-5 py-3 transition-all duration-200 ease-out border-b border-neutral-tint/[0.06] ${
           scrolled
             ? "bg-background/60 backdrop-blur-xl"
             : "bg-background/30 backdrop-blur-md"
@@ -106,7 +106,7 @@ export const Nav = () => {
               {t(l.labelKey)}
             </a>
           ))}
-          <kbd className="ml-1 hidden items-center gap-0.5 rounded border border-white/10 bg-white/5 px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground md:inline-flex">⌘K</kbd>
+          <kbd className="ml-1 hidden items-center gap-0.5 rounded border border-neutral-tint/10 bg-neutral-tint/5 px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground md:inline-flex">⌘K</kbd>
         </div>
       </div>
     </nav>

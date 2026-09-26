@@ -29,9 +29,9 @@ import {
 type BrandIcon = () => ReactElement;
 
 const inputCls =
-  "h-11 bg-transparent border-white/10 text-foreground placeholder:text-muted-foreground focus-visible:border-primary/50 focus-visible:ring-1 focus-visible:ring-primary/30 focus-visible:ring-offset-0 transition-colors";
+  "h-11 bg-transparent border-neutral-tint/10 text-foreground placeholder:text-muted-foreground focus-visible:border-primary/50 focus-visible:ring-1 focus-visible:ring-primary/30 focus-visible:ring-offset-0 transition-colors";
 const textareaCls =
-  "bg-transparent border-white/10 text-foreground placeholder:text-muted-foreground focus-visible:border-primary/50 focus-visible:ring-1 focus-visible:ring-primary/30 focus-visible:ring-offset-0 min-h-[80px] resize-none transition-colors";
+  "bg-transparent border-neutral-tint/10 text-foreground placeholder:text-muted-foreground focus-visible:border-primary/50 focus-visible:ring-1 focus-visible:ring-primary/30 focus-visible:ring-offset-0 min-h-[80px] resize-none transition-colors";
 const messageCls = "text-xs";
 
 export const Contact = () => {
@@ -137,7 +137,7 @@ export const Contact = () => {
 
           {/* Right: 7/12 — translucent card */}
           <div className="lg:col-span-7 flex flex-col justify-center items-center">
-            <div className="relative w-full max-w-2xl rounded-xl glass border border-white/[8%] overflow-hidden transition-[transform,border-color,background] duration-300 hover:-translate-y-0.5">
+            <div className="relative w-full max-w-2xl rounded-lg glass border border-neutral-tint/[0.08] overflow-hidden transition-[transform,border-color,background] duration-300 hover:-translate-y-0.5">
               {/* Primary accent border */}
               <div
                 aria-hidden="true"
@@ -226,7 +226,7 @@ export const Contact = () => {
               </Form>
 
               {/* Divider + signed social icons (no chip wrapper, larger icons) */}
-              <div className="border-t border-white/10 px-5 py-3 flex flex-wrap items-center justify-center gap-5">
+              <div className="border-t border-neutral-tint/10 px-5 py-3 flex flex-wrap items-center justify-center gap-5">
                 {socials.map((s) => {
                   const Icon = s.Icon;
                   return (
@@ -249,7 +249,7 @@ export const Contact = () => {
 
         {/* Bottom divider + signature line — pushed to the very bottom of the
             container via flex-1 on the grid above; signature sits tight on it. */}
-        <div className="mt-auto pt-3 border-t border-white/10">
+        <div className="mt-auto pt-3 border-t border-neutral-tint/10">
           <p className="text-center text-xs sm:text-[11px] font-medium text-muted-foreground/90">
             {t("contact.signature")}
           </p>

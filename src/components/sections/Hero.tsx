@@ -31,7 +31,7 @@ export const Hero = () => {
         <div className="flex flex-wrap gap-3">
           <a
             href="#projects"
-            className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.03] px-5 py-2.5 text-sm font-medium text-foreground backdrop-blur-sm transition-all duration-300 hover:border-primary/40 hover:bg-white/[0.06] hover:shadow-[0_0_20px_hsl(248_90%_66%/0.15)]"
+            className="inline-flex items-center gap-2 rounded-lg border border-neutral-tint/10 bg-neutral-tint/[0.03] px-5 py-2.5 text-sm font-medium text-foreground backdrop-blur-sm transition-all duration-300 hover:border-primary/40 hover:bg-neutral-tint/[0.06] hover:shadow-[0_0_20px_hsl(var(--primary)/0.15)]"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z" />
@@ -41,7 +41,7 @@ export const Hero = () => {
           </a>
           <a
             href="#contact"
-            className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.03] px-5 py-2.5 text-sm font-medium text-foreground backdrop-blur-sm transition-all duration-300 hover:border-accent/40 hover:bg-white/[0.06] hover:shadow-[0_0_20px_hsl(190_95%_60%/0.15)]"
+            className="inline-flex items-center gap-2 rounded-lg border border-neutral-tint/10 bg-neutral-tint/[0.03] px-5 py-2.5 text-sm font-medium text-foreground backdrop-blur-sm transition-all duration-300 hover:border-accent/40 hover:bg-neutral-tint/[0.06] hover:shadow-[0_0_20px_hsl(var(--accent)/0.15)]"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />

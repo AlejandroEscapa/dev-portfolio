@@ -56,7 +56,7 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(to right, transparent 0%, hsl(0 0% 100% / 0.18) 1.5%, hsl(0 0% 100% / 0.22) 50%, hsl(0 0% 100% / 0.18) 98.5%, transparent 100%);
+  background: linear-gradient(to right, transparent 0%, hsl(var(--neutral-tint) / 0.18) 1.5%, hsl(var(--neutral-tint) / 0.22) 50%, hsl(var(--neutral-tint) / 0.18) 98.5%, transparent 100%);
   transform: translateY(-50%);
   z-index: 1;
   pointer-events: none;
@@ -81,8 +81,8 @@
   transform: translate(-50%, -50%);
   width: 12px;
   height: 12px;
-  background: white;
-  border-radius: 50%;
+  background: hsl(var(--neutral-tint));
+  border-radius: var(--radius-full);
   z-index: 3;
 }
 
@@ -131,7 +131,7 @@
   pointer-events: auto;
   display: flex;
   flex-direction: column;
-  border-radius: 1rem;
+  border-radius: var(--radius-lg);
   transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
@@ -141,30 +141,30 @@
 }
 
 .cardMilestone {
-  background: hsl(230 30% 12% / 0.6);
-  backdrop-filter: blur(32px) saturate(180%);
-  -webkit-backdrop-filter: blur(32px) saturate(180%);
-  border: 1px solid hsl(0 0% 100% / 0.12);
+  background: var(--surface-glass-elevated);
+  backdrop-filter: blur(var(--surface-glass-elevated-blur)) saturate(var(--surface-glass-elevated-saturate));
+  -webkit-backdrop-filter: blur(var(--surface-glass-elevated-blur)) saturate(var(--surface-glass-elevated-saturate));
+  border: 1px solid var(--surface-glass-elevated-border);
   padding: 18px;
   gap: 4px;
   height: 200px;
 }
 
 .cardExperience {
-  background: hsl(230 30% 12% / 0.6);
-  backdrop-filter: blur(32px) saturate(180%);
-  -webkit-backdrop-filter: blur(32px) saturate(180%);
-  border: 1px solid hsl(0 0% 100% / 0.12);
+  background: var(--surface-glass-elevated);
+  backdrop-filter: blur(var(--surface-glass-elevated-blur)) saturate(var(--surface-glass-elevated-saturate));
+  -webkit-backdrop-filter: blur(var(--surface-glass-elevated-blur)) saturate(var(--surface-glass-elevated-saturate));
+  border: 1px solid var(--surface-glass-elevated-border);
   padding: 20px;
   gap: 8px;
   height: 260px;
 }
 
 .cardCta {
-  background: hsl(230 30% 12% / 0.6);
-  backdrop-filter: blur(32px) saturate(180%);
-  -webkit-backdrop-filter: blur(32px) saturate(180%);
-  border: 1px solid hsl(0 0% 100% / 0.12);
+  background: var(--surface-glass-elevated);
+  backdrop-filter: blur(var(--surface-glass-elevated-blur)) saturate(var(--surface-glass-elevated-saturate));
+  -webkit-backdrop-filter: blur(var(--surface-glass-elevated-blur)) saturate(var(--surface-glass-elevated-saturate));
+  border: 1px solid var(--surface-glass-elevated-border);
   padding: 32px 32px;
   gap: 12px;
   align-items: center;
@@ -194,7 +194,7 @@
 }
 
 .cardDate {
-  font-family: var(--font-mono, ui-monospace, monospace);
+  font-family: var(--font-mono);
   font-size: 0.68rem;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -261,7 +261,7 @@
   display: inline-block;
   width: 4px;
   height: 4px;
-  border-radius: 50%;
+  border-radius: var(--radius-full);
   background: hsl(var(--primary));
   margin-top: 6px;
   flex-shrink: 0;
@@ -273,15 +273,15 @@
   gap: 5px;
   margin-top: 6px;
   padding-top: 6px;
-  border-top: 1px solid hsl(0 0% 100% / 0.08);
+  border-top: 1px solid hsl(var(--neutral-tint) / 0.08);
 }
 
 .techTag {
   display: inline-block;
   padding: 2px 9px;
-  border-radius: 9999px;
-  border: 1px solid hsl(0 0% 100% / 0.1);
-  background: hsl(0 0% 100% / 0.04);
+  border-radius: var(--radius-full);
+  border: 1px solid hsl(var(--neutral-tint) / 0.1);
+  background: hsl(var(--neutral-tint) / 0.04);
   font-size: 0.66rem;
   color: hsl(var(--foreground) / 0.9);
 }
@@ -368,8 +368,8 @@
   left: -22px;
   width: 12px;
   height: 12px;
-  background: white;
-  border-radius: 50%;
+  background: hsl(var(--neutral-tint));
+  border-radius: var(--radius-full);
   z-index: 2;
 }
 

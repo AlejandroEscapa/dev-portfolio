@@ -31,9 +31,9 @@ export function Hero3D() {
       const primaryTriple = style.getPropertyValue('--primary').trim();
       const primaryCss = primaryTriple ? `hsl(${primaryTriple})` : '';
       try {
-        materialRef.current.color.set(primaryCss || '#7c5cff');
+        materialRef.current.color.set(primaryCss || 'rgb(124 92 255)');
       } catch {
-        materialRef.current.color.set('#7c5cff');
+        materialRef.current.color.set('rgb(124 92 255)');
       }
     };
     updateColor();
@@ -59,7 +59,8 @@ export function Hero3D() {
   return (
     <Float speed={reduced ? 0 : 2} rotationIntensity={reduced ? 0 : 0.5} floatIntensity={reduced ? 0 : 0.8}>
       <Icosahedron ref={ref} args={[1.2, 1]}>
-        <meshBasicMaterial ref={materialRef} color="#7c5cff" wireframe />
+        {/* rgb(124 92 255) == --primary's indigo default; THREE.Color needs a literal, not a var() */}
+        <meshBasicMaterial ref={materialRef} color="rgb(124 92 255)" wireframe />
       </Icosahedron>
     </Float>
   );

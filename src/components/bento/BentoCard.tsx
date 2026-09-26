@@ -14,7 +14,7 @@ export function BentoCard({ children, colSpan = 1, rowSpan = 1, className, title
   return (
     <div
       className={cn(
-        "group relative overflow-hidden rounded-2xl border border-white/10 glass p-5 transition-all duration-300 hover-glow",
+        "group relative overflow-hidden rounded-lg border border-neutral-tint/10 glass p-5 transition-all duration-300 hover-glow",
         colSpan === 2 && "md:col-span-2",
         colSpan === 3 && "md:col-span-3",
         colSpan === 4 && "md:col-span-4",

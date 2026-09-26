@@ -51,7 +51,7 @@ function Vinyl({ className, style, accentColor, accentSoft, static: isStatic = f
         <circle cx="100" cy="100" r="32" stroke={accentColor} strokeOpacity="0.5" strokeWidth="0.4" fill="none" strokeDasharray="2 2" />
 
         <circle cx="100" cy="100" r="4" fill={accentColor} fillOpacity="0.8" />
-        <circle cx="100" cy="100" r="1.4" fill="hsl(230 25% 6%)" />
+        <circle cx="100" cy="100" r="1.4" fill="hsl(var(--background))" />
 
         {/* Play checkmark — pulses opacity [0.5, 1, 0.5] every 2s. */}
         <motion.path

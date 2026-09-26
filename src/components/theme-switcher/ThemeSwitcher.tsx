@@ -12,7 +12,7 @@ export function ThemeSwitcher() {
     <div className="relative">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 transition-all hover:scale-110 hover:bg-white/10"
+        className="flex h-12 w-12 items-center justify-center rounded-lg bg-neutral-tint/5 transition-all hover:scale-110 hover:bg-neutral-tint/10"
         aria-label="Change theme"
         data-testid="theme-switcher-trigger"
       >
@@ -25,7 +25,7 @@ export function ThemeSwitcher() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.95 }}
             transition={{ duration: 0.15 }}
-            className="absolute bottom-16 left-1/2 -translate-x-1/2 rounded-xl glass-strong p-2 min-w-[200px]"
+            className="absolute bottom-16 left-1/2 -translate-x-1/2 rounded-lg glass-strong p-2 min-w-[200px]"
             onMouseLeave={() => setOpen(false)}
           >
             {(Object.keys(THEMES) as ThemeId[]).map((id) => (
@@ -33,7 +33,7 @@ export function ThemeSwitcher() {
                 key={id}
                 onClick={() => { setTheme(id); setOpen(false); }}
                 className={`flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors ${
-                  theme === id ? "bg-white/10 text-foreground" : "text-muted-foreground hover:bg-white/5 hover:text-foreground"
+                  theme === id ? "bg-neutral-tint/10 text-foreground" : "text-muted-foreground hover:bg-neutral-tint/5 hover:text-foreground"
                 }`}
               >
                 <span>{THEMES[id].emoji}</span>

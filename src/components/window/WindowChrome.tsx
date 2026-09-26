@@ -25,9 +25,10 @@ export function WindowChrome({ title, id, children, className, defaultOpen = tru
       className={cn("relative mx-auto my-8 max-w-5xl", className)}
     >
       {open && (
-        <div className={cn("overflow-hidden rounded-2xl border border-white/10 glass-strong shadow-2xl", fullHeight && "h-full flex flex-col")}>
-          <div className="flex items-center gap-2 border-b border-white/5 bg-white/[0.02] px-4 py-3">
+        <div className={cn("overflow-hidden rounded-lg border border-neutral-tint/10 glass-strong shadow-2xl", fullHeight && "h-full flex flex-col")}>
+          <div className="flex items-center gap-2 border-b border-neutral-tint/5 bg-neutral-tint/[0.02] px-4 py-3">
             <div className="flex items-center gap-1.5">
+              {/* macOS traffic lights: intentionally literal — they must stay Apple red/amber/green in every theme. */}
               <button
                 data-traffic-light="close"
                 onClick={() => setOpen(false)}
@@ -66,7 +67,7 @@ export function WindowChrome({ title, id, children, className, defaultOpen = tru
           onClick={() => setOpen(true)}
           className="mx-auto flex items-center gap-2 rounded-full liquid-glass px-4 py-2 text-xs text-muted-foreground"
         >
-          <span className="h-2 w-2 rounded-full bg-[#28c840]" />
+          <span className="h-2 w-2 rounded-full bg-[#28c840]" /> {/* macOS traffic light: intentionally literal. */}
           {title}
         </button>
       )}

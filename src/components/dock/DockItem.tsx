@@ -26,9 +26,9 @@ export function DockItem({
       animate={{ scale: 1 + scale * 0.4, y: -scale * 20 }}
       transition={{ type: "spring", stiffness: 350, damping: 22 }}
       className={cn(
-        "group relative flex h-12 w-12 items-center justify-center rounded-xl border border-white/[0.06] bg-white/[0.03] transition-all duration-200",
-        "hover:bg-white/[0.08] hover:border-white/[0.12] hover:shadow-[0_4px_20px_-4px_rgba(0,0,0,0.3)]",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(190_95%_60%/0.7)]",
+        "group relative flex h-12 w-12 items-center justify-center rounded-md border border-neutral-tint/[0.06] bg-neutral-tint/[0.03] transition-all duration-200",
+        "hover:bg-neutral-tint/[0.08] hover:border-neutral-tint/[0.12] hover:shadow-dock-item",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70",
         active && "dock-item-active"
       )}
       aria-label={label}
@@ -46,10 +46,10 @@ export function DockItem({
       {active && (
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute -bottom-2 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-[hsl(190_95%_60%)] dock-item-active-dot"
+          className="pointer-events-none absolute -bottom-2 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-accent dock-item-active-dot"
         />
       )}
-      <span className="pointer-events-none absolute -top-8 whitespace-nowrap rounded-md bg-zinc-900/85 px-2 py-1 text-[10px] font-mono text-foreground opacity-0 backdrop-blur-sm shadow-lg ring-1 ring-white/10 transition-all duration-200 group-hover:-translate-y-0.5 group-hover:opacity-100">
+      <span className="pointer-events-none absolute -top-8 whitespace-nowrap rounded-md bg-popover/85 px-2 py-1 text-[10px] font-mono text-foreground opacity-0 backdrop-blur-sm shadow-lg ring-1 ring-neutral-tint/10 transition-all duration-200 group-hover:-translate-y-0.5 group-hover:opacity-100">
         {label}
       </span>
     </motion.button>

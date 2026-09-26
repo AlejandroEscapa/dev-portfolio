@@ -83,11 +83,11 @@ export const Education = ({ id = SECTION_ID, innerRef, motionStyle }: EducationP
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-80px" }}
                 transition={{ duration: 0.7, delay: i * 0.1 }}
-                className="group relative overflow-hidden rounded-3xl glass p-8 hover-glow"
+                className="group relative overflow-hidden rounded-lg glass p-8 hover-glow"
               >
                 <div className={`absolute -right-20 -top-20 h-48 w-48 rounded-full blur-3xl ${it.glow}`} />
                 <div className="relative">
-                  <div className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${it.accent}`}>
+                  <div className={`flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-br ${it.accent}`}>
                     <Icon className="h-6 w-6 text-primary-foreground" />
                   </div>
                   <p className="mt-6 text-xs uppercase tracking-[0.2em] text-muted-foreground">
@@ -114,7 +114,7 @@ export const Education = ({ id = SECTION_ID, innerRef, motionStyle }: EducationP
                       {it.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="rounded-full border border-white/10 px-3 py-1 text-xs text-muted-foreground"
+                          className="rounded-full border border-neutral-tint/10 px-3 py-1 text-xs text-muted-foreground"
                         >
                           {tag}
                         </span>
@@ -124,7 +124,7 @@ export const Education = ({ id = SECTION_ID, innerRef, motionStyle }: EducationP
 
                   {it.credential && (
                     <>
-                      <div className="mt-6 rounded-xl border border-white/10 bg-black/30 p-4">
+                      <div className="mt-6 rounded-lg border border-neutral-tint/10 bg-neutral-scrim/30 p-4">
                         <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
                           {t("education.credential_label")}
                         </p>
