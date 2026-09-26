@@ -274,8 +274,9 @@ Real order top → bottom:
    `index.html` primes the LCP fetch.
 2. `Nav` — fixed top, hidden until scroll past `#projects`,
    active-section tracking via rAF-light scroll listener.
-3. `HeroShowcase` — left: sticky 3D wireframe window (R3F + drei);
-   right: stacked `WindowChrome` Welcome (`<Hero>`) + About
+3. `HeroShowcase` — left: sticky 3D window (lazy `HeroScene`, GLB
+   figure on a holo pedestal — see 3D components below); right:
+   stacked `WindowChrome` Welcome (`<Hero>`) + About
    (`<TechBento>`). Both right-side windows are `viewport-content`
    (i.e. `100vh − --nav-height`) so they line up with the sticky
    3D column. Mobile falls back to a vertical stack with the 3D at
@@ -326,15 +327,35 @@ Real list (no longer matches the AGENTS.md in old branches):
 
 ### 3D components (`src/components/three/`)
 
-- `Scene.tsx` — `<Canvas>` w/ WebGL2 + WebGL fallback.
-- `Hero3D.tsx` — wireframe rotating figure behind a primary glow,
-  rendered into the `HeroShowcase` left column.
-- `Icon3D.tsx` + `TechStack3D.tsx` — 3D tech icons.
+- `Scene.tsx` — reusable `<Canvas>` wrapper (`camera`, `dpr`,
+  `frameloop` props; WebGL2 + WebGL fallback).
+- `HeroScene.tsx` — the hero 3D window content, **lazy-loaded** via
+  `React.lazy` from `HeroShowcase` (the whole three/fiber/drei/
+  postprocessing tree lives in a separate chunk). "Holographic
+  capsule" presentation of the hero GLB — design contract in
+  `PROPUESTAS-3D-HERO.md`. Owns the render policy: frameloop
+  `never` when the hero is out of viewport (IntersectionObserver),
+  `demand` for static fallback paths, `always` otherwise + Bloom/
+  Vignette (skipped on the fallback path).
+- `HoloFigure.tsx` — GLB figure (useGLTF + self-hosted Draco decoder
+  in `public/draco/`), pedestal with accent-emissive ring,
+  GSAP materialisation (scan-ring sweep + fade/rise, rooted in
+  `gsap.context`), turntable + mouse parallax, hover → rim-light
+  kick. All motion gated by a `motion` flag
+  (`!prefersReducedMotion && !shouldUseFallback`).
+- `Icon3D.tsx` + `TechStack3D.tsx` — 3D tech icons (historical, no
+  consumers).
 
-`useDeviceTier.shouldUseFallback` was the switch between sticky 3D
-paths and mobile fallbacks; its last consumer (ProfileShowcase) was
-removed, so the hook currently has **zero consumers** — kept on disk
-pending a decision (wire it into the hero 3D, or delete it).
+Theme colours inside the 3D scene come from `useCssColor`
+(`src/hooks/useCssColor.ts`) — MutationObserver on `data-theme`
+reading raw HSL triples and emitting comma-separated `hsl(h, s%, l%)`
+(THREE.Color's parser rejects the modern space-separated syntax —
+materials silently fall back to white if you change this).
+
+`useDeviceTier` is consumed by `HeroScene`: `shouldUseFallback`
+(mobile, reduced motion, or low GPU tier) → static pose
+(`frameloop="demand"`), no postprocessing, no float/materialisation.
+Mid/high tiers get the full experience.
 
 ### Window chrome (`src/components/window/`)
 
@@ -464,6 +485,13 @@ Source-of-truth for the following, located in `public/`:
   Swagger). All rendered at `18×18` in `TechBento` chips.
 - Project media: `gamevision-demo.mp4`, `matchvision-demo.mp4`,
   `casahumedo-preview.png`.
+- Hero 3D model: `3d/zoro-fanko-pop-draco.glb` (Draco-compressed,
+  ~1.2 MB, 264k tris) — the ONLY file served to the browser. The
+  16 MB source `3d/zoro_fanko_pophigh-poly.glb` stays in the repo as
+  reference; never import it. Draco decoder is self-hosted in
+  `draco/` (no CDN). Regenerate the compressed asset from the source
+  with `npx @gltf-transform/cli` (`dedup`, `prune`, `optimize
+  --compress draco --texture-compress webp`).
 - `cv.pdf` — resume. **Currently 404s** (TODO — Dock "Resume" item
   flashes "Downloading…" then fails silently).
 - `logo1.svg` — favicon + OG image.
@@ -505,9 +533,9 @@ Source-of-truth for the following, located in `public/`:
     (theme, lang, CRT, boot-seen) is intentionally per-key
     `localStorage`. Avoid adding a global preferences store until that's
     a real ask.
-11. **Don't reintroduce `useDeviceTier().shouldUseFallback` consumers
-    casually.** Its last consumer (ProfileShowcase) was removed with the
-    Passions section; the hook is kept on disk **without consumers**
-    pending a human decision (wire it into the hero 3D, or delete it).
-    New heavy effects that need a capability gate should reuse it — but
-    that means re-deciding its fate first, not silently reviving it.
+11. **`useDeviceTier` has a single sanctioned consumer: `HeroScene`.**
+    The hero 3D (branch `3d-design`) wired it in as the fallback gate —
+    that decision is made and recorded in `PROPUESTAS-3D-HERO.md`. Any
+    NEW heavy effect may reuse it, but don't spread it across small
+    components casually; it creates a WebGL context just to sniff the
+    GPU string.
