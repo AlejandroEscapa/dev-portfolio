@@ -1,13 +1,18 @@
 {
-  "$description": "Theme-invariant layout tokens. Edit here to retune app-wide measurements.",
+  "$description": "Theme-invariant layout tokens. Edit here to retune app-wide measurements. The radius steps feed Tailwind's --radius-* namespace (utilities rounded-xs/sm/md/lg); section-gap* is the single owner of the vertical rhythm between sections.",
 
 
-  "radius":          { "$value": "1rem",                          "$type": "dimension", "$description": "Base border-radius." },
-  "radius-sm":       { "$value": "calc({radius} - 8px)",          "$type": "dimension" },
-  "radius-md":       { "$value": "calc({radius} - 4px)",          "$type": "dimension" },
-  "radius-lg":       { "$value": "{radius}",                      "$type": "dimension" },
+  "radius-xs": { "$value": "4px",  "$type": "dimension", "$description": "Radius scale, monotonic. Rule: inner radius = outer radius - padding." },
+  "radius-sm": { "$value": "8px",  "$type": "dimension" },
+  "radius-md": { "$value": "12px", "$type": "dimension" },
+  "radius-lg": { "$value": "16px", "$type": "dimension", "$description": "Base window / card radius (was the old `radius` token, which had no var() consumers)." },
 
-  "nav-height":      { "$value": "60px",                          "$type": "dimension", "$description": "Must match `const navHeight = 60` in Nav.tsx." },
-  "hero-pad-top":    { "$value": "32px",                          "$type": "dimension" },
-  "projects-stage-h":{ "$value": "640px",                         "$type": "dimension", "$description": "Floor: 54 chips+margin + 580 card min-height." }
+
+  "section-gap":    { "$value": "clamp(5rem, 9vw, 8rem)",    "$type": "dimension", "$description": "Vertical rhythm owner — consumed by .section-y. Windows must NOT add their own my-* on top of it." },
+  "section-gap-sm": { "$value": "clamp(2.5rem, 5vw, 4rem)",  "$type": "dimension", "$description": "Dense blocks / intra-section spacing." },
+
+
+  "nav-height":      { "$value": "60px",  "$type": "dimension", "$description": "Must match `const navHeight = 60` in Nav.tsx." },
+  "hero-pad-top":    { "$value": "32px",  "$type": "dimension" },
+  "projects-stage-h":{ "$value": "640px", "$type": "dimension", "$description": "Floor: 54 chips+margin + 580 card min-height." }
 }

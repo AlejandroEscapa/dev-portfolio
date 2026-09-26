@@ -1,5 +1,5 @@
 {
-  "$description": "Semantic color tier. Raw HSL triples — consumers compose with `hsl(var(--token) / <alpha>)`. Values here ARE the Indigo / default theme runtime values (mesh-4 is green-teal to harmonize with pexels background, matching the themes/indigo.json override — repeated here so no [data-theme=\"indigo\"] block is needed for users with no data-theme attr). Per-theme overrides live in themes/*.json.",
+  "$description": "Semantic color tier. Raw HSL triples — consumers compose with `hsl(var(--token) / <alpha>)`. Values here ARE the Indigo / default theme runtime values (mesh-4 is green-teal to harmonize with pexels background, matching the themes/indigo.json override — repeated here so no [data-theme=\"indigo\"] block is needed for users with no data-theme attr). Per-theme overrides live in themes/*.json. Two extra groups live here: `surface-glass*` (the consolidated window/popover material, replacing the six ad-hoc glass recipes) and `icon-*` (the dock's app-icon hues).",
 
 
   "background":            { "$value": "230 35% 5%",   "$type": "color", "$description": "Page surface background." },
@@ -21,7 +21,7 @@
   "secondary":             { "$value": "230 25% 14%",  "$type": "color" },
   "secondary-foreground":  { "$value": "210 40% 98%",  "$type": "color" },
   "muted":                 { "$value": "230 20% 14%",  "$type": "color" },
-  "muted-foreground":      { "$value": "230 15% 65%",  "$type": "color" },
+  "muted-foreground":      { "$value": "230 15% 65%",  "$type": "color", "$description": "Secondary text. Asserted >=4.5:1 against both background and card for every theme by src/scripts/token-contrast.test.ts." },
 
 
   "destructive":            { "$value": "{status.destructive}",            "$type": "color" },
@@ -47,6 +47,21 @@
   "sidebar-accent-foreground":     { "$value": "210 40% 98%",  "$type": "color" },
   "sidebar-border":                { "$value": "230 25% 18%",  "$type": "color" },
   "sidebar-ring":                  { "$value": "{palette.indigo.500}", "$type": "color" },
+
+
+  "surface-glass":                 { "$value": "hsl(var(--card) / 0.60)", "$type": "color", "$description": "Base material (windows, cards). Composes with --surface-glass-blur/-saturate/-border. Theme-aware via var(--card), so the old hardcoded 230 30% 10%/12% literals retire." },
+  "surface-glass-blur":            { "$value": "32px", "$type": "dimension" },
+  "surface-glass-border":          { "$value": "hsl(0 0% 100% / 0.12)", "$type": "color" },
+  "surface-glass-elevated":        { "$value": "hsl(var(--card) / 0.72)", "$type": "color", "$description": "Raised material (popovers, spotlight, theme switcher, modals)." },
+  "surface-glass-elevated-blur":   { "$value": "40px", "$type": "dimension" },
+  "surface-glass-elevated-border": { "$value": "hsl(0 0% 100% / 0.16)", "$type": "color" },
+  "surface-glass-saturate":        { "$value": "180%", "$type": "dimension" },
+
+
+  "icon-terminal": { "$value": "{palette.cyan.400}", "$type": "color", "$description": "Dock app-icon hues: intentionally hue-stable across themes, like OS app icons. Deliberately NOT aliased to accent/foreground — that would make the dock change hue per theme. There is intentionally no icon-github: the GitHub mark follows --foreground so it stays theme-aware." },
+  "icon-linkedin": { "$value": "210 90% 62%", "$type": "color" },
+  "icon-mail":     { "$value": "140 60% 60%", "$type": "color" },
+  "icon-resume":   { "$value": "280 85% 72%", "$type": "color" },
 
 
   "shadow-glow":          { "$value": "0 0 60px hsl({palette.indigo.500} / 0.45)", "$type": "shadow", "$description": "Glow halo for primary / hero elements. Refreshed on every theme." },

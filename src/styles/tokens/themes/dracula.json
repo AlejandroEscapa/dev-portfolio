@@ -1,5 +1,5 @@
 {
-  "$description": "Dracula — community palette. Preserved literally. Do not amend.",
+  "$description": "Dracula — community palette. Preserved literally, with one sanctioned deviation: muted-foreground lightness 55% -> 60% for WCAG AA (measured 4.74:1 on card, was 4.00:1). Do not amend anything else.",
 
 
   "overrides": {
@@ -16,7 +16,7 @@
     "secondary":            "290 12% 20%",
     "secondary-foreground": "290 10% 92%",
     "muted":                "290 12% 20%",
-    "muted-foreground":     "290 8% 55%",
+    "muted-foreground":     "290 8% 60%",
     "accent":               "140 55% 60%",
     "accent-foreground":    "290 15% 12%",
     "border":               "290 12% 25%",

@@ -1,5 +1,5 @@
 {
-  "$description": "Tokyo Night — community palette. Preserved literally. Do not amend.",
+  "$description": "Tokyo Night — community palette. Preserved literally, with one sanctioned deviation: muted-foreground lightness 55% -> 60% for WCAG AA (measured 5.24:1 on card, was 4.38:1). Do not amend anything else.",
 
 
   "overrides": {
@@ -16,7 +16,7 @@
     "secondary":            "260 18% 18%",
     "secondary-foreground": "240 15% 88%",
     "muted":                "260 18% 18%",
-    "muted-foreground":     "260 10% 55%",
+    "muted-foreground":     "260 10% 60%",
     "accent":               "320 60% 68%",
     "accent-foreground":    "260 25% 12%",
     "border":               "260 18% 22%",

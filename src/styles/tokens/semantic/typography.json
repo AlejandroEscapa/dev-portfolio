@@ -1,8 +1,24 @@
 {
-  "$description": "Theme-invariant typography. Fonts loaded via Google Fonts link in index.html.",
+  "$description": "Theme-invariant typography: font families + the display scale + tracking. Fonts loaded via the single Google Fonts <link> in index.html. The scale exists so sections stop inventing their own clamp(): text-* tokens are emitted into Tailwind's --text-* namespace (utilities text-display/text-h1/...) and tracking-* into --tracking-*. Line-heights stay utilities on purpose.",
 
 
-  "font-display": { "$value": "\"Space Grotesk\", system-ui, sans-serif",      "$type": "fontFamily", "$description": "Headings." },
-  "font-sans":    { "$value": "\"Inter\", system-ui, sans-serif",              "$type": "fontFamily", "$description": "Body UI text." },
-  "font-mono":    { "$value": "\"Courier Prime\", \"Courier New\", monospace", "$type": "fontFamily", "$description": "Terminal / CLI / logs." }
+  "font-display": { "$value": "\"Fraunces\", Georgia, serif",                        "$type": "fontFamily", "$description": "Headings only. Variable serif with a real 100-900 weight range and an optical-size axis: headings are bolded in 5 places, so a single-weight display serif would render synthetic bold." },
+  "font-sans":    { "$value": "\"IBM Plex Sans\", system-ui, sans-serif",            "$type": "fontFamily", "$description": "Body UI text, paragraphs, h3-h6." },
+  "font-mono":    { "$value": "\"IBM Plex Mono\", ui-monospace, \"Courier New\", monospace", "$type": "fontFamily", "$description": "Terminal / CLI / technical labels / window titles." },
+
+
+  "text-display": { "$value": "clamp(2.75rem, 6vw, 4.5rem)",   "$type": "fontSize", "$description": "One hero moment per page. Never in UI." },
+  "text-h1":      { "$value": "clamp(2.25rem, 4.5vw, 3.5rem)", "$type": "fontSize" },
+  "text-h2":      { "$value": "clamp(1.75rem, 3vw, 2.5rem)",   "$type": "fontSize" },
+  "text-h3":      { "$value": "clamp(1.25rem, 1.8vw, 1.5rem)", "$type": "fontSize" },
+  "text-body":    { "$value": "1rem",                          "$type": "fontSize" },
+  "text-body-sm": { "$value": "0.875rem",                      "$type": "fontSize" },
+  "text-caption": { "$value": "0.8125rem",                     "$type": "fontSize" },
+  "text-label":   { "$value": "0.6875rem",                     "$type": "fontSize", "$description": "Uppercase mono micro-labels." },
+
+
+  "tracking-display": { "$value": "-0.03em", "$type": "dimension" },
+  "tracking-heading": { "$value": "-0.02em", "$type": "dimension", "$description": "Replaces the blanket -0.04em that h1-h6 carried in index.css." },
+  "tracking-mono":    { "$value": "0.02em",  "$type": "dimension" },
+  "tracking-label":   { "$value": "0.24em",  "$type": "dimension", "$description": "Wide uppercase labels (the 0.3em arbitrary values retire in the literal sweep)." }
 }

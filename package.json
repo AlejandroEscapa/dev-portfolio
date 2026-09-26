@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "tokens": "node scripts/build-tokens.mjs",
-    "tokens:test": "vitest run src/scripts/build-tokens.test.ts",
+    "tokens:test": "vitest run src/scripts/build-tokens.test.ts src/scripts/token-contrast.test.ts",
     "dev": "npm run tokens && vite",
     "build": "npm run tokens && vite build",
     "build:dev": "npm run tokens && vite build --mode development",

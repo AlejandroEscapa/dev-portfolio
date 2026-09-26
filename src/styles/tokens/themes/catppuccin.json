@@ -1,5 +1,5 @@
 {
-  "$description": "Catppuccin Mocha — community palette. Preserved literally. Do not amend.",
+  "$description": "Catppuccin Mocha — community palette. Preserved literally, with one sanctioned deviation: muted-foreground lightness 55% -> 60% for WCAG AA (measured 5.20:1 on card, was 4.37:1). Do not amend anything else.",
 
 
   "overrides": {
@@ -16,7 +16,7 @@
     "secondary":            "290 15% 18%",
     "secondary-foreground": "80 20% 90%",
     "muted":                "290 15% 18%",
-    "muted-foreground":     "290 10% 55%",
+    "muted-foreground":     "290 10% 60%",
     "accent":               "320 65% 72%",
     "accent-foreground":    "290 20% 12%",
     "border":               "290 15% 22%",
