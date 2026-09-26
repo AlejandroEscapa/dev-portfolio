@@ -193,3 +193,65 @@ otro `<button>` en el DockItem (HTML inválido); el preload de `pexels-640.webp`
 no se usa. Además el DOM duplica `id` en `hero`, `about`, `projects`, `education`
 y `trayectoria` (dos ramas desktop/móvil renderizadas) — pendiente de confirmar
 antes de tocar nada.
+
+### Fase 2 — Barrido de literales de color y radio · COMPLETA
+
+**Before/after por superficie** (estilos computados, dev server, misma sonda en
+indigo y dracula; lo que no cambia era el objetivo — solo el ajuste AA de Fase 1):
+
+| Superficie | Before (idéntico en todos los temas) | After |
+| --- | --- | --- |
+| Dock: LinkedIn / Email / Resume / Terminal | `rgb(71,158,245)` / `rgb(92,214,133)` / `rgb(204,123,244)` / cian fijo — 4 hues congelados | indigo `rgb(71,158,245)`/`rgb(92,214,133)`/`rgb(204,123,244)`/`rgb(56,218,250)`; dracula `rgb(228,103,145)`/`rgb(97,209,134)`/`rgb(172,97,209)`/`rgb(97,209,134)`; catppuccin y tokyo-night también repintados (mediados) |
+| `.glass` (bento, Contact, CRT toggle) | `rgba(18,20,33,0.45)` azul-negro en los 4 temas | sigue `var(--card)`-based: dracula `rgba(50,39,53,.45)`, indigo `rgba(14,16,27,.45)` — ahora **por tema** |
+| `.glass-strong` (todas las WindowChrome + Trayectoria) | `rgba(21,24,40,0.6)` fijo | indigo `rgba(14,16,27,0.6)`, dracula `rgba(50,39,53,0.6)` |
+| `::selection` | `rgba(111,90,246,0.4)` fijo (dracula inclusive) | regla `hsl(var(--primary)/0.4)` — dracula selecciona rosa |
+| `.dock-item-active` + dot | glow cian `190 95% 60%` fijo | `hsl(var(--accent) / …)` — dracula lo pinta verde |
+| Radios del dock / DockItem | 12px | 12px (sin mover el render) |
+
+**Tokens nuevos (78 → 85):** `icon-linkedin/mail/resume` con overrides por tema
+(catppuccin 200/160/320, dracula 340/140/280, tokyo-night 230/100/320);
+`neutral-tint`/`neutral-scrim`; `gradient-text-from/-to`; `shadow-dock`,
+`shadow-dock-item`; `radius-full` (9999px). `surface-glass*` realineado a sus
+consumidores reales (`.glass` = 24px/160%/0.45, `.glass-strong` = 32px/180%/0.6,
+antes invertidos) y `--projects-stage-h` movido de un `:root` de CSS module al
+pipeline.
+
+**Arquitectura del barrido:**
+
+- **Política de emisión por forma, no por lista** (`tokens-core.mjs`): un token es
+  direccionable como color de Tailwind exactamente cuando su valor es un triple
+  HSL crudo (`isRawTriple`). Los rosters `COLOR_ALIASES`/`SIDEBAR_ALIASES`
+  desaparecieron: `icon-*`, `neutral-*`, `mesh-*`, `gradient-text-*` emiten
+  `--color-*` automáticamente y es estructuralmente imposible envolver un token
+  compuesto (`--surface-glass: hsl(var(--card)/0.45)`) en un `hsl(hsl(...))`
+  inválido. `shadow-*` entra en `THEME_INLINE_PREFIXES` → utilidades reales
+  `shadow-dock` / `shadow-dock-item` (verificado en el CSS de `dist`).
+- **Neutros:** todo `hsl(0 0% 100% / α)` → `hsl(var(--neutral-tint) / α)`,
+  `hsl(0 0% 0% / α)` y `bg-black*` → `--neutral-scrim`; las utilidades
+  `border-white/*`, `bg-white/*` y `ring-white/10` de componentes vivos →
+  `neutral-tint`. `white`/`black` CSS, `zinc-*`/`cyan-*` (terminal) y `green-*`
+  (boot) también absorbidos. Bootstrap y shadcn primitivas (`components/ui/*`)
+  quedan con defaults a propósito (AGENTS §7).
+- **Radios:** `xl/2xl/3xl` de componentes vivos (dock, WindowChrome, CliTerminal,
+  ThemeSwitcher, TechBento, Education, BentoCard, Contact, Hero, tooltips) →
+  `rounded-md/lg` de la escala; `1rem/1.25rem` y `9999px` en CSS modules →
+  `var(--radius-lg)`/`var(--radius-full)`. Sin consumidores reales de 20/24/32px,
+  no se inventan peldaños.
+- **Dead code eliminado** (~40 literales que no había que migrar): `useFluidGradient`
+  (+test), `BrowserPreview`, `PhoneVideo`, `App.css` — confirmados sin importadores.
+  `chart.tsx` no se toca (primitiva shadcn, §7).
+- **Traffic lights macOS conservados y comentados** (`WindowChrome` ×3+1,
+  `CliTerminal` ×2) como única excepción pactada; `Hero3D` deja `#7c5cff` por
+  `rgb(124 92 255)` == primary por defecto (THREE.Color necesita literal).
+
+**Verificación:** `npm run tokens` (85 tokens × 4 temas, determinista) ·
+`npm run tokens:test` 14/14 · `npm test` 15 ficheros, 71 tests (−13: test del hook
+borrado) · `npm run lint` 0 errores, 11 warnings (mejora la paridad de 12) ·
+`npm run build` OK (7322 módulos, CSS 156.05 kB). En navegador vía el conmutador
+real: los 4 iconos del dock cambian por tema (`.text-icon-linkedin` en el class
+attr y `340 70% 65%` computado en dracula), `::selection` y `.dock-item-active`
+resuelven por `--primary`/`--accent`, `.glass*` por `--card`, radios del dock
+intactos a 12px, CSS de `dist` contiene las utilidades `text-icon-*` y `shadow-dock`.
+Residual auditado: 9 literales (traffic lights comentados ×6, fallback THREE
+×3 — ambos pactados) y `#ccc`/`#fff` dentro de selectores de recharts en
+`chart.tsx` (primitiva shadcn intocable). Passions y ritmo vertical intactos.
