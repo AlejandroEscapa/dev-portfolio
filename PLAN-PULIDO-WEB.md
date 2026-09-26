@@ -537,3 +537,49 @@ tooltips — lo recorta cada botón, el rail no. Móvil: mini-barra inferior int
 **Gates Ronda 2:** tokens 90×4 · lint 0/10 · tests 55/55 · tsc 0/0 · build OK ·
 verificación en navegador de cada fase (mediciones antes/after + screenshots
 1440/768/375, ES y 4 temas).
+
+---
+
+# Ronda 3 — Pulido de detalles reportados (2026-09-26)
+
+Seis ajustes reportados por el humano tras revisar la Ronda 2. Sin decisiones
+abiertas; el único hallazgo inesperado fue el href de la CTA apuntando al
+LinkedIn de otra persona.
+
+## Registro de ejecución
+
+### R3-1 — Proyectos: título y tarjetas · COMPLETA (`9431e94`)
+
+El h2 venía de dos claves partidas a mitad de palabra para el antiguo gradiente
+bicolor (EN `Proj`+`ects.`, ES `Proye`+`ctos.`); al solidificar el titular la
+unión con espacio dejaba un hueco entre la e y la c. Fusionadas en una sola
+clave `projects.heading` por idioma. Además: los chips de tecnologías subían a
+2px de la descripción; ahora 14px de aire con hairline neutral sutil, coherente
+con los separadores editoriales del resto.
+
+### R3-2 — Stack: orden del bento · COMPLETA (`d98b8f7`)
+
+Lenguajes & Herramientas featured en la fila superior (2 columnas), Frontend y
+Backend como satélites debajo. Mismo equilibrio 9/9/9.
+
+### R3-3 — Trayectoria: CTA y entrada actual · COMPLETA (`c3f4c94`)
+
+**Hover contenido:** medición en navegador demostró que el "resaltado en todas
+las cards" era el bloom estático de 40px de la CTA derramándose sobre el cristal
+vecino (los estilos computados de las otras cards no cambiaban). Eliminado el
+glow en reposo; en hover solo responde la CTA (borde 0.5 + glow contenido de
+24px + lift igual que las demás) — verificado `othersChanged == 0`.
+**Href corregido:** la CTA apuntaba al LinkedIn de otra persona
+(`carlos-alejandro-bolivar`); ahora al del dueño. **Nueva entrada "creators":**
+Software Developer en Creators Co. desde Jul 2026 (primer item con
+`endDate: "present"`, soportado por `formatPeriod`), variante experience con 3
+bullets (WMS/SQL Server, Laravel + Slim 3, app Android en PDAs industriales) y
+tags Magento/Odoo; claves i18n simétricas. Su `endDate` expuso un bug latente
+del test de fechas (cortocircuito booleano + `.toMatch`) — arreglado.
+
+### R3-4 — Education: altura · COMPLETA (`bd3f26b`)
+
+Min-height de 78vh en la sección (la ventana medía 639px a 1440×900): ~10% más
+de aire vertical, repartido simétrico por el justify-center existente.
+
+**Gates Ronda 3:** tokens 90×4 · lint 0/10 · tests 55/55 · build OK · tsc 0/0.
