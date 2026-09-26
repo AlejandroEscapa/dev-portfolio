@@ -43,7 +43,7 @@ export const Education = ({ motionStyle }: EducationProps) => {
   ];
 
   return (
-    <SectionContainer maxWidth="lg" motionStyle={motionStyle}>
+    <SectionContainer maxWidth="lg" motionStyle={motionStyle} className="min-h-[78vh]">
       {/* Reveal moment 1 — the section header: one whileInView, staggered children. */}
       <motion.div
         initial={reduceMotion ? false : "hidden"}
