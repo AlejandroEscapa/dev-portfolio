@@ -331,3 +331,40 @@ fueron con ellos. Queda solo `PassionCard(69)` — muere con la Fase 6.
 `tsc app` solo el error heredado de PassionCard · `tsc node` limpio ·
 verificación en navegador (dev server 8080): DOM sin ids duplicados, nav con
 `#trayectoria`, click funcional. Commit `50646eb`.
+
+### Fase 6 — Borrado de Passions · COMPLETA
+
+**−1200 líneas netas** (18 ficheros: 11 borrados, 7 editados). Los 6 puntos de
+rotura del plan, todos cubiertos:
+
+1. `Index.tsx` — ventana `~/passions.md` fuera; el flujo va de education a
+   contact directamente.
+2. `Nav.tsx` — link `nav.profile` fuera **y** `computeThreshold()` re-anclado
+   de `#profile` a `#projects` (si no, el nav habría aparecido a los 500px del
+   fallback).
+3. `spotlight-items.ts` — "Go to profile" fuera; el test de la Fase 7 bloquea
+   ahora la lista exacta post-borrado.
+4. `translations.ts` — `nav.profile` + 14 claves `profile.*` en ambos idiomas
+   (simetría verificada con `rg "profile\." src/i18n` == 0).
+5. `index.css` — bloque `.profile-*` completo (líneas 312–616, ~305 líneas)
+   con los tres keyframes en loop y sus `@media`; el layer `utilities` cierra
+   limpio (build OK).
+6. `AGENTS.md` — §6 (claves), §7 (carve-out), §8 (composición 8→7, threshold,
+   lista de secciones, nota `useDeviceTier`), §10 (profile-content fuera),
+   §12 (tests fuera), §15.11 reescrito: el hook queda **sin consumidores** en
+   disco a la espera de decisión humana (cablearlo al 3D del hero o borrarlo).
+
+**Decisión de diseño propia — renumeración de etiquetas visibles:** las
+etiquetas numeradas visibles eran 01 About · 02 Passions · 06 Education ·
+07 Contact (el esquema contaba secciones que hoy no llevan label; Projects y
+Trayectoria no la muestran). Con Passions muerto el índice visible habría
+quedado 01/06/07. Renumerado coherente en ambos idiomas: **01 About ·
+02 Education · 03 Contact**. Las claves muertas `tech/trayectoria.section_label`
+("03"/"04") siguen en el fichero sin consumidor — deuda menor documentada, no
+toca el render.
+
+**Gates:** `tsc` **0 errores en ambos proyectos** (primer typecheck verde
+completo del proyecto) · lint 0 errores/10 warnings (−1) · tests **50/50**
+(−22: los de los 3 ficheros de test borrados) · build OK (10.9s) ·
+verificación en navegador: sin ventana profile, nav con 4 links, labels
+renumeradas en pantalla, transición education→contact limpia. Commit `96de391`.
