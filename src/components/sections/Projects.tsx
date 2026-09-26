@@ -95,10 +95,19 @@ export const Projects = ({ motionStyle }: ProjectsProps) => {
     >
       <div className="container mx-auto max-w-7xl">
         {viewMode === "carousel" && (
-          <div className="mb-4">
-            <h2 className="text-center text-h1 font-bold tracking-heading">
+          <div className="mb-6">
+            {/* Same numbered header motif as Education/Contact: accent hairline,
+                mono label, left-aligned display heading and a sub line. */}
+            <div className="mb-4 flex items-center gap-3 text-sm uppercase tracking-label text-muted-foreground">
+              <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
+              <span>{t("projects.section_label")}</span>
+            </div>
+            <h2 className="text-h1 font-bold tracking-heading">
               {t("projects.heading")}
             </h2>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+              {t("projects.subheading")}
+            </p>
           </div>
         )}
 

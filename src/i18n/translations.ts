@@ -129,6 +129,8 @@ export const translations: Record<Lang, Translations> = {
     "trayectoria.item_creators_bullet_2": "Management backend in Laravel with an operational API in Slim 3.",
     "trayectoria.item_creators_bullet_3": "Native Android app integration on industrial PDAs, alongside Magento and Odoo.",
 
+    "projects.section_label": "02 — Projects",
+    "projects.subheading": "A selection of my work.",
     "projects.heading": "Projects.",
     "projects.gamevision_badge": "Featured \u00b7 TFM 9/10",
     "projects.gamevision_name": "GameVision",
@@ -170,7 +172,7 @@ export const translations: Record<Lang, Translations> = {
     "projects.category_integration": "Integration",
     "projects.category_context": "Context",
 
-    "education.section_label": "02 \u2014 Education",
+    "education.section_label": "03 \u2014 Education",
     "education.heading_before": "Learning",
     "education.heading_after": "is not optional.",
     "education.tokio_title": "Master's Degree in Mobile Application Development",
@@ -188,7 +190,7 @@ export const translations: Record<Lang, Translations> = {
     "education.credential_label": "Credential ID",
     "education.verifiable": "Verifiable",
 
-    "contact.section_label": "03 \u2014 Contact",
+    "contact.section_label": "04 \u2014 Contact",
     "contact.heading": "Contact",
     "contact.heading_line1": "Got a project in mind or looking for a developer?",
     "contact.heading_line2": "Let's build something together.",
@@ -364,6 +366,8 @@ export const translations: Record<Lang, Translations> = {
     "trayectoria.item_creators_bullet_2": "Backend de gestión en Laravel y API operativa en Slim 3.",
     "trayectoria.item_creators_bullet_3": "Integración con app Android nativa en PDAs industriales, con Magento y Odoo.",
 
+    "projects.section_label": "02 — Proyectos",
+    "projects.subheading": "Muestras de mi trabajo.",
     "projects.heading": "Proyectos.",
     "projects.gamevision_badge": "Destacado \u00b7 TFM 9/10",
     "projects.gamevision_name": "GameVision",
@@ -405,7 +409,7 @@ export const translations: Record<Lang, Translations> = {
     "projects.category_integration": "Integración",
     "projects.category_context": "Contexto",
 
-    "education.section_label": "02 \u2014 Formaci\u00f3n",
+    "education.section_label": "03 \u2014 Formaci\u00f3n",
     "education.heading_before": "Aprender",
     "education.heading_after": "no es opcional.",
     "education.tokio_title": "M\u00e1ster en Desarrollo de Aplicaciones M\u00f3viles",
@@ -423,7 +427,7 @@ export const translations: Record<Lang, Translations> = {
     "education.credential_label": "ID de Credencial",
     "education.verifiable": "Verificable",
 
-    "contact.section_label": "03 \u2014 Contacto",
+    "contact.section_label": "04 \u2014 Contacto",
     "contact.heading": "Contacto",
     "contact.field_name": "Nombre",
     "contact.field_email": "Email",
