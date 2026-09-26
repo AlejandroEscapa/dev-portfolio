@@ -104,9 +104,9 @@ export const Contact = () => {
        bottom so the divider + signature sit very close to the container's base. */
     <section className="relative min-h-[60vh] flex flex-col justify-between pt-7 md:pt-10 pb-3 md:pb-2 gap-4 md:gap-6">
       {/* No internal reveal: the content rides the WindowChrome entry moment. */}
-      {/* Same content inset as Education (SectionContainer = container
-          max-w-7xl): shared lateral padding keeps both windows cohesive. */}
-      <div className="flex-1 flex flex-col container mx-auto max-w-7xl">
+      {/* Same content inset as Projects/Education (container max-w-6xl):
+          the window stays full-bleed, the content floats inside it. */}
+      <div className="flex-1 flex flex-col container mx-auto max-w-6xl">
         <div className="flex-1 grid grid-cols-1 lg:grid-cols-[1.15fr_minmax(0,0.85fr)] gap-10 lg:gap-12">
           {/* Left column — numbered label + title + location, vertically
               centered; the wider column leads the composition */}

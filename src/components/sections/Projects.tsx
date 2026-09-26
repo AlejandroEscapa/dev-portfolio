@@ -93,7 +93,7 @@ export const Projects = ({ motionStyle }: ProjectsProps) => {
       style={motionStyle}
       className={cn("relative flex flex-col justify-center")}
     >
-      <div className="container mx-auto max-w-7xl">
+      <div className="container mx-auto max-w-6xl">
         {viewMode === "carousel" && (
           <div className="mb-6">
             {/* Same numbered header motif as Education/Contact: accent hairline,
