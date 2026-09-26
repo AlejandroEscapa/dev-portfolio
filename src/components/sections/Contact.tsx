@@ -104,10 +104,12 @@ export const Contact = () => {
        bottom so the divider + signature sit very close to the container's base. */
     <section className="relative min-h-[60vh] flex flex-col justify-between pt-7 md:pt-10 pb-3 md:pb-2 gap-4 md:gap-6">
       {/* No internal reveal: the content rides the WindowChrome entry moment. */}
-      <div className="flex-1 flex flex-col">
-        <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12">
-          {/* Left half — numbered label + title + location, vertically centered
-              to mirror the form card on the right (symmetric 6/6 grid) */}
+      {/* Same content inset as Education (SectionContainer = container
+          max-w-7xl): shared lateral padding keeps both windows cohesive. */}
+      <div className="flex-1 flex flex-col container mx-auto max-w-7xl">
+        <div className="flex-1 grid grid-cols-1 lg:grid-cols-[1.15fr_minmax(0,0.85fr)] gap-10 lg:gap-12">
+          {/* Left column — numbered label + title + location, vertically
+              centered; the wider column leads the composition */}
           <div className="flex flex-col justify-center gap-8">
             <div className="space-y-3">
               <div className="mb-4 flex items-center gap-3 text-sm uppercase tracking-label text-muted-foreground">
@@ -134,8 +136,8 @@ export const Contact = () => {
             </div>
           </div>
 
-          {/* Right half — the form card fills its half so both sides read as
-              equal, mirrored blocks */}
+          {/* Right column — the form card sits in a narrower column (~45%)
+              so it doesn't compete with the title block */}
           <div className="flex flex-col justify-center">
             <div className="relative w-full rounded-lg glass border border-neutral-tint/[0.08] overflow-hidden transition-[transform,border-color,background] duration-300 hover:-translate-y-0.5">
               {/* Primary accent border */}

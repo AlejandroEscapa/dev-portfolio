@@ -43,7 +43,7 @@ const Index = () => {
           <WindowChrome title="~/education.txt" id="education" className="max-w-none w-full section-y">
             <Education />
           </WindowChrome>
-          <WindowChrome title="~/contact — mail" id="contact" className="max-w-none section-y">
+          <WindowChrome title="~/contact — mail" id="contact" className="max-w-none w-full section-y">
             <Contact />
           </WindowChrome>
         </div>
