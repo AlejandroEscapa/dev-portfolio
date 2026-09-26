@@ -621,3 +621,33 @@ formulario con **etiquetas visibles** mono-uppercase sobre Nombre/Email/Mensaje
 gap-5/p-6.
 
 **Gates Ronda 4:** tokens 90×4 · lint 0/10 · tests 55/55 · build OK · tsc 0/0.
+
+---
+
+# Ronda 5 — Numeración editorial, Contact simétrico y footer (2026-09-26)
+
+### R5-1 — Projects entra en el índice · COMPLETA (`621a7d1`)
+
+Projects era la única sección sin cabecera numerada y el único h2 centrado.
+Nuevo bloque idéntico al motivo de Education/Contact: hairline de acento +
+label mono "02 — Projects/Proyectos", h2 alineado a la izquierda y subtexto
+("A selection of my work." / "Muestras de mi trabajo."). La numeración sigue el
+orden de página: **01 About · 02 Projects · 03 Education · 04 Contact**
+(Education y Contact renumeradas desde 02/03; Trayectoria sigue sin label
+visible, como antes). El stage conserva su altura propia — el subtexto solo
+consume el hueco del bloque de cabecera.
+
+### R5-2 — Contact simétrico y cohesionado · COMPLETA (`a322018`)
+
+Medición previa: la card del formulario tenía 20px de padding interno frente a
+los 32px del resto de glass cards, y el grid 5/7 leía desequilibrado (título a
+25px del borde, card a 38px del derecho). Arreglos: **mitades iguales**
+(grid-cols-2, 592/592 verificado), card a **p-8** (cohesión con las demás),
+fuera las etiquetas visibles de la Ronda 4 (el humano prefiere la card solo con
+placeholders — aria-labels intactos), sección numerada "04 — Contacto" y la
+firma centrada verticalmente en una banda de footer de altura fija
+(min-h-12, verificado centrado <3px).
+
+**Gates Ronda 5:** lint 0/10 · tests 55/55 · build OK · tsc 0/0 · verificación
+en navegador (ES): label 02 — Proyectos a la izquierda con subtexto, Contact
+592/592 con card a 32px y footer centrado.
