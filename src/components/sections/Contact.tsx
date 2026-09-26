@@ -1,6 +1,5 @@
 import type { ReactElement } from "react";
 
-import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -104,13 +103,8 @@ export const Contact = () => {
     /* Asymmetric section padding: keeps top breathing (large subhead) and tightens
        bottom so the divider + signature sit very close to the container's base. */
     <section className="relative min-h-[60vh] flex flex-col justify-between pt-7 md:pt-10 pb-3 md:pb-2 gap-4 md:gap-6">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.15 }}
-        transition={{ duration: 0.6 }}
-        className="flex-1 flex flex-col"
-      >
+      {/* No internal reveal: the content rides the WindowChrome entry moment. */}
+      <div className="flex-1 flex flex-col">
         <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12">
           {/* Left: 5/12 — Title + 2nd phrase (slightly smaller, no 3rd phrase) + Location */}
           <div className="lg:col-span-5 flex flex-col justify-center gap-8 pl-16 md:pl-24 lg:pl-36">
@@ -254,7 +248,7 @@ export const Contact = () => {
             {t("contact.signature")}
           </p>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 };

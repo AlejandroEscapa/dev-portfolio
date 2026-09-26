@@ -1,8 +1,9 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import type { MotionStyle } from "framer-motion";
 import { GraduationCap, BadgeCheck, School, ExternalLink } from "lucide-react";
 import { SectionContainer } from "@/components/ui/SectionContainer";
 import { useLanguage } from "@/context/LanguageContext";
+import { fadeUp, fadeUpSm, stagger } from "@/lib/motion";
 
 interface EducationProps {
   motionStyle?: MotionStyle;
@@ -10,6 +11,7 @@ interface EducationProps {
 
 export const Education = ({ motionStyle }: EducationProps) => {
   const { t } = useLanguage();
+  const reduceMotion = useReducedMotion();
 
   const items = [
     {
@@ -48,33 +50,46 @@ export const Education = ({ motionStyle }: EducationProps) => {
 
   return (
     <SectionContainer maxWidth="lg" motionStyle={motionStyle}>
+      {/* Reveal moment 1 — the section header: one whileInView, staggered children. */}
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        initial={reduceMotion ? false : "hidden"}
+        whileInView="show"
         viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.7 }}
+        variants={stagger()}
         className="mb-8"
       >
-        <div className="mb-4 flex items-center gap-3 text-sm uppercase tracking-label text-muted-foreground">
+        <motion.div
+          variants={fadeUpSm}
+          className="mb-4 flex items-center gap-3 text-sm uppercase tracking-label text-muted-foreground"
+        >
           <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
           <span>{t("education.section_label")}</span>
-        </div>
-        <h2 className="text-h1 font-bold tracking-heading">
+        </motion.div>
+        <motion.h2 variants={fadeUp} className="text-h1 font-bold tracking-heading">
           {t("education.heading_before")} {t("education.heading_after")}
-        </h2>
+        </motion.h2>
       </motion.div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {items.map((it, i) => {
+      {/* Reveal moment 2 — the card grid cascades from one parent. */}
+      <motion.div
+        initial={reduceMotion ? false : "hidden"}
+        whileInView="show"
+        viewport={{ once: true, margin: "-80px" }}
+        variants={stagger()}
+        className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+      >
+          {items.map((it) => {
             const Icon = it.icon;
             return (
               <motion.div
                 key={it.institution}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.7, delay: i * 0.1 }}
-                className="group relative overflow-hidden rounded-lg glass p-8 hover-glow"
+                variants={fadeUp}
+                onPointerMove={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  e.currentTarget.style.setProperty("--mx", `${e.clientX - rect.left}px`);
+                  e.currentTarget.style.setProperty("--my", `${e.clientY - rect.top}px`);
+                }}
+                className="specular group relative overflow-hidden rounded-lg glass p-8 hover-glow"
               >
                 <div className={`absolute -right-20 -top-20 h-48 w-48 rounded-full blur-3xl ${it.glow}`} />
                 <div className="relative">
@@ -133,7 +148,7 @@ export const Education = ({ motionStyle }: EducationProps) => {
               </motion.div>
             );
           })}
-        </div>
+      </motion.div>
     </SectionContainer>
   );
 };

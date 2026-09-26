@@ -1,6 +1,8 @@
 import { type ReactNode, useState } from "react";
 import { motion } from "framer-motion";
+import { useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { DURATION_BASE, DURATION_FAST, EASE_OUT_EXPO } from "@/lib/motion";
 
 interface WindowChromeProps {
   title: string;
@@ -14,14 +16,15 @@ interface WindowChromeProps {
 export function WindowChrome({ title, id, children, className, defaultOpen = true, fullHeight }: WindowChromeProps) {
   const [open, setOpen] = useState(defaultOpen);
   const [minimized, setMinimized] = useState(false);
+  const reduceMotion = useReducedMotion();
 
   return (
     <motion.div
       id={id}
-      initial={{ opacity: 0, y: 24 }}
+      initial={reduceMotion ? false : { opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: DURATION_BASE, ease: EASE_OUT_EXPO }}
       className={cn("relative mx-auto max-w-5xl", className)}
     >
       {open && (
@@ -55,7 +58,7 @@ export function WindowChrome({ title, id, children, className, defaultOpen = tru
           </div>
           <motion.div
             animate={fullHeight ? { opacity: minimized ? 0 : 1 } : { height: minimized ? 0 : "auto", opacity: minimized ? 0 : 1 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: DURATION_FAST }}
             className={cn("overflow-hidden", fullHeight && "flex-1 overflow-auto")}
           >
             <div className={cn("p-4 md:p-6", fullHeight && "h-full")}>{children}</div>

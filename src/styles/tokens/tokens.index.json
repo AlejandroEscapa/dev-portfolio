@@ -7,6 +7,7 @@
     "semantic/colors.json",
     "semantic/layout.json",
     "semantic/typography.json",
+    "semantic/motion.json",
     "themes/indigo.json",
     "themes/catppuccin.json",
     "themes/dracula.json",

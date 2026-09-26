@@ -13,6 +13,7 @@ import {
 import { useDockHover } from "@/hooks/useDockHover";
 import { DockItem } from "./DockItem";
 import { ThemeSwitcher } from "@/components/theme-switcher/ThemeSwitcher";
+import { EASE_OUT_EXPO } from "@/lib/motion";
 import { useLanguage } from "@/context/LanguageContext";
 import { cn } from "@/lib/utils";
 
@@ -35,7 +36,7 @@ function LanguageIcon({ weight = "duotone" as const }) {
           initial={{ rotateX: -90, opacity: 0 }}
           animate={{ rotateX: 0, opacity: 1 }}
           exit={{ rotateX: 90, opacity: 0 }}
-          transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.32, ease: EASE_OUT_EXPO }}
           className="absolute inset-0 flex items-center justify-center text-foreground"
           style={{ transformStyle: "preserve-3d" }}
         >

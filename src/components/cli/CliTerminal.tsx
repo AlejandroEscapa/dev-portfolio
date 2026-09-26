@@ -5,6 +5,7 @@ import { executeCommand } from "@/lib/cli-commands";
 import { useTheme } from "@/hooks/useTheme";
 import { useTerminalHistory } from "@/hooks/useTerminalHistory";
 import { cn } from "@/lib/utils";
+import { EASE_OUT_EXPO } from "@/lib/motion";
 
 interface CliTerminalProps {
   open: boolean;
@@ -59,8 +60,8 @@ export function CliTerminal({ open, onOpenChange }: CliTerminalProps) {
           <motion.div
             key="terminal-fog"
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1, transition: { duration: 0.14, ease: [0.22, 1, 0.36, 1] } }}
-            exit={{ opacity: 0, transition: { duration: 0.22, ease: [0.22, 1, 0.36, 1] } }}
+            animate={{ opacity: 1, transition: { duration: 0.14, ease: EASE_OUT_EXPO } }}
+            exit={{ opacity: 0, transition: { duration: 0.22, ease: EASE_OUT_EXPO } }}
             className="terminal-fog"
             aria-hidden="true"
           >
@@ -71,8 +72,8 @@ export function CliTerminal({ open, onOpenChange }: CliTerminalProps) {
           <motion.div
             key="terminal-panel"
             initial={{ opacity: 0, scale: 0.94, y: 12 }}
-            animate={{ opacity: 1, scale: 1, y: 0, transition: { duration: 0.16, ease: [0.22, 1, 0.36, 1], delay: 0.16 } }}
-            exit={{ opacity: 0, scale: 0.94, y: 12, transition: { duration: 0.20, ease: [0.22, 1, 0.36, 1] } }}
+            animate={{ opacity: 1, scale: 1, y: 0, transition: { duration: 0.16, ease: EASE_OUT_EXPO, delay: 0.16 } }}
+            exit={{ opacity: 0, scale: 0.94, y: 12, transition: { duration: 0.20, ease: EASE_OUT_EXPO } }}
           className="fixed top-1/2 left-1/2 z-40 -translate-x-1/2 -translate-y-1/2 w-[92vw] max-w-2xl overflow-hidden rounded-lg border border-neutral-tint/10 bg-background/95 shadow-2xl backdrop-blur-xl"
           role="dialog"
           aria-label="CLI terminal"

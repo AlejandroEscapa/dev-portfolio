@@ -95,17 +95,11 @@ export const Projects = ({ motionStyle }: ProjectsProps) => {
     >
       <div className="container mx-auto max-w-7xl">
         {viewMode === "carousel" && (
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7 }}
-            className="mb-10"
-          >
+          <div className="mb-10">
             <h2 className="text-center text-h1 font-bold tracking-heading">
               {t("projects.heading_before")} {t("projects.heading_after")}
             </h2>
-          </motion.div>
+          </div>
         )}
 
         <div className={styles.stage}>

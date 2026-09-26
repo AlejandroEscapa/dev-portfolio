@@ -111,6 +111,34 @@
     box-shadow: var(--shadow-glow);
     border-color: hsl(var(--primary) / 0.5);
   }
+  /* Pointer-tracked specular sheen. The host sets --mx/--my from a
+     pointermove handler (see Education cards); the highlight colour is
+     the neutral pair, so it follows the theme. */
+  .specular {
+    position: relative;
+  }
+  .specular::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(
+      260px circle at var(--mx, 50%) var(--my, 50%),
+      hsl(var(--neutral-tint) / 0.07),
+      transparent 65%
+    );
+    opacity: 0;
+    transition: opacity var(--duration-fast) ease;
+  }
+  .specular:hover::after {
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .specular::after {
+      transition: none;
+    }
+  }
   .bg-noise {
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65536' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
     opacity: 0.04;

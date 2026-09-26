@@ -1,0 +1,10 @@
+{
+  "$description": "Theme-invariant motion: three durations and the one easing of the reveal choreography. Not emitted as Tailwind utilities (no --text/--tracking-style namespace for them) — CSS consumes them via var(--duration-*) / var(--ease-out-expo), framer-motion via src/lib/motion.ts which parses TOKENS_DEFAULT into seconds / a cubic-bezier array. Calibrated to the durations the reveals already rendered (chrome 500ms, headers 700ms, chrome controls 200ms).",
+
+
+  "duration-fast": { "$value": "200ms", "$type": "duration", "$description": "Micro-interactions: chrome minimize, specular fade." },
+  "duration-base": { "$value": "500ms", "$type": "duration", "$description": "Window reveal (the chrome entry moment)." },
+  "duration-slow": { "$value": "700ms", "$type": "duration", "$description": "Section header / card-grid stagger steps." },
+
+  "ease-out-expo": { "$value": "cubic-bezier(0.22, 1, 0.36, 1)", "$type": "cubicBezier", "$description": "The single easing of the motion system; replaces the [0.22,1,0.36,1] literals that were hand-duplicated across WindowChrome, About, Dock and CliTerminal." }
+}
