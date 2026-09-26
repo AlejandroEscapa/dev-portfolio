@@ -294,3 +294,40 @@ warnings · build OK. Verificación en preview del build (`vite preview`): gaps
 medidos arriba, 375px y 1280px; `dist` contiene `.section-y{margin-block:
 var(--section-gap); scroll-margin-top: calc(var(--nav-height,60px) + 8px)}` y
 `.window-rail{margin-bottom: calc(var(--section-gap) + var(--section-gap-sm))}`.
+
+### Fase 7 — Defectos concretos · COMPLETA
+
+Se ejecutó primero (orden 7→6→5→4 del handoff). Tres defectos, un commit,
+porque comparten raíz: el mapa de anclas de la página no coincidía con su DOM.
+
+1. **Anchor muerto del nav:** `nav.experience` → `#trayectoria` (opción de
+   riesgo 0: la clave i18n y los deep links no se tocan). Verificado con click
+   real en el navegador: scroll 8661 → 6963, `#trayectoria` queda a top 0.
+2. **Dos no-ops más en Spotlight, descubiertos en esta fase:** `Go to stack` y
+   `Go to experience` apuntaban a ids que nada renderiza (`getElementById`
+   devolvía null y el `?.` tragaba el error). Reescrito como lista explícita
+   `{ key, label }` con claves reales; las labels conservan el wording bueno
+   (`about` → "Go to stack", `trayectoria` → "Go to experience"). Test nuevo
+   que bloquea la lista exacta de claves (regresión contra no-ops silenciosos).
+3. **Ids duplicados en el DOM — confirmado como real, no falso positivo:**
+   `WindowChrome` (en `Index.tsx`) y la sección interior (`Hero.tsx`,
+   `SectionContainer` vía About/Education, `Projects`) emitían el mismo `id`
+   de `hero`/`about`/`projects`/`education` simultáneamente en el DOM. La
+   sección interior ya no lleva id: el wrapper es el dueño del ancla (y el
+   `scroll-margin-top` de `.section-y` vive en él). El "duplicado" de
+   `trayectoria` sí era falso positivo: las ramas desktop/móvil nunca montan
+   a la vez (`useMediaQuery` condicional). Audit en DOM real:
+   `duplicateIds == []`.
+
+**tsc:** los 4 errores reales (`SectionContainer` ×2, `Projects` ×2) arreglados
+tipando `motionStyle` como `MotionStyle` de framer y montándolo en
+`motion.section` (un `motion.section` sin props de animación renderiza
+idéntico a un `<section>`; es lo que hace el `MotionValue` legal en el
+`style`). Las props muertas `id`/`innerRef` de About/Education/Projects se
+fueron con ellos. Queda solo `PassionCard(69)` — muere con la Fase 6.
+**`"typecheck"` script añadido** (ambos tsconfig en un comando).
+
+**Gates:** test **72/72** (+1 spotlight) · lint 0 errores/11 warnings ·
+`tsc app` solo el error heredado de PassionCard · `tsc node` limpio ·
+verificación en navegador (dev server 8080): DOM sin ids duplicados, nav con
+`#trayectoria`, click funcional. Commit `50646eb`.
