@@ -1,4 +1,5 @@
 import { THEMES, type ThemeId } from "./themes";
+import { scrollToSection } from "./scroll";
 
 export interface SpotlightItem {
   id: string;
@@ -13,7 +14,7 @@ interface Ctx { setTheme: (t: ThemeId) => void; }
 
 export function getSpotlightItems(ctx: Ctx): SpotlightItem[] {
   // Keys MUST be real DOM ids (WindowChrome wrappers in Index.tsx) or the
-  // scrollIntoView no-ops silently. Labels may differ from the key when the
+  // scroll no-ops silently. Labels may differ from the key when the
   // window title reads better (about = "~/stack", trayectoria = experience).
   const sections: SpotlightItem[] = [
     { key: "hero", label: "Go to hero" },
@@ -27,7 +28,7 @@ export function getSpotlightItems(ctx: Ctx): SpotlightItem[] {
     label,
     group: "Sections",
     keywords: [key, "scroll", "navigate"],
-    action: () => document.getElementById(key)?.scrollIntoView({ behavior: "smooth" }),
+    action: () => scrollToSection(key),
   }));
 
   const socials: SpotlightItem[] = [

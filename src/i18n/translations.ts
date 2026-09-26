@@ -10,6 +10,7 @@ export const translations: Record<Lang, Translations> = {
     "nav.experience": "Journey",
     "nav.projects": "Projects",
     "nav.education": "Education",
+    "nav.contact": "Contact",
     "nav.lang_switch_to_es": "Switch to Spanish",
     "nav.lang_switch_to_en": "Switch to English",
 
@@ -245,6 +246,7 @@ export const translations: Record<Lang, Translations> = {
     "nav.experience": "Trayectoria",
     "nav.projects": "Proyectos",
     "nav.education": "Formaci\u00f3n",
+    "nav.contact": "Contacto",
     "nav.lang_switch_to_es": "Cambiar a espa\u00f1ol",
     "nav.lang_switch_to_en": "Cambiar a ingl\u00e9s",
 

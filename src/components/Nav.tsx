@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
+import { scrollToSection } from "@/lib/scroll";
+import { ScrollTrigger } from "@/lib/gsap";
 
 const linksConfig = [
   { labelKey: "nav.about", href: "#about" },
   { labelKey: "nav.projects", href: "#projects" },
   { labelKey: "nav.experience", href: "#trayectoria" },
   { labelKey: "nav.education", href: "#education" },
+  { labelKey: "nav.contact", href: "#contact" },
 ];
 
 export const Nav = () => {
@@ -56,25 +59,26 @@ export const Nav = () => {
       threshold = computeThreshold();
     };
 
+    // ScrollTrigger pin-spacers and refreshes shift section offsets after
+    // mount — keep the nav's visibility threshold in sync with them.
+    const onRefresh = () => {
+      threshold = computeThreshold();
+    };
+    ScrollTrigger.addEventListener("refresh", onRefresh);
+
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onResize);
     onScroll();
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
+      ScrollTrigger.removeEventListener("refresh", onRefresh);
     };
   }, []);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
-    const id = href.slice(1);
-    const el = document.getElementById(id);
-    if (el) {
-      const navHeight = 60;
-      const rect = el.getBoundingClientRect();
-      const targetScrollY = window.scrollY + rect.top - navHeight;
-      window.scrollTo({ top: targetScrollY, behavior: "smooth" });
-    }
+    scrollToSection(href.slice(1));
   };
 
   return (
