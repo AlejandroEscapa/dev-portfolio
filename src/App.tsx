@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -16,6 +17,7 @@ const queryClient = new QueryClient();
 
 const App = () => {
   const { open, setOpen } = useSpotlightToggle();
+  const [terminalOpen, setTerminalOpen] = useState(false);
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
@@ -29,8 +31,12 @@ const App = () => {
           </Routes>
         </BrowserRouter>
         <Spotlight open={open} onOpenChange={setOpen} />
-        <CliTerminal />
-        <Dock onOpenSpotlight={() => setOpen(true)} />
+        <CliTerminal open={terminalOpen} onOpenChange={setTerminalOpen} />
+        <Dock
+          onOpenSpotlight={() => setOpen(true)}
+          terminalOpen={terminalOpen}
+          onToggleTerminal={() => setTerminalOpen((o) => !o)}
+        />
         <CrtOverlay />
         <CRTToggle />
       </TooltipProvider>

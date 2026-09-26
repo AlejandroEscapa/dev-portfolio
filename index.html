@@ -15,7 +15,19 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+    <!-- Preload the LCP background image so the browser fetches it in
+         parallel with the HTML/CSS. imagesrcset lets the browser pick
+         the right size for the viewport. -->
+    <link
+      rel="preload"
+      as="image"
+      href="/pexels-1920.webp"
+      imagesrcset="/pexels-640.webp 640w, /pexels-1280.webp 1280w, /pexels-1920.webp 1920w, /pexels-2560.webp 2560w"
+      imagesizes="100vw"
+      type="image/webp"
+    />
   </head>
 
   <body>

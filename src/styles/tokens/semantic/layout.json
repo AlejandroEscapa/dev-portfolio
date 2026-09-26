@@ -1,0 +1,13 @@
+{
+  "$description": "Theme-invariant layout tokens. Edit here to retune app-wide measurements.",
+
+
+  "radius":          { "$value": "1rem",                          "$type": "dimension", "$description": "Base border-radius." },
+  "radius-sm":       { "$value": "calc({radius} - 8px)",          "$type": "dimension" },
+  "radius-md":       { "$value": "calc({radius} - 4px)",          "$type": "dimension" },
+  "radius-lg":       { "$value": "{radius}",                      "$type": "dimension" },
+
+  "nav-height":      { "$value": "60px",                          "$type": "dimension", "$description": "Must match `const navHeight = 60` in Nav.tsx." },
+  "hero-pad-top":    { "$value": "32px",                          "$type": "dimension" },
+  "projects-stage-h":{ "$value": "640px",                         "$type": "dimension", "$description": "Floor: 54 chips+margin + 580 card min-height." }
+}

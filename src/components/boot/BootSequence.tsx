@@ -3,7 +3,7 @@ import { BOOT_LINES } from "@/lib/boot-messages";
 import { useBootSequence } from "@/hooks/useBootSequence";
 
 export function BootSequence() {
-  const { running, step, skip } = useBootSequence(BOOT_LINES.length, 180);
+  const { running, step, skip } = useBootSequence(BOOT_LINES.length, 120);
 
   return (
     <AnimatePresence>

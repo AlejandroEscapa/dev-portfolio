@@ -1,0 +1,56 @@
+{
+  "$description": "Semantic color tier. Raw HSL triples — consumers compose with `hsl(var(--token) / <alpha>)`. Values here ARE the Indigo / default theme runtime values (mesh-4 is green-teal to harmonize with pexels background, matching the themes/indigo.json override — repeated here so no [data-theme=\"indigo\"] block is needed for users with no data-theme attr). Per-theme overrides live in themes/*.json.",
+
+
+  "background":            { "$value": "230 35% 5%",   "$type": "color", "$description": "Page surface background." },
+  "foreground":            { "$value": "210 40% 98%",  "$type": "color", "$description": "Default text on background." },
+  "card":                  { "$value": "230 30% 8%",   "$type": "color", "$description": "Card / panel surface." },
+  "card-foreground":       { "$value": "210 40% 98%",  "$type": "color" },
+  "popover":               { "$value": "230 35% 7%",   "$type": "color", "$description": "Popover / dialog surface." },
+  "popover-foreground":    { "$value": "210 40% 98%",  "$type": "color" },
+
+
+  "primary":               { "$value": "{palette.indigo.500}",  "$type": "color", "$description": "Primary brand color." },
+  "primary-foreground":    { "$value": "0 0% 100%",             "$type": "color" },
+  "primary-glow":          { "$value": "{palette.indigo.300}",  "$type": "color", "$description": "Brighter primary used for glow gradients." },
+
+  "accent":                { "$value": "{palette.cyan.400}",    "$type": "color", "$description": "Accent color — cyan by default, green-teal on Dracula." },
+  "accent-foreground":     { "$value": "230 35% 5%",            "$type": "color" },
+
+
+  "secondary":             { "$value": "230 25% 14%",  "$type": "color" },
+  "secondary-foreground":  { "$value": "210 40% 98%",  "$type": "color" },
+  "muted":                 { "$value": "230 20% 14%",  "$type": "color" },
+  "muted-foreground":      { "$value": "230 15% 65%",  "$type": "color" },
+
+
+  "destructive":            { "$value": "{status.destructive}",            "$type": "color" },
+  "destructive-foreground": { "$value": "{status.destructive-foreground}", "$type": "color" },
+
+
+  "border": { "$value": "230 25% 18%", "$type": "color" },
+  "input":  { "$value": "230 25% 14%", "$type": "color" },
+  "ring":   { "$value": "{palette.indigo.500}", "$type": "color", "$description": "Focus ring; mirrors primary by default." },
+
+
+  "mesh-1": { "$value": "{palette.indigo.500}",  "$type": "color", "$description": "Background mesh blob 1 — violet by default." },
+  "mesh-2": { "$value": "{palette.cyan.400}",    "$type": "color", "$description": "Background mesh blob 2 — cyan by default." },
+  "mesh-3": { "$value": "320 85% 65%",           "$type": "color", "$description": "Background mesh blob 3 — magenta on Indigo (anchors the brand magenta). Green on Catppuccin/Tokyo-Night." },
+  "mesh-4": { "$value": "{palette.green.500}",   "$type": "color", "$description": "Background mesh blob 4 — green-teal by default (harmonizes with pexels.background's 20% green family); replaces old violet-light emerald slot." },
+
+
+  "sidebar-background":            { "$value": "230 35% 5%",   "$type": "color" },
+  "sidebar-foreground":            { "$value": "210 40% 98%",  "$type": "color" },
+  "sidebar-primary":               { "$value": "{palette.indigo.500}", "$type": "color" },
+  "sidebar-primary-foreground":    { "$value": "0 0% 100%",    "$type": "color" },
+  "sidebar-accent":                { "$value": "230 25% 14%",  "$type": "color" },
+  "sidebar-accent-foreground":     { "$value": "210 40% 98%",  "$type": "color" },
+  "sidebar-border":                { "$value": "230 25% 18%",  "$type": "color" },
+  "sidebar-ring":                  { "$value": "{palette.indigo.500}", "$type": "color" },
+
+
+  "shadow-glow":          { "$value": "0 0 60px hsl({palette.indigo.500} / 0.45)", "$type": "shadow", "$description": "Glow halo for primary / hero elements. Refreshed on every theme." },
+  "shadow-glow-accent":   { "$value": "0 0 60px hsl({palette.cyan.400} / 0.40)",   "$type": "shadow" },
+  "shadow-elegant":       { "$value": "0 25px 60px -20px hsl({palette.indigo.500} / 0.35)", "$type": "shadow" },
+  "shadow-glass":         { "$value": "0 8px 32px hsl(230 50% 2% / 0.50)",         "$type": "shadow" }
+}

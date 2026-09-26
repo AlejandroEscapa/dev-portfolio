@@ -1,0 +1,32 @@
+{
+  "$description": "Tokyo Night — community palette. Preserved literally. Do not amend.",
+
+
+  "overrides": {
+
+    "background":           "260 25% 12%",
+    "foreground":           "240 15% 88%",
+    "card":                 "260 25% 15%",
+    "card-foreground":      "240 15% 88%",
+    "popover":              "260 25% 13%",
+    "popover-foreground":   "240 15% 88%",
+    "primary":              "230 60% 60%",
+    "primary-foreground":   "260 25% 12%",
+    "primary-glow":         "200 55% 68%",
+    "secondary":            "260 18% 18%",
+    "secondary-foreground": "240 15% 88%",
+    "muted":                "260 18% 18%",
+    "muted-foreground":     "260 10% 55%",
+    "accent":               "320 60% 68%",
+    "accent-foreground":    "260 25% 12%",
+    "border":               "260 18% 22%",
+    "input":                "260 18% 18%",
+    "ring":                 "230 60% 60%",
+    "mesh-1":               "230 60% 60%",
+    "mesh-2":               "320 60% 68%",
+    "mesh-3":               "200 55% 68%",
+    "mesh-4":               "100 50% 60%",
+    "shadow-glow":          "0 0 60px hsl(230 60% 60% / 0.45)",
+    "shadow-glow-accent":   "0 0 60px hsl(320 60% 68% / 0.4)"
+  }
+}

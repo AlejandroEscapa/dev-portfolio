@@ -1,29 +1,51 @@
-import { MeshBackground } from "@/components/MeshBackground";
+import { ImageBackground } from '@/components/background/ImageBackground';
 import { Nav } from "@/components/Nav";
 import { WindowChrome } from "@/components/window/WindowChrome";
+import { HeroShowcase } from "@/components/sections/HeroShowcase";
 import { Hero } from "@/components/sections/Hero";
-import { Profile } from "@/components/sections/Profile";
+import { ProfileShowcase } from "@/components/sections/ProfileShowcase";
 import { About } from "@/components/sections/About";
-import { TechStack } from "@/components/sections/TechStack";
-import { Experience } from "@/components/sections/Experience";
+import { Trayectoria } from "@/components/sections/Trayectoria";
 import { Projects } from "@/components/sections/Projects";
 import { Education } from "@/components/sections/Education";
-import { Footer } from "@/components/sections/Footer";
+import { Contact } from "@/components/sections/Contact";
+import { useLenis } from "@/hooks/useLenis";
 
 const Index = () => {
+  useLenis();
   return (
     <main className="relative min-h-screen pb-32">
-      <MeshBackground />
+      <ImageBackground
+        src="/pexels-1920.webp"
+        srcSet="/pexels-640.webp 640w, /pexels-1280.webp 1280w, /pexels-1920.webp 1920w, /pexels-2560.webp 2560w"
+        sizes="100vw"
+      />
       <Nav />
-      <div className="relative z-10 pt-20">
-        <WindowChrome title="~/welcome.sh — zsh" id="hero"><Hero /></WindowChrome>
-        <WindowChrome title="~/about.md" id="about"><About /></WindowChrome>
-        <WindowChrome title="~/profile.json" id="profile"><Profile /></WindowChrome>
-        <WindowChrome title="~/stack — npx skills" id="stack"><TechStack /></WindowChrome>
-        <WindowChrome title="~/experience.log — tail -f" id="experience"><Experience /></WindowChrome>
-        <WindowChrome title="~/projects — ls -la" id="projects"><Projects /></WindowChrome>
-        <WindowChrome title="~/education.txt" id="education"><Education /></WindowChrome>
-        <WindowChrome title="~/contact — mail" id="contact"><Footer /></WindowChrome>
+      <div className="relative z-10">
+        <HeroShowcase>
+          <WindowChrome title="~/welcome.sh — zsh" id="hero" className="max-w-none w-full mx-0 my-0 viewport-content" fullHeight>
+            <Hero />
+          </WindowChrome>
+          <WindowChrome title="~/stack — npx skills" id="about" className="max-w-none w-full mx-0 my-0 viewport-content" fullHeight>
+            <About />
+          </WindowChrome>
+        </HeroShowcase>
+
+        <div className="section-px">
+          <WindowChrome title="~/projects — ls -la" id="projects" className="max-w-none w-full">
+            <Projects />
+          </WindowChrome>
+          <Trayectoria />
+          <WindowChrome title="~/education.txt" id="education" className="max-w-none w-full">
+            <Education />
+          </WindowChrome>
+          <WindowChrome title="~/passions.md" id="profile" className="max-w-none w-full">
+            <ProfileShowcase />
+          </WindowChrome>
+          <WindowChrome title="~/contact — mail" id="contact" className="max-w-none">
+            <Contact />
+          </WindowChrome>
+        </div>
       </div>
     </main>
   );

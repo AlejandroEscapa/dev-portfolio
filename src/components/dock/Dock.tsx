@@ -1,25 +1,192 @@
-import { Github, Linkedin, Mail, FileText, Terminal as TerminalIcon, Search } from "lucide-react";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  GithubLogo,
+  LinkedinLogo,
+  EnvelopeSimple,
+  FileText,
+  Terminal,
+  MagnifyingGlass,
+  GlobeHemisphereWest,
+  Palette,
+} from "@phosphor-icons/react";
 import { useDockHover } from "@/hooks/useDockHover";
 import { DockItem } from "./DockItem";
 import { ThemeSwitcher } from "@/components/theme-switcher/ThemeSwitcher";
+import { useLanguage } from "@/context/LanguageContext";
+import { cn } from "@/lib/utils";
 
 interface DockProps {
   onOpenSpotlight: () => void;
+  terminalOpen: boolean;
+  onToggleTerminal: () => void;
 }
 
-const RADIUS = 80;
+const RADIUS = 68;
+const ICON_SIZE = 22;
 
-export function Dock({ onOpenSpotlight }: DockProps) {
+function LanguageIcon({ weight = "duotone" as const }) {
+  const { lang } = useLanguage();
+  return (
+    <div className="relative h-6 w-6 [perspective:600px]">
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={lang}
+          initial={{ rotateX: -90, opacity: 0 }}
+          animate={{ rotateX: 0, opacity: 1 }}
+          exit={{ rotateX: 90, opacity: 0 }}
+          transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+          className="absolute inset-0 flex items-center justify-center text-foreground"
+          style={{ transformStyle: "preserve-3d" }}
+        >
+          <GlobeHemisphereWest size={ICON_SIZE} weight={weight} />
+        </motion.div>
+      </AnimatePresence>
+    </div>
+  );
+}
+
+function LanguageItem({
+  scale,
+  onClick,
+  active,
+}: {
+  scale: number;
+  onClick: () => void;
+  active: boolean;
+}) {
+  const { lang, t } = useLanguage();
+  const label =
+    lang === "en" ? t("nav.lang_switch_to_es") : t("nav.lang_switch_to_en");
+  return (
+    <DockItem
+      label={label}
+      onClick={onClick}
+      scale={scale}
+      active={active}
+      accentClass="text-foreground"
+    >
+      <LanguageIcon />
+    </DockItem>
+  );
+}
+
+export function Dock({ onOpenSpotlight, terminalOpen, onToggleTerminal }: DockProps) {
   const { ref, hoveredIdx, onMouseMove, onMouseLeave } = useDockHover();
+  const { lang, toggleLang } = useLanguage();
+  const [resumeFeedback, setResumeFeedback] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!resumeFeedback) return;
+    const id = setTimeout(() => setResumeFeedback(null), 2200);
+    return () => clearTimeout(id);
+  }, [resumeFeedback]);
 
   const items = [
-    { id: "spotlight", node: <Search className="h-5 w-5 text-foreground" />, label: "Spotlight (⌘K)", onClick: onOpenSpotlight },
-    { id: "cli", node: <TerminalIcon className="h-5 w-5 text-cyan-400" />, label: "Terminal", onClick: () => document.querySelector<HTMLElement>("[aria-label='Open terminal']")?.click() },
-    { id: "github", node: <Github className="h-5 w-5 text-foreground" />, label: "GitHub", onClick: () => window.open("https://github.com/alejandrooliesc", "_blank") },
-    { id: "linkedin", node: <Linkedin className="h-5 w-5 text-foreground" />, label: "LinkedIn", onClick: () => window.open("https://www.linkedin.com/in/alejandro-olivares-escapa/", "_blank") },
-    { id: "mail", node: <Mail className="h-5 w-5 text-foreground" />, label: "Email", onClick: () => { window.location.href = "mailto:alejandro.oliesc97@gmail.com"; } },
-    { id: "resume", node: <FileText className="h-5 w-5 text-foreground" />, label: "Resume", onClick: () => window.open("mailto:alejandro.oliesc97@gmail.com?subject=Resume%20request", "_blank") },
-    { id: "theme", node: <ThemeSwitcher />, label: "Theme" },
+    {
+      id: "spotlight",
+      node: <MagnifyingGlass size={ICON_SIZE} weight="duotone" className="text-foreground" />,
+      label: "Spotlight (⌘K)",
+      onClick: onOpenSpotlight,
+    },
+    {
+      id: "cli",
+      node: (
+        <Terminal
+          size={ICON_SIZE}
+          weight="duotone"
+          className={cn(
+            "transition-colors",
+            terminalOpen ? "text-[hsl(190_95%_60%)]" : "text-cyan-300"
+          )}
+        />
+      ),
+      label: terminalOpen ? "Close terminal" : "Open terminal",
+      onClick: onToggleTerminal,
+      active: terminalOpen,
+      accentClass: "text-[hsl(190_95%_60%)]",
+    },
+    {
+      id: "divider-1",
+      divider: true,
+    },
+    {
+      id: "github",
+      node: <GithubLogo size={ICON_SIZE} weight="duotone" className="text-foreground" />,
+      label: "GitHub",
+      onClick: () => window.open("https://github.com/alejandrooliesc", "_blank"),
+    },
+    {
+      id: "linkedin",
+      node: (
+        <LinkedinLogo
+          size={ICON_SIZE}
+          weight="duotone"
+          className="text-[hsl(210_90%_62%)]"
+        />
+      ),
+      label: "LinkedIn",
+      onClick: () =>
+        window.open(
+          "https://www.linkedin.com/in/alejandro-olivares-escapa/",
+          "_blank"
+        ),
+      accentClass: "text-[hsl(210_90%_62%)]",
+    },
+    {
+      id: "mail",
+      node: (
+        <EnvelopeSimple
+          size={ICON_SIZE}
+          weight="duotone"
+          className="text-[hsl(140_60%_60%)]"
+        />
+      ),
+      label: "Email",
+      onClick: () => {
+        window.location.href = "mailto:alejandro.oliesc97@gmail.com";
+      },
+      accentClass: "text-[hsl(140_60%_60%)]",
+    },
+    {
+      id: "resume",
+      node: (
+        <FileText
+          size={ICON_SIZE}
+          weight="duotone"
+          className="text-[hsl(280_85%_72%)]"
+        />
+      ),
+      label: resumeFeedback ?? "Resume",
+      onClick: () => {
+        // TODO: drop the actual CV at public/cv.pdf — until then the click 404s.
+        const link = document.createElement("a");
+        link.href = "/cv.pdf";
+        link.download = "Alejandro-Olivares-Escapa-CV.pdf";
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        setResumeFeedback("Downloading…");
+      },
+      accentClass: "text-[hsl(280_85%_72%)]",
+    },
+    {
+      id: "divider-2",
+      divider: true,
+    },
+    {
+      id: "lang",
+      node: null,
+      label:
+        lang === "en" ? "Switch to Spanish" : "Switch to English",
+      onClick: toggleLang,
+      isLanguage: true,
+    },
+    {
+      id: "theme",
+      node: <ThemeSwitcher />,
+      label: "Theme",
+    },
   ];
 
   return (
@@ -28,24 +195,60 @@ export function Dock({ onOpenSpotlight }: DockProps) {
         ref={ref}
         onMouseMove={onMouseMove}
         onMouseLeave={onMouseLeave}
-        className="fixed bottom-3 left-1/2 z-30 hidden -translate-x-1/2 items-end gap-1.5 rounded-2xl border border-white/10 glass-strong px-3 py-2 md:flex"
+        className="fixed bottom-3 left-1/2 z-30 hidden -translate-x-1/2 items-end gap-1.5 rounded-xl border border-white/[0.06] bg-background/25 backdrop-blur-xl px-3 py-2 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.4)] md:flex"
       >
         {items.map((it, i) => {
-          const dist = hoveredIdx === null ? 0 : Math.min(RADIUS, Math.abs(i - hoveredIdx) * 24) / RADIUS;
-          const scale = 1 - dist;
+          if ("divider" in it && it.divider) {
+            return (
+              <span
+                key={it.id}
+                aria-hidden="true"
+                className="mx-1 h-7 w-px bg-white/[0.08]"
+              />
+            );
+          }
+          const scale =
+            hoveredIdx === null
+              ? 0
+              : 1 - Math.min(RADIUS, Math.abs(i - hoveredIdx) * 28) / RADIUS;
+          if ("isLanguage" in it && it.isLanguage) {
+            return (
+              <LanguageItem
+                key={it.id}
+                scale={scale}
+                onClick={it.onClick!}
+                active={false}
+              />
+            );
+          }
           return (
-            <DockItem key={it.id} label={it.label} onClick={it.onClick} scale={scale}>
+            <DockItem
+              key={it.id}
+              label={it.label}
+              onClick={it.onClick}
+              scale={scale}
+              active={"active" in it ? it.active : false}
+              accentClass={"accentClass" in it ? it.accentClass : undefined}
+            >
               {it.node}
             </DockItem>
           );
         })}
       </div>
-      <div className="fixed bottom-3 left-1/2 z-30 flex -translate-x-1/2 gap-1 rounded-2xl border border-white/10 glass-strong px-2 py-1.5 md:hidden">
-        {items.slice(0, 4).map((it) => (
-          <button key={it.id} onClick={it.onClick} aria-label={it.label} className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/5">
-            {it.node}
-          </button>
-        ))}
+      <div className="fixed bottom-3 left-1/2 z-30 flex -translate-x-1/2 gap-1 rounded-xl border border-white/[0.06] bg-background/25 backdrop-blur-xl px-2.5 py-1.5 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.4)] md:hidden">
+        {items
+          .filter((it) => !("divider" in it) && !("isLanguage" in it))
+          .slice(0, 4)
+          .map((it) => (
+            <button
+              key={it.id}
+              onClick={"onClick" in it ? it.onClick : undefined}
+              aria-label={it.label}
+              className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/[0.06] bg-white/[0.03] transition-all duration-200 hover:bg-white/[0.08] hover:border-white/[0.12]"
+            >
+              {it.node}
+            </button>
+          ))}
       </div>
     </>
   );

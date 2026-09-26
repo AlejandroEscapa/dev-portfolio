@@ -1,0 +1,8 @@
+{
+  "$description": "Theme-invariant typography. Fonts loaded via Google Fonts link in index.html.",
+
+
+  "font-display": { "$value": "\"Space Grotesk\", system-ui, sans-serif",      "$type": "fontFamily", "$description": "Headings." },
+  "font-sans":    { "$value": "\"Inter\", system-ui, sans-serif",              "$type": "fontFamily", "$description": "Body UI text." },
+  "font-mono":    { "$value": "\"Courier Prime\", \"Courier New\", monospace", "$type": "fontFamily", "$description": "Terminal / CLI / logs." }
+}

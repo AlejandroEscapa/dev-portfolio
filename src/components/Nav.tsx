@@ -1,27 +1,36 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { Globe } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
 const linksConfig = [
   { labelKey: "nav.about", href: "#about" },
-  { labelKey: "nav.profile", href: "#profile" },
-  { labelKey: "nav.techStack", href: "#stack" },
-  { labelKey: "nav.experience", href: "#experience" },
   { labelKey: "nav.projects", href: "#projects" },
+  { labelKey: "nav.experience", href: "#experience" },
   { labelKey: "nav.education", href: "#education" },
+  { labelKey: "nav.profile", href: "#profile" },
 ];
 
 export const Nav = () => {
-  const { lang, toggleLang, t } = useLanguage();
+  const { t } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const allSections = ["hero", ...linksConfig.map((l) => l.href.slice(1))];
 
+    const computeThreshold = () => {
+      const profileEl = document.getElementById("profile");
+      if (!profileEl) return 500;
+      return profileEl.getBoundingClientRect().top + window.scrollY - 100;
+    };
+
+    let threshold = computeThreshold();
+
     const onScroll = () => {
-      setScrolled(window.scrollY > 40);
+      const scrollY = window.scrollY;
+      setScrolled(scrollY > 40);
+
+      setVisible(scrollY >= threshold);
 
       const viewportCenter = window.innerHeight / 2;
       let closestSection = "hero";
@@ -42,9 +51,17 @@ export const Nav = () => {
       setActiveSection(closestSection);
     };
 
+    const onResize = () => {
+      threshold = computeThreshold();
+    };
+
     window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onResize);
     onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onResize);
+    };
   }, []);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -60,76 +77,38 @@ export const Nav = () => {
   };
 
   return (
-    <motion.nav
-      initial={{ y: -40, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, delay: 0.2 }}
-      className="fixed left-1/2 top-6 z-50 -translate-x-1/2"
+    <nav
+      className={`fixed left-0 right-0 top-0 z-50 transition-all duration-200 ease-out ${
+        visible
+          ? "opacity-100 translate-y-0"
+          : "opacity-0 -translate-y-full pointer-events-none"
+      }`}
     >
       <div
-        className={`flex items-center gap-1 rounded-full px-2 py-1.5 transition-all duration-500 liquid-glass ${
-          scrolled ? "liquid-glass-strong" : "liquid-glass"
+        className={`flex items-center justify-center px-5 py-3 transition-all duration-200 ease-out border-b border-white/[0.06] ${
+          scrolled
+            ? "bg-background/60 backdrop-blur-xl"
+            : "bg-background/30 backdrop-blur-md"
         }`}
       >
-        <a
-          href="#hero"
-          onClick={(e) => handleNavClick(e, "#hero")}
-          className={`rounded-full px-3 py-1.5 text-sm font-bold tracking-tight transition-colors ${
-            activeSection === "hero"
-              ? "bg-white/10 hover:bg-white/5 text-foreground"
-              : "text-gradient-primary hover:text-foreground"
-          }`}
-        >
-          {t("nav.hero")}
-        </a>
-        <div className="hidden items-center sm:flex">
+        <div className="hidden items-center gap-1 sm:flex">
           {linksConfig.map((l) => (
             <a
               key={l.href}
               href={l.href}
               onClick={(e) => handleNavClick(e, l.href)}
-              className={`rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
+              className={`px-3 py-1.5 text-xs font-medium transition-colors ${
                 activeSection === l.href.slice(1)
-                  ? "bg-white/10 hover:bg-white/5 text-foreground"
+                  ? "text-foreground"
                   : "text-muted-foreground hover:text-foreground"
               }`}
             >
               {t(l.labelKey)}
             </a>
           ))}
-          <button
-            onClick={toggleLang}
-            aria-label={lang === "en" ? t("nav.lang_switch_to_es") : t("nav.lang_switch_to_en")}
-            className="relative flex h-8 items-center gap-0.5 rounded-full bg-white/5 pl-2.5 pr-1.5 text-xs font-medium tracking-wide"
-          >
-            <span className="relative flex h-5 w-5 items-center justify-center">
-              <Globe className="absolute h-3.5 w-3.5 text-muted-foreground" />
-            </span>
-            <span className="flex items-center gap-0.5 py-1">
-              <span
-                className={`rounded-md px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider transition-all duration-300 ${
-                  lang === "en"
-                    ? "bg-primary/20 text-primary shadow-[0_0_8px_var(--shadow-glow)]"
-                    : "text-muted-foreground"
-                }`}
-              >
-                EN
-              </span>
-              <span className="text-muted-foreground/40">/</span>
-              <span
-                className={`rounded-md px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider transition-all duration-300 ${
-                  lang === "es"
-                    ? "bg-primary/20 text-primary shadow-[0_0_8px_var(--shadow-glow)]"
-                    : "text-muted-foreground"
-                }`}
-              >
-                ES
-              </span>
-            </span>
-          </button>
           <kbd className="ml-1 hidden items-center gap-0.5 rounded border border-white/10 bg-white/5 px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground md:inline-flex">⌘K</kbd>
         </div>
       </div>
-    </motion.nav>
+    </nav>
   );
 };

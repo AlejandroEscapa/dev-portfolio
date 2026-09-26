@@ -1,0 +1,718 @@
+/* projects.module.css — 3D carousel + detail view for the Projects section */
+
+:root {
+  /* Carousel height only — detail view grows with its own content. */
+  --projects-stage-h: 640px;
+}
+
+.section {
+  position: relative;
+}
+
+/* Shared stage: carousel fills fixed height; detail grows with content */
+.stage {
+  display: flex;
+  flex-direction: column;
+}
+
+.stage > * {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.carouselOuter {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  perspective: 1400px;
+  padding: 0 60px;
+  flex: 1;
+  min-height: 0;
+}
+
+.carousel {
+  position: relative;
+  width: min(100%, 1200px);
+  flex: 1;
+  min-height: 0;
+  perspective: 1400px;
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+  overflow: visible;
+  /* allow side cards to overflow without being clipped */
+}
+
+.carousel:active {
+  cursor: grabbing;
+}
+
+/* Inner 3D stage (cards live here). Was previously .stage — renamed to avoid
+   collision with the parent .stage container above. */
+.stageInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.card {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: clamp(380px, 38vw, 520px);
+  min-height: clamp(460px, 55vh, 580px);
+  background-color: hsl(230 35% 6%);
+  background-image: linear-gradient(180deg, hsl(230 35% 8%), hsl(230 35% 4%));
+  border: 1px solid hsl(0 0% 100% / 0.12);
+  box-shadow:
+    0 24px 48px hsl(0 0% 0% / 0.5),
+    0 8px 16px hsl(0 0% 0% / 0.3),
+    0 0 0 1px hsl(0 0% 100% / 0.04);
+  display: flex;
+  flex-direction: column;
+  transform-style: preserve-3d;
+  transition:
+    transform 0.85s ease,
+    opacity 0.85s ease;
+  pointer-events: none;
+  border-radius: 1rem;
+  overflow: hidden;
+  opacity: 0;
+  will-change: transform, opacity;
+  isolation: isolate;
+}
+
+.card[data-active="true"] {
+  pointer-events: auto;
+}
+
+.card[data-position="3"]  { transform: translateZ(0)      scale(1);    opacity: 1;    z-index: 3; }
+.card[data-position="2"]  { transform: translateX(-420px) rotateY(22deg) scale(0.88); opacity: 1;    z-index: 2; }
+.card[data-position="1"]  { transform: translateX(-760px) rotateY(32deg) scale(0.78); opacity: 0.95; z-index: 1; }
+.card[data-position="0"]  { transform: translateX(-960px) rotateY(42deg) scale(0.68); opacity: 0;    z-index: 0; }
+.card[data-position="-1"] { transform: translateX(-1080px) rotateY(50deg) scale(0.60); opacity: 0;   z-index: 0; }
+.card[data-position="-2"] { transform: translateX(-1180px) rotateY(55deg) scale(0.55); opacity: 0;   z-index: 0; }
+.card[data-position="4"]  { transform: translateX(420px)  rotateY(-22deg) scale(0.88); opacity: 1;   z-index: 2; }
+.card[data-position="5"]  { transform: translateX(760px)  rotateY(-32deg) scale(0.78); opacity: 0.95; z-index: 1; }
+.card[data-position="6"]  { transform: translateX(960px)  rotateY(-42deg) scale(0.68); opacity: 0;   z-index: 0; }
+.card[data-position="7"]  { transform: translateX(1080px) rotateY(-50deg) scale(0.60); opacity: 0;   z-index: 0; }
+.card[data-position="8"]  { transform: translateX(1180px) rotateY(-55deg) scale(0.55); opacity: 0;   z-index: 0; }
+
+/* Card internals */
+.cardMedia {
+  height: clamp(180px, 24vh, 220px);
+  flex: 0 0 auto;
+  background-color: hsl(230 35% 4%);
+  background-image: linear-gradient(135deg, hsl(248 50% 15%), hsl(280 40% 10%));
+  border-bottom: 1px solid hsl(0 0% 100% / 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.cardMedia video,
+.cardMedia img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cardBody {
+  position: relative;
+  padding: 1rem;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+  /* Frosted glassmorphism pulled from the project's themed tokens.
+     .card keeps its opaque dark bg above, so isolation: isolate scopes
+     backdrop-filter to the card's own surface — no bleed-through to side
+     cards in the carousel during the rotateY transition. Alphas kept low
+     so the bg of the card (not the cardBody layer) does most of the visible
+     color work, leaving the layer to read as a soft mica texture. */
+  background: linear-gradient(
+    180deg,
+    hsl(var(--primary) / 0.05),
+    hsl(var(--accent) / 0.02)
+  );
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+}
+
+/* Morphic conic-gradient rim — static, no animation, zero idle GPU cost.
+   padding: 1px + mask-composite: exclude renders ONLY the 1px outline ring.
+   The 4 stops + closing stop sample --mesh-1..4 so the rim literally
+   extracts the same colors as the .mesh-bg blobs that decorate the section's
+   background. Each theme paints its own cónico automatically — green enters
+   naturally on Dracula (accent + mesh-2), Catppuccin (mesh-3) and Tokyo
+   Night (mesh-4) without any conditional logic. */
+.cardBody::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  padding: 1px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from 130deg,
+    hsl(var(--mesh-1) / 0.55),
+    hsl(var(--mesh-2) / 0.40),
+    hsl(var(--mesh-3) / 0.32),
+    hsl(var(--mesh-4) / 0.32),
+    hsl(var(--mesh-1) / 0.55)
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+}
+
+.cardBadge {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 0.4rem;
+  border-radius: 9999px;
+  border: 1px solid hsl(var(--accent) / 0.4);
+  background: hsl(var(--accent) / 0.1);
+  padding: 0.2rem 0.6rem;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: hsl(var(--accent));
+}
+
+.cardTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  color: hsl(var(--foreground));
+}
+
+.cardDesc {
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: hsl(var(--muted-foreground));
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.techRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-top: 0.15rem;
+}
+
+.techChip {
+  border-radius: 0.4rem;
+  border: 1px solid hsl(0 0% 100% / 0.1);
+  background: hsl(0 0% 100% / 0.04);
+  padding: 0.2rem 0.5rem;
+  font-size: 0.68rem;
+  color: hsl(var(--foreground));
+  white-space: nowrap;
+}
+
+.cardActions {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  width: 100%;
+  padding-top: 0.5rem;
+}
+
+.cardActionRow {
+  display: flex;
+  gap: 0.4rem;
+  width: 100%;
+  justify-content: flex-start;
+}
+
+/* View wrapper: chips live DOM-first, cards DOM-second. column-reverse flips
+   the visual order (cards up, chips down) while keeping tab order "filter →
+   content" for keyboard users. */
+.viewFlip {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: stretch;
+  gap: 2.5rem;
+  flex: 1;
+  min-height: var(--projects-stage-h);
+}
+
+/* Segmented control (placed visually below the project cards thanks to .viewFlip). */
+.chips {
+  display: flex;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.chipTrack {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.25rem;
+  background: hsl(0 0% 100% / 0.04);
+  border: 1px solid hsl(0 0% 100% / 0.08);
+  border-radius: 0.6rem;
+  width: fit-content;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.chipTrack::-webkit-scrollbar {
+  display: none;
+}
+
+.chip {
+  position: relative;
+  isolation: isolate;
+  padding: 0.5rem 1rem;
+  /* 1px transparent border so toggling data-active only swaps border-color,
+     avoiding the 2px layout shift that an on/off border would introduce. */
+  border: 1px solid transparent;
+  border-radius: 0.45rem;
+  background: transparent;
+  color: hsl(var(--muted-foreground));
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  outline: none;
+}
+
+.chip:hover {
+  color: hsl(var(--foreground));
+  background: hsl(0 0% 100% / 0.06);
+}
+
+.chip:focus-visible {
+  outline: 2px solid hsl(var(--primary) / 0.6);
+  outline-offset: 2px;
+}
+
+/* Active state keeps a stroke and an alpha fill so single-active and
+   multi-active chips look identical to the eye. chipBg sits ABOVE this bg
+   with a slightly bolder alpha (0.24) — the single-mode "pulse" sits over a
+   steady base, so the single→multi exit only loses a hue delta, never a
+   stroke or border. */
+.chip[data-active="true"] {
+  color: hsl(var(--primary));
+  background: hsl(var(--primary) / 0.12);
+  border-color: hsl(var(--primary) / 0.4);
+}
+
+.chip[data-active="true"]:hover {
+  background: hsl(var(--primary) / 0.18);
+}
+
+/* Sliding indicator (rendered via Framer Motion `layoutId="chip-indicator"`).
+   Lives at z:0 inside the chip's own stacking context (created by
+   `isolation: isolate` on .chip); the label sits at z:1 above it. When ≥2
+   chips are active we omit this entirely — multi-select adds its own border
+   via .chip[data-active="true"] so the stroke is consistent regardless of
+   how many segments are highlighted. */
+.chipBg {
+  position: absolute;
+  inset: 0;
+  background: hsl(var(--primary) / 0.24);
+  border-radius: inherit;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.chipLabel {
+  position: relative;
+  z-index: 1;
+}
+
+/* Detail view (replaces carousel) — Bento layout, grows with content */
+.detail {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 1rem 0;
+}
+
+/* Block 1: Header — back button left, title centered, separator below */
+.detailHeader {
+  display: flex;
+  align-items: center;
+  padding: 0 0 0.75rem 0;
+  border-bottom: 1px solid hsl(0 0% 100% / 0.08);
+  flex-shrink: 0;
+  position: relative;
+}
+
+.detailBackBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  padding: 0;
+  color: hsl(var(--foreground));
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.15s ease;
+}
+
+.detailBackBtn:hover {
+  color: hsl(var(--primary));
+}
+
+.detailBackBtn:active {
+  transform: translateY(1px);
+}
+
+.detailTitle {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: hsl(var(--foreground));
+  margin: 0;
+  font-family: var(--font-display);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (min-width: 768px) {
+  .detailTitle { font-size: 2.25rem; }
+}
+
+/* Block 2: Content — media left, highlights + about right */
+.detailContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  flex: 1;
+  min-height: 0;
+  padding: 1.25rem 0;
+}
+
+@media (max-width: 900px) {
+  .detailContent {
+    grid-template-columns: 1fr;
+  }
+}
+
+.detailMedia {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 0.5rem;
+  background: transparent;
+  display: block;
+  overflow: hidden;
+}
+
+.detailMedia video,
+.detailMedia img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  outline: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.detailInfo {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  align-self: stretch;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.detailSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.detailSectionTitle {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: hsl(var(--muted-foreground));
+  font-weight: 600;
+  margin: 0;
+}
+
+.detailDesc {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: hsl(var(--foreground));
+  margin: 0;
+}
+
+/* Highlights — horizontal row */
+.highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  flex-shrink: 0;
+}
+
+.highlight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+  padding: 0.5rem 0.65rem;
+  border-radius: 0.5rem;
+  background: hsl(0 0% 100% / 0.03);
+  border: 1px solid hsl(0 0% 100% / 0.08);
+  min-width: 0;
+}
+
+.highlightIcon {
+  width: 0.9rem;
+  height: 0.9rem;
+  color: hsl(var(--primary));
+  flex-shrink: 0;
+}
+
+.highlightLabel {
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: hsl(var(--muted-foreground));
+  line-height: 1.2;
+}
+
+.highlightValue {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+/* Block 3: Stack strip — horizontal, separated from content */
+.detailStackStrip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1rem 0 0;
+  border-top: 1px solid hsl(0 0% 100% / 0.08);
+  flex-shrink: 0;
+}
+
+@media (max-width: 900px) {
+  .detailStackStrip {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}
+
+/* Stack — horizontal layout */
+.stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  min-height: 0;
+}
+
+.stackCategory {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.stackCategoryLabel {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 0.35rem;
+  border: 1px solid hsl(var(--primary) / 0.3);
+  background: hsl(var(--primary) / 0.08);
+  padding: 0.18rem 0.45rem;
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: hsl(var(--primary));
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.stackItems {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.stackItem {
+  font-size: 0.72rem;
+  color: hsl(var(--foreground));
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+.stackItem + .stackItem::before {
+  content: ", ";
+  color: hsl(var(--muted-foreground));
+  font-size: 0.65rem;
+}
+
+.detailActions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+
+/* Transitions */
+.entering {
+  animation: slideInBlur 600ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.exiting {
+  animation: riseOutBlur 400ms ease both;
+}
+
+@keyframes slideInBlur {
+  from { opacity: 0; transform: translateY(-20px); filter: blur(10px); }
+  to   { opacity: 1; transform: translateY(0);     filter: blur(0); }
+}
+
+@keyframes riseOutBlur {
+  from { opacity: 1; transform: translateY(0);    filter: blur(0); }
+  to   { opacity: 0; transform: translateY(-12px); filter: blur(10px); }
+}
+
+/* Mobile list */
+.mobileGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+.mobileCard {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  text-align: left;
+  border-radius: 1.25rem;
+  border: 1px solid hsl(0 0% 100% / 0.1);
+  background: linear-gradient(180deg, hsl(0 0% 100% / 0.05), hsl(0 0% 100% / 0.02));
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  overflow: hidden;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+  cursor: pointer;
+  padding: 0;
+}
+
+.mobileCard:hover,
+.mobileCard:focus-visible {
+  transform: translateY(-2px);
+  border-color: hsl(var(--primary) / 0.4);
+}
+
+.mobileCardMedia {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: hsl(230 35% 5% / 0.4);
+  overflow: hidden;
+}
+
+.mobileCardMedia video,
+.mobileCardMedia img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.mobileCardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.1rem 1.25rem 1.35rem;
+}
+
+.mobileCardTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: hsl(var(--foreground));
+}
+
+.mobileCardDesc {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: hsl(var(--muted-foreground));
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Empty state */
+.empty {
+  text-align: center;
+  padding: 4rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  color: hsl(var(--muted-foreground));
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: opacity 200ms ease;
+    transform: none !important;
+  }
+  .entering,
+  .exiting {
+    animation-duration: 200ms;
+  }
+}

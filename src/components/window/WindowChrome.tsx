@@ -8,9 +8,10 @@ interface WindowChromeProps {
   children: ReactNode;
   className?: string;
   defaultOpen?: boolean;
+  fullHeight?: boolean;
 }
 
-export function WindowChrome({ title, id, children, className, defaultOpen = true }: WindowChromeProps) {
+export function WindowChrome({ title, id, children, className, defaultOpen = true, fullHeight }: WindowChromeProps) {
   const [open, setOpen] = useState(defaultOpen);
   const [minimized, setMinimized] = useState(false);
 
@@ -21,10 +22,10 @@ export function WindowChrome({ title, id, children, className, defaultOpen = tru
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      className={cn("relative mx-auto my-16 max-w-6xl", className)}
+      className={cn("relative mx-auto my-8 max-w-5xl", className)}
     >
       {open && (
-        <div className="overflow-hidden rounded-2xl border border-white/10 glass-strong shadow-2xl">
+        <div className={cn("overflow-hidden rounded-2xl border border-white/10 glass-strong shadow-2xl", fullHeight && "h-full flex flex-col")}>
           <div className="flex items-center gap-2 border-b border-white/5 bg-white/[0.02] px-4 py-3">
             <div className="flex items-center gap-1.5">
               <button
@@ -52,11 +53,11 @@ export function WindowChrome({ title, id, children, className, defaultOpen = tru
             <div className="w-12" />
           </div>
           <motion.div
-            animate={{ height: minimized ? 0 : "auto", opacity: minimized ? 0 : 1 }}
+            animate={fullHeight ? { opacity: minimized ? 0 : 1 } : { height: minimized ? 0 : "auto", opacity: minimized ? 0 : 1 }}
             transition={{ duration: 0.2 }}
-            className="overflow-hidden"
+            className={cn("overflow-hidden", fullHeight && "flex-1 overflow-auto")}
           >
-            <div className="p-6 md:p-10">{children}</div>
+            <div className={cn("p-4 md:p-6", fullHeight && "h-full")}>{children}</div>
           </motion.div>
         </div>
       )}
