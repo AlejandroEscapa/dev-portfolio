@@ -112,7 +112,7 @@ export function HoloFigure({ primary, accent, pedestal, onHover, motion }: HoloF
 
   useFrame((_, delta) => {
     if (!motion) return;
-    if (spinRef.current) spinRef.current.rotation.y += delta * 0.25;
+    if (spinRef.current) spinRef.current.rotation.y += delta * 0.12;
     if (tiltRef.current) {
       tiltRef.current.rotation.x += (mouse.current.y * 0.08 - tiltRef.current.rotation.x) * 0.05;
       tiltRef.current.rotation.z += (mouse.current.x * 0.05 - tiltRef.current.rotation.z) * 0.05;
@@ -132,7 +132,7 @@ export function HoloFigure({ primary, accent, pedestal, onHover, motion }: HoloF
   return (
     <Float
       ref={floatRef}
-      speed={motion ? 1.6 : 0}
+      speed={motion ? 0.9 : 0}
       rotationIntensity={motion ? 0.15 : 0}
       floatIntensity={motion ? 0.6 : 0}
       floatingRange={[0.02, 0.1]}
