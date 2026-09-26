@@ -95,7 +95,7 @@ export const Projects = ({ motionStyle }: ProjectsProps) => {
     >
       <div className="container mx-auto max-w-7xl">
         {viewMode === "carousel" && (
-          <div className="mb-10">
+          <div className="mb-4">
             <h2 className="text-center text-h1 font-bold tracking-heading">
               {t("projects.heading_before")} {t("projects.heading_after")}
             </h2>
