@@ -1,4 +1,4 @@
-import { defineConfig } from "vite";
+import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import tailwindcss from "@tailwindcss/vite";
 import { spawnSync } from "node:child_process";
@@ -11,7 +11,7 @@ import { componentTagger } from "lovable-tagger";
  * `build` and `build:dev` rely on the `prebuild` npm script (see
  * package.json) which runs build-tokens.mjs synchronously.
  */
-function watchTokensPlugin() {
+function watchTokensPlugin(): Plugin {
   return {
     name: "watch-tokens",
     apply: "serve",
@@ -22,7 +22,7 @@ function watchTokensPlugin() {
       });
       if (out.status !== 0) this.error("build-tokens.mjs failed at dev startup");
     },
-    configureServer(server: any) {
+    configureServer(server) {
       server.watcher.add("src/styles/tokens/**/*.json");
       const run = (file: string) => {
         if (!file.includes("tokens")) return;

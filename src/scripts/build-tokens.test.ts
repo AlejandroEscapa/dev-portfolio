@@ -56,8 +56,8 @@ describe("build-tokens: flat / aliases / emit", () => {
   });
 
   it("resolveAliases ignores non-string input", () => {
-    expect(_resolveAliases(null as any, {})).toBe(null);
-    expect(_resolveAliases(undefined as any, {})).toBe(undefined);
+    expect(_resolveAliases(null, {})).toBe(null);
+    expect(_resolveAliases(undefined, {})).toBe(undefined);
   });
 
   it("emitCSS produces :root with --primary + mesh-4 = green-teal for indigo default", () => {
