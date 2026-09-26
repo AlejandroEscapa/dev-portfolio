@@ -1,14 +1,20 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 interface DockItemProps {
   children: ReactNode;
+  /** Visible name in the expanded rail / tooltip when collapsed (i18n'd). */
   label: string;
   onClick?: () => void;
   active?: boolean;
   scale: number;
   accentClass?: string;
+  /** Expanded rail: icon + label inline, magnify off. */
+  showLabel?: boolean;
+  /** Optional popover rendered as a sibling of the button (never nested
+      inside it), positioned to the right of the rail. */
+  popup?: ReactNode;
 }
 
 export function DockItem({
@@ -18,40 +24,56 @@ export function DockItem({
   active,
   scale,
   accentClass,
+  showLabel = false,
+  popup,
 }: DockItemProps) {
   return (
-    <motion.button
-      data-dock-item
-      onClick={onClick}
-      animate={{ scale: 1 + scale * 0.4, y: -scale * 20 }}
-      transition={{ type: "spring", stiffness: 350, damping: 22 }}
-      className={cn(
-        "group relative flex h-12 w-12 items-center justify-center rounded-md border border-neutral-tint/[0.06] bg-neutral-tint/[0.03] transition-all duration-200",
-        "hover:bg-neutral-tint/[0.08] hover:border-neutral-tint/[0.12] hover:shadow-dock-item",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70",
-        active && "dock-item-active"
-      )}
-      aria-label={label}
-      aria-pressed={active}
-    >
-      <span
+    <div className="group relative flex">
+      <motion.button
+        data-dock-item
+        onClick={onClick}
+        animate={showLabel ? { scale: 1, x: 0 } : { scale: 1 + scale * 0.35, x: scale * 5 }}
+        transition={{ type: "spring", stiffness: 350, damping: 22 }}
         className={cn(
-          "transition-colors duration-200",
-          accentClass,
-          !accentClass && "group-hover:text-foreground"
+          "flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-md border border-neutral-tint/[0.06] bg-neutral-tint/[0.03] transition-all duration-200",
+          "hover:bg-neutral-tint/[0.08] hover:border-neutral-tint/[0.12] hover:shadow-dock-item",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70",
+          showLabel && "w-full justify-start gap-3 px-3",
+          active && "dock-item-active"
         )}
+        aria-label={label}
+        aria-pressed={active}
       >
-        {children}
-      </span>
-      {active && (
+        <span
+          className={cn(
+            "shrink-0 transition-colors duration-200",
+            accentClass,
+            !accentClass && !showLabel && "group-hover:text-foreground"
+          )}
+        >
+          {children}
+        </span>
+        {showLabel && (
+          <span className="truncate whitespace-nowrap font-mono text-xs text-foreground/90">
+            {label}
+          </span>
+        )}
+        {active && (
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -right-1 top-1/2 h-1 w-1 -translate-y-1/2 rounded-full bg-accent dock-item-active-dot"
+          />
+        )}
+      </motion.button>
+      {!showLabel && (
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute -bottom-2 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-accent dock-item-active-dot"
-        />
+          className="pointer-events-none absolute left-full top-1/2 ml-2 -translate-y-1/2 whitespace-nowrap rounded-md bg-popover/85 px-2 py-1 font-mono text-[10px] text-foreground opacity-0 shadow-lg ring-1 ring-neutral-tint/10 backdrop-blur-sm transition-all duration-200 group-hover:translate-x-0.5 group-hover:opacity-100"
+        >
+          {label}
+        </span>
       )}
-      <span className="pointer-events-none absolute -top-8 whitespace-nowrap rounded-md bg-popover/85 px-2 py-1 text-[10px] font-mono text-foreground opacity-0 backdrop-blur-sm shadow-lg ring-1 ring-neutral-tint/10 transition-all duration-200 group-hover:-translate-y-0.5 group-hover:opacity-100">
-        {label}
-      </span>
-    </motion.button>
+      {popup && <AnimatePresence>{popup}</AnimatePresence>}
+    </div>
   );
 }
