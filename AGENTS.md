@@ -62,7 +62,7 @@ All run via `npm` (a `bun.lockb` also exists; the lockfile story is in §11).
 | `npm run build:dev`             | `tokens` → `vite build --mode development`                          |
 | `npm run preview`               | `vite preview`                                                      |
 | `npm run tokens`                | Rebuild `src/styles/generated/*` from JSON sources                  |
-| `npm run tokens:test`           | Vitest for the token build pipeline (`build-tokens.test.ts`)        |
+| `npm run tokens:test`           | Vitest for the token pipeline (core + AA contrast tests)             |
 | `npm run lint`                  | `eslint .` (flat config; ignores `dist`)                            |
 | `npm run onboard`               | Interactive wizard that rewrites `portfolio.config.json`            |
 | `npm test`                      | Vitest single run                                                   |
@@ -100,8 +100,8 @@ Loaded by `scripts/build-tokens.mjs` in this order (see
 
 1. `primitives/colors.json` — palette scales + status colours
 2. `semantic/colors.json` — semantic tokens as raw HSL triples
-3. `semantic/layout.json` — `--radius`, `--nav-height`, `--hero-pad-top`
-4. `semantic/typography.json` — `font-display`, `font-sans`, `font-mono`
+3. `semantic/layout.json` — radius scale, `--section-gap`, `--nav-height`
+4. `semantic/typography.json` — font families + display scale + tracking
 5. `themes/{indigo,catppuccin,dracula,tokyo-night}.json` — per-theme
    deltas
 
@@ -126,6 +126,21 @@ Loaded by `scripts/build-tokens.mjs` in this order (see
 hsl(var(--primary))` — **the underlying CSS vars still hold raw HSL
 triples**, never wrapped values.
 
+Pipeline modules (the engine is separate from its I/O):
+`scripts/tokens-core.mjs` is the pure engine — flatten, alias resolution,
+model reduction, the emit policy and the contrast math, no filesystem and no
+logging; `scripts/tokens-sources.mjs` is the filesystem boundary (where the
+sources live + the load order from `tokens.index.json`);
+`scripts/build-tokens.mjs` is the thin CLI that wires them together and
+writes the artifacts. Tests import the core and the loader, never the CLI.
+
+Emit policy: colour aliases become `hsl(var(--X))` wrappers in `@theme
+inline`, while every token whose key starts with a namespace we own
+(`radius-`, `font-`, `text-`, `tracking-`) is copied **verbatim**, because
+Tailwind generates those utilities from our values instead of its defaults.
+Font requests stay minimal: `Fraunces` is variable (wght 100-900 + opsz) and
+only the weights actually used are requested in `index.html`.
+
 ### How to add a new theme
 
 1. Create `src/styles/tokens/themes/<name>.json` with shape:
@@ -140,7 +155,12 @@ triples**, never wrapped values.
 - `--nav-height` (default `60px`) — drives the
   `.viewport-content = 100vh − var(--nav-height)` utility.
 - `--hero-pad-top` (default `32px`) — sticky offset for the 3D window.
-- `--radius` — drives `--radius-{sm,md,lg}` (`-8`, `-4`, base).
+- `--radius-{xs,sm,md,lg}` (`4px`, `8px`, `12px`, `16px`) — monotonic
+  radius scale; Tailwind's `rounded-{xs,sm,md,lg}` come from these values,
+  so they are emitted verbatim into `@theme inline`. Rule: inner radius =
+  outer radius − padding.
+- `--section-gap` / `--section-gap-sm` — single owner of the vertical
+  rhythm between sections (consumed by `.section-y`).
 
 ### Custom utility classes (in `src/index.css` `@layer utilities`)
 
@@ -166,9 +186,9 @@ positioned so the dock (z-30) and terminal panel (z-40) stay sharp.
 
 | Token         | Family                                          | Usage                  |
 | ------------- | ----------------------------------------------- | ---------------------- |
-| `--font-display` | `"Space Grotesk", system-ui, sans-serif`     | All headings (`h1-h6`) |
-| `--font-sans`    | `"Inter", system-ui, sans-serif`             | Body UI, paragraphs    |
-| `--font-mono`    | `"Courier Prime", "Courier New", monospace`  | Terminal, CLI, boot    |
+| `--font-display` | `"Fraunces", Georgia, serif`                 | All headings (`h1-h6`) |
+| `--font-sans`    | `"IBM Plex Sans", system-ui, sans-serif`     | Body UI, paragraphs, `h3-h6` |
+| `--font-mono`    | `"IBM Plex Mono", ui-monospace, monospace`   | Terminal, CLI, labels  |
 
 Loaded via the Google Fonts `<link>` in `index.html` (single request,
 all three families).
@@ -423,7 +443,8 @@ iteration; surface tightening as a separate refactor change.
   `useTerminalHistory`, `useTheme`, `cli-commands`, `passion-data`,
   `profile-content`, `spotlight-items`, `data/projects` (`projects.test.ts`),
   `data/trayectoria` (`trayectoria.test.ts`),
-  `src/scripts/build-tokens.test.ts`.
+  `src/scripts/build-tokens.test.ts`,
+  `src/scripts/token-contrast.test.ts` (WCAG AA guard for muted text).
 - Coverage guidance: any new data-shaping helper (`groupTechByCategory`,
   command dispatch, theme overlay, spotlight filter) gets a co-located
   `.test.ts` BEFORE the implementation lands.

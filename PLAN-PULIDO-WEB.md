@@ -123,6 +123,73 @@ Atomic commits por fase, estilo del repo (`docs:` / `feat:` / `fix:` / `refactor
 
 ## Registro de ejecución
 
-### Fase 1 — Fundación de tokens
+### Fase 1 — Fundación de tokens · COMPLETA
 
-_(se completa al cerrar la fase)_
+**Estructura resultante del pipeline** (el motor separado de su I/O, para que las
+fases siguientes crezcan aquí y no en un fichero único):
+
+| Módulo | Responsabilidad |
+| --- | --- |
+| `scripts/tokens-core.mjs` | Motor puro: `flatten`, `resolveAliases`, `buildTokenModel` (reducción a defaults + mapas por tema), política de emisión (`emitCSS`/`emitTS`/`emitFlat`) y matemática de contraste. Sin filesystem, sin logging. |
+| `scripts/tokens-sources.mjs` | Frontera de IO: dónde viven las fuentes y en qué orden cargan (`tokens.index.json`). Único dueño del *load order*, compartido por CLI y tests. |
+| `scripts/build-tokens.mjs` | CLI fino: cargar → reducir → escribir 3 artefactos → log. |
+
+La política de emisión dejó de estar hardcodeada token a token: cualquier clave
+que empiece por un namespace propio (`radius-`, `font-`, `text-`, `tracking-`) se
+copia verbatim en `@theme inline` para que Tailwind genere `rounded-*`,
+`text-*`, `tracking-*` y `font-*` desde nuestros valores. Añadir un namespace es
+una cadena; el emisor ya no nombra ningún token individual. Las primitivas
+desaparecieron del roster de temas: los nombres salen de las propias fuentes.
+
+**Tokens nuevos (53 → 78):** familias + escala display (`text-display/h1/h2/h3/body/body-sm/caption/label`)
++ tracking nombrado; escala de radios; `section-gap` / `section-gap-sm`;
+6 tokens de superficie (`surface-glass*`) que consolidan las recetas de glass en
+dos materiales; 4 tokens `icon-*` para los hues del dock.
+
+**Desviaciones fundamentadas respecto al plan aprobado:**
+
+1. **Escala de radios: 4/8/12/16 (sin `xl`/`2xl`).** El plan preveía hasta `24px`,
+   pero `rounded-xl` vale hoy 12px (default de Tailwind, **no** un token nuestro)
+   y la escala actual es **no monótona** (`xl` < `lg`): emitir 24px movería 9 usos
+   reales — botones del dock de 46×46, la card de Contact, el bloque de Education,
+   el popover de ThemeSwitcher y BrowserPreview. Como esta fase exige render
+   equivalente, se emite la parte de la escala que preserva **exactamente** cada
+   valor consumido (`sm` 8, `md` 12, `lg` 16) más `xs` 4px (sin consumidores). Los
+   pasos grandes entran en la fase de barrido, cuando los literales
+   `rounded-xl/2xl/3xl` (9 + 6 + 1) ya estén migrados.
+2. **Fuente display: Fraunces en lugar de Instrument Serif.** 5 titulares llevan
+   `font-bold` (H1 del hero, H2 de Contact/Projects/Education, H1 del 404) y dos
+   reglas piden 800. Instrument Serif solo tiene 400 → negrita **sintética**.
+   Fraunces es la alternativa ya contemplada en el plan, es variable
+   (wght 100-900 + opsz) y mantiene la fidelidad de peso. Verificado en navegador:
+   el H1 computa `Fraunces` a `700` y 72px, sin síntesis.
+3. **`muted-foreground`: la cifra de la auditoría no era reproducible.** El audit
+   afirmaba ≈4.2:1 en el tema por defecto; medido con la fórmula WCAG validada
+   contra pares de referencia (blanco/negro 21.00 y `#767676` sobre blanco 4.54,
+   ambos exactos), indigo da **7.35:1** (ya AAA). El fallo real estaba en los otros
+   temas y **sobre `card`**, no sobre `background`: catppuccin 4.37, dracula 4.00,
+   tokyo-night 4.38 — los tres por debajo de AA. Arreglo mínimo: subir la
+   *lightness* de 55% a 60% manteniendo hue y saturación de cada tema
+   (5.20 / 4.74 / 5.24 sobre card). Indigo **no se toca**: ya cumplía.
+
+**Artefactos:** `tokens.css`, `tokens.ts` y `tokens.flat.json` regenerados
+(siguen gitignored). `--radius-sm/md/lg` emiten 8/12/16px, idénticos a los
+`calc(1rem − …)` anteriores; el default de Tailwind para `rounded-xl/2xl/3xl`
+queda intacto, así que **el render de radios y el tema indigo no cambian**.
+
+**Verificación ejecutada:** `npm run tokens` (78 tokens × 4 temas) · `npm test`
+(16 ficheros, 84 tests: +3 del modelo/política y +3 de contraste AA) ·
+`npm run lint` (0 errores, 12 warnings — paridad) · `npm run build` (OK,
+7322 módulos, CSS 145.14 kB, JS idéntico). En navegador: H1 en `Fraunces` 700 a
+72px, body en `IBM Plex Sans`, títulos de ventana en `IBM Plex Mono`, los 4 temas
+cambiando `--muted-foreground` a 60% y `--surface-glass` resolviendo por tema vía
+`var(--card)`, y **todos** los `rounded-xl` del DOM a 12px (el dock no se movió).
+La URL de Google Fonts devuelve HTTP 200 con exactamente los pesos usados.
+
+**Defectos observados y NO tocados** (preexistentes, fuera de esta fase → fases 5/7):
+`ImageBackground` pasa `color-interpolation-filters` y `fetchPriority` como props
+DOM inválidas (2 warnings de React); `ThemeSwitcher` anida un `<button>` dentro de
+otro `<button>` en el DockItem (HTML inválido); el preload de `pexels-640.webp`
+no se usa. Además el DOM duplica `id` en `hero`, `about`, `projects`, `education`
+y `trayectoria` (dos ramas desktop/móvil renderizadas) — pendiente de confirmar
+antes de tocar nada.
