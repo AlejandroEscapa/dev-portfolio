@@ -61,7 +61,9 @@ export function WindowChrome({ title, id, children, className, defaultOpen = tru
             transition={{ duration: DURATION_FAST }}
             className={cn("overflow-hidden", fullHeight && "flex-1 overflow-auto")}
           >
-            <div className={cn("p-4 md:p-6", fullHeight && "h-full")}>{children}</div>
+            {/* Vertical padding comes from the --window-pad-y token so every
+                window body gets the same guaranteed air; horizontal is px-4/6. */}
+            <div className={cn("px-4 md:px-6 py-(--window-pad-y)", fullHeight && "h-full")}>{children}</div>
           </motion.div>
         </div>
       )}

@@ -15,5 +15,7 @@
 
   "nav-height":      { "$value": "60px",  "$type": "dimension", "$description": "Must match `const navHeight = 60` in Nav.tsx." },
   "hero-pad-top":    { "$value": "32px",  "$type": "dimension" },
-  "projects-stage-h":{ "$value": "640px", "$type": "dimension", "$description": "Floor: 54 chips+margin + 580 card min-height." }
+  "projects-stage-h":{ "$value": "640px", "$type": "dimension", "$description": "Floor: 54 chips+margin + 580 card min-height." },
+
+  "window-pad-y": { "$value": "clamp(1.5rem, 1rem + 2.5vh, 2.5rem)", "$type": "dimension", "$description": "Guaranteed vertical padding inside every WindowChrome body (the old p-4 md:p-6 gave 16/24px and Education read cramped). Consumed by WindowChrome's content wrapper; horizontal padding stays px-4 md:px-6." }
 }
