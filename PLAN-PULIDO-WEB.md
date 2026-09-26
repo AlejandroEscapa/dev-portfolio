@@ -419,3 +419,60 @@ hero** (momento de marca). `.text-gradient-accent` muere sin consumidores.
 verificación en navegador: medidas computadas idénticas en los 3 anchos,
 bento sin celdas vacías en desktop y móvil (375px), nav mono en pantalla,
 titulares sólidos. Commit `e9c8040`.
+
+### Fase 4 — Motion coreografiado + micro-interacciones · COMPLETA
+
+**Tokens primero, test-first:** `semantic/motion.json` nuevo (85 → **89
+tokens**) en el load order; `duration-fast/base/slow` (200/500/700ms) y
+`ease-out-expo` emiten a `:root` (consumo CSS por `var()`) y a
+`TOKENS_DEFAULT` (consumo framer). El emisor no se tocó: la política por
+forma ya los manejaba (no son triples HSL ni namespaces propios).
+`src/lib/motion.ts` — escrito DESPUÉS de su test (§12), 5 tests — parsea
+ms→segundos y el string `cubic-bezier()`→array de framer, y exporta
+`fadeUp` / `fadeUpSm` / `stagger()`.
+
+**De 8 `whileInView` a 4 call sites = 3 momentos de coreografía:**
+1. **Entrada de ventana** (`WindowChrome`) — `duration-base` + ease del token,
+   con guard `useReducedMotion` (antes animaba siempre).
+2. **Cabecera de sección** — UN `whileInView` en un wrapper padre que
+   orquesta label→h2→sub con `staggerChildren` (About y Education). Los
+   `custom i*0.1` y delays a mano murieron.
+3. **Rejilla de cards de Education** — la grid cascada desde su propio padre.
+
+Projects y Contact perdieron su reveal interno (redundante con la entrada de
+la ventana que ya los envuelve): montan con el chrome. Los easings literales
+de Dock y CliTerminal consolidan en `EASE_OUT_EXPO` — **cero literales de
+easing fuera del helper** (el único `[0.22,1,0.36,1]` que queda es la
+aserción del test). Duraciones finas de interacción (dock 0.32, CLI
+0.14–0.22) se quedan: son feedback, no coreografía.
+
+**`prefers-reduced-motion` en todo lo nuevo:** con la query activa el estado
+inicial hidden no se aplica (reveal estático) y el specular pierde su
+transition (CSS `@media`).
+
+**Specular pointer-aware:** utilidad `.specular` — la card escribe `--mx/--my`
+desde un handler `pointermove` y un `::after` pinta un radial con el par
+neutro (theme-aware, sin color nuevo). Aplicado a las cards de Education y a
+las cells de TechBento. Verificado: `--mx/--my` se escriben y el gradiente
+computado sigue al cursor (`radial-gradient(260px at 80px 60px, …)`).
+
+**Gates:** tokens 89×4 · tests **55/55** (+5 motion) · lint 0/10 · tsc 0/0 ·
+build OK · navegador: cascada de Education renderizada escalonada, tokens
+resolviendo en `:root`. Commit `a447083`.
+
+---
+
+## Criterios globales — estado final
+
+| Criterio | Estado |
+| --- | --- |
+| Ningún literal visual fuera del pipeline (salvo traffic lights) | ✅ |
+| Un dueño del ritmo vertical (`.section-y`) | ✅ |
+| Una escala tipográfica **consumida** | ✅ (recalibrada, render idéntico) |
+| Una escala de radios | ✅ |
+| 2 recetas de glass | ✅ (`.glass` / `.glass-strong`; `.liquid-glass*` eliminadas) |
+| `muted-foreground` ≥ 4.5:1 | ✅ |
+| Passions sin rastro | ✅ (`rg -i passion src/` == 0) |
+| Cero anchors muertos | ✅ (nav + spotlight + ids duplicados) |
+| Motion: un patrón tokenizado, reduced-motion respetado | ✅ (89 tokens, 3 momentos) |
+| Todos los gates en verde | ✅ (tokens · lint · test · build · tsc ×2) |
