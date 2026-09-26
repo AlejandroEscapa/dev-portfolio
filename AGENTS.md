@@ -102,7 +102,8 @@ Loaded by `scripts/build-tokens.mjs` in this order (see
 2. `semantic/colors.json` — semantic tokens as raw HSL triples
 3. `semantic/layout.json` — radius scale, `--section-gap`, `--nav-height`
 4. `semantic/typography.json` — font families + display scale + tracking
-5. `themes/{indigo,catppuccin,dracula,tokyo-night}.json` — per-theme
+5. `semantic/motion.json` — durations (`--duration-*`) + `--ease-out-expo`
+6. `themes/{indigo,catppuccin,dracula,tokyo-night}.json` — per-theme
    deltas
 
 ### Format (DTCG-ish)
