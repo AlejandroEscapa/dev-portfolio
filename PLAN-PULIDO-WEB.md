@@ -368,3 +368,54 @@ completo del proyecto) · lint 0 errores/10 warnings (−1) · tests **50/50**
 (−22: los de los 3 ficheros de test borrados) · build OK (10.9s) ·
 verificación en navegador: sin ventana profile, nav con 4 links, labels
 renumeradas en pantalla, transición education→contact limpia. Commit `96de391`.
+
+### Fase 5 — Escala tipográfica consumida + ajustes por sección · COMPLETA
+
+**La escala existía y nadie la consumía — y al consumirla se descubrió que no
+estaba calibrada.** Los tokens emitidos no reproducían el render (p. ej.
+`text-h2` = 28px a 768 donde el h2 de About renderizaba 48). Recalibrados
+contra estilos computados medidos a 375/768/1440, con resultado **render
+idéntico**: hero h1 48/72/72, h2 de sección 36/60/60, about h2 30/48/48,
+h3 de cards 20 fijo, labels 12/14px a 0.3em. Los dos peldaños intermedios
+(640–768) interpolan donde la utilidad vieja saltaba a discreto — documentado
+en el propio token. Los aspirations de Fase 1 (`tracking-heading` −0.02em,
+`tracking-label` 0.24em) se descartaron: movían el render; los valores
+calibrados son −0.05em y 0.3em.
+
+**Barrido de arbitrarios a cero:** 5× `tracking-[0.3em]` → `tracking-label`,
+`tracking-[0.2em]` (periodos de Education) se une a la escala de labels
+(+0.1em sobre un label de 12px, imperceptible), la regla base `h1-h6` apunta a
+`var(--tracking-display)` en vez del literal −0.04em, y el título display de
+TechBento (`tracking-[0.12em]` en Fraunces) pasa a **label mono**
+(`text-label tracking-label`) — la tesis dice display nunca en labels.
+**Consumo:** hero h1 → `text-display tracking-display`; Projects/Education h2 →
+`text-h1 tracking-heading`; About h2 → `text-h2 tracking-heading`; Contact h2 →
+`text-display tracking-heading`; h3 Education → `text-h3`. Los 19 `clamp()`
+sueltos de secciones de titulares quedan en el pipeline; los que quedan en
+CSS modules son de layout (stage del carrusel), no tipográficos.
+
+**Decisión de diseño (§12.1 del handoff — asumida como senior):** el gradiente
+blanco→gris repetido en los 5 titulares no aportaba jerarquía que la escala ya
+diera; la tesis prohíbe gradientes decorativos *repetidos*. Titulares a
+`foreground` sólido; **el gradiente sobrevive una sola vez, en el nombre del
+hero** (momento de marca). `.text-gradient-accent` muere sin consumidores.
+
+**Resto de la fase:**
+- **Glass colapsado a 2 recetas**: `.liquid-glass` y `.liquid-glass-strong`
+  (sin consumidores) eliminadas; la píldora de restaurar de `WindowChrome`
+  pasa a `.glass`. Criterio del plan cumplido.
+- **TechBento bento asimétrico real**: Frontend y Tools a 2 columnas (el orden
+  DOM es load-bearing — si una celda de 2 col no cabe junto a un hueco de fila,
+  auto-placement deja un agujero), Languages + Backend en fila. Los 4 mapas de
+  accent se colapsan a 1 (el borde superior es la única pista de acento); los
+  iconos de cabecera y los fallbacks Lucide van neutros (los SVG de marca ya
+  llevan color). **Shine sweep fuera** (`.tech-chip` eliminado del CSS).
+- **Nav mono**: labels a `font-mono text-xs tracking-mono` — el menú lee como
+  barra de estado del OS y el dock conserva su tratamiento de iconos.
+- **Trayectoria**: pin horizontal intacto, magic numbers sin tocar (como pide
+  el plan).
+
+**Gates:** tokens 85×4 · lint 0/10 · tests 50/50 · tsc 0/0 · build OK ·
+verificación en navegador: medidas computadas idénticas en los 3 anchos,
+bento sin celdas vacías en desktop y móvil (375px), nav mono en pantalla,
+titulares sólidos. Commit `e9c8040`.
