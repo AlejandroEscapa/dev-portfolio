@@ -476,3 +476,64 @@ resolviendo en `:root`. Commit `a447083`.
 | Cero anchors muertos | ✅ (nav + spotlight + ids duplicados) |
 | Motion: un patrón tokenizado, reduced-motion respetado | ✅ (89 tokens, 3 momentos) |
 | Todos los gates en verde | ✅ (tokens · lint · test · build · tsc ×2) |
+
+---
+
+# Ronda 2 — Ajustes de sección y dock (2026-09-26)
+
+Alcance pactado con el humano tras revisar la ronda 1 en el navegador: fusionar
+grupos del stack (elección: Lenguajes + Herramientas, 9/9/9), pegar el título
+de Projects al contenido, un padding vertical uniforme tokenizado, cards de
+Educación editoriales y el dock convertido en rail izquierdo colapsable
+(colapsado por defecto, magnify mantenido en colapsado). Trayectoria: sin
+código — el humano recorta copy él mismo. Contacto: solo hereda el padding.
+
+## Registro de ejecución
+
+### Fase 8 — Stack en 3 grupos · COMPLETA (`c656c31`)
+
+La ventana About (viewport-content, 840px) desbordaba con 4 grupos: el label
+"01 — About" quedaba a **−22px** por detrás de la barra del título y la celda
+Tools se cortaba **−22px** bajo el borde. Fusion Lenguajes+Herramientas →
+"Languages & Tools" / "Lenguajes y Herramientas" (9 chips): Frontend featured
+2-col + dos satélites gemelos de 9. **Después: +71px de aire bajo el título y
++72px bajo el bento.** 9 claves legacy `tech.*` sin consumidor fuera; nueva
+clave simétrica en ambos idiomas.
+
+### Fase 9 — Título de Projects · COMPLETA (`a6e0bc6`)
+
+`mb-10` → `mb-4` en el wrapper del h2: hueco título→carrusel 40 → 16px.
+
+### Fase 10 — Padding vertical tokenizado · COMPLETA (`9df5b79`)
+
+Token `--window-pad-y` (tokens 89 → **90**): `clamp(1.5rem, 1rem + 2.5vh,
+2.5rem)`, consumido por `WindowChrome` en el eje vertical (`py-(--window-pad-y)`),
+horizontal intacto. En 1440×900 todas las ventanas miden **38.5px** arriba/abajo
+(antes 24). Verificado que el hero sigue cabiendo a 768px (CTA con ~215px de
+holgura dentro de su ventana).
+
+### Fase 11 — Education editorial · COMPLETA (`db8134c`)
+
+Fuera icono-cuadrado con gradiente y blob de glow. Nueva card: eyebrow hairline
+de acento + período en mono, institución en Fraunces, grado como línea
+sustantiva, y **pie fijado con mt-auto** (baseline compartida entre las 3
+cards): tags como índice mono con ticks de hairline (fuera pills) y credencial
+como letra pequeña con enlace verificable. Stagger de Fase 4 y specular intactos.
+
+### Fase 12 — Dock rail izquierdo · COMPLETA (`86925a9`)
+
+Rail vertical a la izquierda, centrado, glass flotante. **Colapsado (default):**
+52px de iconos con magnify vertical (empuja a la derecha en vez de elevar) y
+tooltips que abren a la derecha. **Expandido (chevron):** 184px con el nombre de
+cada acción en mono junto al icono. Labels i18n (`dock.*` ×12 + `aria.dock`,
+simetría en/es) — antes hardcoded en inglés, incluida la descarga del CV.
+A11y: `role="toolbar"` + `aria-label` + `aria-orientation`, disclosure con
+`aria-expanded`/`aria-controls`, y **fuera el `<button>` anidado** —
+`ThemeSwitcher` → `ThemeMenu` sin estado, propiedad del item como hermano del
+trigger. El índice del magnify deja de contar divisores (`dockIdx` propio).
+Bug cazado en revisión: el `overflow-hidden` del rail recortaba popover y
+tooltips — lo recorta cada botón, el rail no. Móvil: mini-barra inferior intacta.
+
+**Gates Ronda 2:** tokens 90×4 · lint 0/10 · tests 55/55 · tsc 0/0 · build OK ·
+verificación en navegador de cada fase (mediciones antes/after + screenshots
+1440/768/375, ES y 4 temas).
