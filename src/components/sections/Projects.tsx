@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import type { MotionValue } from "framer-motion";
+import type { MotionStyle } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { projects as allProjects, type Project, type ProjectCategoryId } from "@/data/projects";
@@ -12,19 +12,12 @@ import { cn } from "@/lib/utils";
 import styles from "./projects/projects.module.css";
 
 interface ProjectsProps {
-  id?: string;
-  innerRef?: React.RefObject<HTMLElement>;
-  motionStyle?: {
-    scale?: MotionValue<number>;
-    y?: MotionValue<number>;
-    opacity?: MotionValue<number>;
-  };
+  motionStyle?: MotionStyle;
 }
 
-const SECTION_ID = "projects";
 const SWAP_MS = 420;
 
-export const Projects = ({ id = SECTION_ID, innerRef, motionStyle }: ProjectsProps) => {
+export const Projects = ({ motionStyle }: ProjectsProps) => {
   const { t } = useLanguage();
   const isMobile = useMediaQuery("(max-width: 768px)");
 
@@ -95,15 +88,9 @@ export const Projects = ({ id = SECTION_ID, innerRef, motionStyle }: ProjectsPro
   );
 
   return (
-    <section
-      id={id}
-      ref={innerRef as React.RefObject<HTMLElement>}
-      style={{
-        scale: motionStyle?.scale,
-        y: motionStyle?.y,
-        opacity: motionStyle?.opacity,
-        willChange: "transform, opacity",
-      }}
+    <motion.section
+      // No id here: the WindowChrome wrapper in Index owns the "projects" anchor.
+      style={motionStyle}
       className={cn("relative flex flex-col justify-center")}
     >
       <div className="container mx-auto max-w-7xl">
@@ -153,6 +140,6 @@ export const Projects = ({ id = SECTION_ID, innerRef, motionStyle }: ProjectsPro
           )}
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };

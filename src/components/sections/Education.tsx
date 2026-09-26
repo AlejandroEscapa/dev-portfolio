@@ -1,22 +1,14 @@
 import { motion } from "framer-motion";
-import type { MotionValue } from "framer-motion";
+import type { MotionStyle } from "framer-motion";
 import { GraduationCap, BadgeCheck, School, ExternalLink } from "lucide-react";
 import { SectionContainer } from "@/components/ui/SectionContainer";
 import { useLanguage } from "@/context/LanguageContext";
 
 interface EducationProps {
-  id?: string;
-  innerRef?: React.RefObject<HTMLElement>;
-  motionStyle?: {
-    scale?: MotionValue<number>;
-    y?: MotionValue<number>;
-    opacity?: MotionValue<number>;
-  };
+  motionStyle?: MotionStyle;
 }
 
-const SECTION_ID = "education";
-
-export const Education = ({ id = SECTION_ID, innerRef, motionStyle }: EducationProps) => {
+export const Education = ({ motionStyle }: EducationProps) => {
   const { t } = useLanguage();
 
   const items = [
@@ -55,7 +47,7 @@ export const Education = ({ id = SECTION_ID, innerRef, motionStyle }: EducationP
   ];
 
   return (
-    <SectionContainer maxWidth="lg" id={id} innerRef={innerRef} motionStyle={motionStyle}>
+    <SectionContainer maxWidth="lg" motionStyle={motionStyle}>
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}

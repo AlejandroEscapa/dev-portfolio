@@ -10,6 +10,7 @@
     "build": "npm run tokens && vite build",
     "build:dev": "npm run tokens && vite build --mode development",
     "lint": "eslint .",
+    "typecheck": "tsc --noEmit -p tsconfig.app.json && tsc --noEmit -p tsconfig.node.json",
     "preview": "vite preview",
     "onboard": "node scripts/onboard.mjs",
     "test": "vitest run",

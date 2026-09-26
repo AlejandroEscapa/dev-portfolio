@@ -5,9 +5,9 @@ export const Hero = () => {
 
   return (
     <section
-      id="hero"
       // Horizontal padding comes from the outer .section-px wrapper in
       // HeroShowcase / Index — do NOT add px-* here (would stack).
+      // No id here: the WindowChrome wrapper in Index owns the "hero" anchor.
       className="relative flex h-full items-center pl-4 md:pl-8"
     >
       <div className="relative z-10 w-full max-w-2xl space-y-10">

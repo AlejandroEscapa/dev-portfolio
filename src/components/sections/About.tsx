@@ -1,20 +1,12 @@
 import { motion, type Variants } from "framer-motion";
-import type { MotionValue } from "framer-motion";
+import type { MotionStyle } from "framer-motion";
 import { SectionContainer } from "@/components/ui/SectionContainer";
 import { TechBento } from "@/components/sections/TechBento";
 import { useLanguage } from "@/context/LanguageContext";
 
 interface AboutProps {
-  id?: string;
-  innerRef?: React.RefObject<HTMLElement>;
-  motionStyle?: {
-    scale?: MotionValue<number>;
-    y?: MotionValue<number>;
-    opacity?: MotionValue<number>;
-  };
+  motionStyle?: MotionStyle;
 }
-
-const SECTION_ID = "about";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -27,11 +19,11 @@ const fadeUp: Variants = {
   }),
 };
 
-export const About = ({ id = SECTION_ID, innerRef, motionStyle }: AboutProps) => {
+export const About = ({ motionStyle }: AboutProps) => {
   const { t } = useLanguage();
 
   return (
-    <SectionContainer maxWidth="lg" id={id} innerRef={innerRef} motionStyle={motionStyle} className="h-full">
+    <SectionContainer maxWidth="lg" motionStyle={motionStyle} className="h-full">
       <div className="flex flex-col">
         <motion.div
           initial="hidden"

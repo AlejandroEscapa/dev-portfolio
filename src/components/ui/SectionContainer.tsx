@@ -1,5 +1,6 @@
 import { type ReactNode } from "react";
-import type { MotionValue } from "framer-motion";
+import { motion } from "framer-motion";
+import type { MotionStyle } from "framer-motion";
 
 interface SectionContainerProps {
   children: ReactNode;
@@ -7,11 +8,7 @@ interface SectionContainerProps {
   className?: string;
   id?: string;
   innerRef?: React.RefObject<HTMLElement>;
-  motionStyle?: {
-    scale?: MotionValue<number>;
-    y?: MotionValue<number>;
-    opacity?: MotionValue<number>;
-  };
+  motionStyle?: MotionStyle;
 }
 
 const maxWidthMap = {
@@ -30,15 +27,10 @@ export const SectionContainer = ({
   motionStyle,
 }: SectionContainerProps) => {
   return (
-    <section
+    <motion.section
       id={id}
       ref={innerRef}
-      style={{
-        scale: motionStyle?.scale,
-        y: motionStyle?.y,
-        opacity: motionStyle?.opacity,
-        willChange: "transform, opacity",
-      }}
+      style={{ ...motionStyle, willChange: "transform, opacity" }}
       // Section-to-section spacing is owned by .section-y, declared once in
       // the page flow. Horizontal padding is provided by the outer .section-px
       // wrapper. This container adds NO rhythm of its own — it only centers
@@ -48,6 +40,6 @@ export const SectionContainer = ({
       <div className={`container mx-auto ${maxWidthMap[maxWidth]}`}>
         {children}
       </div>
-    </section>
+    </motion.section>
   );
 };

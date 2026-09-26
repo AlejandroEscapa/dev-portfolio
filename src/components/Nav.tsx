@@ -4,7 +4,7 @@ import { useLanguage } from "@/context/LanguageContext";
 const linksConfig = [
   { labelKey: "nav.about", href: "#about" },
   { labelKey: "nav.projects", href: "#projects" },
-  { labelKey: "nav.experience", href: "#experience" },
+  { labelKey: "nav.experience", href: "#trayectoria" },
   { labelKey: "nav.education", href: "#education" },
   { labelKey: "nav.profile", href: "#profile" },
 ];
