@@ -98,7 +98,7 @@ export const Nav = () => {
               key={l.href}
               href={l.href}
               onClick={(e) => handleNavClick(e, l.href)}
-              className={`px-3 py-1.5 text-xs font-medium transition-colors ${
+              className={`px-3 py-1.5 font-mono text-xs tracking-mono transition-colors ${
                 activeSection === l.href.slice(1)
                   ? "text-foreground"
                   : "text-muted-foreground hover:text-foreground"

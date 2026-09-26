@@ -30,7 +30,7 @@ export const About = ({ motionStyle }: AboutProps) => {
           whileInView="show"
           viewport={{ once: true, margin: "-100px" }}
           variants={fadeUp}
-          className="mb-6 flex items-center gap-3 text-xs uppercase tracking-[0.3em] text-muted-foreground"
+          className="mb-6 flex items-center gap-3 text-label uppercase tracking-label text-muted-foreground"
         >
           <span className="h-px w-10 bg-gradient-to-r from-primary to-transparent" />
           <span>{t("about.section_label")}</span>
@@ -42,10 +42,9 @@ export const About = ({ motionStyle }: AboutProps) => {
           viewport={{ once: true, margin: "-100px" }}
           custom={0}
           variants={fadeUp}
-          className="text-3xl font-bold leading-tight tracking-tighter sm:text-4xl md:text-5xl"
+          className="text-h2 font-bold leading-tight tracking-heading"
         >
-          <span className="text-gradient">{t("tech.heading_before")}</span>{" "}
-          <span className="text-gradient-primary">{t("tech.heading_after")}</span>
+          {t("tech.heading_before")} {t("tech.heading_after")}
         </motion.h2>
 
         <motion.p

@@ -115,7 +115,7 @@ export const Contact = () => {
           {/* Left: 5/12 — Title + 2nd phrase (slightly smaller, no 3rd phrase) + Location */}
           <div className="lg:col-span-5 flex flex-col justify-center gap-8 pl-16 md:pl-24 lg:pl-36">
             <div className="space-y-3">
-              <h2 className="text-5xl sm:text-6xl md:text-7xl font-display font-bold tracking-tighter leading-none text-gradient">
+              <h2 className="text-display font-display font-bold tracking-heading leading-none">
                 {t("contact.heading")}
               </h2>
 
@@ -126,7 +126,7 @@ export const Contact = () => {
             </div>
 
             <div className="space-y-1.5">
-              <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
+              <p className="text-label uppercase tracking-label text-muted-foreground">
                 {t("contact.location_label")}
               </p>
               <p className="font-sans text-sm text-foreground">

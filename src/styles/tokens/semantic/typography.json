@@ -7,18 +7,18 @@
   "font-mono":    { "$value": "\"IBM Plex Mono\", ui-monospace, \"Courier New\", monospace", "$type": "fontFamily", "$description": "Terminal / CLI / technical labels / window titles." },
 
 
-  "text-display": { "$value": "clamp(2.75rem, 6vw, 4.5rem)",   "$type": "fontSize", "$description": "One hero moment per page. Never in UI." },
-  "text-h1":      { "$value": "clamp(2.25rem, 4.5vw, 3.5rem)", "$type": "fontSize" },
-  "text-h2":      { "$value": "clamp(1.75rem, 3vw, 2.5rem)",   "$type": "fontSize" },
-  "text-h3":      { "$value": "clamp(1.25rem, 1.8vw, 1.5rem)", "$type": "fontSize" },
-  "text-body":    { "$value": "1rem",                          "$type": "fontSize" },
-  "text-body-sm": { "$value": "0.875rem",                      "$type": "fontSize" },
-  "text-caption": { "$value": "0.8125rem",                     "$type": "fontSize" },
-  "text-label":   { "$value": "0.6875rem",                     "$type": "fontSize", "$description": "Uppercase mono micro-labels." },
+  "text-display": { "$value": "clamp(3rem, 9.375vw, 4.5rem)",     "$type": "fontSize", "$description": "One hero moment per page (hero h1, contact h2). Calibrated to the inherited render: 48px <640, 60px @640, 72px >=768 (9.375vw reaches the 4.5rem cap exactly at 768). Never in UI." },
+  "text-h1":      { "$value": "clamp(2.25rem, 7.8125vw, 3.75rem)", "$type": "fontSize", "$description": "Section headlines (projects/education h2). Calibrated: 36px mobile, 60px from 768 up (7.8125vw reaches the cap exactly at 768); between 640-768 it interpolates 50-60px where the old utility sat at 48." },
+  "text-h2":      { "$value": "clamp(1.875rem, 6.25vw, 3rem)",     "$type": "fontSize", "$description": "Sub-headlines (about h2). Calibrated: 30px mobile, 48px from 768 up; interpolates 40-48px in the 640-768 band where the old utility sat at 36." },
+  "text-h3":      { "$value": "1.25rem",                           "$type": "fontSize", "$description": "Card titles at a fixed 20px (the size the text-xl they consumed rendered)." },
+  "text-body":    { "$value": "1rem",                              "$type": "fontSize" },
+  "text-body-sm": { "$value": "0.875rem",                          "$type": "fontSize" },
+  "text-caption": { "$value": "0.8125rem",                         "$type": "fontSize" },
+  "text-label":   { "$value": "0.75rem",                           "$type": "fontSize", "$description": "Uppercase tracked micro-labels (the text-xs they rendered before the token)." },
 
 
-  "tracking-display": { "$value": "-0.03em", "$type": "dimension" },
-  "tracking-heading": { "$value": "-0.02em", "$type": "dimension", "$description": "Replaces the blanket -0.04em that h1-h6 carried in index.css." },
+  "tracking-display": { "$value": "-0.04em", "$type": "dimension", "$description": "Display-size headings; also the h1-h6 base rule (was a -0.04em literal in index.css)." },
+  "tracking-heading": { "$value": "-0.05em", "$type": "dimension", "$description": "Section h2 tracking; calibrated to the tracking-tighter the section headlines actually rendered (-0.02em was the phase-1 aspiration, discarded because it moved the render)." },
   "tracking-mono":    { "$value": "0.02em",  "$type": "dimension" },
-  "tracking-label":   { "$value": "0.24em",  "$type": "dimension", "$description": "Wide uppercase labels (the 0.3em arbitrary values retire in the literal sweep)." }
+  "tracking-label":   { "$value": "0.3em",   "$type": "dimension", "$description": "Wide uppercase labels; calibrated to the tracking-[0.3em] they rendered before the token (0.24em was the phase-1 aspiration, discarded because it moved the render)." }
 }

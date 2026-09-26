@@ -65,7 +65,7 @@ export function WindowChrome({ title, id, children, className, defaultOpen = tru
       {!open && (
         <button
           onClick={() => setOpen(true)}
-          className="mx-auto flex items-center gap-2 rounded-full liquid-glass px-4 py-2 text-xs text-muted-foreground"
+          className="mx-auto flex items-center gap-2 rounded-full glass px-4 py-2 text-xs text-muted-foreground"
         >
           <span className="h-2 w-2 rounded-full bg-[#28c840]" /> {/* macOS traffic light: intentionally literal. */}
           {title}

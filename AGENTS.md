@@ -310,10 +310,12 @@ Real list (no longer matches the AGENTS.md in old branches):
 - `HeroShowcase.tsx` — 2fr-left / 3fr-right grid w/ sticky 3D.
 - `About.tsx` — heading + `<TechBento>` only (no bio paragraph in the
   visible layout; bio copy lives in `translations.ts` under `about.*`
-  for future use, and `TechBento` is a 2x2 chip grid).
+  for future use).
 - `TechBento.tsx` — inline `CATEGORIES` array; each item is `{ name,
-  svg: "/icons/X.svg" | null, iconLucide: LucideIcon | null }`. Chips
-  use `.tech-chip` (shine sweep).
+  svg: "/icons/X.svg" | null, iconLucide: LucideIcon | null }`. Asymmetric
+  bento: Frontend and Tools span both columns (DOM order is load-bearing —
+  see the `featured` comment), category titles are mono labels, the top
+  border is the only accent cue. No shine sweep (utility removed).
 - `Trayectoria.tsx` + `Trayectoria.module.css` — see above.
 - `Projects.tsx` + `projects/{ProjectsCarousel,ProjectCard,ProjectCategoryChips,ProjectDetail,MobileProjectList}.tsx` +
   `projects/projects.module.css`.

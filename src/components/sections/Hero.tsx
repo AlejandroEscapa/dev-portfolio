@@ -11,14 +11,14 @@ export const Hero = () => {
       className="relative flex h-full items-center pl-4 md:pl-8"
     >
       <div className="relative z-10 w-full max-w-2xl space-y-10">
-        <h1 className="text-5xl font-bold leading-[0.95] sm:text-6xl md:text-7xl">
+        <h1 className="text-display font-bold leading-[0.95] tracking-display">
           <span className="block text-gradient">Alejandro</span>
           <span className="block text-gradient-primary">Olivares Escapa</span>
         </h1>
 
         {/* Professional summary */}
         <div className="space-y-3">
-          <div className="flex items-center gap-3 text-xs uppercase tracking-[0.3em] text-muted-foreground">
+          <div className="flex items-center gap-3 text-label uppercase tracking-label text-muted-foreground">
             <span className="h-px w-10 bg-gradient-to-r from-primary to-transparent" />
             <span>{t("hero.description_label")}</span>
           </div>

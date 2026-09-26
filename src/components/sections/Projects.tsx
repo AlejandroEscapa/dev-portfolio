@@ -102,9 +102,8 @@ export const Projects = ({ motionStyle }: ProjectsProps) => {
             transition={{ duration: 0.7 }}
             className="mb-10"
           >
-            <h2 className="text-center text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
-              <span className="text-gradient">{t("projects.heading_before")}</span>
-              <span className="text-gradient-primary">{t("projects.heading_after")}</span>
+            <h2 className="text-center text-h1 font-bold tracking-heading">
+              {t("projects.heading_before")} {t("projects.heading_after")}
             </h2>
           </motion.div>
         )}
