@@ -101,7 +101,7 @@ const ItemWrapper = ({ item, index, t, presentLabel, isLatest }: { item: Trayect
 
 const CtaCard = ({ t }: { t: (k: string) => string }) => (
   <a
-    href="https://www.linkedin.com/in/carlos-alejandro-bolivar"
+    href="https://www.linkedin.com/in/alejandro-olivares-escapa/"
     target="_blank"
     rel="noopener noreferrer"
     className={`${styles.card} ${styles.cardCta}`}

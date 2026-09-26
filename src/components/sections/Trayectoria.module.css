@@ -175,12 +175,14 @@
   width: 440px;
   flex-shrink: 0;
   height: 260px;
-  box-shadow: 0 0 40px hsl(var(--primary) / 0.1);
+  /* No resting glow: the old 40px bloom spilled over the neighbouring glass
+     cards and read as every card lighting up. Highlight stays on hover only,
+     and contained (24px) so it cannot bleed across the track. */
 }
 
 .cardCta:hover {
   border-color: hsl(var(--primary) / 0.5);
-  box-shadow: 0 0 50px hsl(var(--primary) / 0.3);
+  box-shadow: 0 0 24px hsl(var(--primary) / 0.18);
 }
 
 /* ─── Card internals ─── */

@@ -2,8 +2,8 @@ import { describe, it, expect } from "vitest";
 import { trayectoriaItems } from "./trayectoria";
 
 describe("trayectoria items", () => {
-  it("contains 9 items in chronological order", () => {
-    expect(trayectoriaItems).toHaveLength(9);
+  it("contains 10 items in chronological order", () => {
+    expect(trayectoriaItems).toHaveLength(10);
     expect(trayectoriaItems.map((i) => i.id)).toEqual([
       "alsea",
       "dam",
@@ -14,6 +14,7 @@ describe("trayectoria items", () => {
       "ibm_ai",
       "mas",
       "big_school",
+      "creators",
     ]);
   });
 
@@ -21,7 +22,7 @@ describe("trayectoria items", () => {
     const milestoneIds = trayectoriaItems.filter((i) => i.variant === "milestone").map((i) => i.id);
     const experienceIds = trayectoriaItems.filter((i) => i.variant === "experience").map((i) => i.id);
     expect(milestoneIds.sort()).toEqual(["alsea", "big_school", "ibm_ai", "pez_tomillo", "udon"]);
-    expect(experienceIds.sort()).toEqual(["dam", "leasba", "mas", "master"]);
+    expect(experienceIds.sort()).toEqual(["creators", "dam", "leasba", "mas", "master"]);
   });
 
   it("experience items have at most 3 bullets and use i18n keys", () => {
@@ -37,7 +38,9 @@ describe("trayectoria items", () => {
   it("all dates are valid YYYY-MM strings", () => {
     trayectoriaItems.forEach((item) => {
       expect(item.startDate).toMatch(/^\d{4}-\d{2}$/);
-      expect(item.endDate === "present" || item.endDate).toMatch(/^\d{4}-\d{2}$/);
+      if (item.endDate !== "present") {
+        expect(item.endDate).toMatch(/^\d{4}-\d{2}$/);
+      }
     });
   });
 });
