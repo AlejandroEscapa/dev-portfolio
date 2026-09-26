@@ -18,7 +18,6 @@ export function getSpotlightItems(ctx: Ctx): SpotlightItem[] {
   const sections: SpotlightItem[] = [
     { key: "hero", label: "Go to hero" },
     { key: "about", label: "Go to stack" },
-    { key: "profile", label: "Go to profile" },
     { key: "projects", label: "Go to projects" },
     { key: "trayectoria", label: "Go to experience" },
     { key: "education", label: "Go to education" },

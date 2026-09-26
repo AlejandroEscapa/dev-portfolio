@@ -6,7 +6,6 @@ const linksConfig = [
   { labelKey: "nav.projects", href: "#projects" },
   { labelKey: "nav.experience", href: "#trayectoria" },
   { labelKey: "nav.education", href: "#education" },
-  { labelKey: "nav.profile", href: "#profile" },
 ];
 
 export const Nav = () => {
@@ -19,9 +18,11 @@ export const Nav = () => {
     const allSections = ["hero", ...linksConfig.map((l) => l.href.slice(1))];
 
     const computeThreshold = () => {
-      const profileEl = document.getElementById("profile");
-      if (!profileEl) return 500;
-      return profileEl.getBoundingClientRect().top + window.scrollY - 100;
+      // First section AFTER the hero rail: the nav stays hidden while the
+      // visitor is inside the hero screens and appears past this anchor.
+      const projectsEl = document.getElementById("projects");
+      if (!projectsEl) return 500;
+      return projectsEl.getBoundingClientRect().top + window.scrollY - 100;
     };
 
     let threshold = computeThreshold();

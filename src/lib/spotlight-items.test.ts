@@ -15,7 +15,7 @@ describe("spotlight items", () => {
       .filter((i) => i.group === "Sections")
       .map((i) => i.id.replace("section-", ""));
     expect(sectionKeys).toEqual([
-      "hero", "about", "profile", "projects", "trayectoria", "education", "contact",
+      "hero", "about", "projects", "trayectoria", "education", "contact",
     ]);
   });
 

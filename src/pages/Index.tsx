@@ -3,7 +3,6 @@ import { Nav } from "@/components/Nav";
 import { WindowChrome } from "@/components/window/WindowChrome";
 import { HeroShowcase } from "@/components/sections/HeroShowcase";
 import { Hero } from "@/components/sections/Hero";
-import { ProfileShowcase } from "@/components/sections/ProfileShowcase";
 import { About } from "@/components/sections/About";
 import { Trayectoria } from "@/components/sections/Trayectoria";
 import { Projects } from "@/components/sections/Projects";
@@ -40,9 +39,6 @@ const Index = () => {
           <Trayectoria />
           <WindowChrome title="~/education.txt" id="education" className="max-w-none w-full section-y">
             <Education />
-          </WindowChrome>
-          <WindowChrome title="~/passions.md" id="profile" className="max-w-none w-full section-y">
-            <ProfileShowcase />
           </WindowChrome>
           <WindowChrome title="~/contact — mail" id="contact" className="max-w-none section-y">
             <Contact />

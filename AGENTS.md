@@ -196,9 +196,9 @@ all three families).
 ### `prefers-reduced-motion`
 
 Always respected in: `.crt-*`, `.terminal-fog` (`transform: none`,
-`backdrop-filter: none`), `.profile-card` (`min-height: auto`), and
-`Trayectoria.tsx` (the GSAP horizontal-scroll effect is skipped when
-the media query matches). Honour this in any new animation.
+`backdrop-filter: none`), and `Trayectoria.tsx` (the GSAP
+horizontal-scroll effect is skipped when the media query matches).
+Honour this in any new animation.
 
 ---
 
@@ -234,10 +234,9 @@ i18next:
   shortcut `@gh`/`@li` etc. or just click the dock icon.
 - Key naming convention (always check before adding):
   - `nav.*` — top-nav labels
-  - `hero.*`, `about.*`, `profile.*`, `tech.*`, `trayectoria.*`,
+  - `hero.*`, `about.*`, `tech.*`, `trayectoria.*`,
     `projects.*` (incl. `projects.highlight_*`, `projects.category_*`),
     `education.*`, `contact.*`, `aria.*`
-  - nested: `profile.passion.{music,cooking,gaming}.{label,copy,copy_extended}`
 
 When adding a key: add an entry to **both** `en` and `es` blocks to
 keep symmetry.
@@ -254,11 +253,10 @@ handful of custom app-specific helpers. The rule is:
   hand-edit. Add new ones via `npx shadcn@latest add <component>`.
   `components.json` config (style: default, RSC: false, baseColor:
   slate, cssVariables: true) is the CLI source of truth.
-- **Custom UI helpers** living in the same folder: `SectionContainer.tsx`,
-  `BrowserPreview.tsx`, `PhoneVideo.tsx`, `PassionArt.tsx` (+ `.test`),
-  `MobilePassionCard.tsx` — these ARE hand-edited app code despite
-  their location. When in doubt, the presence of a co-located `.test.tsx`
-  or a non-Radix export pattern is a strong "hand-edit OK" signal.
+- **Custom UI helpers** living in the same folder: `SectionContainer.tsx` —
+  these ARE hand-edited app code despite their location. When in doubt, the
+  presence of a co-located `.test.tsx` or a non-Radix export pattern is a
+  strong "hand-edit OK" signal.
 
 UI alias: `@/components/ui`.
 
@@ -273,7 +271,7 @@ Real order top → bottom:
 1. `ImageBackground` — pexels photo with responsive `srcSet` (640/1280/1920/2560).
    The `<link rel="preload" as="image" imagesrcset=…>` in
    `index.html` primes the LCP fetch.
-2. `Nav` — fixed top, hidden until scroll past `#profile`,
+2. `Nav` — fixed top, hidden until scroll past `#projects`,
    active-section tracking via rAF-light scroll listener.
 3. `HeroShowcase` — left: sticky 3D wireframe window (R3F + drei);
    right: stacked `WindowChrome` Welcome (`<Hero>`) + About
@@ -292,11 +290,7 @@ Real order top → bottom:
    timeline. `<a>` CTA card at the rightmost end of the desktop
    track.
 6. `Education` — `<WindowChrome title="~/education.txt">`.
-7. `ProfileShowcase` (Passions) — desktop = `ProfileDeck` with
-   sticky-stacked cards; mobile/reduced-motion/low-GPU = `MobilePassionCard`
-   stack (decision made in `ProfileShowcase.tsx` via
-   `useDeviceTier().shouldUseFallback`).
-8. `Contact` — `<WindowChrome title="~/contact — mail">` — form is
+7. `Contact` — `<WindowChrome title="~/contact — mail">` — form is
    a `mailto:` launcher (no backend).
 
 ### Glue components (`App.tsx`)
@@ -324,8 +318,6 @@ Real list (no longer matches the AGENTS.md in old branches):
 - `Projects.tsx` + `projects/{ProjectsCarousel,ProjectCard,ProjectCategoryChips,ProjectDetail,MobileProjectList}.tsx` +
   `projects/projects.module.css`.
 - `Education.tsx`, `Contact.tsx` — content sections.
-- `ProfileShowcase.tsx` + `ProfileDeck.tsx` +
-  `ProfileSectionHeader.tsx` + `PassionCard.tsx`.
 - (`HeroShowcase.tsx` lives in this folder but is not strictly a
   section — see glue components above.)
 
@@ -336,8 +328,10 @@ Real list (no longer matches the AGENTS.md in old branches):
   rendered into the `HeroShowcase` left column.
 - `Icon3D.tsx` + `TechStack3D.tsx` — 3D tech icons.
 
-`useDeviceTier.shouldUseFallback` is the single switch that decides
-whether to mount the 3D / sticky persona path or the mobile fallback.
+`useDeviceTier.shouldUseFallback` was the switch between sticky 3D
+paths and mobile fallbacks; its last consumer (ProfileShowcase) was
+removed, so the hook currently has **zero consumers** — kept on disk
+pending a decision (wire it into the hero 3D, or delete it).
 
 ### Window chrome (`src/components/window/`)
 
@@ -357,7 +351,7 @@ around every major window.
 | `spotlight/Spotlight.tsx`         | `⌘K` / `Ctrl+K`              | `useSpotlightToggle` + `getSpotlightItems({ setTheme })` |
 | `dock/Dock.tsx`                   | Always (bottom-fixed)         | `useDockHover` (magnify-on-hover)                       |
 | `crt/CrtOverlay.tsx`+`CRTToggle`  | Top-right toggle              | Body class `crt-on` (scanlines + vignette)              |
-| `Nav.tsx`                         | Always (top-fixed)            | Scroll + resize listeners, hides itself before `#profile` |
+| `Nav.tsx`                         | Always (top-fixed)            | Scroll + resize listeners, hides itself before `#projects` |
 | `background/ImageBackground.tsx`  | Mounted once                  | Responsive `<img>` w/ srcSet/sizes                      |
 
 CLI commands are a single switch in `src/lib/cli-commands.ts`
@@ -383,8 +377,8 @@ Spotlight items: add to `src/lib/spotlight-items.ts` via
   refreshes stay in sync. Disables lag smoothing
   (`gsap.ticker.lagSmoothing(0)`).
 - **Framer Motion**: used for component-level micro-animations
-  (TrafficLights, Spotlight dialog, dock icon flip, profile art SVG
-  keyframes via `data-motion="enabled"`).
+  (TrafficLights, Spotlight dialog, dock icon flip
+  via `data-motion="enabled"`).
 - **`useDeviceTier`** (`src/hooks/useDeviceTier.ts`): combines
   `(max-width: 767px)` + `prefers-reduced-motion` + a WebGL renderer
   sniff (regex on `WEBGL_debug_renderer_info.UNMASKED_RENDERER_WEBGL`
@@ -405,9 +399,6 @@ Spotlight items: add to `src/lib/spotlight-items.ts` via
   Two variants: `milestone` (single-paragraph) and `experience`
   (bullet list). Categories: `experience`, `education`,
   `certification`, `internship`.
-- `src/lib/profile-content.ts` — `PROFILE_PASSIONS` (mobile order),
-  `PASSIONS_BY_KEY` (desktop per-card content). Always include an
-  extended copy (`copy_extended`) for every passion.
 
 ---
 
@@ -439,9 +430,8 @@ iteration; surface tightening as a separate refactor change.
   - stubs `window.matchMedia` with a full `MediaQueryList` shape
   - stubs `window.IntersectionObserver` (no-op)
 - Co-located tests exist for:
-  `WindowChrome`, `PassionArt`, `useFluidGradient`,
-  `useTerminalHistory`, `useTheme`, `cli-commands`, `passion-data`,
-  `profile-content`, `spotlight-items`, `data/projects` (`projects.test.ts`),
+  `WindowChrome`, `useTerminalHistory`, `useTheme`, `cli-commands`,
+  `spotlight-items`, `data/projects` (`projects.test.ts`),
   `data/trayectoria` (`trayectoria.test.ts`),
   `src/scripts/build-tokens.test.ts`,
   `src/scripts/token-contrast.test.ts` (WCAG AA guard for muted text).
@@ -512,7 +502,9 @@ Source-of-truth for the following, located in `public/`:
     (theme, lang, CRT, boot-seen) is intentionally per-key
     `localStorage`. Avoid adding a global preferences store until that's
     a real ask.
-11. **Don't regress the dock's `shouldUseFallback` switch** —
-    `ProfileShowcase` must keep using it to swap sticky‑stack ↔
-    mobile-stack. The 3D persona path is the only piece that explicitly
-    degrades today; new heavy effects should reuse the same gate.
+11. **Don't reintroduce `useDeviceTier().shouldUseFallback` consumers
+    casually.** Its last consumer (ProfileShowcase) was removed with the
+    Passions section; the hook is kept on disk **without consumers**
+    pending a human decision (wire it into the hero 3D, or delete it).
+    New heavy effects that need a capability gate should reuse it — but
+    that means re-deciding its fate first, not silently reviving it.
