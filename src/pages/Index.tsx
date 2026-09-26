@@ -13,7 +13,10 @@ import { useLenis } from "@/hooks/useLenis";
 const Index = () => {
   useLenis();
   return (
-    <main className="relative min-h-screen">
+    // md:pl-16 reserves the permanent left gutter the dock rail occupies
+    // (collapsed width); the fixed Nav stays full-width above it. The rail
+    // expands by floating over this gutter — the layout never re-flows.
+    <main className="relative min-h-screen md:pl-16">
       <ImageBackground
         src="/pexels-1920.webp"
         srcSet="/pexels-640.webp 640w, /pexels-1280.webp 1280w, /pexels-1920.webp 1920w, /pexels-2560.webp 2560w"
