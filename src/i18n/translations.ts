@@ -122,8 +122,7 @@ export const translations: Record<Lang, Translations> = {
     "trayectoria.item_big_school_location": "Online",
     "trayectoria.item_big_school_detail": "Certificate in development focused on agentic architectures.",
 
-    "projects.heading_before": "Proj",
-    "projects.heading_after": "ects.",
+    "projects.heading": "Projects.",
     "projects.gamevision_badge": "Featured \u00b7 TFM 9/10",
     "projects.gamevision_name": "GameVision",
     "projects.gamevision_desc": "Master's Thesis: native Android application that reimagines video game discovery. Clean, testable and scalable architecture, built entirely with Jetpack Compose and MVVM.",
@@ -348,8 +347,7 @@ export const translations: Record<Lang, Translations> = {
     "trayectoria.item_big_school_location": "Online",
     "trayectoria.item_big_school_detail": "Expedici\u00f3n del certificado en desarrollo enfocado a arquitecturas agenticas.",
 
-    "projects.heading_before": "Proye",
-    "projects.heading_after": "ctos.",
+    "projects.heading": "Proyectos.",
     "projects.gamevision_badge": "Destacado \u00b7 TFM 9/10",
     "projects.gamevision_name": "GameVision",
     "projects.gamevision_desc": "TFM: aplicaci\u00f3n nativa Android basada enel descubrimiento de videojuegos. Arquitectura limpia, testeable y escalable, construida \u00edntegramente con Jetpack Compose y MVVM.",

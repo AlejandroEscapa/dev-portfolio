@@ -97,7 +97,7 @@ export const Projects = ({ motionStyle }: ProjectsProps) => {
         {viewMode === "carousel" && (
           <div className="mb-4">
             <h2 className="text-center text-h1 font-bold tracking-heading">
-              {t("projects.heading_before")} {t("projects.heading_after")}
+              {t("projects.heading")}
             </h2>
           </div>
         )}

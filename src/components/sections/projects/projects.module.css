@@ -210,7 +210,11 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.3rem;
-  margin-top: 0.15rem;
+  /* Breathing room above the tags, split by a subtle hairline that matches
+     the editorial separators used across the other sections. */
+  margin-top: 0.9rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid hsl(var(--neutral-tint) / 0.08);
 }
 
 .techChip {
