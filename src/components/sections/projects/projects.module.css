@@ -105,7 +105,6 @@
   flex: 0 0 auto;
   background-color: hsl(var(--background));
   background-image: linear-gradient(135deg, hsl(var(--primary) / 0.18), hsl(var(--background)));
-  border-bottom: 1px solid hsl(var(--neutral-tint) / 0.08);
   position: relative;
   overflow: hidden;
 }
@@ -172,19 +171,53 @@
           mask-composite: exclude;
 }
 
+/* Editor file-tab strip: the badge renders as an active editor tab hanging
+   under the media, with a hairline rail filling the rest of the strip. The
+   strip is full-bleed across the body padding so it reads as card chrome,
+   flush with the card edges. */
+.tabBar {
+  display: flex;
+  align-items: flex-end;
+  margin: 0 -1rem;
+  padding: 0 1rem;
+}
+
+.tabRail {
+  flex: 1;
+  height: 1px;
+  background: hsl(var(--neutral-tint) / 0.12);
+}
+
+/* The tab itself: mono filename voice, square top corners, 2px primary top
+   edge (the VS Code active-tab cue) and an open bottom that merges into the
+   card body. position: relative keeps it above .cardBody::before's conic
+   rim, which would otherwise overdraw the accent top edge. */
 .cardBadge {
   display: inline-flex;
-  width: fit-content;
   align-items: center;
-  gap: 0.4rem;
-  border-radius: var(--radius-full);
-  border: 1px solid hsl(var(--accent) / 0.4);
-  background: hsl(var(--accent) / 0.1);
-  padding: 0.2rem 0.6rem;
+  gap: 0.45rem;
+  padding: 0.34rem 0.7rem 0.3rem;
+  position: relative;
+  border: 1px solid hsl(var(--neutral-tint) / 0.12);
+  border-top: 2px solid hsl(var(--primary) / 0.55);
+  border-bottom: none;
+  border-radius: var(--radius-xs) var(--radius-xs) 0 0;
+  background: hsl(var(--neutral-tint) / 0.05);
+  font-family: var(--font-mono);
   font-size: 0.65rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: hsl(var(--accent));
+  letter-spacing: 0.05em;
+  color: hsl(var(--muted-foreground));
+  text-transform: lowercase;
+  white-space: nowrap;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.card:hover .cardBadge,
+.card:focus-visible .cardBadge,
+.mobileCard:hover .cardBadge,
+.mobileCard:focus-visible .cardBadge {
+  color: hsl(var(--foreground));
+  background: hsl(var(--neutral-tint) / 0.08);
 }
 
 .cardTitle {
@@ -676,6 +709,11 @@
   flex-direction: column;
   gap: 0.5rem;
   padding: 1.1rem 1.25rem 1.35rem;
+}
+
+.mobileCardBody .tabBar {
+  margin: 0 -1.25rem;
+  padding: 0 1.25rem;
 }
 
 .mobileCardTitle {

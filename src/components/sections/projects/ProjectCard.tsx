@@ -50,7 +50,10 @@ export const ProjectCard = ({ project, position, isActive, onSelect }: ProjectCa
       </div>
 
       <div className={styles.cardBody}>
-        <span className={styles.cardBadge}>{t(project.badgeKey)}</span>
+        <span className={styles.tabBar}>
+          <span className={styles.cardBadge}>{t(project.badgeKey)}</span>
+          <span className={styles.tabRail} aria-hidden="true" />
+        </span>
         <h3 className={styles.cardTitle}>{t(project.nameKey)}</h3>
         <p className={styles.cardDesc}>{t(project.descKey)}</p>
 

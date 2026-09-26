@@ -46,7 +46,10 @@ export const MobileProjectList = ({ projects, onSelect }: MobileProjectListProps
             )}
           </div>
           <div className={styles.mobileCardBody}>
-            <span className={styles.cardBadge}>{t(project.badgeKey)}</span>
+            <span className={styles.tabBar}>
+              <span className={styles.cardBadge}>{t(project.badgeKey)}</span>
+              <span className={styles.tabRail} aria-hidden="true" />
+            </span>
             <h3 className={styles.mobileCardTitle}>{t(project.nameKey)}</h3>
             <p className={styles.mobileCardDesc}>{t(project.descKey)}</p>
           </div>
