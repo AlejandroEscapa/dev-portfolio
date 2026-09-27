@@ -112,8 +112,9 @@
     border-color: hsl(var(--primary) / 0.5);
   }
   /* Pointer-tracked specular sheen. The host sets --mx/--my from a
-     pointermove handler (see Education cards); the highlight colour is
-     the neutral pair, so it follows the theme. */
+     pointermove handler (see Education cards / TechBento); the highlight is
+     a wide, soft wash (neutral pair, theme-following) with a faint primary
+     core — big and diffuse on purpose: a concentrated blob reads as glare. */
   .specular {
     position: relative;
   }
@@ -123,11 +124,17 @@
     inset: 0;
     border-radius: inherit;
     pointer-events: none;
-    background: radial-gradient(
-      260px circle at var(--mx, 50%) var(--my, 50%),
-      hsl(var(--neutral-tint) / 0.07),
-      transparent 65%
-    );
+    background:
+      radial-gradient(
+        420px circle at var(--mx, 50%) var(--my, 50%),
+        hsl(var(--primary) / 0.03),
+        transparent 55%
+      ),
+      radial-gradient(
+        560px circle at var(--mx, 50%) var(--my, 50%),
+        hsl(var(--neutral-tint) / 0.04),
+        transparent 70%
+      );
     opacity: 0;
     transition: opacity var(--duration-fast) ease;
   }

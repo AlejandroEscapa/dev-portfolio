@@ -68,7 +68,6 @@ export const ProjectCard = ({ project, position, isActive, onSelect }: ProjectCa
             <Button
               variant="default"
               size="sm"
-              className="flex-1"
               onClick={(e) => {
                 e.stopPropagation();
                 onSelect(project);
@@ -82,11 +81,18 @@ export const ProjectCard = ({ project, position, isActive, onSelect }: ProjectCa
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className="flex-1"
             >
-              <Button variant="outline" size="sm" className="w-full">
+              {/* Outline defaults melt into the card: --input border is a ~12
+                  channel-step delta over --card, so the 36px box reads shorter
+                  than the filled sibling. Chip-recipe edge + interior keep the
+                  secondary variant but make its footprint legible. */}
+              <Button
+                variant="outline"
+                size="sm"
+                className="w-full border-neutral-tint/25 bg-neutral-tint/[0.04] hover:bg-neutral-tint/[0.08]"
+              >
                 <Github className="h-4 w-4" />
-                GitHub
+                {t("projects.view_repo")}
               </Button>
             </a>
           </div>

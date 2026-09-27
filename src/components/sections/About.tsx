@@ -26,19 +26,22 @@ export const About = ({ motionStyle }: AboutProps) => {
       >
         <motion.div
           variants={fadeUpSm}
-          className="mb-6 flex items-center gap-3 text-label uppercase tracking-label text-muted-foreground"
+          className="mb-4 flex items-center gap-3 text-sm uppercase tracking-label text-muted-foreground"
         >
-          <span className="h-px w-10 bg-gradient-to-r from-primary to-transparent" />
+          <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
           <span>{t("about.section_label")}</span>
         </motion.div>
 
-        <motion.h2 variants={fadeUp} className="text-h2 font-bold leading-tight tracking-heading">
+        {/* Same numbered-header recipe as Education/Projects (text-h1) so the
+            section numbering reads at one size across the page. leading-tight
+            keeps the fixed-height window from clipping the bento below. */}
+        <motion.h2 variants={fadeUp} className="text-h1 font-bold leading-tight tracking-heading">
           {t("tech.heading_before")} {t("tech.heading_after")}
         </motion.h2>
 
         <motion.p
           variants={fadeUpSm}
-          className="mt-3 text-sm leading-relaxed text-muted-foreground"
+          className="mt-2 text-sm leading-relaxed text-muted-foreground"
         >
           {t("tech.subheading")}
         </motion.p>

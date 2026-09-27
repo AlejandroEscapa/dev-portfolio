@@ -106,7 +106,7 @@ export function TechBento() {
               e.currentTarget.style.setProperty("--mx", `${e.clientX - rect.left}px`);
               e.currentTarget.style.setProperty("--my", `${e.clientY - rect.top}px`);
             }}
-            className={`specular glass rounded-lg border-t-2 p-6 transition-all duration-300 hover:bg-neutral-tint/[0.03] hover:-translate-y-0.5 ${accentBorder[cat.accent]} ${cat.featured ? "sm:col-span-2" : ""}`}
+            className={`specular glass rounded-lg border-t-2 p-6 hover-glow hover:-translate-y-0.5 ${accentBorder[cat.accent]} ${cat.featured ? "sm:col-span-2" : ""}`}
           >
             {/* Header */}
             <div className="mb-4 flex items-center gap-2">

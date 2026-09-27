@@ -153,6 +153,8 @@ export const translations: Record<Lang, Translations> = {
     "projects.view_repo": "Repository",
     "projects.back": "Back",
     "projects.about": "About",
+    "projects.video_play": "Play video",
+    "projects.video_pause": "Pause video",
     "projects.tech_stack": "Technologies",
     "projects.no_results": "No projects match this filter",
     "projects.clear_filters": "Clear filters",
@@ -402,6 +404,9 @@ export const translations: Record<Lang, Translations> = {
     "projects.highlight_architecture": "Arquitectura",
     "projects.highlight_integration": "Integración",
     "projects.highlight_context": "Contexto",
+
+    "projects.video_play": "Reproducir vídeo",
+    "projects.video_pause": "Pausar vídeo",
 
     "projects.category_language": "Lenguaje",
     "projects.category_framework": "Framework",

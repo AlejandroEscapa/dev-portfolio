@@ -107,9 +107,9 @@ export const Contact = () => {
       {/* Same content inset as Projects/Education (container max-w-6xl):
           the window stays full-bleed, the content floats inside it. */}
       <div className="flex-1 flex flex-col container mx-auto max-w-6xl">
-        <div className="flex-1 grid grid-cols-1 lg:grid-cols-[1.15fr_minmax(0,0.85fr)] gap-10 lg:gap-12">
+        <div className="flex-1 grid grid-cols-1 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] gap-10 lg:gap-12">
           {/* Left column — numbered label + title + location, vertically
-              centered; the wider column leads the composition */}
+              centered; the narrower column defers to the form */}
           <div className="flex flex-col justify-center gap-8">
             <div className="space-y-3">
               <div className="mb-4 flex items-center gap-3 text-sm uppercase tracking-label text-muted-foreground">
@@ -120,8 +120,9 @@ export const Contact = () => {
                 {t("contact.heading")}
               </h2>
 
-              {/* 2nd phrase — slightly reduced now that 3rd phrase is gone */}
-              <p className="text-lg sm:text-xl md:text-2xl leading-snug text-muted-foreground">
+              {/* 2nd phrase — one step under the display heading so the
+                  hierarchy heading > subhead > label stays readable */}
+              <p className="text-base sm:text-lg md:text-xl leading-snug text-muted-foreground">
                 {t("contact.heading_line1")} {t("contact.heading_line2")}
               </p>
             </div>
@@ -130,14 +131,14 @@ export const Contact = () => {
               <p className="text-label uppercase tracking-label text-muted-foreground">
                 {t("contact.location_label")}
               </p>
-              <p className="font-sans text-sm text-foreground">
+              <p className="font-sans text-base text-foreground">
                 {t("contact.location_value")}
               </p>
             </div>
           </div>
 
-          {/* Right column — the form card sits in a narrower column (~45%)
-              so it doesn't compete with the title block */}
+          {/* Right column — the form card takes the wider column (~55%)
+              so it leads the composition */}
           <div className="flex flex-col justify-center">
             <div className="relative w-full rounded-lg glass border border-neutral-tint/[0.08] overflow-hidden transition-[transform,border-color,background] duration-300 hover:-translate-y-0.5">
               {/* Primary accent border */}

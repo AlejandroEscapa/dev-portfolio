@@ -59,7 +59,7 @@ export const Education = ({ motionStyle }: EducationProps) => {
           <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
           <span>{t("education.section_label")}</span>
         </motion.div>
-        <motion.h2 variants={fadeUp} className="text-h1 font-bold tracking-heading">
+        <motion.h2 variants={fadeUp} className="text-h1 font-bold leading-tight tracking-heading">
           {t("education.heading_before")} {t("education.heading_after")}
         </motion.h2>
       </motion.div>

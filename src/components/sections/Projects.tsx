@@ -94,22 +94,28 @@ export const Projects = ({ motionStyle }: ProjectsProps) => {
       className={cn("relative flex flex-col justify-center")}
     >
       <div className="container mx-auto max-w-6xl">
-        {viewMode === "carousel" && (
-          <div className="mb-6">
-            {/* Same numbered header motif as Education/Contact: accent hairline,
-                mono label, left-aligned display heading and a sub line. */}
-            <div className="mb-4 flex items-center gap-3 text-sm uppercase tracking-label text-muted-foreground">
-              <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
-              <span>{t("projects.section_label")}</span>
-            </div>
-            <h2 className="text-h1 font-bold tracking-heading">
-              {t("projects.heading")}
-            </h2>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              {t("projects.subheading")}
-            </p>
+        {/* Header stays mounted in BOTH view modes: the swap below happens
+            inside a fixed-height stage, so the window never changes size and
+            the page never shifts when opening a project detail. */}
+        <div className="mb-8 pt-2 md:pt-6">
+          {/* Same numbered header motif as Education/Contact: accent hairline,
+              mono label, left-aligned display heading and a sub line. The extra
+              top air + mb-8 match the Education header rhythm (whose content
+              is vertically centred, so its title never hugs the chrome). */}
+          <div className="mb-4 flex items-center gap-3 text-sm uppercase tracking-label text-muted-foreground">
+            <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
+            <span>{t("projects.section_label")}</span>
           </div>
-        )}
+          {/* leading-tight: text-h1 inherits body line-height (1.5), leaving
+              ~15px of dead air under the display glyphs before the stage.
+              The subline couples at mt-2 so heading + sub read as one block. */}
+          <h2 className="text-h1 font-bold leading-tight tracking-heading">
+            {t("projects.heading")}
+          </h2>
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+            {t("projects.subheading")}
+          </p>
+        </div>
 
         <div className={styles.stage}>
           {viewMode === "carousel" ? (
