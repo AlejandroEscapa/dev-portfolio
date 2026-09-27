@@ -5,6 +5,7 @@ import { executeCommand } from "@/lib/cli-commands";
 import { useTheme } from "@/hooks/useTheme";
 import { useTerminalHistory } from "@/hooks/useTerminalHistory";
 import { cn } from "@/lib/utils";
+import { EASE_OUT_EXPO } from "@/lib/motion";
 
 interface CliTerminalProps {
   open: boolean;
@@ -59,8 +60,8 @@ export function CliTerminal({ open, onOpenChange }: CliTerminalProps) {
           <motion.div
             key="terminal-fog"
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1, transition: { duration: 0.14, ease: [0.22, 1, 0.36, 1] } }}
-            exit={{ opacity: 0, transition: { duration: 0.22, ease: [0.22, 1, 0.36, 1] } }}
+            animate={{ opacity: 1, transition: { duration: 0.14, ease: EASE_OUT_EXPO } }}
+            exit={{ opacity: 0, transition: { duration: 0.22, ease: EASE_OUT_EXPO } }}
             className="terminal-fog"
             aria-hidden="true"
           >
@@ -71,23 +72,24 @@ export function CliTerminal({ open, onOpenChange }: CliTerminalProps) {
           <motion.div
             key="terminal-panel"
             initial={{ opacity: 0, scale: 0.94, y: 12 }}
-            animate={{ opacity: 1, scale: 1, y: 0, transition: { duration: 0.16, ease: [0.22, 1, 0.36, 1], delay: 0.16 } }}
-            exit={{ opacity: 0, scale: 0.94, y: 12, transition: { duration: 0.20, ease: [0.22, 1, 0.36, 1] } }}
-          className="fixed top-1/2 left-1/2 z-40 -translate-x-1/2 -translate-y-1/2 w-[92vw] max-w-2xl overflow-hidden rounded-2xl border border-white/10 bg-zinc-950/95 shadow-2xl backdrop-blur-xl"
+            animate={{ opacity: 1, scale: 1, y: 0, transition: { duration: 0.16, ease: EASE_OUT_EXPO, delay: 0.16 } }}
+            exit={{ opacity: 0, scale: 0.94, y: 12, transition: { duration: 0.20, ease: EASE_OUT_EXPO } }}
+          className="fixed top-1/2 left-1/2 z-40 -translate-x-1/2 -translate-y-1/2 w-[92vw] max-w-2xl overflow-hidden rounded-lg border border-neutral-tint/10 bg-background/95 shadow-2xl backdrop-blur-xl"
           role="dialog"
           aria-label="CLI terminal"
         >
-          <div className="flex items-center gap-2 border-b border-white/5 bg-white/[0.02] px-3 py-2">
+          <div className="flex items-center gap-2 border-b border-neutral-tint/5 bg-neutral-tint/[0.02] px-3 py-2">
             <button
               onClick={() => onOpenChange(false)}
               className="h-3 w-3 rounded-full bg-[#ff5f57] transition-transform hover:scale-110"
               aria-label="Close terminal"
             />
+            {/* macOS traffic lights: intentionally literal — they must stay Apple red/amber in every theme. */}
             <span className="h-3 w-3 rounded-full bg-[#febc2e]/40" aria-hidden="true" />
             <span className="flex-1 text-center text-xs text-muted-foreground font-mono">
               cli@alejandro — {theme}
             </span>
-            <TerminalIcon className="h-3.5 w-3.5 text-cyan-400" aria-hidden="true" />
+            <TerminalIcon className="h-3.5 w-3.5 text-accent" aria-hidden="true" />
           </div>
           <div
             ref={scrollRef}
@@ -98,7 +100,7 @@ export function CliTerminal({ open, onOpenChange }: CliTerminalProps) {
                 key={e.id}
                 className={cn(
                   "whitespace-pre-wrap",
-                  e.kind === "user" ? "text-cyan-300" : "text-zinc-300"
+                  e.kind === "user" ? "text-accent" : "text-foreground/80"
                 )}
               >
                 {e.text}
@@ -107,15 +109,15 @@ export function CliTerminal({ open, onOpenChange }: CliTerminalProps) {
           </div>
           <form
             onSubmit={handleSubmit}
-            className="flex items-center gap-2 border-t border-white/5 bg-white/[0.02] px-3 py-2 font-mono text-xs"
+            className="flex items-center gap-2 border-t border-neutral-tint/5 bg-neutral-tint/[0.02] px-3 py-2 font-mono text-xs"
           >
-            <span className="text-cyan-400">alejandro@dev:~$</span>
+            <span className="text-accent">alejandro@dev:~$</span>
             <input
               ref={inputRef}
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="type 'help' and press ↵"
-              className="flex-1 bg-transparent text-zinc-100 outline-none placeholder:text-zinc-600"
+              className="flex-1 bg-transparent text-foreground outline-none placeholder:text-muted-foreground/60"
               aria-label="Terminal input"
             />
           </form>

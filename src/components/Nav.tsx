@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
+import { scrollToSection } from "@/lib/scroll";
+import { ScrollTrigger } from "@/lib/gsap";
 
 const linksConfig = [
   { labelKey: "nav.about", href: "#about" },
   { labelKey: "nav.projects", href: "#projects" },
-  { labelKey: "nav.experience", href: "#experience" },
+  { labelKey: "nav.experience", href: "#trayectoria" },
   { labelKey: "nav.education", href: "#education" },
-  { labelKey: "nav.profile", href: "#profile" },
+  { labelKey: "nav.contact", href: "#contact" },
 ];
 
 export const Nav = () => {
@@ -19,9 +21,11 @@ export const Nav = () => {
     const allSections = ["hero", ...linksConfig.map((l) => l.href.slice(1))];
 
     const computeThreshold = () => {
-      const profileEl = document.getElementById("profile");
-      if (!profileEl) return 500;
-      return profileEl.getBoundingClientRect().top + window.scrollY - 100;
+      // First section AFTER the hero rail: the nav stays hidden while the
+      // visitor is inside the hero screens and appears past this anchor.
+      const projectsEl = document.getElementById("projects");
+      if (!projectsEl) return 500;
+      return projectsEl.getBoundingClientRect().top + window.scrollY - 100;
     };
 
     let threshold = computeThreshold();
@@ -55,25 +59,26 @@ export const Nav = () => {
       threshold = computeThreshold();
     };
 
+    // ScrollTrigger pin-spacers and refreshes shift section offsets after
+    // mount — keep the nav's visibility threshold in sync with them.
+    const onRefresh = () => {
+      threshold = computeThreshold();
+    };
+    ScrollTrigger.addEventListener("refresh", onRefresh);
+
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onResize);
     onScroll();
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
+      ScrollTrigger.removeEventListener("refresh", onRefresh);
     };
   }, []);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
-    const id = href.slice(1);
-    const el = document.getElementById(id);
-    if (el) {
-      const navHeight = 60;
-      const rect = el.getBoundingClientRect();
-      const targetScrollY = window.scrollY + rect.top - navHeight;
-      window.scrollTo({ top: targetScrollY, behavior: "smooth" });
-    }
+    scrollToSection(href.slice(1));
   };
 
   return (
@@ -85,7 +90,7 @@ export const Nav = () => {
       }`}
     >
       <div
-        className={`flex items-center justify-center px-5 py-3 transition-all duration-200 ease-out border-b border-white/[0.06] ${
+        className={`flex items-center justify-center px-5 py-3 transition-all duration-200 ease-out border-b border-neutral-tint/[0.06] ${
           scrolled
             ? "bg-background/60 backdrop-blur-xl"
             : "bg-background/30 backdrop-blur-md"
@@ -97,7 +102,7 @@ export const Nav = () => {
               key={l.href}
               href={l.href}
               onClick={(e) => handleNavClick(e, l.href)}
-              className={`px-3 py-1.5 text-xs font-medium transition-colors ${
+              className={`px-3 py-1.5 font-mono text-xs tracking-mono transition-colors ${
                 activeSection === l.href.slice(1)
                   ? "text-foreground"
                   : "text-muted-foreground hover:text-foreground"
@@ -106,7 +111,7 @@ export const Nav = () => {
               {t(l.labelKey)}
             </a>
           ))}
-          <kbd className="ml-1 hidden items-center gap-0.5 rounded border border-white/10 bg-white/5 px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground md:inline-flex">⌘K</kbd>
+          <kbd className="ml-1 hidden items-center gap-0.5 rounded border border-neutral-tint/10 bg-neutral-tint/5 px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground md:inline-flex">⌘K</kbd>
         </div>
       </div>
     </nav>

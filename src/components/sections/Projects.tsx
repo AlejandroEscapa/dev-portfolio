@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import type { MotionValue } from "framer-motion";
+import type { MotionStyle } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { projects as allProjects, type Project, type ProjectCategoryId } from "@/data/projects";
@@ -12,19 +12,12 @@ import { cn } from "@/lib/utils";
 import styles from "./projects/projects.module.css";
 
 interface ProjectsProps {
-  id?: string;
-  innerRef?: React.RefObject<HTMLElement>;
-  motionStyle?: {
-    scale?: MotionValue<number>;
-    y?: MotionValue<number>;
-    opacity?: MotionValue<number>;
-  };
+  motionStyle?: MotionStyle;
 }
 
-const SECTION_ID = "projects";
 const SWAP_MS = 420;
 
-export const Projects = ({ id = SECTION_ID, innerRef, motionStyle }: ProjectsProps) => {
+export const Projects = ({ motionStyle }: ProjectsProps) => {
   const { t } = useLanguage();
   const isMobile = useMediaQuery("(max-width: 768px)");
 
@@ -95,32 +88,34 @@ export const Projects = ({ id = SECTION_ID, innerRef, motionStyle }: ProjectsPro
   );
 
   return (
-    <section
-      id={id}
-      ref={innerRef as React.RefObject<HTMLElement>}
-      style={{
-        scale: motionStyle?.scale,
-        y: motionStyle?.y,
-        opacity: motionStyle?.opacity,
-        willChange: "transform, opacity",
-      }}
-      className={cn("relative flex min-h-[60vh] flex-col justify-center py-12")}
+    <motion.section
+      // No id here: the WindowChrome wrapper in Index owns the "projects" anchor.
+      style={motionStyle}
+      className={cn("relative flex flex-col justify-center")}
     >
-      <div className="container mx-auto max-w-7xl">
-        {viewMode === "carousel" && (
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7 }}
-            className="mb-10"
-          >
-            <h2 className="text-center text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
-              <span className="text-gradient">{t("projects.heading_before")}</span>
-              <span className="text-gradient-primary">{t("projects.heading_after")}</span>
-            </h2>
-          </motion.div>
-        )}
+      <div className="container mx-auto max-w-6xl">
+        {/* Header stays mounted in BOTH view modes: the swap below happens
+            inside a fixed-height stage, so the window never changes size and
+            the page never shifts when opening a project detail. */}
+        <div className="mb-8 pt-2 md:pt-6">
+          {/* Same numbered header motif as Education/Contact: accent hairline,
+              mono label, left-aligned display heading and a sub line. The extra
+              top air + mb-8 match the Education header rhythm (whose content
+              is vertically centred, so its title never hugs the chrome). */}
+          <div className="mb-4 flex items-center gap-3 text-sm uppercase tracking-label text-muted-foreground">
+            <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
+            <span>{t("projects.section_label")}</span>
+          </div>
+          {/* leading-tight: text-h1 inherits body line-height (1.5), leaving
+              ~15px of dead air under the display glyphs before the stage.
+              The subline couples at mt-2 so heading + sub read as one block. */}
+          <h2 className="text-h1 font-bold leading-tight tracking-heading">
+            {t("projects.heading")}
+          </h2>
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+            {t("projects.subheading")}
+          </p>
+        </div>
 
         <div className={styles.stage}>
           {viewMode === "carousel" ? (
@@ -153,6 +148,6 @@ export const Projects = ({ id = SECTION_ID, innerRef, motionStyle }: ProjectsPro
           )}
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };

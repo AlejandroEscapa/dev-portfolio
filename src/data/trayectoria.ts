@@ -138,4 +138,21 @@ export const trayectoriaItems: TrayectoriaItem[] = [
     detailKey: "trayectoria.item_big_school_detail",
     variant: "milestone",
   },
+  {
+    id: "creators",
+    category: "experience",
+    startDate: "2026-07",
+    endDate: "present",
+    titleKey: "trayectoria.item_creators_title",
+    orgKey: "trayectoria.item_creators_org",
+    locationKey: "trayectoria.item_creators_location",
+    modalityKey: "trayectoria.item_creators_modality",
+    variant: "experience",
+    bulletKeys: [
+      "trayectoria.item_creators_bullet_1",
+      "trayectoria.item_creators_bullet_2",
+      "trayectoria.item_creators_bullet_3",
+    ],
+    techTags: ["Laravel", "Slim 3", "Android", "Magento", "Odoo"],
+  },
 ];

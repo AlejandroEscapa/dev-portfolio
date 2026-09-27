@@ -1,13 +1,21 @@
 {
-  "$description": "Theme-invariant layout tokens. Edit here to retune app-wide measurements.",
+  "$description": "Theme-invariant layout tokens. Edit here to retune app-wide measurements. The radius steps feed Tailwind's --radius-* namespace (utilities rounded-xs/sm/md/lg); section-gap* is the single owner of the vertical rhythm between sections.",
 
 
-  "radius":          { "$value": "1rem",                          "$type": "dimension", "$description": "Base border-radius." },
-  "radius-sm":       { "$value": "calc({radius} - 8px)",          "$type": "dimension" },
-  "radius-md":       { "$value": "calc({radius} - 4px)",          "$type": "dimension" },
-  "radius-lg":       { "$value": "{radius}",                      "$type": "dimension" },
+  "radius-xs": { "$value": "4px",  "$type": "dimension", "$description": "Radius scale, monotonic. Rule: inner radius = outer radius - padding." },
+  "radius-sm": { "$value": "8px",  "$type": "dimension" },
+  "radius-md": { "$value": "12px", "$type": "dimension" },
+  "radius-lg": { "$value": "16px", "$type": "dimension", "$description": "Base window / card radius (was the old `radius` token, which had no var() consumers)." },
+  "radius-full": { "$value": "9999px", "$type": "dimension", "$description": "Pill. Owned so `rounded-full` and raw CSS blocks (chips, dots, CTAs) share one value instead of each spelling 9999px." },
 
-  "nav-height":      { "$value": "60px",                          "$type": "dimension", "$description": "Must match `const navHeight = 60` in Nav.tsx." },
-  "hero-pad-top":    { "$value": "32px",                          "$type": "dimension" },
-  "projects-stage-h":{ "$value": "640px",                         "$type": "dimension", "$description": "Floor: 54 chips+margin + 580 card min-height." }
+
+  "section-gap":    { "$value": "1rem", "$type": "dimension", "$description": "Vertical rhythm owner, consumed by .section-y. Calibrated to the legacy painted rhythm it replaced (WindowChrome my-8 = 32px between windows) so Phase 3 does not move the layout; retune HERE from now on. Windows must NOT add their own my-* on top of it." },
+  "section-gap-sm": { "$value": "0.875rem", "$type": "dimension", "$description": "Dense blocks / intra-section spacing (also the terminal-fog anti-FOUC headroom p-4 in Index.tsx, whose sum with section-gap is 28px = the old p-4)." },
+
+
+  "nav-height":      { "$value": "60px",  "$type": "dimension", "$description": "Must match `const navHeight = 60` in Nav.tsx." },
+  "hero-pad-top":    { "$value": "32px",  "$type": "dimension" },
+  "projects-stage-h":{ "$value": "640px", "$type": "dimension", "$description": "Floor: 54 chips+margin + 580 card min-height." },
+
+  "window-pad-y": { "$value": "clamp(1.5rem, 1rem + 2.5vh, 2.5rem)", "$type": "dimension", "$description": "Guaranteed vertical padding inside every WindowChrome body (the old p-4 md:p-6 gave 16/24px and Education read cramped). Consumed by WindowChrome's content wrapper; horizontal padding stays px-4 md:px-6." }
 }

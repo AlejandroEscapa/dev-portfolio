@@ -7,8 +7,8 @@
 ## 0. Project at a glance
 
 A single-page portfolio site for a Mobile & Frontend developer, themed
-as a desktop OS (windows with traffic-lights, dock, terminal, spotlight,
-CRT toggle). Single routing entry (`/`); everything else is `<NotFound>`.
+as a desktop OS (windows with traffic-lights, left side-rail dock,
+terminal, spotlight, CRT toggle). Single routing entry (`/`); everything else is `<NotFound>`.
 
 - **Entry**: `index.html` → `src/main.tsx` → `src/App.tsx`
 - **Page**: `src/pages/Index.tsx`
@@ -30,7 +30,7 @@ Real versions live in `package.json`. Highlights:
 | Routing          | React Router v6 (`/` + `*` → `NotFound`)                                      |
 | Data layer       | TanStack Query (provider mounted but used minimally)                          |
 | Animation / 3D   | Framer Motion 12, GSAP 3 + `ScrollTrigger`, Lenis 1, **R3F 8** + drei + post |
-| Icons            | **Phosphor** (`@phosphor-icons/react`, dock), Lucide (UI primitives)         |
+| Icons            | **Lucide** (dock actions + UI primitives), `simple-icons` (brand marks)      |
 | Smooth scroll    | Lenis hooked into GSAP ticker (`src/hooks/useLenis.ts`)                       |
 | Forms / schema   | react-hook-form 7 + Zod 3                                                     |
 | i18n             | Custom `LanguageProvider` (NOT i18next at runtime — see §5)                  |
@@ -44,10 +44,12 @@ Real versions live in `package.json`. Highlights:
 > `scripts/optimize-pexels.mjs` (off-build image preprocessing) — it
 > is not a runtime dependency.
 >
-> Icons: Phosphor (`@phosphor-icons/react`) drives the Dock,
-> Lucide handles UI primitives. `src/components/brand-icons.tsx`
-> exists from an earlier iteration and is not currently wired into
-> any rendered section — leave as historical / delete when convenient.
+> Icons: Lucide drives the Dock's action glyphs; official brand marks
+> come from the `simple-icons` npm package — EXCEPT LinkedIn, removed
+> from simple-icons in v11 (trademark): its last published path is
+> kept as an in-repo constant in `src/components/brand-icons.tsx`,
+> which is also imported by `Contact.tsx`. `@phosphor-icons/react`
+> remains installed but has zero imports — candidate for removal.
 
 ---
 
@@ -62,7 +64,7 @@ All run via `npm` (a `bun.lockb` also exists; the lockfile story is in §11).
 | `npm run build:dev`             | `tokens` → `vite build --mode development`                          |
 | `npm run preview`               | `vite preview`                                                      |
 | `npm run tokens`                | Rebuild `src/styles/generated/*` from JSON sources                  |
-| `npm run tokens:test`           | Vitest for the token build pipeline (`build-tokens.test.ts`)        |
+| `npm run tokens:test`           | Vitest for the token pipeline (core + AA contrast tests)             |
 | `npm run lint`                  | `eslint .` (flat config; ignores `dist`)                            |
 | `npm run onboard`               | Interactive wizard that rewrites `portfolio.config.json`            |
 | `npm test`                      | Vitest single run                                                   |
@@ -100,9 +102,10 @@ Loaded by `scripts/build-tokens.mjs` in this order (see
 
 1. `primitives/colors.json` — palette scales + status colours
 2. `semantic/colors.json` — semantic tokens as raw HSL triples
-3. `semantic/layout.json` — `--radius`, `--nav-height`, `--hero-pad-top`
-4. `semantic/typography.json` — `font-display`, `font-sans`, `font-mono`
-5. `themes/{indigo,catppuccin,dracula,tokyo-night}.json` — per-theme
+3. `semantic/layout.json` — radius scale, `--section-gap`, `--nav-height`
+4. `semantic/typography.json` — font families + display scale + tracking
+5. `semantic/motion.json` — durations (`--duration-*`) + `--ease-out-expo`
+6. `themes/{indigo,catppuccin,dracula,tokyo-night}.json` — per-theme
    deltas
 
 ### Format (DTCG-ish)
@@ -126,6 +129,21 @@ Loaded by `scripts/build-tokens.mjs` in this order (see
 hsl(var(--primary))` — **the underlying CSS vars still hold raw HSL
 triples**, never wrapped values.
 
+Pipeline modules (the engine is separate from its I/O):
+`scripts/tokens-core.mjs` is the pure engine — flatten, alias resolution,
+model reduction, the emit policy and the contrast math, no filesystem and no
+logging; `scripts/tokens-sources.mjs` is the filesystem boundary (where the
+sources live + the load order from `tokens.index.json`);
+`scripts/build-tokens.mjs` is the thin CLI that wires them together and
+writes the artifacts. Tests import the core and the loader, never the CLI.
+
+Emit policy: colour aliases become `hsl(var(--X))` wrappers in `@theme
+inline`, while every token whose key starts with a namespace we own
+(`radius-`, `font-`, `text-`, `tracking-`) is copied **verbatim**, because
+Tailwind generates those utilities from our values instead of its defaults.
+Font requests stay minimal: `Fraunces` is variable (wght 100-900 + opsz) and
+only the weights actually used are requested in `index.html`.
+
 ### How to add a new theme
 
 1. Create `src/styles/tokens/themes/<name>.json` with shape:
@@ -140,7 +158,12 @@ triples**, never wrapped values.
 - `--nav-height` (default `60px`) — drives the
   `.viewport-content = 100vh − var(--nav-height)` utility.
 - `--hero-pad-top` (default `32px`) — sticky offset for the 3D window.
-- `--radius` — drives `--radius-{sm,md,lg}` (`-8`, `-4`, base).
+- `--radius-{xs,sm,md,lg}` (`4px`, `8px`, `12px`, `16px`) — monotonic
+  radius scale; Tailwind's `rounded-{xs,sm,md,lg}` come from these values,
+  so they are emitted verbatim into `@theme inline`. Rule: inner radius =
+  outer radius − padding.
+- `--section-gap` / `--section-gap-sm` — single owner of the vertical
+  rhythm between sections (consumed by `.section-y`).
 
 ### Custom utility classes (in `src/index.css` `@layer utilities`)
 
@@ -166,9 +189,9 @@ positioned so the dock (z-30) and terminal panel (z-40) stay sharp.
 
 | Token         | Family                                          | Usage                  |
 | ------------- | ----------------------------------------------- | ---------------------- |
-| `--font-display` | `"Space Grotesk", system-ui, sans-serif`     | All headings (`h1-h6`) |
-| `--font-sans`    | `"Inter", system-ui, sans-serif`             | Body UI, paragraphs    |
-| `--font-mono`    | `"Courier Prime", "Courier New", monospace`  | Terminal, CLI, boot    |
+| `--font-display` | `"Fraunces", Georgia, serif`                 | All headings (`h1-h6`) |
+| `--font-sans`    | `"IBM Plex Sans", system-ui, sans-serif`     | Body UI, paragraphs, `h3-h6` |
+| `--font-mono`    | `"IBM Plex Mono", ui-monospace, monospace`   | Terminal, CLI, labels  |
 
 Loaded via the Google Fonts `<link>` in `index.html` (single request,
 all three families).
@@ -176,9 +199,9 @@ all three families).
 ### `prefers-reduced-motion`
 
 Always respected in: `.crt-*`, `.terminal-fog` (`transform: none`,
-`backdrop-filter: none`), `.profile-card` (`min-height: auto`), and
-`Trayectoria.tsx` (the GSAP horizontal-scroll effect is skipped when
-the media query matches). Honour this in any new animation.
+`backdrop-filter: none`), and `Trayectoria.tsx` (the GSAP
+horizontal-scroll effect is skipped when the media query matches).
+Honour this in any new animation.
 
 ---
 
@@ -190,9 +213,10 @@ the media query matches). Honour this in any new animation.
   *and is the absence of the attribute*; never set
   `data-theme="indigo"`.
 - Persistence: `localStorage["portfolio-theme"]`.
-- Toggle UX: `ThemeSwitcher` in the dock opens a popover with all
-  themes; `cli theme <name>` swaps themes from the CLI terminal;
-  Spotlight groups a "Theme: …" entry per theme.
+- Toggle UX: `ThemeMenu` (`src/components/theme-switcher/ThemeMenu.tsx`)
+  in the dock rail opens a popover with all themes; `cli theme <name>`
+  swaps themes from the CLI terminal; Spotlight groups a "Theme: …"
+  entry per theme.
 - Source: `src/lib/themes.ts` (`THEMES`, `ThemeId`, `DEFAULT_THEME`,
   `THEME_STORAGE_KEY`).
 
@@ -214,10 +238,9 @@ i18next:
   shortcut `@gh`/`@li` etc. or just click the dock icon.
 - Key naming convention (always check before adding):
   - `nav.*` — top-nav labels
-  - `hero.*`, `about.*`, `profile.*`, `tech.*`, `trayectoria.*`,
+  - `hero.*`, `about.*`, `tech.*`, `trayectoria.*`,
     `projects.*` (incl. `projects.highlight_*`, `projects.category_*`),
     `education.*`, `contact.*`, `aria.*`
-  - nested: `profile.passion.{music,cooking,gaming}.{label,copy,copy_extended}`
 
 When adding a key: add an entry to **both** `en` and `es` blocks to
 keep symmetry.
@@ -234,11 +257,10 @@ handful of custom app-specific helpers. The rule is:
   hand-edit. Add new ones via `npx shadcn@latest add <component>`.
   `components.json` config (style: default, RSC: false, baseColor:
   slate, cssVariables: true) is the CLI source of truth.
-- **Custom UI helpers** living in the same folder: `SectionContainer.tsx`,
-  `BrowserPreview.tsx`, `PhoneVideo.tsx`, `PassionArt.tsx` (+ `.test`),
-  `MobilePassionCard.tsx` — these ARE hand-edited app code despite
-  their location. When in doubt, the presence of a co-located `.test.tsx`
-  or a non-Radix export pattern is a strong "hand-edit OK" signal.
+- **Custom UI helpers** living in the same folder: `SectionContainer.tsx` —
+  these ARE hand-edited app code despite their location. When in doubt, the
+  presence of a co-located `.test.tsx` or a non-Radix export pattern is a
+  strong "hand-edit OK" signal.
 
 UI alias: `@/components/ui`.
 
@@ -253,10 +275,11 @@ Real order top → bottom:
 1. `ImageBackground` — pexels photo with responsive `srcSet` (640/1280/1920/2560).
    The `<link rel="preload" as="image" imagesrcset=…>` in
    `index.html` primes the LCP fetch.
-2. `Nav` — fixed top, hidden until scroll past `#profile`,
+2. `Nav` — fixed top, hidden until scroll past `#projects`,
    active-section tracking via rAF-light scroll listener.
-3. `HeroShowcase` — left: sticky 3D wireframe window (R3F + drei);
-   right: stacked `WindowChrome` Welcome (`<Hero>`) + About
+3. `HeroShowcase` — left: sticky 3D window (lazy `HeroScene`, GLB
+   figure on a holo pedestal — see 3D components below); right:
+   stacked `WindowChrome` Welcome (`<Hero>`) + About
    (`<TechBento>`). Both right-side windows are `viewport-content`
    (i.e. `100vh − --nav-height`) so they line up with the sticky
    3D column. Mobile falls back to a vertical stack with the 3D at
@@ -272,11 +295,7 @@ Real order top → bottom:
    timeline. `<a>` CTA card at the rightmost end of the desktop
    track.
 6. `Education` — `<WindowChrome title="~/education.txt">`.
-7. `ProfileShowcase` (Passions) — desktop = `ProfileDeck` with
-   sticky-stacked cards; mobile/reduced-motion/low-GPU = `MobilePassionCard`
-   stack (decision made in `ProfileShowcase.tsx` via
-   `useDeviceTier().shouldUseFallback`).
-8. `Contact` — `<WindowChrome title="~/contact — mail">` — form is
+7. `Contact` — `<WindowChrome title="~/contact — mail">` — form is
    a `mailto:` launcher (no backend).
 
 ### Glue components (`App.tsx`)
@@ -296,28 +315,50 @@ Real list (no longer matches the AGENTS.md in old branches):
 - `HeroShowcase.tsx` — 2fr-left / 3fr-right grid w/ sticky 3D.
 - `About.tsx` — heading + `<TechBento>` only (no bio paragraph in the
   visible layout; bio copy lives in `translations.ts` under `about.*`
-  for future use, and `TechBento` is a 2x2 chip grid).
+  for future use).
 - `TechBento.tsx` — inline `CATEGORIES` array; each item is `{ name,
-  svg: "/icons/X.svg" | null, iconLucide: LucideIcon | null }`. Chips
-  use `.tech-chip` (shine sweep).
+  svg: "/icons/X.svg" | null, iconLucide: LucideIcon | null }`. Asymmetric
+  bento: Frontend and Tools span both columns (DOM order is load-bearing —
+  see the `featured` comment), category titles are mono labels, the top
+  border is the only accent cue. No shine sweep (utility removed).
 - `Trayectoria.tsx` + `Trayectoria.module.css` — see above.
 - `Projects.tsx` + `projects/{ProjectsCarousel,ProjectCard,ProjectCategoryChips,ProjectDetail,MobileProjectList}.tsx` +
   `projects/projects.module.css`.
 - `Education.tsx`, `Contact.tsx` — content sections.
-- `ProfileShowcase.tsx` + `ProfileDeck.tsx` +
-  `ProfileSectionHeader.tsx` + `PassionCard.tsx`.
 - (`HeroShowcase.tsx` lives in this folder but is not strictly a
   section — see glue components above.)
 
 ### 3D components (`src/components/three/`)
 
-- `Scene.tsx` — `<Canvas>` w/ WebGL2 + WebGL fallback.
-- `Hero3D.tsx` — wireframe rotating figure behind a primary glow,
-  rendered into the `HeroShowcase` left column.
-- `Icon3D.tsx` + `TechStack3D.tsx` — 3D tech icons.
+- `Scene.tsx` — reusable `<Canvas>` wrapper (`camera`, `dpr`,
+  `frameloop` props; WebGL2 + WebGL fallback).
+- `HeroScene.tsx` — the hero 3D window content, **lazy-loaded** via
+  `React.lazy` from `HeroShowcase` (the whole three/fiber/drei/
+  postprocessing tree lives in a separate chunk). "Holographic
+  capsule" presentation of the hero GLB — design contract in
+  `PROPUESTAS-3D-HERO.md`. Owns the render policy: frameloop
+  `never` when the hero is out of viewport (IntersectionObserver),
+  `demand` for static fallback paths, `always` otherwise + Bloom/
+  Vignette (skipped on the fallback path).
+- `HoloFigure.tsx` — GLB figure (useGLTF + self-hosted Draco decoder
+  in `public/draco/`), pedestal with accent-emissive ring,
+  GSAP materialisation (scan-ring sweep + fade/rise, rooted in
+  `gsap.context`), turntable + mouse parallax, hover → rim-light
+  kick. All motion gated by a `motion` flag
+  (`!prefersReducedMotion && !shouldUseFallback`).
+- `Icon3D.tsx` + `TechStack3D.tsx` — 3D tech icons (historical, no
+  consumers).
 
-`useDeviceTier.shouldUseFallback` is the single switch that decides
-whether to mount the 3D / sticky persona path or the mobile fallback.
+Theme colours inside the 3D scene come from `useCssColor`
+(`src/hooks/useCssColor.ts`) — MutationObserver on `data-theme`
+reading raw HSL triples and emitting comma-separated `hsl(h, s%, l%)`
+(THREE.Color's parser rejects the modern space-separated syntax —
+materials silently fall back to white if you change this).
+
+`useDeviceTier` is consumed by `HeroScene`: `shouldUseFallback`
+(mobile, reduced motion, or low GPU tier) → static pose
+(`frameloop="demand"`), no postprocessing, no float/materialisation.
+Mid/high tiers get the full experience.
 
 ### Window chrome (`src/components/window/`)
 
@@ -335,15 +376,15 @@ around every major window.
 | `boot/BootSequence.tsx`           | First visit only              | `useBootSequence(N, 120ms)`; LS key `portfolio-booted`  |
 | `cli/CliTerminal.tsx`             | Dock terminal icon            | `useTerminalHistory` + `executeCommand` (`src/lib/cli-commands.ts`) |
 | `spotlight/Spotlight.tsx`         | `⌘K` / `Ctrl+K`              | `useSpotlightToggle` + `getSpotlightItems({ setTheme })` |
-| `dock/Dock.tsx`                   | Always (bottom-fixed)         | `useDockHover` (magnify-on-hover)                       |
+| `dock/Dock.tsx`                   | Always (LEFT vertical rail, collapsed 52px by default; chevron expands to 184px) | `useDockHover("y")` (glyph magnify-on-hover, 3px nudge — never the button) |
 | `crt/CrtOverlay.tsx`+`CRTToggle`  | Top-right toggle              | Body class `crt-on` (scanlines + vignette)              |
-| `Nav.tsx`                         | Always (top-fixed)            | Scroll + resize listeners, hides itself before `#profile` |
+| `Nav.tsx`                         | Always (top-fixed)            | Scroll + resize listeners, hides itself before `#projects` |
 | `background/ImageBackground.tsx`  | Mounted once                  | Responsive `<img>` w/ srcSet/sizes                      |
 
 CLI commands are a single switch in `src/lib/cli-commands.ts`
 (`help`, `whoami`, `projects`, `skills`, `experience`, `education`,
-`contact`, `theme [name]`, `clear`/`cls`, `history`, `ls`, `pwd`,
-`date`, `banner`, `neofetch`, `sudo`, `rm`, `exit`). To add a command:
+`contact`, `theme [name]`, `clear`, `history`, `neofetch`, `ls`,
+`pwd`, `date`, `banner`, `sudo`). To add a command:
 extend that switch and add help-line text in the `HELP` const.
 
 Spotlight items: add to `src/lib/spotlight-items.ts` via
@@ -363,13 +404,13 @@ Spotlight items: add to `src/lib/spotlight-items.ts` via
   refreshes stay in sync. Disables lag smoothing
   (`gsap.ticker.lagSmoothing(0)`).
 - **Framer Motion**: used for component-level micro-animations
-  (TrafficLights, Spotlight dialog, dock icon flip, profile art SVG
-  keyframes via `data-motion="enabled"`).
+  (TrafficLights, Spotlight dialog, dock icon flip
+  via `data-motion="enabled"`).
 - **`useDeviceTier`** (`src/hooks/useDeviceTier.ts`): combines
   `(max-width: 767px)` + `prefers-reduced-motion` + a WebGL renderer
   sniff (regex on `WEBGL_debug_renderer_info.UNMASKED_RENDERER_WEBGL`
-  → `low`/`mid`/`high`). Single boolean `shouldUseFallback` swaps
-  between 3D/sticky paths and mobile equivalents.
+  → `low`/`mid`/`high`). Single boolean `shouldUseFallback` gates the
+  hero 3D fallback (see §8 3D components); it has no other consumers.
 
 ---
 
@@ -385,9 +426,6 @@ Spotlight items: add to `src/lib/spotlight-items.ts` via
   Two variants: `milestone` (single-paragraph) and `experience`
   (bullet list). Categories: `experience`, `education`,
   `certification`, `internship`.
-- `src/lib/profile-content.ts` — `PROFILE_PASSIONS` (mobile order),
-  `PASSIONS_BY_KEY` (desktop per-card content). Always include an
-  extended copy (`copy_extended`) for every passion.
 
 ---
 
@@ -419,11 +457,11 @@ iteration; surface tightening as a separate refactor change.
   - stubs `window.matchMedia` with a full `MediaQueryList` shape
   - stubs `window.IntersectionObserver` (no-op)
 - Co-located tests exist for:
-  `WindowChrome`, `PassionArt`, `useFluidGradient`,
-  `useTerminalHistory`, `useTheme`, `cli-commands`, `passion-data`,
-  `profile-content`, `spotlight-items`, `data/projects` (`projects.test.ts`),
+  `WindowChrome`, `useTerminalHistory`, `useTheme`, `cli-commands`,
+  `spotlight-items`, `data/projects` (`projects.test.ts`),
   `data/trayectoria` (`trayectoria.test.ts`),
-  `src/scripts/build-tokens.test.ts`.
+  `src/scripts/build-tokens.test.ts`,
+  `src/scripts/token-contrast.test.ts` (WCAG AA guard for muted text).
 - Coverage guidance: any new data-shaping helper (`groupTechByCategory`,
   command dispatch, theme overlay, spotlight filter) gets a co-located
   `.test.ts` BEFORE the implementation lands.
@@ -450,6 +488,13 @@ Source-of-truth for the following, located in `public/`:
   Swagger). All rendered at `18×18` in `TechBento` chips.
 - Project media: `gamevision-demo.mp4`, `matchvision-demo.mp4`,
   `casahumedo-preview.png`.
+- Hero 3D model: `3d/zoro-fanko-pop-draco.glb` (Draco-compressed,
+  ~1.2 MB, 264k tris) — the ONLY file served to the browser. The
+  16 MB source `3d/zoro_fanko_pophigh-poly.glb` stays in the repo as
+  reference; never import it. Draco decoder is self-hosted in
+  `draco/` (no CDN). Regenerate the compressed asset from the source
+  with `npx @gltf-transform/cli` (`dedup`, `prune`, `optimize
+  --compress draco --texture-compress webp`).
 - `cv.pdf` — resume. **Currently 404s** (TODO — Dock "Resume" item
   flashes "Downloading…" then fails silently).
 - `logo1.svg` — favicon + OG image.
@@ -491,7 +536,9 @@ Source-of-truth for the following, located in `public/`:
     (theme, lang, CRT, boot-seen) is intentionally per-key
     `localStorage`. Avoid adding a global preferences store until that's
     a real ask.
-11. **Don't regress the dock's `shouldUseFallback` switch** —
-    `ProfileShowcase` must keep using it to swap sticky‑stack ↔
-    mobile-stack. The 3D persona path is the only piece that explicitly
-    degrades today; new heavy effects should reuse the same gate.
+11. **`useDeviceTier` has a single sanctioned consumer: `HeroScene`.**
+    The hero 3D (branch `3d-design`) wired it in as the fallback gate —
+    that decision is made and recorded in `PROPUESTAS-3D-HERO.md`. Any
+    NEW heavy effect may reuse it, but don't spread it across small
+    components casually; it creates a WebGL context just to sniff the
+    GPU string.

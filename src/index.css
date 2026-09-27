@@ -46,17 +46,17 @@
   }
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
-    letter-spacing: -0.04em;
+    letter-spacing: var(--tracking-display);
   }
   ::selection {
-    background: hsl(248 90% 66% / 0.4);
+    background: hsl(var(--primary) / 0.4);
     color: hsl(var(--foreground));
   }
 }
 
 @layer utilities {
   .text-gradient {
-    background: linear-gradient(135deg, #fff, hsl(230 30% 75%));
+    background: linear-gradient(135deg, hsl(var(--gradient-text-from)), hsl(var(--gradient-text-to)));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -67,28 +67,25 @@
     background-clip: text;
     color: transparent;
   }
-  .text-gradient-accent {
-    background: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--primary)));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
+  /* Material recipe: colour + blur + saturate + border all come from the
+     surface-glass* tokens, so retuning a tier is one edit in the JSON source
+     and every consumer (bento cards, contact panel, CRT toggle) follows. */
   .glass {
-    background: hsl(230 30% 10% / 0.45);
-    backdrop-filter: blur(24px) saturate(160%);
-    -webkit-backdrop-filter: blur(24px) saturate(160%);
-    border: 1px solid hsl(0 0% 100% / 0.08);
+    background: var(--surface-glass);
+    backdrop-filter: blur(var(--surface-glass-blur)) saturate(var(--surface-glass-saturate));
+    -webkit-backdrop-filter: blur(var(--surface-glass-blur)) saturate(var(--surface-glass-saturate));
+    border: 1px solid var(--surface-glass-border);
     box-shadow: var(--shadow-glass);
   }
   .glass-strong {
     /* Slightly more transparent so the pexels background reads through
        the windows a touch more — affects ALL WindowChrome instances
-       (Welcome, About, Profile, Stack, Experience, Projects,
-       Education, Footer) in one place. Tweak here to retune globally. */
-    background: hsl(230 30% 12% / 0.6);
-    backdrop-filter: blur(32px) saturate(180%);
-    -webkit-backdrop-filter: blur(32px) saturate(180%);
-    border: 1px solid hsl(0 0% 100% / 0.12);
+       (Welcome, About, Projects, Journey, Education, Contact) in one
+       place. Tweak the token to retune globally. */
+    background: var(--surface-glass-elevated);
+    backdrop-filter: blur(var(--surface-glass-elevated-blur)) saturate(var(--surface-glass-elevated-saturate));
+    -webkit-backdrop-filter: blur(var(--surface-glass-elevated-blur)) saturate(var(--surface-glass-elevated-saturate));
+    border: 1px solid var(--surface-glass-elevated-border);
   }
   .mesh-bg {
     background-color: hsl(var(--background));
@@ -101,8 +98,8 @@
   }
   .grid-bg {
     background-image:
-      linear-gradient(hsl(0 0% 100% / 0.016) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(0 0% 100% / 0.016) 1px, transparent 1px);
+      linear-gradient(hsl(var(--neutral-tint) / 0.016) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--neutral-tint) / 0.016) 1px, transparent 1px);
     background-size: 64px 64px;
   }
   .glow-primary { box-shadow: var(--shadow-glow); }
@@ -112,82 +109,46 @@
   }
   .hover-glow:hover {
     box-shadow: var(--shadow-glow);
-    border-color: hsl(248 90% 66% / 0.5);
+    border-color: hsl(var(--primary) / 0.5);
+  }
+  /* Pointer-tracked specular sheen. The host sets --mx/--my from a
+     pointermove handler (see Education cards / TechBento); the highlight is
+     a wide, soft wash (neutral pair, theme-following) with a faint primary
+     core — big and diffuse on purpose: a concentrated blob reads as glare. */
+  .specular {
+    position: relative;
+  }
+  .specular::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background:
+      radial-gradient(
+        420px circle at var(--mx, 50%) var(--my, 50%),
+        hsl(var(--primary) / 0.03),
+        transparent 55%
+      ),
+      radial-gradient(
+        560px circle at var(--mx, 50%) var(--my, 50%),
+        hsl(var(--neutral-tint) / 0.04),
+        transparent 70%
+      );
+    opacity: 0;
+    transition: opacity var(--duration-fast) ease;
+  }
+  .specular:hover::after {
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .specular::after {
+      transition: none;
+    }
   }
   .bg-noise {
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65536' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
     opacity: 0.04;
-    pointer-events: none;
-  }
-  .liquid-glass {
-    background: hsl(248 90% 66% / 0.02);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    box-shadow: inset 0 1px 1px hsl(0 0% 100% / 0.08);
-    position: relative;
-    overflow: hidden;
-  }
-  /* Tech chips — subtle shine sweep on hover */
-  .tech-chip {
-    position: relative;
-    overflow: hidden;
-  }
-  .tech-chip::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -75%;
-    width: 50%;
-    height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      hsl(0 0% 100% / 0.06),
-      transparent
-    );
-    transform: skewX(-25deg);
-    transition: left 0.5s ease;
-    pointer-events: none;
-  }
-  .tech-chip:hover::before {
-    left: 125%;
-  }
-  .liquid-glass::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 1.4px;
-    background: linear-gradient(180deg,
-      hsl(0 0% 100% / 0.4) 0%, hsl(0 0% 100% / 0.12) 15%, hsl(0 0% 100% / 0.02) 35%,
-      hsl(0 0% 100% / 0) 50%, hsl(0 0% 100% / 0.02) 65%, hsl(0 0% 100% / 0.12) 85%,
-      hsl(0 0% 100% / 0.4) 100%);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-  }
-  .liquid-glass-strong {
-    background: hsl(248 90% 66% / 0.04);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    box-shadow: inset 0 1px 1px hsl(0 0% 100% / 0.12);
-    position: relative;
-    overflow: hidden;
-  }
-  .liquid-glass-strong::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 1.4px;
-    background: linear-gradient(180deg,
-      hsl(0 0% 100% / 0.45) 0%, hsl(0 0% 100% / 0.15) 15%, hsl(0 0% 100% / 0.02) 35%,
-      hsl(0 0% 100% / 0) 50%, hsl(0 0% 100% / 0.02) 65%, hsl(0 0% 100% / 0.15) 85%,
-      hsl(0 0% 100% / 0.45) 100%);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
     pointer-events: none;
   }
 
@@ -201,7 +162,7 @@
       to bottom,
       transparent 0,
       transparent 2px,
-      hsl(0 0% 0% / 0.08) 3px,
+      hsl(var(--neutral-scrim) / 0.08) 3px,
       transparent 4px
     );
     mix-blend-mode: multiply;
@@ -214,7 +175,7 @@
     inset: 0;
     pointer-events: none;
     z-index: 59;
-    background: radial-gradient(ellipse at center, transparent 50%, hsl(0 0% 0% / 0.4) 100%);
+    background: radial-gradient(ellipse at center, transparent 50%, hsl(var(--neutral-scrim) / 0.4) 100%);
     opacity: 0;
     transition: opacity 200ms;
   }
@@ -242,7 +203,7 @@
   .terminal-fog-blur {
     position: absolute;
     inset: 0;
-    background: hsl(230 35% 4% / 0.02);
+    background: hsl(var(--background) / 0.02);
     backdrop-filter: blur(6px) saturate(110%);
     -webkit-backdrop-filter: blur(6px) saturate(110%);
     /* Hint the compositor to pre-allocate the backdrop buffer so the
@@ -257,13 +218,38 @@
 
   /* === Dock item — active state glow that respects the design tokens === */
   .dock-item-active {
-    background: hsl(190 95% 60% / 0.14);
+    background: hsl(var(--accent) / 0.14);
     box-shadow:
-      inset 0 0 0 1px hsl(190 95% 60% / 0.45),
-      0 0 24px -4px hsl(190 95% 60% / 0.55);
+      inset 0 0 0 1px hsl(var(--accent) / 0.45),
+      0 0 24px -4px hsl(var(--accent) / 0.55);
   }
   .dock-item-active-dot {
-    box-shadow: 0 0 10px hsl(190 95% 60% / 0.9), 0 0 2px hsl(190 95% 60% / 1);
+    box-shadow: 0 0 10px hsl(var(--accent) / 0.9), 0 0 2px hsl(var(--accent) / 1);
+  }
+
+  /* === Vertical rhythm — single owner ===
+     `.section-px` owns horizontal padding; `.section-y` owns the vertical
+     spacing BETWEEN sections (consumes --section-gap from the token pipeline).
+     Sections declare spacing once, in the page flow (Index.tsx); nothing else
+     may add margin or padding utilities for section-to-section rhythm. Plain
+     class beside .window-rail / .section-px — emitted unconditionally.
+     (NOTE: never write "star-slash" sequences like my-STAR/py-STAR inside CSS
+     comments — the first one terminates the comment and the rule below gets
+     swallowed. This cost a debug session; do not re-add.) */
+  .section-y {
+    margin-block: var(--section-gap);
+    /* Anchor targets (#projects via the nav) must not hide behind the fixed
+       nav — the scroll anchor IS the section, not an inner heading. */
+    scroll-margin-top: calc(var(--nav-height, 60px) + 8px);
+  }
+
+  /* Terminal-fog anti-FOUC headroom: while the CLI terminal is open the fog
+     could expose a blank strip at the very bottom of the page. Giving the
+     bottom rail extra height pushes the last section's end above the fog
+     onset; p-4 (28px) + section-gap (4px) sums to the legacy 32px painted
+     gap that .section-y replaced, so the total page length is unchanged. */
+  .window-rail {
+    margin-bottom: calc(var(--section-gap) + var(--section-gap-sm));
   }
 
   /* Shared horizontal section padding — single source of truth.
@@ -280,310 +266,5 @@
       padding-inline: 2.5rem;        /* lg:px-10 */
     }
   }
-
-  /* === Profile Wrapped === */
-  .profile-showcase {
-    display: block;
-    padding: 1rem 0 2.5rem;
-  }
-
-  .profile-section-label {
-    display: inline-block;
-    font-size: 0.7rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: hsl(var(--muted-foreground));
-    margin-bottom: 0.75rem;
-  }
-  .profile-section-title {
-    font-family: var(--font-display);
-    font-size: clamp(1.875rem, 4vw, 3.25rem);
-    font-weight: 700;
-    line-height: 1.05;
-    letter-spacing: -0.04em;
-    margin: 0 0 0.75rem;
-  }
-  .profile-section-intro {
-    color: hsl(var(--muted-foreground));
-    font-size: 0.95rem;
-    max-width: 32rem;
-    margin: 0 auto 1.5rem;
-  }
-  .profile-showcase-header {
-    text-align: center;
-    padding: 0 1rem;
-  }
-
-  /* Sticky stacked deck (desktop) */
-  .profile-deck {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    padding-bottom: 0;
-  }
-
-  .profile-deck-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.25rem;
-    margin-top: 1.5rem;
-  }
-  @media (width >= 1024px) {
-    .profile-deck-grid {
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-      align-items: start;
-    }
-  }
-
-  .profile-card {
-    position: relative;
-    min-height: 60vh;
-    padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1.25rem, 2.5vw, 2rem);
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    gap: 0.5rem;
-    color: hsl(var(--foreground));
-    overflow: hidden;
-    isolation: isolate;
-    background: hsl(0 0% 100% / 0.04);
-    backdrop-filter: blur(20px) saturate(140%);
-    -webkit-backdrop-filter: blur(20px) saturate(140%);
-    border: 1px solid hsl(0 0% 100% / 0.08);
-    border-top: 3px solid hsl(var(--card-accent, 0 0% 100%));
-    border-radius: 1rem;
-    box-shadow: 0 8px 32px hsl(230 25% 4% / 0.35);
-    transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
-  }
-  .profile-card:hover {
-    background: hsl(0 0% 100% / 0.06);
-    border-color: hsl(0 0% 100% / 0.14);
-    transform: translateY(-2px);
-  }
-
-  .profile-card-art {
-    width: 100%;
-    max-width: 220px;
-    aspect-ratio: 1;
-    margin: 0 auto 1.25rem;
-    color: hsl(var(--card-accent, 0 0% 100%) / 0.5);
-    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    position: relative;
-  }
-  .profile-card:hover .profile-card-art {
-    transform: scale(1.05) rotate(-2deg);
-  }
-  .profile-card-art svg {
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
-
-  .profile-card-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    gap: 0.85rem;
-    position: relative;
-    z-index: 1;
-  }
-  .profile-card-name {
-    font-family: var(--font-display);
-    font-weight: 800;
-    font-size: clamp(1.75rem, 3.2vw, 2.5rem);
-    line-height: 1;
-    letter-spacing: -0.04em;
-    margin: 0;
-    color: hsl(var(--foreground));
-    background: linear-gradient(180deg, hsl(var(--foreground)) 0%, hsl(var(--card-accent-soft, var(--foreground))) 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .profile-card-copy {
-    font-size: clamp(0.8rem, 0.95vw, 0.88rem);
-    line-height: 1.5;
-    color: hsl(0 0% 100% / 0.72);
-    max-width: 22rem;
-    margin: 0;
-  }
-
-  .profile-card-actions {
-    display: flex;
-    justify-content: center;
-    margin-top: auto;
-    padding-top: 1rem;
-    position: relative;
-    z-index: 1;
-  }
-  .profile-card-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.5rem 1rem;
-    background: hsl(0 0% 100% / 0.06);
-    border: 1px solid hsl(0 0% 100% / 0.18);
-    border-radius: 9999px;
-    color: hsl(var(--foreground));
-    font-size: 0.78rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
-    font-family: var(--font-sans);
-    backdrop-filter: blur(8px);
-  }
-  .profile-card-cta:hover {
-    background: hsl(0 0% 100% / 0.12);
-    border-color: hsl(var(--card-accent, 0 0% 100%) / 0.3);
-  }
-  .profile-card-cta:focus-visible {
-    outline: 2px solid hsl(var(--card-accent, 0 0% 100%));
-    outline-offset: 2px;
-  }
-
-  .profile-card-expanded {
-    width: 100%;
-    margin-top: 0.25rem;
-    text-align: center;
-  }
-  .profile-card-expanded-copy {
-    font-size: clamp(0.78rem, 0.9vw, 0.85rem);
-    line-height: 1.55;
-    color: hsl(0 0% 100% / 0.75);
-    margin: 0;
-    max-width: 24rem;
-    margin-inline: auto;
-  }
-
-  /* Mobile: simple stack, no sticky */
-  .profile-mobile-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-  .profile-mobile-card {
-    position: relative;
-    border-radius: 1rem;
-    overflow: hidden;
-    border: 1px solid hsl(0 0% 100% / 0.08);
-    background: hsl(0 0% 100% / 0.04);
-    backdrop-filter: blur(20px) saturate(140%);
-    -webkit-backdrop-filter: blur(20px) saturate(140%);
-    padding: 1.5rem;
-    color: hsl(0 0% 100%);
-    isolation: isolate;
-    display: grid;
-    grid-template-rows: auto auto auto 1fr auto;
-    gap: 0.5rem;
-  }
-  .profile-mobile-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: hsl(var(--card-accent, 270 80% 65%));
-    z-index: 1;
-  }
-  .profile-mobile-card-art {
-    width: 100%;
-    max-width: 160px;
-    aspect-ratio: 1;
-    margin: 0 auto 0.5rem;
-    color: hsl(var(--card-accent, 0 0% 100%) / 0.5);
-  }
-  .profile-mobile-card-art svg {
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
-  .profile-mobile-card-name {
-    font-family: var(--font-display);
-    font-weight: 800;
-    font-size: clamp(1.5rem, 6vw, 1.85rem);
-    letter-spacing: -0.04em;
-    margin: 0;
-    text-align: center;
-    background: linear-gradient(180deg, hsl(var(--foreground)) 0%, hsl(var(--card-accent-soft, var(--foreground))) 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .profile-mobile-card-copy {
-    font-size: 0.85rem;
-    line-height: 1.5;
-    color: hsl(0 0% 100% / 0.75);
-    margin: 0;
-    text-align: center;
-  }
-  .profile-mobile-card-expanded {
-    text-align: center;
-  }
-  .profile-mobile-card-expanded-copy {
-    font-size: 0.82rem;
-    line-height: 1.5;
-    color: hsl(0 0% 100% / 0.7);
-    margin: 0;
-  }
-  .profile-mobile-card-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.45rem 0.9rem;
-    background: hsl(0 0% 100% / 0.06);
-    border: 1px solid hsl(0 0% 100% / 0.18);
-    border-radius: 9999px;
-    color: hsl(var(--foreground));
-    font-size: 0.78rem;
-    font-weight: 500;
-    cursor: pointer;
-    margin: 0.5rem auto 0;
-    font-family: var(--font-sans);
-  }
-
-  /* Disable sticky stacking on mobile and reduced-motion */
-  @media (width < 1024px) {
-    .profile-deck-grid {
-      grid-template-columns: 1fr;
-    }
-    .profile-card {
-      min-height: auto;
-    }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .profile-card {
-      min-height: auto;
-    }
-  }
-
-  /* === Profile art motion (keyframes applied via [data-motion="enabled"] / class hooks)
-     All loops use ease-in-out (never linear or step) to avoid vestibular triggers;
-     amplitudes kept small (±1% scale, ±8° rotate, opacity 0.4↔0.9) for the same reason. */
-  svg[data-motion="enabled"] .profile-art-vinyl-spin {
-    transform-box: fill-box;
-    transform-origin: center;
-    animation: profile-vinyl-spin 18s linear infinite;
-  }
-  svg[data-motion="enabled"] .profile-art-chef-breathe {
-    transform-box: fill-box;
-    transform-origin: center;
-    animation: profile-chef-breathe 3s ease-in-out infinite;
-  }
-  svg[data-motion="enabled"] .profile-art-led-blink {
-    animation: profile-led-blink 2s ease-in-out infinite;
-  }
-  @keyframes profile-vinyl-spin {
-    to { transform: rotate(360deg); }
-  }
-  @keyframes profile-chef-breathe {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.012); }
-  }
-   @keyframes profile-led-blink {
-     0%, 100% { opacity: 1; }
-     50% { opacity: 0.45; }
-   }
-
 
 }

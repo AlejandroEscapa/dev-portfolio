@@ -1,18 +1,19 @@
 /* projects.module.css — 3D carousel + detail view for the Projects section */
 
-:root {
-  /* Carousel height only — detail view grows with its own content. */
-  --projects-stage-h: 640px;
-}
+/* --projects-stage-h is owned by src/styles/tokens/semantic/layout.json
+   (consumed by .viewFlip below) — this module must not redefine it. */
 
 .section {
   position: relative;
 }
 
-/* Shared stage: carousel fills fixed height; detail grows with content */
+/* Shared stage: BOTH view modes fill the same fixed height, so the window
+   body never changes size across the carousel <-> detail swap. The
+   perspective lets the mode panels rotate in 3D during the swap. */
 .stage {
   display: flex;
   flex-direction: column;
+  perspective: 1600px;
 }
 
 .stage > * {
@@ -64,13 +65,13 @@
   margin: auto;
   width: clamp(380px, 38vw, 520px);
   min-height: clamp(460px, 55vh, 580px);
-  background-color: hsl(230 35% 6%);
-  background-image: linear-gradient(180deg, hsl(230 35% 8%), hsl(230 35% 4%));
-  border: 1px solid hsl(0 0% 100% / 0.12);
+  background-color: hsl(var(--card));
+  background-image: linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
+  border: 1px solid hsl(var(--neutral-tint) / 0.12);
   box-shadow:
-    0 24px 48px hsl(0 0% 0% / 0.5),
-    0 8px 16px hsl(0 0% 0% / 0.3),
-    0 0 0 1px hsl(0 0% 100% / 0.04);
+    0 24px 48px hsl(var(--neutral-scrim) / 0.5),
+    0 8px 16px hsl(var(--neutral-scrim) / 0.3),
+    0 0 0 1px hsl(var(--neutral-tint) / 0.04);
   display: flex;
   flex-direction: column;
   transform-style: preserve-3d;
@@ -78,7 +79,7 @@
     transform 0.85s ease,
     opacity 0.85s ease;
   pointer-events: none;
-  border-radius: 1rem;
+  border-radius: var(--radius-lg);
   overflow: hidden;
   opacity: 0;
   will-change: transform, opacity;
@@ -105,9 +106,8 @@
 .cardMedia {
   height: clamp(180px, 24vh, 220px);
   flex: 0 0 auto;
-  background-color: hsl(230 35% 4%);
-  background-image: linear-gradient(135deg, hsl(248 50% 15%), hsl(280 40% 10%));
-  border-bottom: 1px solid hsl(0 0% 100% / 0.08);
+  background-color: hsl(var(--background));
+  background-image: linear-gradient(135deg, hsl(var(--primary) / 0.18), hsl(var(--background)));
   position: relative;
   overflow: hidden;
 }
@@ -168,25 +168,61 @@
     hsl(var(--mesh-1) / 0.55)
   );
   -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
+    linear-gradient(hsl(var(--neutral-tint)) 0 0) content-box,
+    linear-gradient(hsl(var(--neutral-tint)) 0 0);
   -webkit-mask-composite: xor;
           mask-composite: exclude;
 }
 
+/* Editor file-tab strip: the badge renders as an active editor tab hanging
+   under the media, with a hairline rail filling the rest of the strip. The
+   strip is full-bleed across the body padding so it reads as card chrome,
+   flush with the card edges. */
+.tabBar {
+  display: flex;
+  align-items: flex-end;
+  /* The extra bottom offset separates the editor-tab chrome from the card
+     title: badge + gap must read as two distinct layers, not one block. */
+  margin: 0 -1rem 0.875rem;
+  padding: 0 1rem;
+}
+
+.tabRail {
+  flex: 1;
+  height: 1px;
+  background: hsl(var(--neutral-tint) / 0.12);
+}
+
+/* The tab itself: mono filename voice, square top corners, 2px primary top
+   edge (the VS Code active-tab cue) and an open bottom that merges into the
+   card body. position: relative keeps it above .cardBody::before's conic
+   rim, which would otherwise overdraw the accent top edge. */
 .cardBadge {
   display: inline-flex;
-  width: fit-content;
   align-items: center;
-  gap: 0.4rem;
-  border-radius: 9999px;
-  border: 1px solid hsl(var(--accent) / 0.4);
-  background: hsl(var(--accent) / 0.1);
-  padding: 0.2rem 0.6rem;
+  gap: 0.45rem;
+  padding: 0.34rem 0.7rem 0.3rem;
+  position: relative;
+  border: 1px solid hsl(var(--neutral-tint) / 0.12);
+  border-top: 2px solid hsl(var(--primary) / 0.55);
+  border-bottom: none;
+  border-radius: var(--radius-xs) var(--radius-xs) 0 0;
+  background: hsl(var(--neutral-tint) / 0.05);
+  font-family: var(--font-mono);
   font-size: 0.65rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: hsl(var(--accent));
+  letter-spacing: 0.05em;
+  color: hsl(var(--muted-foreground));
+  text-transform: lowercase;
+  white-space: nowrap;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.card:hover .cardBadge,
+.card:focus-visible .cardBadge,
+.mobileCard:hover .cardBadge,
+.mobileCard:focus-visible .cardBadge {
+  color: hsl(var(--foreground));
+  background: hsl(var(--neutral-tint) / 0.08);
 }
 
 .cardTitle {
@@ -212,13 +248,17 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.3rem;
-  margin-top: 0.15rem;
+  /* Breathing room above the tags, split by a subtle hairline that matches
+     the editorial separators used across the other sections. */
+  margin-top: 0.9rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid hsl(var(--neutral-tint) / 0.08);
 }
 
 .techChip {
-  border-radius: 0.4rem;
-  border: 1px solid hsl(0 0% 100% / 0.1);
-  background: hsl(0 0% 100% / 0.04);
+  border-radius: var(--radius-sm);
+  border: 1px solid hsl(var(--neutral-tint) / 0.1);
+  background: hsl(var(--neutral-tint) / 0.04);
   padding: 0.2rem 0.5rem;
   font-size: 0.68rem;
   color: hsl(var(--foreground));
@@ -234,11 +274,15 @@
   padding-top: 0.5rem;
 }
 
+/* Grid (not flex+flex-1): flex items keep a min-width:auto floor at their
+   min-content, so "View details" (126px) and "GitHub" (95px) landed at
+   different widths despite equal flex-grow. minmax(0, 1fr) floors at zero,
+   forcing strictly equal columns and heights. */
 .cardActionRow {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.4rem;
   width: 100%;
-  justify-content: flex-start;
 }
 
 /* View wrapper: chips live DOM-first, cards DOM-second. column-reverse flips
@@ -265,9 +309,9 @@
   align-items: center;
   gap: 0.15rem;
   padding: 0.25rem;
-  background: hsl(0 0% 100% / 0.04);
-  border: 1px solid hsl(0 0% 100% / 0.08);
-  border-radius: 0.6rem;
+  background: hsl(var(--neutral-tint) / 0.04);
+  border: 1px solid hsl(var(--neutral-tint) / 0.08);
+  border-radius: var(--radius-sm);
   width: fit-content;
   max-width: 100%;
   overflow-x: auto;
@@ -287,7 +331,7 @@
   /* 1px transparent border so toggling data-active only swaps border-color,
      avoiding the 2px layout shift that an on/off border would introduce. */
   border: 1px solid transparent;
-  border-radius: 0.45rem;
+  border-radius: var(--radius-sm);
   background: transparent;
   color: hsl(var(--muted-foreground));
   font-family: inherit;
@@ -302,7 +346,7 @@
 
 .chip:hover {
   color: hsl(var(--foreground));
-  background: hsl(0 0% 100% / 0.06);
+  background: hsl(var(--neutral-tint) / 0.06);
 }
 
 .chip:focus-visible {
@@ -345,20 +389,27 @@
   z-index: 1;
 }
 
-/* Detail view (replaces carousel) — Bento layout, grows with content */
+/* Detail view (replaces carousel) — pinned to the same fixed height as the
+   carousel stage so the swap is size-neutral. flex-basis (not height) does
+   the pinning: .stage > * sets flex: 1, and a basis of 0 would collapse the
+   pane to its content. The content column scrolls internally if a project's
+   copy runs long. */
 .detail {
   display: flex;
   flex-direction: column;
   gap: 0;
   padding: 1rem 0;
+  flex: 0 0 var(--projects-stage-h);
+  height: var(--projects-stage-h);
+  overflow: hidden;
 }
 
 /* Block 1: Header — back button left, title centered, separator below */
 .detailHeader {
   display: flex;
   align-items: center;
-  padding: 0 0 0.75rem 0;
-  border-bottom: 1px solid hsl(0 0% 100% / 0.08);
+  padding: 0 0 1rem 0;
+  border-bottom: 1px solid hsl(var(--neutral-tint) / 0.08);
   flex-shrink: 0;
   position: relative;
 }
@@ -409,14 +460,19 @@
   .detailTitle { font-size: 2.25rem; }
 }
 
-/* Block 2: Content — media left, highlights + about right */
+/* Block 2: Content — media column left (video + spec highlights beneath),
+   narrative right. Scrolls internally when needed; the pane itself never
+   changes the page layout. The 2.5rem column gap is the widest gap in the
+   composition: column separation must outshine any intra-column spacing. */
 .detailContent {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2rem;
+  gap: 2.5rem;
   flex: 1;
   min-height: 0;
   padding: 1.25rem 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
 }
 
 @media (max-width: 900px) {
@@ -425,23 +481,67 @@
   }
 }
 
+/* Left column: media on top, spec chips anchored underneath so the media's
+   slack height is spent on real content instead of empty letterbox.
+   No min-height: 0 here — zeroing it would erase the column's min-content
+   contribution from grid row sizing, collapsing the rows below their
+   content and overlapping media over text on mobile. */
+.detailMediaCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 0;
+}
+
+/* Media frame: NO radius, NO border — the video's own pixels are the edge.
+   The video is aspect-fit inside a definite-size box and stays centered, so
+   the toggle overlay (centered in the same box) always sits over the video. */
 .detailMedia {
   position: relative;
+  flex: 1;
+  min-height: 0;
   width: 100%;
-  height: 100%;
-  max-width: 100%;
-  max-height: 100%;
-  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: transparent;
-  display: block;
   overflow: hidden;
+}
+
+@media (max-width: 900px) {
+  /* Auto-height column on mobile. An explicit height instead of
+     aspect-ratio: an aspect box inside a flex column contributes no
+     intrinsic height during grid row sizing, which collapses the row and
+     overlaps the media over the info pane below. */
+  .detailMedia {
+    flex: none;
+    height: clamp(200px, 52vw, 360px);
+  }
+}
+
+/* Mobile detail header: the absolutely-centered title collides with the
+   back button on narrow windows — stack them instead. */
+@media (max-width: 768px) {
+  .detailHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.55rem;
+  }
+
+  .detailTitle {
+    position: static;
+    transform: none;
+    font-size: 1.6rem;
+    white-space: normal;
+  }
 }
 
 .detailMedia video,
 .detailMedia img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
   display: block;
   outline: none;
   border: 0;
@@ -449,10 +549,88 @@
   margin: 0;
 }
 
+/* Custom play/pause surface: covers the media box (click anywhere), with a
+   circular glass glyph centered on the video itself. Replaces the native
+   controls, which with aspect-fit video would render outside the video's
+   occupied pixels. */
+.videoToggle {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.videoToggleGlyph {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 9999px;
+  border: 1px solid hsl(var(--neutral-tint) / 0.16);
+  background: hsl(var(--neutral-scrim) / 0.5);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  color: hsl(var(--foreground));
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.videoToggle:hover .videoToggleGlyph {
+  border-color: hsl(var(--primary) / 0.5);
+  color: hsl(var(--primary));
+}
+
+.videoToggle:focus-visible {
+  outline: none;
+}
+
+.videoToggle:focus-visible .videoToggleGlyph {
+  outline: 2px solid hsl(var(--primary) / 0.6);
+  outline-offset: 3px;
+}
+
+/* Playing: the glyph recedes (the demo is the content) and returns on
+   hover/focus. Paused: always visible so the resume affordance is obvious. */
+.videoToggle[data-playing="false"] .videoToggleGlyph {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.videoToggle[data-playing="true"] .videoToggleGlyph {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.videoToggle[data-playing="true"]:hover .videoToggleGlyph,
+.videoToggle[data-playing="true"]:focus-visible .videoToggleGlyph {
+  opacity: 1;
+  transform: scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .videoToggleGlyph {
+    transition: none;
+  }
+}
+
 .detailInfo {
   display: flex;
   flex-direction: column;
-  min-height: 0;
+  /* No min-height: 0 — as a grid item it would zero this pane's min-content
+     contribution and collapse its row to 0px on the mobile single-column
+     layout (same trap as .detailMediaCol). */
   align-self: stretch;
   justify-content: center;
   gap: 1rem;
@@ -461,7 +639,7 @@
 .detailSection {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.6rem;
   flex-shrink: 0;
 }
 
@@ -476,36 +654,44 @@
 
 .detailDesc {
   font-size: 0.95rem;
-  line-height: 1.6;
+  line-height: 1.7;
   color: hsl(var(--foreground));
   margin: 0;
+  max-width: 52ch;
 }
 
-/* Highlights — horizontal row */
+/* Highlights — spec grid under the media: 2 columns so the four facts align
+   into a tidy block instead of a ragged wrap row. */
 .highlights {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
   flex-shrink: 0;
 }
 
 .highlight {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.2rem;
-  padding: 0.5rem 0.65rem;
-  border-radius: 0.5rem;
-  background: hsl(0 0% 100% / 0.03);
-  border: 1px solid hsl(0 0% 100% / 0.08);
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.45rem 0.6rem;
+  border-radius: var(--radius-sm);
+  background: hsl(var(--neutral-tint) / 0.03);
+  border: 1px solid hsl(var(--neutral-tint) / 0.08);
   min-width: 0;
 }
 
 .highlightIcon {
-  width: 0.9rem;
-  height: 0.9rem;
+  width: 0.95rem;
+  height: 0.95rem;
   color: hsl(var(--primary));
   flex-shrink: 0;
+}
+
+.highlightText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
 }
 
 .highlightLabel {
@@ -517,7 +703,7 @@
 }
 
 .highlightValue {
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   font-weight: 600;
   color: hsl(var(--foreground));
   line-height: 1.2;
@@ -533,8 +719,8 @@
   align-items: center;
   justify-content: space-between;
   gap: 1.5rem;
-  padding: 1rem 0 0;
-  border-top: 1px solid hsl(0 0% 100% / 0.08);
+  padding: 1.25rem 0 0;
+  border-top: 1px solid hsl(var(--neutral-tint) / 0.08);
   flex-shrink: 0;
 }
 
@@ -563,7 +749,7 @@
 .stackCategoryLabel {
   display: inline-flex;
   align-items: center;
-  border-radius: 0.35rem;
+  border-radius: var(--radius-xs);
   border: 1px solid hsl(var(--primary) / 0.3);
   background: hsl(var(--primary) / 0.08);
   padding: 0.18rem 0.45rem;
@@ -605,23 +791,38 @@
   flex-shrink: 0;
 }
 
-/* Transitions */
+/* Card-flip swap: the outgoing panel turns edge-on (90deg, finished just
+   before the 420ms SWAP_MS unmount) and the incoming panel completes the
+   turn from the opposite side — the stage height is constant, so the page
+   never shifts. Opacity stays 1: at 90deg the panel is edge-on invisible. */
 .entering {
-  animation: slideInBlur 600ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation: flipInY 600ms cubic-bezier(0.2, 0.7, 0.25, 1) both;
+  backface-visibility: hidden;
 }
 
 .exiting {
-  animation: riseOutBlur 400ms ease both;
+  animation: flipOutY 400ms cubic-bezier(0.55, 0, 0.8, 0.4) both;
+  backface-visibility: hidden;
 }
 
-@keyframes slideInBlur {
-  from { opacity: 0; transform: translateY(-20px); filter: blur(10px); }
-  to   { opacity: 1; transform: translateY(0);     filter: blur(0); }
+@keyframes flipOutY {
+  from { transform: rotateY(0deg); }
+  to   { transform: rotateY(90deg); }
 }
 
-@keyframes riseOutBlur {
-  from { opacity: 1; transform: translateY(0);    filter: blur(0); }
-  to   { opacity: 0; transform: translateY(-12px); filter: blur(10px); }
+@keyframes flipInY {
+  from { transform: rotateY(-90deg); }
+  to   { transform: rotateY(0deg); }
+}
+
+@keyframes fadeSwapIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fadeSwapOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
 }
 
 /* Mobile list */
@@ -636,9 +837,9 @@
   flex-direction: column;
   width: 100%;
   text-align: left;
-  border-radius: 1.25rem;
-  border: 1px solid hsl(0 0% 100% / 0.1);
-  background: linear-gradient(180deg, hsl(0 0% 100% / 0.05), hsl(0 0% 100% / 0.02));
+  border-radius: var(--radius-lg);
+  border: 1px solid hsl(var(--neutral-tint) / 0.1);
+  background: linear-gradient(180deg, hsl(var(--neutral-tint) / 0.05), hsl(var(--neutral-tint) / 0.02));
   backdrop-filter: blur(18px) saturate(140%);
   -webkit-backdrop-filter: blur(18px) saturate(140%);
   overflow: hidden;
@@ -657,7 +858,7 @@
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
-  background: hsl(230 35% 5% / 0.4);
+  background: hsl(var(--background) / 0.4);
   overflow: hidden;
 }
 
@@ -674,6 +875,11 @@
   flex-direction: column;
   gap: 0.5rem;
   padding: 1.1rem 1.25rem 1.35rem;
+}
+
+.mobileCardBody .tabBar {
+  margin: 0 -1.25rem 0.875rem;
+  padding: 0 1.25rem;
 }
 
 .mobileCardTitle {
@@ -711,8 +917,12 @@
     transition: opacity 200ms ease;
     transform: none !important;
   }
-  .entering,
+  .entering {
+    animation-name: fadeSwapIn;
+    animation-duration: 200ms;
+  }
   .exiting {
+    animation-name: fadeSwapOut;
     animation-duration: 200ms;
   }
 }

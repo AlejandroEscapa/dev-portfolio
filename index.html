@@ -15,7 +15,11 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <!-- One request, three families, only the weights the app actually uses:
+         Fraunces is a variable font (single file per subset) covering wght
+         100-900 + opsz 9-144, which is what the bolded headings need.
+         IBM Plex Mono tops out at 500 because mono text is never bolded. -->
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,100..900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
     <!-- Preload the LCP background image so the browser fetches it in
          parallel with the HTML/CSS. imagesrcset lets the browser pick

@@ -1,4 +1,4 @@
-import { Code2, Brain, Layout, Cloud, Wrench } from "lucide-react";
+import { Code2, Brain, Layout, Cloud } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -13,19 +13,28 @@ interface TechCategory {
   items: TechItem[];
   accent: "primary" | "accent" | "glow";
   icon: LucideIcon;
+  /** Spans both columns of the bento grid. DOM order must keep the 2-col
+      cells adjacent to a row boundary or auto-placement leaves a hole:
+      languages-tools featured(2) | frontend + backend(1+1). */
+  featured?: boolean;
 }
 
 const CATEGORIES: TechCategory[] = [
   {
-    titleKey: "tech.languages_title",
+    titleKey: "tech.lang_tools_title",
     accent: "primary",
     icon: Code2,
+    featured: true,
     items: [
       { name: "C", svg: "/icons/c.svg", iconLucide: null },
       { name: "Python", svg: "/icons/python.svg", iconLucide: null },
       { name: "PHP", svg: "/icons/php.svg", iconLucide: null },
       { name: "JavaScript", svg: "/icons/javascript.svg", iconLucide: null },
       { name: "TypeScript", svg: "/icons/ts.svg", iconLucide: null },
+      { name: "Git", svg: "/icons/git.svg", iconLucide: null },
+      { name: "Make", svg: "/icons/make.svg", iconLucide: null },
+      { name: "Swagger", svg: "/icons/swagger.svg", iconLucide: null },
+      { name: "Integración de IA", svg: null, iconLucide: Brain },
     ],
   },
   {
@@ -60,50 +69,23 @@ const CATEGORIES: TechCategory[] = [
       { name: "Apicalypse", svg: null, iconLucide: Code2 },
     ],
   },
-  {
-    titleKey: "tech.tools_title",
-    accent: "primary",
-    icon: Wrench,
-    items: [
-      { name: "Git", svg: "/icons/git.svg", iconLucide: null },
-      { name: "Make", svg: "/icons/make.svg", iconLucide: null },
-      { name: "Swagger", svg: "/icons/swagger.svg", iconLucide: null },
-      { name: "Integración de IA", svg: null, iconLucide: Brain },
-    ],
-  },
 ];
 
-const accentChipIcon = {
-  primary: "text-primary",
-  accent: "text-accent",
-  glow: "text-primary-glow",
-} as const;
-
-const accentHeaderIcon = {
-  primary: "text-primary",
-  accent: "text-accent",
-  glow: "text-primary-glow",
-} as const;
-
-const accentTitle = {
-  primary: "text-primary/80",
-  accent: "text-accent/80",
-  glow: "text-primary-glow/80",
-} as const;
-
+// One accent cue per category (the top border). Icons and titles stay
+// neutral: brand SVGs already carry colour, so tinted fallbacks competed.
 const accentBorder = {
   primary: "border-t-primary/25",
   accent: "border-t-accent/25",
   glow: "border-t-primary-glow/25",
 } as const;
 
-function TechIcon({ item, accent }: { item: TechItem; accent: TechCategory["accent"] }) {
+function TechIcon({ item }: { item: TechItem }) {
   if (item.svg) {
     return <img src={item.svg} alt={item.name} className="h-[18px] w-[18px] shrink-0 object-contain" />;
   }
   if (item.iconLucide) {
     const Icon = item.iconLucide;
-    return <Icon className={`h-[18px] w-[18px] shrink-0 ${accentChipIcon[accent]}`} />;
+    return <Icon className="h-[18px] w-[18px] shrink-0 text-muted-foreground" />;
   }
   return null;
 }
@@ -119,15 +101,20 @@ export function TechBento() {
         return (
           <div
             key={cat.titleKey}
-            className={`glass rounded-2xl border-t-2 p-6 transition-all duration-300 hover:bg-white/[0.03] hover:-translate-y-0.5 ${accentBorder[cat.accent]}`}
+            onPointerMove={(e) => {
+              const rect = e.currentTarget.getBoundingClientRect();
+              e.currentTarget.style.setProperty("--mx", `${e.clientX - rect.left}px`);
+              e.currentTarget.style.setProperty("--my", `${e.clientY - rect.top}px`);
+            }}
+            className={`specular glass rounded-lg border-t-2 p-6 hover-glow hover:-translate-y-0.5 ${accentBorder[cat.accent]} ${cat.featured ? "sm:col-span-2" : ""}`}
           >
             {/* Header */}
             <div className="mb-4 flex items-center gap-2">
-              <div className={`rounded-lg bg-white/[0.04] p-2 ${accentHeaderIcon[cat.accent]}`}>
+              <div className="rounded-sm bg-neutral-tint/[0.04] p-2 text-muted-foreground">
                 <HeaderIcon className="h-4 w-4" />
               </div>
               <h3
-                className={`font-display text-sm font-bold uppercase tracking-[0.12em] ${accentTitle[cat.accent]}`}
+                className="font-mono text-label font-medium uppercase tracking-label text-foreground"
               >
                 {t(cat.titleKey)}
               </h3>
@@ -138,10 +125,10 @@ export function TechBento() {
               {cat.items.map((item) => (
                 <span
                   key={item.name}
-                  className="tech-chip flex items-center justify-center gap-1.5 rounded-md border border-white/[0.08] bg-white/[0.04] px-3 py-2.5 text-xs font-medium text-foreground/80 backdrop-blur-sm transition-all duration-200 hover:border-white/[0.15] hover:bg-white/[0.08] hover:text-foreground hover:shadow-[0_0_12px_hsl(var(--primary)/0.1)]"
+                  className="flex items-center justify-center gap-1.5 rounded-sm border border-neutral-tint/[0.08] bg-neutral-tint/[0.04] px-3 py-2.5 text-xs font-medium text-foreground/80 backdrop-blur-sm transition-all duration-200 hover:border-neutral-tint/[0.15] hover:bg-neutral-tint/[0.08] hover:text-foreground hover:shadow-[0_0_12px_hsl(var(--primary)/0.1)]"
                   style={{ minWidth: "calc(33.333% - 6px)", flex: "1 1 0" }}
                 >
-                  <TechIcon item={item} accent={cat.accent} />
+                  <TechIcon item={item} />
                   {item.name}
                 </span>
               ))}

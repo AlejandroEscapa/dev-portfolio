@@ -1,6 +1,5 @@
 import type { ReactElement } from "react";
 
-import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -29,9 +28,9 @@ import {
 type BrandIcon = () => ReactElement;
 
 const inputCls =
-  "h-11 bg-transparent border-white/10 text-foreground placeholder:text-muted-foreground focus-visible:border-primary/50 focus-visible:ring-1 focus-visible:ring-primary/30 focus-visible:ring-offset-0 transition-colors";
+  "h-11 bg-transparent border-neutral-tint/10 text-foreground placeholder:text-muted-foreground focus-visible:border-primary/50 focus-visible:ring-1 focus-visible:ring-primary/30 focus-visible:ring-offset-0 transition-colors";
 const textareaCls =
-  "bg-transparent border-white/10 text-foreground placeholder:text-muted-foreground focus-visible:border-primary/50 focus-visible:ring-1 focus-visible:ring-primary/30 focus-visible:ring-offset-0 min-h-[80px] resize-none transition-colors";
+  "bg-transparent border-neutral-tint/10 text-foreground placeholder:text-muted-foreground focus-visible:border-primary/50 focus-visible:ring-1 focus-visible:ring-primary/30 focus-visible:ring-offset-0 min-h-[80px] resize-none transition-colors";
 const messageCls = "text-xs";
 
 export const Contact = () => {
@@ -104,40 +103,44 @@ export const Contact = () => {
     /* Asymmetric section padding: keeps top breathing (large subhead) and tightens
        bottom so the divider + signature sit very close to the container's base. */
     <section className="relative min-h-[60vh] flex flex-col justify-between pt-7 md:pt-10 pb-3 md:pb-2 gap-4 md:gap-6">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.15 }}
-        transition={{ duration: 0.6 }}
-        className="flex-1 flex flex-col"
-      >
-        <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12">
-          {/* Left: 5/12 — Title + 2nd phrase (slightly smaller, no 3rd phrase) + Location */}
-          <div className="lg:col-span-5 flex flex-col justify-center gap-8 pl-16 md:pl-24 lg:pl-36">
+      {/* No internal reveal: the content rides the WindowChrome entry moment. */}
+      {/* Same content inset as Projects/Education (container max-w-6xl):
+          the window stays full-bleed, the content floats inside it. */}
+      <div className="flex-1 flex flex-col container mx-auto max-w-6xl">
+        <div className="flex-1 grid grid-cols-1 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] gap-10 lg:gap-12">
+          {/* Left column — numbered label + title + location, vertically
+              centered; the narrower column defers to the form */}
+          <div className="flex flex-col justify-center gap-8">
             <div className="space-y-3">
-              <h2 className="text-5xl sm:text-6xl md:text-7xl font-display font-bold tracking-tighter leading-none text-gradient">
+              <div className="mb-4 flex items-center gap-3 text-sm uppercase tracking-label text-muted-foreground">
+                <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
+                <span>{t("contact.section_label")}</span>
+              </div>
+              <h2 className="text-display font-display font-bold tracking-heading leading-none">
                 {t("contact.heading")}
               </h2>
 
-              {/* 2nd phrase — slightly reduced now that 3rd phrase is gone */}
-              <p className="text-lg sm:text-xl md:text-2xl leading-snug text-muted-foreground">
+              {/* 2nd phrase — one step under the display heading so the
+                  hierarchy heading > subhead > label stays readable */}
+              <p className="text-base sm:text-lg md:text-xl leading-snug text-muted-foreground">
                 {t("contact.heading_line1")} {t("contact.heading_line2")}
               </p>
             </div>
 
             <div className="space-y-1.5">
-              <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
+              <p className="text-label uppercase tracking-label text-muted-foreground">
                 {t("contact.location_label")}
               </p>
-              <p className="font-sans text-sm text-foreground">
+              <p className="font-sans text-base text-foreground">
                 {t("contact.location_value")}
               </p>
             </div>
           </div>
 
-          {/* Right: 7/12 — translucent card */}
-          <div className="lg:col-span-7 flex flex-col justify-center items-center">
-            <div className="relative w-full max-w-2xl rounded-xl glass border border-white/[8%] overflow-hidden transition-[transform,border-color,background] duration-300 hover:-translate-y-0.5">
+          {/* Right column — the form card takes the wider column (~55%)
+              so it leads the composition */}
+          <div className="flex flex-col justify-center">
+            <div className="relative w-full rounded-lg glass border border-neutral-tint/[0.08] overflow-hidden transition-[transform,border-color,background] duration-300 hover:-translate-y-0.5">
               {/* Primary accent border */}
               <div
                 aria-hidden="true"
@@ -147,15 +150,15 @@ export const Contact = () => {
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
-                  className="grid gap-3 p-4"
+                  className="grid gap-5 p-6 md:p-8"
                 >
-                  {/* Row 1: name + email — placeholders + aria-label for a11y */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {/* Row 1: name + email — visible mono labels, placeholders as examples */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <FormField
                       control={form.control}
                       name="name"
                       render={({ field }) => (
-                        <FormItem>
+                        <FormItem className="grid gap-2">
                           <FormControl>
                             <Input
                               placeholder={t("contact.form_name")}
@@ -173,7 +176,7 @@ export const Contact = () => {
                       control={form.control}
                       name="email"
                       render={({ field }) => (
-                        <FormItem>
+                        <FormItem className="grid gap-2">
                           <FormControl>
                             <Input
                               type="email"
@@ -191,12 +194,12 @@ export const Contact = () => {
                   </div>
 
                   {/* Row 2: message + submit button — items-stretch */}
-                  <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-3 items-stretch">
+                  <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-5 items-stretch">
                     <FormField
                       control={form.control}
                       name="message"
                       render={({ field }) => (
-                        <FormItem>
+                        <FormItem className="grid gap-2">
                           <FormControl>
                             <Textarea
                               placeholder={t(
@@ -226,7 +229,7 @@ export const Contact = () => {
               </Form>
 
               {/* Divider + signed social icons (no chip wrapper, larger icons) */}
-              <div className="border-t border-white/10 px-5 py-3 flex flex-wrap items-center justify-center gap-5">
+              <div className="border-t border-neutral-tint/10 px-5 py-3 flex flex-wrap items-center justify-center gap-5">
                 {socials.map((s) => {
                   const Icon = s.Icon;
                   return (
@@ -247,14 +250,14 @@ export const Contact = () => {
           </div>
         </div>
 
-        {/* Bottom divider + signature line — pushed to the very bottom of the
-            container via flex-1 on the grid above; signature sits tight on it. */}
-        <div className="mt-auto pt-3 border-t border-white/10">
-          <p className="text-center text-xs sm:text-[11px] font-medium text-muted-foreground/90">
+        {/* Bottom divider + signature line — a fixed-height footer band with
+            the text vertically centred on it. */}
+        <div className="mt-auto flex min-h-12 items-center justify-center border-t border-neutral-tint/10">
+          <p className="text-center text-xs sm:text-[11px] font-medium leading-none text-muted-foreground/90">
             {t("contact.signature")}
           </p>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 };

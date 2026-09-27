@@ -1,22 +1,29 @@
 /**
- * Vitest unit test for scripts/build-tokens.mjs.
+ * Vitest unit test for scripts/tokens-core.mjs (the pure token engine).
  *
- * Verifies the build pipeline without touching the file system:
- *   - `_flatten` preserves dot-paths for primitives (palette.indigo.500 etc.)
- *   - `_resolveAliases` substitutes {a.b.c} references against ctx
- *   - `_emitCSS` produces :root + @theme inline + [data-theme="..."] blocks
+ * Verifies the pipeline without touching the file system:
+ *   - `flatten` preserves dot-paths for primitives (palette.indigo.500 etc.)
+ *   - `resolveAliases` substitutes {a.b.c} references against ctx, and reports
+ *     unresolved ones only when a sink is wired (the core stays silent by default)
+ *   - `buildTokenModel` reduces ordered sources into flat defaults + per-theme maps
+ *   - `emitCSS` produces :root + @theme inline + [data-theme="..."] blocks, with
+ *     colour aliases wrapped in hsl(var()) and the namespaces we own (radius,
+ *     font, text, tracking) copied verbatim so Tailwind generates them from our
+ *     tokens instead of its own defaults
  *   - All three preset themes (catppuccin / dracula / tokyo-night) keep
- *     their original community-palette values 1:1
+ *     their original community-palette values 1:1 except the documented
+ *     muted-foreground AA raise (asserted in token-contrast.test.ts)
  *   - Indigo (default) mesh-4 reflects the green-teal change that
  *     harmonizes with pexels.jpg (the user's stated design intent)
  */
 
 import { describe, it, expect } from "vitest";
 import {
-  _flatten,
-  _resolveAliases,
-  _emitCSS,
-} from "../../scripts/build-tokens.mjs";
+  flatten as _flatten,
+  resolveAliases as _resolveAliases,
+  buildTokenModel as _buildTokenModel,
+  emitCSS as _emitCSS,
+} from "../../scripts/tokens-core.mjs";
 
 describe("build-tokens: flat / aliases / emit", () => {
   it("flatten keeps dot-path keys as a single string key (palette.indigo.500)", () => {
@@ -50,14 +57,39 @@ describe("build-tokens: flat / aliases / emit", () => {
     expect(_resolveAliases("{x}", { x: "{y}", y: "final" })).toBe("final");
   });
 
-  it("resolveAliases leaves unresolved alias literal + warns", () => {
-    const out = _resolveAliases("{missing}", {});
-    expect(out).toBe("{missing}");
+  it("resolveAliases leaves unresolved alias literal + reports it to the sink", () => {
+    expect(_resolveAliases("{missing}", {})).toBe("{missing}");
+    const seen: string[] = [];
+    _resolveAliases("{missing}", {}, (key: string) => seen.push(key));
+    expect(seen).toEqual(["missing"]);
   });
 
   it("resolveAliases ignores non-string input", () => {
     expect(_resolveAliases(null, {})).toBe(null);
     expect(_resolveAliases(undefined, {})).toBe(undefined);
+  });
+
+  it("buildTokenModel resolves aliases and applies theme overrides onto the defaults", () => {
+    const model = _buildTokenModel({
+      sources: [
+        { path: "primitives/colors.json", data: { palette: { brand: { 500: { $value: "248 90% 66%" } } } } },
+        { path: "semantic/colors.json",   data: { primary: { $value: "{palette.brand.500}" }, background: { $value: "230 35% 5%" } } },
+        { path: "themes/indigo.json",     data: { overrides: {} } },
+        { path: "themes/dracula.json",    data: { overrides: { primary: "340 70% 65%" } } },
+      ],
+    });
+
+    // Aliases are resolved against primitives, which stay in the model as
+    expect(model.flat.primary).toBe("248 90% 66%");
+    // dotted keys; the emitters drop dotted keys, so they never reach the
+    // artifacts (asserted by the "does NOT emit primitive keys" test below).
+    expect(model.flat["palette.brand.500"]).toBe("248 90% 66%");
+
+    // Default theme is a clone of the flat baseline; other themes keep the
+    // baseline and only diverge where they override.
+    expect(model.themes.indigo.primary).toBe("248 90% 66%");
+    expect(model.themes.dracula.primary).toBe("340 70% 65%");
+    expect(model.themes.dracula.background).toBe("230 35% 5%");
   });
 
   it("emitCSS produces :root with --primary + mesh-4 = green-teal for indigo default", () => {
@@ -104,5 +136,32 @@ describe("build-tokens: flat / aliases / emit", () => {
     });
     expect(css).toMatch(/@theme inline \{[^}]*--color-background: hsl\(var\(--background\)\);[^}]*\}/s);
     expect(css).toMatch(/@theme inline \{[^}]*--color-foreground: hsl\(var\(--foreground\)\);[^}]*\}/s);
+  });
+
+  it("emitCSS copies the namespaces we own into @theme inline VERBATIM (no hsl() wrap)", () => {
+    // Tailwind generates rounded-*/text-*/tracking-*/font-* from these, so they
+    // must be raw values. This is the policy that replaced the hardcoded
+    // `--radius-sm: calc(var(--radius) - 8px)` trio.
+    const flat = {
+      "radius-xs": "4px",
+      "radius-lg": "16px",
+      "text-h1": "clamp(2.25rem, 4.5vw, 3.5rem)",
+      "tracking-heading": "-0.02em",
+      "section-gap": "clamp(5rem, 9vw, 8rem)",
+      "font-display": '"Instrument Serif", Georgia, serif',
+    };
+    const css = _emitCSS({ flat, themes: { indigo: { ...flat } } });
+
+    expect(css).toMatch(/@theme inline \{[^}]*--radius-xs: 4px;/s);
+    expect(css).toMatch(/@theme inline \{[^}]*--radius-lg: 16px;/s);
+    expect(css).toMatch(/@theme inline \{[^}]*--text-h1: clamp\(2\.25rem, 4\.5vw, 3\.5rem\);/s);
+    expect(css).toMatch(/@theme inline \{[^}]*--tracking-heading: -0\.02em;/s);
+    expect(css).toMatch(/@theme inline \{[^}]*--font-display: "Instrument Serif", Georgia, serif;/s);
+
+    // Layout/typography tokens belong in :root too (plain CSS var() consumers).
+    expect(css).toMatch(/:root \{[^}]*--radius-xs: 4px;/s);
+    expect(css).toMatch(/:root \{[^}]*--section-gap: clamp\(5rem, 9vw, 8rem\);/s);
+    // ...but font families are inline-only (they'd be noise in :root).
+    expect(css).not.toMatch(/:root \{[^}]*--font-display:/s);
   });
 });

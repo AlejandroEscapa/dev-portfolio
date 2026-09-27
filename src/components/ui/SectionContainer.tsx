@@ -1,18 +1,14 @@
 import { type ReactNode } from "react";
-import type { MotionValue } from "framer-motion";
+import { motion } from "framer-motion";
+import type { MotionStyle } from "framer-motion";
 
 interface SectionContainerProps {
   children: ReactNode;
   maxWidth?: "sm" | "md" | "lg" | "xl";
   className?: string;
-  padding?: string;
   id?: string;
   innerRef?: React.RefObject<HTMLElement>;
-  motionStyle?: {
-    scale?: MotionValue<number>;
-    y?: MotionValue<number>;
-    opacity?: MotionValue<number>;
-  };
+  motionStyle?: MotionStyle;
 }
 
 const maxWidthMap = {
@@ -26,29 +22,24 @@ export const SectionContainer = ({
   children,
   maxWidth = "md",
   className = "",
-  padding = "py-12",
   id,
   innerRef,
   motionStyle,
 }: SectionContainerProps) => {
   return (
-    <section
+    <motion.section
       id={id}
       ref={innerRef}
-      style={{
-        scale: motionStyle?.scale,
-        y: motionStyle?.y,
-        opacity: motionStyle?.opacity,
-        willChange: "transform, opacity",
-      }}
-      // Horizontal padding is provided by the outer .section-px wrapper.
-      // Do NOT add px-* here — it would stack on top of the chrome's
-      // own p-4 md:p-6 and produce inconsistent section widths.
-      className={`relative flex min-h-[60vh] flex-col justify-center ${padding} ${className}`}
+      style={{ ...motionStyle, willChange: "transform, opacity" }}
+      // Section-to-section spacing is owned by .section-y, declared once in
+      // the page flow. Horizontal padding is provided by the outer .section-px
+      // wrapper. This container adds NO rhythm of its own — it only centers
+      // content inside whatever window encloses it.
+      className={`relative flex flex-col justify-center ${className}`}
     >
       <div className={`container mx-auto ${maxWidthMap[maxWidth]}`}>
         {children}
       </div>
-    </section>
+    </motion.section>
   );
 };
