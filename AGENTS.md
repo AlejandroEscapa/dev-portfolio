@@ -15,6 +15,9 @@ terminal, spotlight, CRT toggle). Single routing entry (`/`); everything else is
 - **Config**: `portfolio.config.json` (typed via `src/lib/config.ts`)
 - **Tokens**: `src/styles/tokens/**.json` → generated CSS/TS via
   `scripts/build-tokens.mjs`
+- **Deploy**: Vercel (GitHub integration) auto-deploys `main` →
+  `https://aoe-dev.vercel.app`. That URL is the canonical/og:url used by
+  the meta tags and JSON-LD in `index.html` — update both if it changes.
 
 ---
 
@@ -233,9 +236,11 @@ i18next:
 - `t(key)` returns the string for the active lang; if missing, **it
   returns the literal key as a string** (silent fallback). Missing keys
   therefore won't throw at render time but will surface visibly.
-- Persistence: `localStorage["portfolio-lang"]`. Toggle: dock language
-  icon (animated flip), CLI `lang` not implemented — use Spotlight
-  shortcut `@gh`/`@li` etc. or just click the dock icon.
+- Persistence: `localStorage["portfolio-lang"]`. The `LanguageProvider`
+  also syncs `document.documentElement.lang` with the active language
+  (screen readers + crawlers read the DOM, not React state).
+  Toggle: dock language icon (animated flip), CLI `lang` not implemented
+  — use Spotlight shortcut `@gh`/`@li` etc. or just click the dock icon.
 - Key naming convention (always check before adding):
   - `nav.*` — top-nav labels
   - `hero.*`, `about.*`, `tech.*`, `trayectoria.*`,
@@ -296,7 +301,11 @@ Real order top → bottom:
    track.
 6. `Education` — `<WindowChrome title="~/education.txt">`.
 7. `Contact` — `<WindowChrome title="~/contact — mail">` — form is
-   a `mailto:` launcher (no backend).
+   a `mailto:` launcher (no backend). The personal data rows (location,
+   email, phone, social marks) moved OUT of this window.
+8. `Footer` (`src/components/Footer.tsx`) — quiet centered strip under
+   the last window, no window chrome: location, direct email/phone links
+   and the social marks. The page ends on it, after Contact.
 
 ### Glue components (`App.tsx`)
 
@@ -324,7 +333,9 @@ Real list (no longer matches the AGENTS.md in old branches):
 - `Trayectoria.tsx` + `Trayectoria.module.css` — see above.
 - `Projects.tsx` + `projects/{ProjectsCarousel,ProjectCard,ProjectCategoryChips,ProjectDetail,MobileProjectList}.tsx` +
   `projects/projects.module.css`.
-- `Education.tsx`, `Contact.tsx` — content sections.
+- `Education.tsx`, `Contact.tsx` — content sections (the contact data
+  itself lives in `src/components/Footer.tsx`, rendered by `Index.tsx`
+  after Contact — see the page composition above).
 - (`HeroShowcase.tsx` lives in this folder but is not strictly a
   section — see glue components above.)
 
@@ -497,7 +508,14 @@ Source-of-truth for the following, located in `public/`:
   --compress draco --texture-compress webp`).
 - `cv.pdf` — resume. **Currently 404s** (TODO — Dock "Resume" item
   flashes "Downloading…" then fails silently).
-- `logo1.svg` — favicon + OG image.
+- `og.png` — 1200×630 social share card (name + tagline + logo on a
+  brand gradient). Referenced by the OG/Twitter meta and the JSON-LD
+  block in `index.html` as an ABSOLUTE URL
+  (`https://aoe-dev.vercel.app/og.png`). Generated one-off with `sharp`
+  (SVG background + composite of `logo1.png` resized to 170×170);
+  regenerate if the logo, name or tagline change.
+- `logo1.svg` — favicon only. Do NOT use it as `og:image`: social
+  platforms don't render SVG.
 - `robots.txt` — fully open (Googlebot/Bingbot/Twitterbot/facebookexternalhit/*).
   Don't lock it down without a reason.
 
