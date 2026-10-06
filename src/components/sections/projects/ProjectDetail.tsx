@@ -142,10 +142,27 @@ export const ProjectDetail = ({ project, isExiting, onBack }: ProjectDetailProps
               );
             })}
           </div>
+
+          <div className={styles.detailActions}>
+            {project.liveUrl && (
+              <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                <Button variant="default" size="sm">
+                  <ExternalLink className="h-4 w-4" />
+                  {t("projects.view_site")}
+                </Button>
+              </a>
+            )}
+            <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+              <Button variant={project.liveUrl ? "outline" : "default"} size="sm">
+                <Github className="h-4 w-4" />
+                {t("projects.view_repo")}
+              </Button>
+            </a>
+          </div>
         </div>
       </div>
 
-      {/* Block 3: Tech stack strip + actions */}
+      {/* Block 3: Tech stack strip — full-width, centered */}
       <div className={styles.detailStackStrip}>
         <div className={styles.stack}>
           {stack.map(({ category, items }) => (
@@ -160,23 +177,6 @@ export const ProjectDetail = ({ project, isExiting, onBack }: ProjectDetailProps
               </div>
             </div>
           ))}
-        </div>
-
-        <div className={styles.detailActions}>
-          {project.liveUrl && (
-            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-              <Button variant="default" size="sm">
-                <ExternalLink className="h-4 w-4" />
-                {t("projects.view_site")}
-              </Button>
-            </a>
-          )}
-          <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-            <Button variant={project.liveUrl ? "outline" : "default"} size="sm">
-              <Github className="h-4 w-4" />
-              {t("projects.view_repo")}
-            </Button>
-          </a>
         </div>
       </div>
     </div>

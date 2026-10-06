@@ -733,11 +733,13 @@
   max-width: 100%;
 }
 
-/* Block 3: Stack strip — horizontal, separated from content */
+/* Block 3: Stack strip — the actions moved up into the info column, so the
+   strip owns the full window width: categories spread out and center
+   themselves in the space the actions used to take. */
 .detailStackStrip {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 1.5rem;
   padding: 1.25rem 0 0;
   border-top: 1px solid hsl(var(--neutral-tint) / 0.08);
@@ -746,17 +748,17 @@
 
 @media (max-width: 900px) {
   .detailStackStrip {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
+    justify-content: flex-start;
   }
 }
 
-/* Stack — horizontal layout */
+/* Stack — horizontal layout, wide and centered */
 .stack {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  justify-content: center;
+  gap: 1rem 3rem;
+  width: 100%;
   min-height: 0;
 }
 
