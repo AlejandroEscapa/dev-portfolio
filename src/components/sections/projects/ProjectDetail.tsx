@@ -6,42 +6,28 @@ import {
   ArrowLeft,
   Github,
   ExternalLink,
-  Smartphone,
-  Globe,
-  Zap,
-  Boxes,
-  Database,
-  Workflow,
-  GraduationCap,
   Play,
   Pause,
-  type LucideIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/LanguageContext";
 import { cn } from "@/lib/utils";
 import {
   groupTechByCategory,
-  type HighlightIcon,
   type Project,
   type StackCategoryId,
 } from "@/data/projects";
 import styles from "./projects.module.css";
 
-const HIGHLIGHT_ICONS: Record<HighlightIcon, LucideIcon> = {
-  Smartphone,
-  Globe,
-  Zap,
-  Boxes,
-  Database,
-  Workflow,
-  GraduationCap,
-};
-
 interface ProjectDetailProps {
   project: Project;
   isExiting: boolean;
   onBack: () => void;
+}
+
+interface InspectorRow {
+  labelKey: string;
+  value: string;
 }
 
 export const ProjectDetail = ({ project, isExiting, onBack }: ProjectDetailProps) => {
@@ -59,6 +45,36 @@ export const ProjectDetail = ({ project, isExiting, onBack }: ProjectDetailProps
       video.pause();
     }
   };
+
+  // Single source of truth: the categorized techTags. Highlights only
+  // contribute what no category covers (platform, final grade); a highlight
+  // whose key suffix collides with a present category (framework, backend,
+  // ...) is dropped in favor of the richer category row.
+  const categoryIds = new Set(stack.map(({ category }) => category));
+  const identityRows: InspectorRow[] = [
+    ...project.highlights
+      .filter(
+        (h) =>
+          !categoryIds.has(
+            h.label.replace("projects.highlight_", "") as StackCategoryId,
+          ),
+      )
+      .map((h) => ({ labelKey: h.label, value: h.value })),
+  ];
+  const contextCategory = stack.find(({ category }) => category === "context");
+  if (contextCategory) {
+    // Context describes the project itself, so it joins the identity group.
+    identityRows.push({
+      labelKey: "projects.category_context",
+      value: contextCategory.items.join(", "),
+    });
+  }
+  const stackRows: InspectorRow[] = stack
+    .filter(({ category }) => category !== "context")
+    .map(({ category, items }) => ({
+      labelKey: `projects.category_${category}` as `projects.category_${StackCategoryId}`,
+      value: items.join(", "),
+    }));
 
   return (
     <div
@@ -79,8 +95,7 @@ export const ProjectDetail = ({ project, isExiting, onBack }: ProjectDetailProps
         <h2 className={styles.detailTitle}>{t(project.nameKey)}</h2>
       </div>
 
-      {/* Block 2: Bento content — media left (full stage height), narrative
-          + spec grid right */}
+      {/* Block 2: media left, narrative + file-inspector right */}
       <div className={styles.detailContent}>
         <div className={styles.detailMediaCol}>
           <div className={styles.detailMedia}>
@@ -128,20 +143,38 @@ export const ProjectDetail = ({ project, isExiting, onBack }: ProjectDetailProps
             <p className={styles.detailDesc}>{t(project.longDescKey)}</p>
           </div>
 
-          <div className={styles.highlights}>
-            {project.highlights.map((h) => {
-              const Icon = HIGHLIGHT_ICONS[h.icon];
-              return (
-                <div key={h.label} className={styles.highlight}>
-                  <Icon className={styles.highlightIcon} aria-hidden />
-                  <span className={styles.highlightText}>
-                    <span className={styles.highlightLabel}>{t(h.label)}</span>
-                    <span className={styles.highlightValue}>{h.value}</span>
-                  </span>
+          {(identityRows.length > 0 || stackRows.length > 0) && (
+            <div className={styles.inspector}>
+              {identityRows.length > 0 && (
+                <div className={styles.inspectorGroup}>
+                  <h5 className={styles.inspectorGroupTitle}>
+                    {t("projects.identity_title")}
+                  </h5>
+                  {identityRows.map((row) => (
+                    <div key={row.labelKey} className={styles.inspectorRow}>
+                      <span className={styles.inspectorLabel}>{t(row.labelKey)}</span>
+                      <span className={styles.inspectorLeader} aria-hidden />
+                      <span className={styles.inspectorValue}>{row.value}</span>
+                    </div>
+                  ))}
                 </div>
-              );
-            })}
-          </div>
+              )}
+              {stackRows.length > 0 && (
+                <div className={styles.inspectorGroup}>
+                  <h5 className={styles.inspectorGroupTitle}>
+                    {t("projects.stack_title")}
+                  </h5>
+                  {stackRows.map((row) => (
+                    <div key={row.labelKey} className={styles.inspectorRow}>
+                      <span className={styles.inspectorLabel}>{t(row.labelKey)}</span>
+                      <span className={styles.inspectorLeader} aria-hidden />
+                      <span className={styles.inspectorValue}>{row.value}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
 
           <div className={styles.detailActions}>
             {project.liveUrl && (
@@ -159,24 +192,6 @@ export const ProjectDetail = ({ project, isExiting, onBack }: ProjectDetailProps
               </Button>
             </a>
           </div>
-        </div>
-      </div>
-
-      {/* Block 3: Tech stack strip — full-width, centered */}
-      <div className={styles.detailStackStrip}>
-        <div className={styles.stack}>
-          {stack.map(({ category, items }) => (
-            <div key={category} className={styles.stackCategory}>
-              <span className={styles.stackCategoryLabel}>
-                {t(`projects.category_${category}` as `projects.category_${StackCategoryId}`)}
-              </span>
-              <div className={styles.stackItems}>
-                {items.map((item) => (
-                  <span key={item} className={styles.stackItem}>{item}</span>
-                ))}
-              </div>
-            </div>
-          ))}
         </div>
       </div>
     </div>
