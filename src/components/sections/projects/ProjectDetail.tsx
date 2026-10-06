@@ -79,7 +79,8 @@ export const ProjectDetail = ({ project, isExiting, onBack }: ProjectDetailProps
         <h2 className={styles.detailTitle}>{t(project.nameKey)}</h2>
       </div>
 
-      {/* Block 2: Bento content — media + spec grid left, narrative right */}
+      {/* Block 2: Bento content — media left (full stage height), narrative
+          + spec grid right */}
       <div className={styles.detailContent}>
         <div className={styles.detailMediaCol}>
           <div className={styles.detailMedia}>
@@ -119,6 +120,13 @@ export const ProjectDetail = ({ project, isExiting, onBack }: ProjectDetailProps
               <img src={project.media.src} alt={project.media.alt ?? t(project.nameKey)} />
             )}
           </div>
+        </div>
+
+        <div className={styles.detailInfo}>
+          <div className={styles.detailSection}>
+            <h4 className={styles.detailSectionTitle}>{t("projects.about")}</h4>
+            <p className={styles.detailDesc}>{t(project.longDescKey)}</p>
+          </div>
 
           <div className={styles.highlights}>
             {project.highlights.map((h) => {
@@ -133,13 +141,6 @@ export const ProjectDetail = ({ project, isExiting, onBack }: ProjectDetailProps
                 </div>
               );
             })}
-          </div>
-        </div>
-
-        <div className={styles.detailInfo}>
-          <div className={styles.detailSection}>
-            <h4 className={styles.detailSectionTitle}>{t("projects.about")}</h4>
-            <p className={styles.detailDesc}>{t(project.longDescKey)}</p>
           </div>
         </div>
       </div>
