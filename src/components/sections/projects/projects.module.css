@@ -494,12 +494,16 @@
 }
 
 /* Media frame: NO radius, NO border — the video's own pixels are the edge.
-   The video is aspect-fit inside a definite-size box and stays centered, so
-   the toggle overlay (centered in the same box) always sits over the video. */
+   flex: 1 lets the box take the column's slack, but the max-height cap keeps
+   the video from running the full stage height (a slightly shorter frame reads
+   better against the narrative column); margin-block auto centers the capped
+   box inside the fixed-height column. The card's stage height is untouched. */
 .detailMedia {
   position: relative;
   flex: 1;
   min-height: 0;
+  max-height: 26rem;
+  margin-block: auto;
   width: 100%;
   display: flex;
   align-items: center;
