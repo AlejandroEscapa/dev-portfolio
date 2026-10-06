@@ -679,14 +679,14 @@
   max-width: 52ch;
 }
 
-/* Highlights — spec grid in the info column, under the narrative: 2 columns
-   so the four facts align into a tidy block instead of a ragged wrap row. */
+/* Highlights — spec tiles in the info column, under the narrative. The
+   deduped facts only ever render 1-3 tiles (platform, final grade, context);
+   auto-fit keeps 1-tile projects (Casa Húmedo) from stretching a full row. */
 .highlights {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
   gap: 0.5rem;
   flex-shrink: 0;
-  max-width: 32rem;
 }
 
 .highlight {
@@ -731,78 +731,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
-}
-
-/* Block 3: Stack strip — the actions moved up into the info column, so the
-   strip owns the full window width: categories spread out and center
-   themselves in the space the actions used to take. */
-.detailStackStrip {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1.5rem;
-  padding: 1.25rem 0 0;
-  border-top: 1px solid hsl(var(--neutral-tint) / 0.08);
-  flex-shrink: 0;
-}
-
-@media (max-width: 900px) {
-  .detailStackStrip {
-    justify-content: flex-start;
-  }
-}
-
-/* Stack — horizontal layout, wide and centered */
-.stack {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem 3rem;
-  width: 100%;
-  min-height: 0;
-}
-
-.stackCategory {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-
-.stackCategoryLabel {
-  display: inline-flex;
-  align-items: center;
-  border-radius: var(--radius-xs);
-  border: 1px solid hsl(var(--primary) / 0.3);
-  background: hsl(var(--primary) / 0.08);
-  padding: 0.18rem 0.45rem;
-  font-size: 0.58rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: hsl(var(--primary));
-  font-weight: 600;
-  line-height: 1.2;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.stackItems {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem;
-  min-width: 0;
-}
-
-.stackItem {
-  font-size: 0.72rem;
-  color: hsl(var(--foreground));
-  white-space: nowrap;
-  line-height: 1.2;
-}
-
-.stackItem + .stackItem::before {
-  content: ", ";
-  color: hsl(var(--muted-foreground));
-  font-size: 0.65rem;
 }
 
 .detailActions {

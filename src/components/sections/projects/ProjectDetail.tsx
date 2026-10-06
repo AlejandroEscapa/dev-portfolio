@@ -47,6 +47,31 @@ interface ProjectDetailProps {
 export const ProjectDetail = ({ project, isExiting, onBack }: ProjectDetailProps) => {
   const { t } = useLanguage();
   const stack = groupTechByCategory(project.techTags);
+  // Dedup: the card chips and the About narrative already carry the stack,
+  // so the detail shows only the facts nothing else tells. A highlight whose
+  // key suffix collides with a present category (framework, backend, ...)
+  // is dropped; the context category joins as a tile instead.
+  const categoryIds = new Set(stack.map(({ category }) => category));
+  const contextCategory = stack.find(({ category }) => category === "context");
+  const tiles: Array<{ icon: HighlightIcon; labelKey: string; value: string }> = [
+    ...project.highlights
+      .filter(
+        (h) =>
+          !categoryIds.has(
+            h.label.replace("projects.highlight_", "") as StackCategoryId,
+          ),
+      )
+      .map((h) => ({ icon: h.icon, labelKey: h.label, value: h.value })),
+    ...(contextCategory
+      ? [
+          {
+            icon: "GraduationCap" as const,
+            labelKey: "projects.category_context",
+            value: contextCategory.items.join(", "),
+          },
+        ]
+      : []),
+  ];
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(true);
 
@@ -129,14 +154,14 @@ export const ProjectDetail = ({ project, isExiting, onBack }: ProjectDetailProps
           </div>
 
           <div className={styles.highlights}>
-            {project.highlights.map((h) => {
-              const Icon = HIGHLIGHT_ICONS[h.icon];
+            {tiles.map((tile) => {
+              const Icon = HIGHLIGHT_ICONS[tile.icon];
               return (
-                <div key={h.label} className={styles.highlight}>
+                <div key={tile.labelKey} className={styles.highlight}>
                   <Icon className={styles.highlightIcon} aria-hidden />
                   <span className={styles.highlightText}>
-                    <span className={styles.highlightLabel}>{t(h.label)}</span>
-                    <span className={styles.highlightValue}>{h.value}</span>
+                    <span className={styles.highlightLabel}>{t(tile.labelKey)}</span>
+                    <span className={styles.highlightValue}>{tile.value}</span>
                   </span>
                 </div>
               );
@@ -159,24 +184,6 @@ export const ProjectDetail = ({ project, isExiting, onBack }: ProjectDetailProps
               </Button>
             </a>
           </div>
-        </div>
-      </div>
-
-      {/* Block 3: Tech stack strip — full-width, centered */}
-      <div className={styles.detailStackStrip}>
-        <div className={styles.stack}>
-          {stack.map(({ category, items }) => (
-            <div key={category} className={styles.stackCategory}>
-              <span className={styles.stackCategoryLabel}>
-                {t(`projects.category_${category}` as `projects.category_${StackCategoryId}`)}
-              </span>
-              <div className={styles.stackItems}>
-                {items.map((item) => (
-                  <span key={item} className={styles.stackItem}>{item}</span>
-                ))}
-              </div>
-            </div>
-          ))}
         </div>
       </div>
     </div>

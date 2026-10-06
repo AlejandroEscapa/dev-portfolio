@@ -60,4 +60,5 @@ Un highlight deja de mostrarse si su sufijo de clave (`projects.highlight_X`) co
 
 ## Estado
 
-- **2026-10-06:** Elegida la **E**; implementada en la rama `new-project-design`.
+- **2026-10-06:** Elegida la **E** y implementada en la rama `new-project-design` (commit `1e248ca`).
+- **2026-10-06 (mismo día):** La **E se rechaza tras verla en vivo** ("demasiado texto y cutre") y se revierte (`90ddc98`). Elección final del agente: **A ejecutada con criterio** — conserva el lenguaje de tiles con icono (el elemento visual más rico ya verificado) pero reducido a los 1-3 datos que nada más cuenta (Plataforma, Nota final, Contexto); el stack completo desaparece del detalle porque ya lo cuentan los chips de la card y la narrativa del About. La tira inferior se elimina con sus estilos. La deduplicación es la misma regla: un highlight cae si su categoría ya existe en el stack agrupado.
