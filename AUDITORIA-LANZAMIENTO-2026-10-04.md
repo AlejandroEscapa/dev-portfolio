@@ -156,12 +156,12 @@ Aplicados los rápidos que no dependían de decisiones externas. Verificación: 
 |----------|--------|
 | §2.1 Perfil GitHub vacío | ✅ **Fix aplicado** — dock (`Dock.tsx:96`), Spotlight (`spotlight-items.ts:35`) y `portfolio.config.json` ahora apuntan a `github.com/AlejandroEscapa`. Verificado: 0 referencias a `alejandrooliesc` en el código. |
 | §2.2 CV 404 | ⏳ Pendiente del propietario — exportar el PDF a `public/cv.pdf`. |
-| §2.3 Despliegue/dominio | ⚠️ **Nuevo dato crítico:** la URL facilitada como "web" (`preview--leon-craft-engine.lovable.app`) **no es pública** — redirige (302) al auth-bridge de Lovable para cualquier visitante sin sesión. No sirve ni como canonical ni para reclutadores. Pendiente: despliegue real (Vercel/Netlify/CF Pages) o publicar el preview de Lovable. |
+| §2.3 Despliegue/dominio | ✅ **Resuelto (2026-10-06):** el portfolio ya está desplegado en `https://aoe-dev.vercel.app` (integración Vercel↔GitHub, despliega `main`). Dominio propio opcional. Los meta `og:url`/`canonical`/`og:image` absolutos ya apuntan a esa URL. |
 | §2.4 Rama sin cerrar | 🔄 Commits aplicados (footer + fixes + docs); merge a `main` pendiente de confirmación. `flip-check.webm` sigue en la raíz (pendiente de decidir borrado). |
-| §2.5 OG/social | ✅ **Fix aplicado** — typo de `og:title`, `author` real, `og:image` → nueva `public/og.png` (1200×630, generada con sharp: fondo degradado + nombre + tagline + logo, verificada visualmente), `og:image:width/height`, `twitter:card`/`twitter:title`/`twitter:description`/`twitter:image` y JSON-LD `Person`. `og:url`/`canonical` siguen pendientes del dominio (§2.3). |
+| §2.5 OG/social | ✅ **Fix aplicado** — typo de `og:title`, `author` real, `og:image` → nueva `public/og.png` (1200×630, generada con sharp: fondo degradado + nombre + tagline + logo, verificada visualmente), `og:image:width/height`, `twitter:card`/`twitter:title`/`twitter:description`/`twitter:image`, JSON-LD `Person`, y `og:url` + `canonical` con la URL de producción. |
 | §2.6 `lang` estático | ✅ **Fix aplicado** — `LanguageContext.tsx` ahora hace `document.documentElement.lang = lang` en su `useEffect`. |
 | §2.7 Repos TFM | ⏳ Pendiente — `gh` CLI no disponible en la máquina; descripción/topics/screenshots hay que ponerlos a mano en github.com/AlejandroEscapa. |
-| §2.8 Casa Húmedo | ⚠️ Su `liveUrl` es la misma URL auth-murada de §2.3 — hasta que haya un despliegue público, el enlace no sirve a un visitante externo. |
+| §2.8 Casa Húmedo | ✅ **Fix aplicado (2026-10-06):** `liveUrl` → `https://casa-humedo-demo.vercel.app` (verificada en vivo). `githubUrl` se deja apuntando al perfil porque el repo real (`heritage-web-design`) es **privado** y enlazarlo daría 404 a visitantes; si algún día se hace público, apuntar ahí. |
 | §2.9-2.12 | Sin cambios (decisiones/optimizaciones medias). |
 
 Regeneración de la tarjeta OG (si cambia el logo o el tagline): script one-off con `sharp` (SVG de fondo + composite de `public/logo1.png` a 170×170 → `public/og.png`).

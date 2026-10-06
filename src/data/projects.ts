@@ -143,7 +143,7 @@ export const projects: Project[] = [
     badgeKey: "projects.casahumedo_badge",
     media: { type: "image", src: "/casahumedo-preview.png", alt: "Casa Húmedo website preview" },
     githubUrl: "https://github.com/AlejandroEscapa",
-    liveUrl: "https://preview--leon-craft-engine.lovable.app",
+    liveUrl: "https://casa-humedo-demo.vercel.app",
     techTags: ["Next.js 14", "TypeScript", "Tailwind CSS", "Supabase", "n8n", "Framer Motion"],
     categories: ["web"],
     highlights: [
