@@ -176,6 +176,7 @@ export const translations: Record<Lang, Translations> = {
     "projects.category_context": "Context",
 
     "education.section_label": "03 \u2014 Education",
+    "education.subheading": "Formal training, certifications and continuous learning.",
     "education.heading_before": "Learning",
     "education.heading_after": "is not optional.",
     "education.tokio_title": "Master's Degree in Mobile Application Development",
@@ -210,7 +211,6 @@ export const translations: Record<Lang, Translations> = {
     "contact.form_error_name": "Tell me your name (at least 2 characters).",
     "contact.form_error_email": "A valid email, please.",
     "contact.form_error_message": "Tell me a bit about the project (at least 10 characters).",
-    "contact.location_label": "Location",
     "contact.location_value": "Le\u00f3n, Spain",
     "contact.networks_label": "Networks",
     "contact.social_linkedin": "LinkedIn",
@@ -417,6 +417,7 @@ export const translations: Record<Lang, Translations> = {
     "projects.category_context": "Contexto",
 
     "education.section_label": "03 \u2014 Formaci\u00f3n",
+    "education.subheading": "Formaci\u00f3n reglada, certificaciones y aprendizaje continuo.",
     "education.heading_before": "Aprender",
     "education.heading_after": "no es opcional.",
     "education.tokio_title": "M\u00e1ster en Desarrollo de Aplicaciones M\u00f3viles",
@@ -451,7 +452,6 @@ export const translations: Record<Lang, Translations> = {
     "contact.form_error_name": "Dime tu nombre (m\u00ednimo 2 caracteres).",
     "contact.form_error_email": "Un email v\u00e1lido, por favor.",
     "contact.form_error_message": "Cu\u00e9ntame un poco sobre el proyecto (m\u00ednimo 10 caracteres).",
-    "contact.location_label": "Ubicaci\u00f3n",
     "contact.location_value": "Le\u00f3n, Espa\u00f1a",
     "contact.networks_label": "Redes",
     "contact.social_linkedin": "LinkedIn",

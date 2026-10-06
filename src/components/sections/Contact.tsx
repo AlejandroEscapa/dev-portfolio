@@ -1,5 +1,3 @@
-import type { ReactElement } from "react";
-
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -18,14 +16,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import {
-  LinkedInSvg,
-  GitHubSvg,
-  PhoneSvg,
-  MailSvg,
-} from "@/components/brand-icons";
-
-type BrandIcon = () => ReactElement;
 
 const inputCls =
   "h-11 bg-transparent border-neutral-tint/10 text-foreground placeholder:text-muted-foreground focus-visible:border-primary/50 focus-visible:ring-1 focus-visible:ring-primary/30 focus-visible:ring-offset-0 transition-colors";
@@ -62,55 +52,19 @@ export const Contact = () => {
     form.reset();
   }
 
-  const socials: Array<{
-    key: string;
-    href: string;
-    external: boolean;
-    Icon: BrandIcon;
-    aria: string;
-  }> = [
-    {
-      key: "linkedin",
-      href: portfolioConfig.linkedin,
-      external: true,
-      Icon: LinkedInSvg,
-      aria: t("aria.linkedin"),
-    },
-    {
-      key: "github",
-      href: portfolioConfig.github,
-      external: true,
-      Icon: GitHubSvg,
-      aria: t("aria.github"),
-    },
-    {
-      key: "phone",
-      href: `tel:${portfolioConfig.phone}`,
-      external: false,
-      Icon: PhoneSvg,
-      aria: t("aria.phone"),
-    },
-    {
-      key: "email",
-      href: `mailto:${portfolioConfig.email}`,
-      external: false,
-      Icon: MailSvg,
-      aria: t("aria.email"),
-    },
-  ];
-
   return (
-    /* Asymmetric section padding: keeps top breathing (large subhead) and tightens
-       bottom so the divider + signature sit very close to the container's base. */
-    <section className="relative min-h-[60vh] flex flex-col justify-between pt-7 md:pt-10 pb-3 md:pb-2 gap-4 md:gap-6">
+    /* The section keeps its asymmetric vertical padding so the two-column
+       composition sits centred inside the window; data + socials + signature
+       live in the site footer (src/components/Footer.tsx). */
+    <section className="relative min-h-[60vh] flex flex-col pt-7 md:pt-10 pb-4">
       {/* No internal reveal: the content rides the WindowChrome entry moment. */}
       {/* Same content inset as Projects/Education (container max-w-6xl):
           the window stays full-bleed, the content floats inside it. */}
       <div className="flex-1 flex flex-col container mx-auto max-w-6xl">
         <div className="flex-1 grid grid-cols-1 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] gap-10 lg:gap-12">
-          {/* Left column — numbered label + title + location, vertically
-              centered; the narrower column defers to the form */}
-          <div className="flex flex-col justify-center gap-8">
+          {/* Left column — numbered label + title, vertically centred; the
+              narrower column defers to the form */}
+          <div className="flex flex-col justify-center">
             <div className="space-y-3">
               <div className="mb-4 flex items-center gap-3 text-sm uppercase tracking-label text-muted-foreground">
                 <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
@@ -124,15 +78,6 @@ export const Contact = () => {
                   hierarchy heading > subhead > label stays readable */}
               <p className="text-base sm:text-lg md:text-xl leading-snug text-muted-foreground">
                 {t("contact.heading_line1")} {t("contact.heading_line2")}
-              </p>
-            </div>
-
-            <div className="space-y-1.5">
-              <p className="text-label uppercase tracking-label text-muted-foreground">
-                {t("contact.location_label")}
-              </p>
-              <p className="font-sans text-base text-foreground">
-                {t("contact.location_value")}
               </p>
             </div>
           </div>
@@ -227,35 +172,8 @@ export const Contact = () => {
                   </div>
                 </form>
               </Form>
-
-              {/* Divider + signed social icons (no chip wrapper, larger icons) */}
-              <div className="border-t border-neutral-tint/10 px-5 py-3 flex flex-wrap items-center justify-center gap-5">
-                {socials.map((s) => {
-                  const Icon = s.Icon;
-                  return (
-                    <a
-                      key={s.key}
-                      href={s.href}
-                      target={s.external ? "_blank" : undefined}
-                      rel={s.external ? "noopener noreferrer" : undefined}
-                      aria-label={s.aria}
-                      className="inline-flex items-center justify-center text-muted-foreground hover:text-primary hover:scale-110 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-0 [&_svg]:h-7 [&_svg]:w-7"
-                    >
-                      <Icon />
-                    </a>
-                  );
-                })}
-              </div>
             </div>
           </div>
-        </div>
-
-        {/* Bottom divider + signature line — a fixed-height footer band with
-            the text vertically centred on it. */}
-        <div className="mt-auto flex min-h-12 items-center justify-center border-t border-neutral-tint/10">
-          <p className="text-center text-xs sm:text-[11px] font-medium leading-none text-muted-foreground/90">
-            {t("contact.signature")}
-          </p>
         </div>
       </div>
     </section>

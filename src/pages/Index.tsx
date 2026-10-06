@@ -8,6 +8,7 @@ import { Trayectoria } from "@/components/sections/Trayectoria";
 import { Projects } from "@/components/sections/Projects";
 import { Education } from "@/components/sections/Education";
 import { Contact } from "@/components/sections/Contact";
+import { Footer } from "@/components/Footer";
 import { useLenis } from "@/hooks/useLenis";
 
 const Index = () => {
@@ -46,6 +47,7 @@ const Index = () => {
           <WindowChrome title="~/contact — mail" id="contact" className="max-w-none section-y">
             <Contact />
           </WindowChrome>
+          <Footer />
         </div>
         <div className="window-rail" />
       </div>

@@ -62,6 +62,14 @@ export const Education = ({ motionStyle }: EducationProps) => {
         <motion.h2 variants={fadeUp} className="text-h1 font-bold leading-tight tracking-heading">
           {t("education.heading_before")} {t("education.heading_after")}
         </motion.h2>
+        {/* Same heading→sub coupling as Projects/About: mt-2 under the
+            leading-tight display heading (~15px real gap). */}
+        <motion.p
+          variants={fadeUpSm}
+          className="mt-2 text-sm leading-relaxed text-muted-foreground"
+        >
+          {t("education.subheading")}
+        </motion.p>
       </motion.div>
 
       {/* Reveal moment 2 — the card grid cascades from one parent. */}
