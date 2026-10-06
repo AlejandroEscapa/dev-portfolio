@@ -187,26 +187,30 @@ export const ProjectDetail = ({ project, isExiting, onBack }: ProjectDetailProps
         </div>
       </div>
 
-      {/* Block 3: one-line fact strip — additive data only (APIs, features).
-          Same visual language as the old stack strip (primary chip + mono
-          items) but never repeats techTags/tiles/About content, and never
-          grows past a single line. */}
-      {(project.apis?.length ?? 0) + (project.features?.length ?? 0) > 0 && (
-        <div className={styles.detailStrip}>
-          {project.apis?.length ? (
-            <div className={styles.stripGroup}>
-              <span className={styles.stripLabel}>{t("projects.strip_apis")}</span>
-              <span className={styles.stripItems}>{project.apis.join(", ")}</span>
-            </div>
-          ) : null}
-          {project.features?.length ? (
-            <div className={styles.stripGroup}>
-              <span className={styles.stripLabel}>{t("projects.strip_features")}</span>
-              <span className={styles.stripItems}>{project.features.join(", ")}</span>
-            </div>
-          ) : null}
-        </div>
-      )}
+      {/* Block 3: one-line fact strip — additive data only (UI framework,
+          architecture, APIs, features). Same visual language as the old
+          stack strip (primary chip + mono items) but never repeats the
+          tiles' facts, and never grows past a single line. */}
+      {(() => {
+        const stripGroups: Array<{ labelKey: string; value: string }> = [];
+        const uiCategory = stack.find(({ category }) => category === "framework");
+        if (uiCategory) stripGroups.push({ labelKey: "projects.strip_ui", value: uiCategory.items.join(", ") });
+        const archCategory = stack.find(({ category }) => category === "architecture");
+        if (archCategory) stripGroups.push({ labelKey: "projects.strip_arch", value: archCategory.items.join(", ") });
+        if (project.apis?.length) stripGroups.push({ labelKey: "projects.strip_apis", value: project.apis.join(", ") });
+        if (project.features?.length) stripGroups.push({ labelKey: "projects.strip_features", value: project.features.join(", ") });
+        if (stripGroups.length === 0) return null;
+        return (
+          <div className={styles.detailStrip}>
+            {stripGroups.map((group) => (
+              <div key={group.labelKey} className={styles.stripGroup}>
+                <span className={styles.stripLabel}>{t(group.labelKey)}</span>
+                <span className={styles.stripItems}>{group.value}</span>
+              </div>
+            ))}
+          </div>
+        );
+      })()}
     </div>
   );
 };

@@ -161,6 +161,8 @@ export const translations: Record<Lang, Translations> = {
 
     "projects.highlight_platform": "Platform",
     "projects.strip_apis": "APIs",
+    "projects.strip_ui": "UI",
+    "projects.strip_arch": "Architecture",
     "projects.strip_features": "Features",
     "projects.highlight_framework": "Framework",
     "projects.highlight_grade": "Final grade",
@@ -401,6 +403,8 @@ export const translations: Record<Lang, Translations> = {
 
     "projects.highlight_platform": "Plataforma",
     "projects.strip_apis": "APIs",
+    "projects.strip_ui": "Interfaz",
+    "projects.strip_arch": "Arquitectura",
     "projects.strip_features": "Funcionalidades",
     "projects.highlight_framework": "Framework",
     "projects.highlight_grade": "Nota final",
