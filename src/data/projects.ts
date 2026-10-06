@@ -40,6 +40,10 @@ export type Project = {
   techTags: string[];
   categories: ProjectCategoryId[];
   highlights: Highlight[];
+  // Additive facts for the detail strip (APIs, features): data no other
+  // surface shows — never tech already covered by techTags.
+  apis?: string[];
+  features?: string[];
 };
 
 export type ProjectCategory = {
@@ -108,6 +112,8 @@ export const projects: Project[] = [
     badgeKey: "projects.gamevision_badge",
     media: { type: "video", src: "/gamevision-demo.mp4" },
     githubUrl: "https://github.com/AlejandroEscapa/GameVisionTFM",
+    apis: ["RAWG", "Twitch"],
+    features: ["Red social", "Recomendador propio"],
     techTags: ["Android", "Kotlin", "Jetpack Compose", "MVVM", "Clean Architecture", "TFM"],
     categories: ["mobile"],
     highlights: [
@@ -125,6 +131,8 @@ export const projects: Project[] = [
     badgeKey: "projects.matchvision_badge",
     media: { type: "video", src: "/matchvision-demo.mp4" },
     githubUrl: "https://github.com/AlejandroEscapa/MatchVisionTFM",
+    apis: ["API-Football"],
+    features: ["Tracking en vivo", "Noticias curadas"],
     techTags: ["iOS", "Swift", "SwiftUI", "MVVM", "Firebase", "API-Football", "TFM"],
     categories: ["mobile"],
     highlights: [
@@ -144,6 +152,7 @@ export const projects: Project[] = [
     media: { type: "image", src: "/casahumedo-preview.png", alt: "Casa Húmedo website preview" },
     githubUrl: "https://github.com/AlejandroEscapa",
     liveUrl: "https://casa-humedo-demo.vercel.app",
+    features: ["Reservas sin comisiones"],
     techTags: ["Next.js 14", "TypeScript", "Tailwind CSS", "Supabase", "n8n", "Framer Motion"],
     categories: ["web"],
     highlights: [

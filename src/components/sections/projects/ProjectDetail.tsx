@@ -186,6 +186,27 @@ export const ProjectDetail = ({ project, isExiting, onBack }: ProjectDetailProps
           </div>
         </div>
       </div>
+
+      {/* Block 3: one-line fact strip — additive data only (APIs, features).
+          Same visual language as the old stack strip (primary chip + mono
+          items) but never repeats techTags/tiles/About content, and never
+          grows past a single line. */}
+      {(project.apis?.length ?? 0) + (project.features?.length ?? 0) > 0 && (
+        <div className={styles.detailStrip}>
+          {project.apis?.length ? (
+            <div className={styles.stripGroup}>
+              <span className={styles.stripLabel}>{t("projects.strip_apis")}</span>
+              <span className={styles.stripItems}>{project.apis.join(", ")}</span>
+            </div>
+          ) : null}
+          {project.features?.length ? (
+            <div className={styles.stripGroup}>
+              <span className={styles.stripLabel}>{t("projects.strip_features")}</span>
+              <span className={styles.stripItems}>{project.features.join(", ")}</span>
+            </div>
+          ) : null}
+        </div>
+      )}
     </div>
   );
 };

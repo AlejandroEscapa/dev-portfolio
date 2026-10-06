@@ -733,6 +733,55 @@
   max-width: 100%;
 }
 
+/* Block 3: one-line fact strip. Height is capped to a single row: nowrap +
+   hidden overflow clip whatever doesn't fit instead of growing the card,
+   whose fixed stage height stays untouched. */
+.detailStrip {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.9rem 0 0;
+  border-top: 1px solid hsl(var(--neutral-tint) / 0.08);
+  flex-shrink: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.stripGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+.stripLabel {
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--radius-xs);
+  border: 1px solid hsl(var(--primary) / 0.3);
+  background: hsl(var(--primary) / 0.08);
+  padding: 0.18rem 0.45rem;
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: hsl(var(--primary));
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.stripItems {
+  font-size: 0.72rem;
+  color: hsl(var(--foreground));
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
 .detailActions {
   display: flex;
   align-items: center;

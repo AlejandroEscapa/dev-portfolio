@@ -160,6 +160,8 @@ export const translations: Record<Lang, Translations> = {
     "projects.clear_filters": "Clear filters",
 
     "projects.highlight_platform": "Platform",
+    "projects.strip_apis": "APIs",
+    "projects.strip_features": "Features",
     "projects.highlight_framework": "Framework",
     "projects.highlight_grade": "Final grade",
     "projects.highlight_backend": "Backend",
@@ -398,6 +400,8 @@ export const translations: Record<Lang, Translations> = {
     "projects.clear_filters": "Quitar filtros",
 
     "projects.highlight_platform": "Plataforma",
+    "projects.strip_apis": "APIs",
+    "projects.strip_features": "Funcionalidades",
     "projects.highlight_framework": "Framework",
     "projects.highlight_grade": "Nota final",
     "projects.highlight_backend": "Backend",
