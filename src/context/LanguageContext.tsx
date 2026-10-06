@@ -22,6 +22,9 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, lang);
+    // El documento debe anunciar su idioma real: lectores de pantalla y
+    // crawlers leen <html lang>, no el estado de React.
+    document.documentElement.lang = lang;
   }, [lang]);
 
   const toggleLang = useCallback(() => {

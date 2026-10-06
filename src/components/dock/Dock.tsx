@@ -93,7 +93,7 @@ export function Dock({ onOpenSpotlight, terminalOpen, onToggleTerminal }: DockPr
       dockIdx: 2,
       node: <BrandIcon path={siGithub.path} className="text-foreground" />,
       label: t("dock.github"),
-      onClick: () => window.open("https://github.com/alejandrooliesc", "_blank"),
+      onClick: () => window.open("https://github.com/AlejandroEscapa", "_blank"),
     },
     {
       id: "linkedin",

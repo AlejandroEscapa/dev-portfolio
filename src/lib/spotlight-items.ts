@@ -32,7 +32,7 @@ export function getSpotlightItems(ctx: Ctx): SpotlightItem[] {
   }));
 
   const socials: SpotlightItem[] = [
-    { id: "social-github", label: "Open GitHub", group: "Social", shortcut: "@gh", action: () => window.open("https://github.com/alejandrooliesc", "_blank") },
+    { id: "social-github", label: "Open GitHub", group: "Social", shortcut: "@gh", action: () => window.open("https://github.com/AlejandroEscapa", "_blank") },
     { id: "social-linkedin", label: "Open LinkedIn", group: "Social", shortcut: "@li", action: () => window.open("https://www.linkedin.com/in/alejandro-olivares-escapa/", "_blank") },
     { id: "social-email", label: "Send email", group: "Social", shortcut: "@mail", action: () => { window.location.href = "mailto:alejandro.oliesc97@gmail.com"; } },
   ];
