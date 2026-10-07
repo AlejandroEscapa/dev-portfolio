@@ -129,7 +129,8 @@ Media a sangre como fondo del bloque entero, ficha flotando en panel de cristal 
 
 ## Decisión (ronda 3)
 
-- **2026-10-07:** **Opción 1** elegida por el usuario. Ámbito: solo Projects (lista + ficha) — el `h2` de sección (`.sectionHeading`), `.cardTitle`, `.mobileCardTitle` y `.detailName` pasan a `var(--font-sans)`; el resto de secciones (Hero, Trayectoria, Education) mantienen Fraunces. Sin nuevas peticiones de fuentes.
+- **2026-10-07:** **Opción 1** elegida por el usuario. Ámbito: solo Projects — el `h2` de sección (`.sectionHeading`) y el título de la ficha (`.detailName`) en `var(--font-sans)`; el resto de secciones (Hero, Trayectoria, Education) mantienen Fraunces. Sin nuevas peticiones de fuentes.
+- **2026-10-07 (corrección del usuario):** los títulos de las **cards** (`.cardTitle`, `.mobileCardTitle`) vuelven a Fraunces — el usuario solo quería sans en el heading de sección y en la ficha.
 
 ---
 
