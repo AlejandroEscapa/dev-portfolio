@@ -422,13 +422,13 @@
   position: relative;
 }
 
-/* F-headline in the info column: body sans (typed titles, round 3 option 1),
-   calibrated to the EXACT size the old centered header title used
-   (1.75rem → 2.25rem at ≥768px) — sans reads bigger at equal size, so no
-   extra scale is added on top of the family swap. */
+/* F-headline in the info column: body sans (typed titles, round 3 option 1).
+   Sans reads bigger than the serif at equal size, so the desktop step sits
+   one notch BELOW the old header size: 1.6rem mobile (same as the old
+   stacked header) → 2rem desktop (4px under the 2.25rem it replaced). */
 .detailName {
   font-family: var(--font-sans);
-  font-size: 1.75rem;
+  font-size: 1.6rem;
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.05;
@@ -437,7 +437,7 @@
 }
 
 @media (min-width: 768px) {
-  .detailName { font-size: 2.25rem; }
+  .detailName { font-size: 2rem; }
 }
 
 .detailBackBtn {

@@ -302,8 +302,9 @@ Real order top → bottom:
    **Detail view composition** (design log in
    `ALTERNATIVAS-DETALLE-PROYECTO.md`): thin header with ONLY the back
    button; the project title lives in the info column
-   (`.detailName`, `--font-sans` 1.75rem → 2.25rem ≥768px, sized to the
-   old centered header it replaced); media fills its fixed box with
+   (`.detailName`, `--font-sans` 1.6rem → 2rem ≥768px — one notch below
+   the old centered header it replaced, because sans reads bigger at
+   equal size); media fills its fixed box with
    `object-fit: cover` for BOTH kinds (videos crop their baked 16:9
    bars; the web capture zooms); specs + actions are ONE bento mosaic
    (`.specBento`, 2-col grid + dense flow — CTA width = wide when the
