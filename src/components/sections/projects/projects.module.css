@@ -7,13 +7,6 @@
   position: relative;
 }
 
-/* Typed-titles round 3 (option 1): project headings speak in the body
-   sans — the section heading opts out of the global h2 → Fraunces rule
-   with an existing token family (no new font requests). */
-.sectionHeading {
-  font-family: var(--font-sans);
-}
-
 /* Shared stage: BOTH view modes fill the same fixed height, so the window
    body never changes size across the carousel <-> detail swap. The
    perspective lets the mode panels rotate in 3D during the swap. */
@@ -232,7 +225,10 @@
   background: hsl(var(--neutral-tint) / 0.08);
 }
 
+/* Product voice for card titles: body sans, sized as it always was —
+   the section heading keeps the global Fraunces. */
 .cardTitle {
+  font-family: var(--font-sans);
   font-size: 1.25rem;
   font-weight: 700;
   letter-spacing: -0.01em;
@@ -943,6 +939,7 @@
 }
 
 .mobileCardTitle {
+  font-family: var(--font-sans);
   font-size: 1.5rem;
   font-weight: 700;
   letter-spacing: -0.02em;

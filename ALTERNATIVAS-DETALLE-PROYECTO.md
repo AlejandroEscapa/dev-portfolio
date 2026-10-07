@@ -131,6 +131,7 @@ Media a sangre como fondo del bloque entero, ficha flotando en panel de cristal 
 
 - **2026-10-07:** **Opción 1** elegida por el usuario. Ámbito: solo Projects — el `h2` de sección (`.sectionHeading`) y el título de la ficha (`.detailName`) en `var(--font-sans)`; el resto de secciones (Hero, Trayectoria, Education) mantienen Fraunces. Sin nuevas peticiones de fuentes.
 - **2026-10-07 (corrección del usuario):** los títulos de las **cards** (`.cardTitle`, `.mobileCardTitle`) vuelven a Fraunces — el usuario solo quería sans en el heading de sección y en la ficha.
+- **2026-10-07 (corrección del usuario, 2ª):** malentendido de ámbito resuelto — el usuario siempre quiso el sans en los **títulos de proyecto y sus cards**, nunca en el heading de sección. Estado final: el `h2` de sección vuelve a Fraunces global (tamaño intacto), y el sans se queda SOLO en `.cardTitle`, `.mobileCardTitle` y `.detailName`. La interpretación anterior de la corrección era la inversa.
 
 ---
 

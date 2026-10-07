@@ -199,10 +199,12 @@ positioned so the dock (z-30) and terminal panel (z-40) stay sharp.
 Loaded via the Google Fonts `<link>` in `index.html` (single request,
 all three families).
 
-Scoped override (typed-titles round): the Projects section heading and
-the detail's project title render in `--font-sans` instead of Fraunces
-(product voice); card titles keep the serif. Do not extend this
-override to other sections without asking.
+Scoped override (typed-titles round): the Project card titles
+(`.cardTitle`, `.mobileCardTitle`) and the detail's project title
+(`.detailName`) render in `--font-sans` instead of Fraunces (product
+voice). Section headings across the site keep the serif — the Projects
+h2 is NOT part of this override. Do not extend the sans override to
+other sections without asking.
 
 ### `prefers-reduced-motion`
 
