@@ -109,7 +109,7 @@ export const Projects = ({ motionStyle }: ProjectsProps) => {
           {/* leading-tight: text-h1 inherits body line-height (1.5), leaving
               ~15px of dead air under the display glyphs before the stage.
               The subline couples at mt-2 so heading + sub read as one block. */}
-          <h2 className="text-h1 font-bold leading-tight tracking-heading">
+          <h2 className={cn("text-h1 font-bold leading-tight tracking-heading", styles.sectionHeading)}>
             {t("projects.heading")}
           </h2>
           <p className="mt-2 text-sm leading-relaxed text-muted-foreground">

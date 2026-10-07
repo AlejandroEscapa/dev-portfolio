@@ -111,3 +111,22 @@ Media a sangre como fondo del bloque entero, ficha flotando en panel de cristal 
 ## Decisión
 
 - **2026-10-06:** Implementada **F + J** en la rama `detalle-asimetrico`. J se reelaboró tras verla en vivo: fuera el ambient fill (commit previo en el historial de la rama), dentro el `cover` unificado para imagen y vídeo — zoom en vez de altura, ficha centrada contra la mancha real.
+
+---
+
+# Ronda 3 — Tipografía de los títulos de proyecto (2026-10-07)
+
+**Contexto:** Todos los títulos salen en **Fraunces** (la serif variable de `--font-display`, heredada por todos los `h1-h6` por regla global en `index.css`). El usuario rechaza esa voz para los títulos de proyecto (ficha + lista): "no me gusta la letra… solo la letra del título".
+
+**Mecanismo del cambio:** el repo prohíbe hardcodear familias (AGENTS §15.1); toda opción pasa por token existente o edición del pipeline. Los 4 caminos evaluados:
+
+| # | Opción | Qué es | Coste | Cohesión |
+|---|--------|--------|-------|----------|
+| 1 | **IBM Plex Sans como título** | La sans del cuerpo (700, tracking apretado) hace de display: voz de producto, estilo Linear | Cero — familia ya cargada | Máxima: idioma a dos voces (mono = chrome, sans = contenido); elimina el roído contraste serif/sans dentro de Projects |
+| 2 | IBM Plex Mono como título | Título como artefacto del sistema (`matchvision`), en sintonía con las pestañas de editor | Cero — mono ya cargada (hasta 500) | Máxima identidad OS; riesgo: monotemática y fría |
+| 3 | Fraunces retocada | Misma familia, otro ajuste: opsz display + wght 600 + tracking suave | Cero — variable completa ya cargada | Conserva el carácter editorial; no vale si el rechazo es a la serif en sí |
+| 4 | Familia nueva (Geist / Sora) | Grotesca moderna como display de proyectos | **Una request externa nueva** (4ª familia) — rompe el Don't §15.9 del repo | Aire 2026 inmediato, pero introduce una voz tercera que hay que mantener |
+
+## Decisión (ronda 3)
+
+- **2026-10-07:** **Opción 1** elegida por el usuario. Ámbito: solo Projects (lista + ficha) — el `h2` de sección (`.sectionHeading`), `.cardTitle`, `.mobileCardTitle` y `.detailName` pasan a `var(--font-sans)`; el resto de secciones (Hero, Trayectoria, Education) mantienen Fraunces. Sin nuevas peticiones de fuentes.
