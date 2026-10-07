@@ -91,7 +91,9 @@ export const ProjectDetail = ({ project, isExiting, onBack }: ProjectDetailProps
       role="region"
       aria-label={t(project.nameKey)}
     >
-      {/* Block 1: Header — back button left, title centered */}
+      {/* Block 1: Thin header — back only. The project title moved into the
+          info column (next to the content it names); the freed header row
+          height belongs to the media/ficha stage. */}
       <div className={styles.detailHeader}>
         <button
           type="button"
@@ -101,11 +103,10 @@ export const ProjectDetail = ({ project, isExiting, onBack }: ProjectDetailProps
           <ArrowLeft className="h-4 w-4" />
           <span>{t("projects.back")}</span>
         </button>
-        <h2 className={styles.detailTitle}>{t(project.nameKey)}</h2>
       </div>
 
-      {/* Block 2: Bento content — media left (full stage height), narrative
-          + spec grid right */}
+      {/* Block 2: media left (full stage height), title + narrative + spec
+          grid + actions right */}
       <div className={styles.detailContent}>
         <div className={styles.detailMediaCol}>
           <div className={styles.detailMedia}>
@@ -142,12 +143,31 @@ export const ProjectDetail = ({ project, isExiting, onBack }: ProjectDetailProps
                 </button>
               </>
             ) : (
-              <img src={project.media.src} alt={project.media.alt ?? t(project.nameKey)} />
+              <>
+                {/* J: ambient fill — a blurred, tinted copy of the landscape
+                    screenshot paints the box behind the sharp copy, so the
+                    wide-format image doesn't leave dead letterbox air above
+                    and below and all three details share vertical rhythm
+                    without changing the screenshot's aspect ratio. */}
+                <img
+                  src={project.media.src}
+                  alt=""
+                  aria-hidden="true"
+                  className={styles.mediaAmbient}
+                />
+                <img
+                  src={project.media.src}
+                  alt={project.media.alt ?? t(project.nameKey)}
+                  className={styles.mediaShot}
+                />
+              </>
             )}
           </div>
         </div>
 
         <div className={styles.detailInfo}>
+          <h2 className={styles.detailName}>{t(project.nameKey)}</h2>
+
           <div className={styles.detailSection}>
             <h4 className={styles.detailSectionTitle}>{t("projects.about")}</h4>
             <p className={styles.detailDesc}>{t(project.longDescKey)}</p>

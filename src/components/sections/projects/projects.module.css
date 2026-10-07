@@ -404,7 +404,8 @@
   overflow: hidden;
 }
 
-/* Block 1: Header — back button left, title centered, separator below */
+/* Block 1: thin header — back button left, separator below. The project
+   title moved into the info column (.detailName). */
 .detailHeader {
   display: flex;
   align-items: center;
@@ -412,6 +413,19 @@
   border-bottom: 1px solid hsl(var(--neutral-tint) / 0.08);
   flex-shrink: 0;
   position: relative;
+}
+
+/* F-headline in the info column: display serif, bigger than the old
+   centered header title could afford (it shared a row with the back
+   button), tighter to the About it introduces. */
+.detailName {
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  color: hsl(var(--foreground));
+  margin: 0;
 }
 
 .detailBackBtn {
@@ -438,26 +452,6 @@
 
 .detailBackBtn:active {
   transform: translateY(1px);
-}
-
-.detailTitle {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 1.75rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1;
-  color: hsl(var(--foreground));
-  margin: 0;
-  font-family: var(--font-display);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-@media (min-width: 768px) {
-  .detailTitle { font-size: 2.25rem; }
 }
 
 /* Block 2: Content — media column left (video + spec highlights beneath),
@@ -523,22 +517,9 @@
   }
 }
 
-/* Mobile detail header: the absolutely-centered title collides with the
-   back button on narrow windows — stack them instead. */
-@media (max-width: 768px) {
-  .detailHeader {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.55rem;
-  }
-
-  .detailTitle {
-    position: static;
-    transform: none;
-    font-size: 1.6rem;
-    white-space: normal;
-  }
-}
+/* Thin header: back button only (the title lives in the info column).
+   No centered-title rules needed; the mobile stack-collision block above
+   no longer applies. */
 
 .detailMedia img {
   width: auto;
@@ -550,6 +531,26 @@
   border: 0;
   padding: 0;
   margin: 0;
+}
+
+/* J ambient fill: a blurred, tinted, edge-to-edge copy of the screenshot
+   painted behind the sharp contained copy, so a landscape image doesn't
+   leave dead letterbox air in the fixed media box. Purely decorative:
+   empty alt + aria-hidden on the JSX side. */
+.mediaAmbient {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(28px) saturate(1.1) brightness(0.75);
+  transform: scale(1.15);
+  opacity: 0.55;
+}
+
+/* The sharp screenshot stays contained, centered over its ambient copy. */
+.detailMedia .mediaShot {
+  position: relative;
 }
 
 /* Video fills the media box edge-to-edge (object-fit: cover). The demo
