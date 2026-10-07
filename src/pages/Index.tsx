@@ -1,4 +1,6 @@
 import { ImageBackground } from '@/components/background/ImageBackground';
+import Noise from '@/components/fx/Noise';
+import ElectricBorder from '@/components/fx/ElectricBorder';
 import { Nav } from "@/components/Nav";
 import { WindowChrome } from "@/components/window/WindowChrome";
 import { HeroShowcase } from "@/components/sections/HeroShowcase";
@@ -23,6 +25,10 @@ const Index = () => {
         srcSet="/pexels-640.webp 640w, /pexels-1280.webp 1280w, /pexels-1920.webp 1920w, /pexels-2560.webp 2560w"
         sizes="100vw"
       />
+      {/* Grain film sobre la foto (fx/Noise): tapa el dineral de pérdida de detalle del cover — sutileza */}
+      <div className="fixed inset-0 z-0 pointer-events-none" aria-hidden="true">
+        <Noise patternAlpha={10} patternRefreshInterval={4} />
+      </div>
       <Nav />
       <div className="relative z-10">
         <HeroShowcase>
@@ -44,9 +50,11 @@ const Index = () => {
           <WindowChrome title="~/education.txt" id="education" className="max-w-none w-full section-y">
             <Education />
           </WindowChrome>
-          <WindowChrome title="~/contact — mail" id="contact" className="max-w-none section-y">
-            <Contact />
-          </WindowChrome>
+          <ElectricBorder className="max-w-none section-y" borderRadius={16} speed={1.4} chaos={0.1}>
+            <WindowChrome title="~/contact — mail" id="contact" className="max-w-none">
+              <Contact />
+            </WindowChrome>
+          </ElectricBorder>
           <Footer />
         </div>
         <div className="window-rail" />

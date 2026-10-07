@@ -1,6 +1,7 @@
 import { Code2, Brain, Layout, Cloud } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+import { MagicCard } from "@/components/fx/magic-card";
 
 interface TechItem {
   name: string;
@@ -99,14 +100,14 @@ export function TechBento() {
         const HeaderIcon = cat.icon;
 
         return (
-          <div
+          <MagicCard
             key={cat.titleKey}
-            onPointerMove={(e) => {
-              const rect = e.currentTarget.getBoundingClientRect();
-              e.currentTarget.style.setProperty("--mx", `${e.clientX - rect.left}px`);
-              e.currentTarget.style.setProperty("--my", `${e.clientY - rect.top}px`);
-            }}
-            className={`specular glass rounded-lg border-t-2 p-6 hover-glow hover:-translate-y-0.5 ${accentBorder[cat.accent]} ${cat.featured ? "sm:col-span-2" : ""}`}
+            className={`glass rounded-lg p-6 hover-glow hover:-translate-y-0.5 ${accentBorder[cat.accent]} ${cat.featured ? "sm:col-span-2" : ""}`}
+            innerClassName="absolute inset-px -z-10 rounded-[inherit] pointer-events-none"
+            gradientSize={220}
+            gradientColor="hsl(var(--primary) / 0.08)"
+            gradientFrom="hsl(var(--primary))"
+            gradientTo="hsl(var(--accent))"
           >
             {/* Header */}
             <div className="mb-4 flex items-center gap-2">
@@ -133,7 +134,7 @@ export function TechBento() {
                 </span>
               ))}
             </div>
-          </div>
+          </MagicCard>
         );
       })}
     </div>

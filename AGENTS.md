@@ -358,6 +358,22 @@ Real list (no longer matches the AGENTS.md in old branches):
 - (`HeroShowcase.tsx` lives in this folder but is not strictly a
   section — see glue components above.)
 
+### FX components (`src/components/fx/`)
+
+Third-party effects copied from shadcn registries and adapted:
+`MagicCard` (TechBento tiles), `DecryptedText` (hero h1),
+`ShimmerButton` (hero CTAs), `Noise` (film-grain overlay on the
+background image, mounted in `Index.tsx`), `ElectricBorder` (wraps
+the Contact window in `Index.tsx`). Rules for anything added here:
+imports from `framer-motion` (never `motion/react`), colours ONLY
+via semantic tokens/props (see `useCssColor` for canvas-driven
+colour), `prefers-reduced-motion` must degrade gracefully, and
+provenance goes in `src/lib/fx-attributions.ts`. Registries are
+declared in `components.json` (`@aceternity`, `@magicui`,
+`@reactbits`); note `shadcn add` may try to install deps with bun —
+temporarily rename `bun.lockb` to force npm, and strip anything it
+adds beyond `package.json` (`motion`, `next-themes` were removed).
+
 ### 3D components (`src/components/three/`)
 
 - `Scene.tsx` — reusable `<Canvas>` wrapper (`camera`, `dpr`,
