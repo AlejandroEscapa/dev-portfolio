@@ -143,24 +143,7 @@ export const ProjectDetail = ({ project, isExiting, onBack }: ProjectDetailProps
                 </button>
               </>
             ) : (
-              <>
-                {/* J: ambient fill — a blurred, tinted copy of the landscape
-                    screenshot paints the box behind the sharp copy, so the
-                    wide-format image doesn't leave dead letterbox air above
-                    and below and all three details share vertical rhythm
-                    without changing the screenshot's aspect ratio. */}
-                <img
-                  src={project.media.src}
-                  alt=""
-                  aria-hidden="true"
-                  className={styles.mediaAmbient}
-                />
-                <img
-                  src={project.media.src}
-                  alt={project.media.alt ?? t(project.nameKey)}
-                  className={styles.mediaShot}
-                />
-              </>
+              <img src={project.media.src} alt={project.media.alt ?? t(project.nameKey)} />
             )}
           </div>
         </div>

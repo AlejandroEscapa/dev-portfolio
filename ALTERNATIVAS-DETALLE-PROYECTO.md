@@ -95,10 +95,11 @@ Título anclado abajo-izquierda del marco de vídeo con scrim, estilo poster edi
 
 ## J. Igualar la altura útil por tipo de media (arreglar la raíz)
 
-La caja de media trata distinto a la imagen: la captura de Casa Húmedo se centra sobre una **copia desenfocada y teñida de sí misma** (ambient fill), de modo que el paisaje no genere aire muerto y las tres fichas compartan ritmo vertical sin alterar su relación de aspecto.
+Primera implementación: copia desenfocada de la imagen como fondo (ambient fill). Tras verla en vivo se **descarta** — añadía una franja percibida que descentraba la ficha frente a la mancha real de la imagen. Versión final: la imagen trata igual que los vídeos, `object-fit: cover` — en vez de ganar altura, **gana escala (zoom)**: anchura completa, sin letterbox, recorte lateral coherente con el que la card ya aplica a esta misma imagen.
 
-- **A favor:** ataca la queja real ("se siente distinto" entre proyectos) sin tocar el modelo de datos; compatible con F/G/H/I.
-- **Contra:** nuevo recurso visual (fondo blur) que debe usarse con moderación.
+- **A favor:** ataca la queja real ("se siente distinto" entre proyectos); una sola regla de media para ambos tipos; el centrado vertical de la ficha cuadra porque la mancha de imagen coincide con la caja.
+- **Contra:** la captura web recorta los flancos (la barra superior con el CTA "Reservar" sobrevive en el encuadre).
+- **Regla final:** ambos tipos de media comparten la misma caja fija y el mismo `cover`; sin capas ambientales.
 
 ## I. Rediseño hero del detalle
 
@@ -109,4 +110,4 @@ Media a sangre como fondo del bloque entero, ficha flotando en panel de cristal 
 
 ## Decisión
 
-- **2026-10-06:** Implementada **F + J** en la rama `detalle-asimetrico` (propuesta A+D comunicada al usuario, numeradas aquí como F y J).
+- **2026-10-06:** Implementada **F + J** en la rama `detalle-asimetrico`. J se reelaboró tras verla en vivo: fuera el ambient fill (commit previo en el historial de la rama), dentro el `cover` unificado para imagen y vídeo — zoom en vez de altura, ficha centrada contra la mancha real.

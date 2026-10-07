@@ -521,43 +521,13 @@
    No centered-title rules needed; the mobile stack-collision block above
    no longer applies. */
 
-.detailMedia img {
-  width: auto;
-  height: auto;
-  max-width: 100%;
-  max-height: 100%;
-  display: block;
-  outline: none;
-  border: 0;
-  padding: 0;
-  margin: 0;
-}
-
-/* J ambient fill: a blurred, tinted, edge-to-edge copy of the screenshot
-   painted behind the sharp contained copy, so a landscape image doesn't
-   leave dead letterbox air in the fixed media box. Purely decorative:
-   empty alt + aria-hidden on the JSX side. */
-.mediaAmbient {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: blur(28px) saturate(1.1) brightness(0.75);
-  transform: scale(1.15);
-  opacity: 0.55;
-}
-
-/* The sharp screenshot stays contained, centered over its ambient copy. */
-.detailMedia .mediaShot {
-  position: relative;
-}
-
-/* Video fills the media box edge-to-edge (object-fit: cover). The demo
-   recordings are portrait phone captures baked into 16:9 letterboxed
-   frames; contain left those black bars visible as dead width. Cover
-   crops the baked bars and the phone reads as the full frame — same
-   fixed box, symmetric composition, like the carousel card media. */
+/* Media fills the box edge-to-edge (object-fit: cover) for BOTH kinds:
+   the demo videos (portrait phone baked into 16:9 letterbox) crop their
+   baked black bars, and the landscape web capture (Casa Húmedo, also
+   16:9) zooms instead of letterboxing — the box never gains height, the
+   image gains scale. Side crop is consistent with the carousel cards,
+   which already cover their media. */
+.detailMedia img,
 .detailMedia video {
   width: 100%;
   height: 100%;
