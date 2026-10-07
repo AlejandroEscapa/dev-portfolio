@@ -361,10 +361,14 @@ Real list (no longer matches the AGENTS.md in old branches):
 ### FX components (`src/components/fx/`)
 
 Third-party effects copied from shadcn registries and adapted:
-`MagicCard` (TechBento tiles), `DecryptedText` (hero h1),
-`ShimmerButton` (hero CTAs), `Noise` (film-grain overlay on the
-background image, mounted in `Index.tsx`), `ElectricBorder` (wraps
-the Contact window in `Index.tsx`). Rules for anything added here:
+`DecryptedText` (hero h1), `ShimmerButton` (hero CTAs — the luminous
+spark/indicator was removed at the user's request; the buttons keep
+only highlight + backdrop), `Noise` (film-grain overlay on the
+background image, mounted in `Index.tsx`).
+`ElectricBorder.tsx` and `magic-card.tsx` remain in the folder with
+ZERO consumers (user rejected both: ElectricBorder on Contact,
+MagicCard on TechBento — TechBento tiles use the inline `specular`
+glass recipe again); candidates for deletion if not reused. Rules for anything added here:
 imports from `framer-motion` (never `motion/react`), colours ONLY
 via semantic tokens/props (see `useCssColor` for canvas-driven
 colour), `prefers-reduced-motion` must degrade gracefully, and

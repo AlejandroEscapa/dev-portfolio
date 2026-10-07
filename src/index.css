@@ -31,21 +31,7 @@
 @import "./styles/generated/tokens.css";
 
 /* === FX (src/components/fx) registry animations === */
-/* ShimmerButton (Magic UI): registered as Tailwind v4 animation tokens;   */
-/* the spark uses a size-container (cqh/cqw) inside the button itself.     */
-@theme {
-  --animate-shimmer-slide: shimmer-slide var(--speed, 3s) ease-in-out infinite alternate;
-  --animate-spin-around: spin-around calc(var(--speed, 3s) * 2) infinite linear;
-}
-@keyframes shimmer-slide {
-  to { transform: translate(calc(100cqw - 100%), 0); }
-}
-@keyframes spin-around {
-  0% { transform: translateZ(0) rotate(0); }
-  15%, 35% { transform: translateZ(0) rotate(90deg); }
-  65%, 85% { transform: translateZ(0) rotate(270deg); }
-  100% { transform: translateZ(0) rotate(360deg); }
-}
+/* El indicador (spark) del ShimmerButton fue retirado: sin animaciones */
 
 @layer base {
   * {

@@ -55,19 +55,8 @@ export const ShimmerButton = React.forwardRef<
         ref={ref}
         {...props}
       >
-        {/* spark container */}
-        <div
-          className={cn(
-            "-z-30 blur-[2px]",
-            "[container-type:size] absolute inset-0 overflow-visible"
-          )}
-        >
-          {/* spark */}
-          <div className="absolute inset-0 aspect-[1] h-[100cqh] rounded-none [mask:none] motion-safe:animate-shimmer-slide">
-            {/* spark before */}
-            <div className="absolute -inset-full w-auto [translate:0_0] rotate-0 [background:conic-gradient(from_calc(270deg-(var(--spread)*0.5)),transparent_0,var(--shimmer-color)_var(--spread),transparent_var(--spread))] motion-safe:animate-spin-around" />
-          </div>
-        </div>
+        {/* spark container retirado a peticion del usuario: los botones del hero
+            quedan sin indicador luminoso; solo conservan highlight y backdrop */}
         {children}
 
         {/* Highlight */}

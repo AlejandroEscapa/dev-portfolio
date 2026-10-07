@@ -1,6 +1,5 @@
 import { ImageBackground } from '@/components/background/ImageBackground';
 import Noise from '@/components/fx/Noise';
-import ElectricBorder from '@/components/fx/ElectricBorder';
 import { Nav } from "@/components/Nav";
 import { WindowChrome } from "@/components/window/WindowChrome";
 import { HeroShowcase } from "@/components/sections/HeroShowcase";
@@ -50,11 +49,9 @@ const Index = () => {
           <WindowChrome title="~/education.txt" id="education" className="max-w-none w-full section-y">
             <Education />
           </WindowChrome>
-          <ElectricBorder className="max-w-none section-y" borderRadius={16} speed={1.4} chaos={0.1}>
-            <WindowChrome title="~/contact — mail" id="contact" className="max-w-none">
-              <Contact />
-            </WindowChrome>
-          </ElectricBorder>
+          <WindowChrome title="~/contact — mail" id="contact" className="max-w-none w-full section-y">
+            <Contact />
+          </WindowChrome>
           <Footer />
         </div>
         <div className="window-rail" />
