@@ -422,16 +422,22 @@
   position: relative;
 }
 
-/* F-headline in the info column: now the body sans (typed titles round 3,
-   option 1): product voice, no serif declamation; still display-sized. */
+/* F-headline in the info column: body sans (typed titles, round 3 option 1),
+   calibrated to the EXACT size the old centered header title used
+   (1.75rem → 2.25rem at ≥768px) — sans reads bigger at equal size, so no
+   extra scale is added on top of the family swap. */
 .detailName {
   font-family: var(--font-sans);
-  font-size: 2.4rem;
+  font-size: 1.75rem;
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.05;
   color: hsl(var(--foreground));
   margin: 0;
+}
+
+@media (min-width: 768px) {
+  .detailName { font-size: 2.25rem; }
 }
 
 .detailBackBtn {

@@ -199,6 +199,11 @@ positioned so the dock (z-30) and terminal panel (z-40) stay sharp.
 Loaded via the Google Fonts `<link>` in `index.html` (single request,
 all three families).
 
+Scoped override (typed-titles round): the Projects section heading and
+the detail's project title render in `--font-sans` instead of Fraunces
+(product voice); card titles keep the serif. Do not extend this
+override to other sections without asking.
+
 ### `prefers-reduced-motion`
 
 Always respected in: `.crt-*`, `.terminal-fog` (`transform: none`,
@@ -294,6 +299,17 @@ Real order top → bottom:
    `isExiting` + `viewFlip/entering/exiting` CSS animation. Filter
    chips sit visually below the cards thanks to DOM order swap
    (`column-reverse` style); see comment in `Projects.tsx`.
+   **Detail view composition** (design log in
+   `ALTERNATIVAS-DETALLE-PROYECTO.md`): thin header with ONLY the back
+   button; the project title lives in the info column
+   (`.detailName`, `--font-sans` 1.75rem → 2.25rem ≥768px, sized to the
+   old centered header it replaced); media fills its fixed box with
+   `object-fit: cover` for BOTH kinds (videos crop their baked 16:9
+   bars; the web capture zooms); specs + actions are ONE bento mosaic
+   (`.specBento`, 2-col grid + dense flow — CTA width = wide when the
+   spec cells pair up, half when sharing a row; repo CTA carries the
+   real GitHub mark); a one-line additive fact strip (APIs, features)
+   sits at the bottom of the window, capped to a single row.
 5. `Trayectoria` — desktop = GSAP horizontal-scrolling timeline
    (pin + scrub, alt cards above/below the axis, axes + connector
    dots, scroll progress `current / total`); mobile = vertical
@@ -432,7 +448,9 @@ Spotlight items: add to `src/lib/spotlight-items.ts` via
   Helper `groupTechByCategory(techTags)` rolls tags into 7 categories:
   `language`, `framework`, `architecture`, `backend`, `styling`,
   `integration`, `context`. Order in `CATEGORY_ORDER` array = display
-  order.
+  order. Optional `apis?: string[]` / `features?: string[]` per project
+  feed the detail's additive strip — they must hold facts NO other
+  surface shows (never tech already covered by techTags).
 - `src/data/trayectoria.ts` — 9 timeline items spanning 2019→2026.
   Two variants: `milestone` (single-paragraph) and `experience`
   (bullet list). Categories: `experience`, `education`,
