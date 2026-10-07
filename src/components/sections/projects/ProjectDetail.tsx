@@ -4,7 +4,6 @@ import {
 } from "react";
 import {
   ArrowLeft,
-  Github,
   ExternalLink,
   Smartphone,
   Globe,
@@ -17,8 +16,8 @@ import {
   Pause,
   type LucideIcon,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/LanguageContext";
+import { GitHubSvg } from "@/components/brand-icons";
 import { cn } from "@/lib/utils";
 import {
   groupTechByCategory,
@@ -156,39 +155,52 @@ export const ProjectDetail = ({ project, isExiting, onBack }: ProjectDetailProps
             <p className={styles.detailDesc}>{t(project.longDescKey)}</p>
           </div>
 
-          <div className={styles.highlights}>
+          {/* Round 4 (option 1): spec facts + actions share ONE bento mosaic.
+              2-col grid with dense flow packs odd spec counts without empty
+              cells; the CTA carries the real GitHub mark, not a generic
+              glyph, with the brand gradient treatment. */}
+          <div className={styles.specBento}>
             {tiles.map((tile) => {
               const Icon = HIGHLIGHT_ICONS[tile.icon];
               return (
-                <div key={tile.labelKey} className={styles.highlight}>
-                  <Icon className={styles.highlightIcon} aria-hidden />
-                  <span className={styles.highlightText}>
-                    <span className={styles.highlightLabel}>{t(tile.labelKey)}</span>
-                    <span className={styles.highlightValue}>{tile.value}</span>
+                <div key={tile.labelKey} className={styles.bentoCell}>
+                  <Icon className={styles.bentoIcon} aria-hidden />
+                  <span className={styles.bentoText}>
+                    <span className={styles.bentoLabel}>{t(tile.labelKey)}</span>
+                    <span className={styles.bentoValue}>{tile.value}</span>
                   </span>
                 </div>
               );
             })}
-          </div>
-
-          <div className={styles.detailActions}>
             {project.liveUrl && (
-              <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                <Button variant="default" size="sm" className={styles.detailBtnPrimary}>
-                  <ExternalLink className="h-4 w-4" />
-                  {t("projects.view_site")}
-                </Button>
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={cn(styles.bentoCell, styles.bentoGhost)}
+              >
+                <ExternalLink className={styles.bentoIcon} aria-hidden />
+                <span className={styles.bentoActionLabel}>{t("projects.view_site")}</span>
               </a>
             )}
-            <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-              <Button
-                variant={project.liveUrl ? "outline" : "default"}
-                size="sm"
-                className={cn(project.liveUrl ? styles.detailBtnGhost : styles.detailBtnPrimary)}
-              >
-                <Github className="h-4 w-4" />
-                {t("projects.view_repo")}
-              </Button>
+            <a
+              href={project.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={cn(
+                styles.bentoCell,
+                styles.bentoCta,
+                // Wide CTA when the spec cells pair up evenly (or "Ver sitio"
+                // takes the odd slot); half width only when it must share the
+                // row with the last unpaired spec — the bento never shows an
+                // empty cell.
+                tiles.length % 2 === 0 || !!project.liveUrl
+                  ? styles.bentoCtaWide
+                  : styles.bentoCtaHalf,
+              )}
+            >
+              <GitHubSvg />
+              <span className={styles.bentoActionLabel}>{t("projects.view_repo")}</span>
             </a>
           </div>
         </div>

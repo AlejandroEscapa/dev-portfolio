@@ -130,3 +130,22 @@ Media a sangre como fondo del bloque entero, ficha flotando en panel de cristal 
 ## Decisión (ronda 3)
 
 - **2026-10-07:** **Opción 1** elegida por el usuario. Ámbito: solo Projects (lista + ficha) — el `h2` de sección (`.sectionHeading`), `.cardTitle`, `.mobileCardTitle` y `.detailName` pasan a `var(--font-sans)`; el resto de secciones (Hero, Trayectoria, Education) mantienen Fraunces. Sin nuevas peticiones de fuentes.
+
+---
+
+# Ronda 4 — Mosaico bento de specs + CTAs (2026-10-07)
+
+**Contexto:** Tiles de identidad y botones de acción separados; el CTA con icono genérico de Lucide (Github) en lugar de la marca real. El usuario pide estilo bento y "quizá solo el logo" para el repositorio. Evaluadas 4 opciones: (1) mosaico bento con CTA dentro, (2) tiles bento + botones logo-solo con tooltip, (3) mini-dock de acciones, (4) ficha bento integral.
+
+## Decisión (ronda 4)
+
+- **Opción 1**, integrando el logo real. Specs + acciones viven en **una sola rejilla bento** (`grid 2 col` + `auto-flow: dense`, sin celdas vacías en los tres perfiles):
+  - MatchVision: `Plataforma | Nota final` / `Contexto | Repositorio`
+  - GameVision: `Plataforma | Contexto` / `Repositorio (ancho, span 2)`
+  - Casa Húmedo: `Plataforma | Ver sitio` / `Repositorio (ancho, span 2)`
+- El CTA de Repositorio lleva el **logo real de GitHub** (`GitHubSvg` de `brand-icons.tsx`, misma marca que el dock) sobre el relleno degradado primario→acento; "Ver sitio" queda como celda de cristal. Etiquetas de acción en mono uppercase (voz chrome).
+- Se elimina el CSS de highlights/botones anterior (~110 líneas); las células reusan el lenguaje TechBento (flat, hairline, mono, hover accent).
+
+## Estado
+
+- **2026-10-07:** Opción 1 aplicada en `detalle-asimetrico`.
