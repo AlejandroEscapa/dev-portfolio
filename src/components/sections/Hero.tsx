@@ -1,12 +1,34 @@
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
 import DecryptedText from "@/components/fx/DecryptedText";
 import { ShimmerButton } from "@/components/fx/shimmer-button";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { scrollToSection } from "@/lib/scroll";
+import { BOOTED_EVENT, isBooted } from "@/lib/boot-state";
+import { fadeUpSm } from "@/lib/motion";
 
 export const Hero = () => {
   const { t } = useLanguage();
   const prefersReducedMotion = useReducedMotion();
+  // Coreografía post-boot: título y CTAs arrancan cuando termina la
+  // secuencia de arranque (o se salta). El visitante recurrente lee la
+  // bandera de forma síncrona en su primer render: para él no llegará
+  // ningún evento, y aun así no espera nada.
+  const [booted, setBooted] = useState(() => isBooted());
+
+  useEffect(() => {
+    if (booted) return;
+    const onBooted = () => setBooted(true);
+    window.addEventListener(BOOTED_EVENT, onBooted);
+    return () => window.removeEventListener(BOOTED_EVENT, onBooted);
+  }, [booted]);
+
+  // Con el overlay de boot aún cubriendo la pantalla el título se pinta
+  // como texto plano; el descifrado empieza cuando el overlay se desvanece.
+  const showDecryptedTitle = !prefersReducedMotion && booted;
+  // Reduced-motion no entra en el encadenado: contenido estático siempre.
+  const ctaAnimationState = prefersReducedMotion || booted ? "show" : "hidden";
 
   return (
     <section
@@ -17,12 +39,7 @@ export const Hero = () => {
     >
       <div className="relative z-10 w-full max-w-2xl space-y-10">
         <h1 className="text-display font-bold leading-[0.95] tracking-display">
-          {prefersReducedMotion ? (
-            <>
-              <span className="block text-gradient">Alejandro</span>
-              <span className="block text-gradient-primary">Olivares Escapa</span>
-            </>
-          ) : (
+          {showDecryptedTitle ? (
             <>
               {/* Efecto de descifrado terminal al cargar (DecryptedText, ver attributions) */}
               <DecryptedText
@@ -42,6 +59,11 @@ export const Hero = () => {
                 revealDirection="start"
               />
             </>
+          ) : (
+            <>
+              <span className="block text-gradient">Alejandro</span>
+              <span className="block text-gradient-primary">Olivares Escapa</span>
+            </>
           )}
         </h1>
 
@@ -56,8 +78,14 @@ export const Hero = () => {
           </p>
         </div>
 
-        {/* CTA buttons */}
-        <div className="flex flex-wrap gap-3">
+        {/* CTA buttons — entran con el resto de la coreografía post-boot.
+            initial explícito para que reduced-motion no anime nunca. */}
+        <motion.div
+          className="flex flex-wrap gap-3"
+          variants={fadeUpSm}
+          initial={prefersReducedMotion ? "show" : "hidden"}
+          animate={ctaAnimationState}
+        >
           <ShimmerButton
             className="rounded-lg px-5 py-2.5 text-sm font-medium"
             shimmerColor="hsl(var(--primary))"
@@ -82,7 +110,7 @@ export const Hero = () => {
             </svg>
             {t("hero.cta_contact")}
           </ShimmerButton>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

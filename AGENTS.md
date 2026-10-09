@@ -339,7 +339,10 @@ Real order top → bottom:
 
 Real list (no longer matches the AGENTS.md in old branches):
 
-- `Hero.tsx` — minimal heading + 2 CTAs.
+- `Hero.tsx` — minimal heading + 2 CTAs. The title (decrypt) and the
+  CTA row enter on the boot signal, never via `whileInView`: the
+  chronology is owned by `src/lib/boot-state.ts` (`isBooted()` read
+  synchronously in the first render, `BOOTED_EVENT` for the rest).
 - `HeroShowcase.tsx` — 2fr-left / 3fr-right grid w/ sticky 3D.
 - `About.tsx` — heading + `<TechBento>` only (no bio paragraph in the
   visible layout; bio copy lives in `translations.ts` under `about.*`
@@ -423,7 +426,7 @@ around every major window.
 
 | File                              | Trigger                       | Hook / context                                          |
 | --------------------------------- | ----------------------------- | ------------------------------------------------------- |
-| `boot/BootSequence.tsx`           | First visit only              | `useBootSequence(N, 120ms)`; LS key `portfolio-booted`  |
+| `boot/BootSequence.tsx`           | First visit only              | `useBootSequence(N, 120ms)`; `lib/boot-state.ts` (single owner of the flag + event) |
 | `cli/CliTerminal.tsx`             | Dock terminal icon            | `useTerminalHistory` + `executeCommand` (`src/lib/cli-commands.ts`) |
 | `spotlight/Spotlight.tsx`         | `⌘K` / `Ctrl+K`              | `useSpotlightToggle` + `getSpotlightItems({ setTheme })` |
 | `dock/Dock.tsx`                   | Always (LEFT vertical rail, collapsed 52px by default; chevron expands to 184px) | `useDockHover("y")` (glyph magnify-on-hover, 3px nudge — never the button) |
