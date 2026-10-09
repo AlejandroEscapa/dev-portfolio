@@ -1,4 +1,4 @@
-import { type ReactNode } from "react";
+import type { ReactNode } from "react";
 import { motion } from "framer-motion";
 import { stagger } from "@/lib/motion";
 import { useReducedMotion } from "@/hooks/useReducedMotion";

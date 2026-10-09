@@ -1,9 +1,10 @@
-import { motion, useReducedMotion } from "framer-motion";
 import type { MotionStyle } from "framer-motion";
+import { Reveal } from "@/components/fx/Reveal";
+import { RevealStagger } from "@/components/fx/RevealStagger";
 import { ExternalLink } from "lucide-react";
 import { SectionContainer } from "@/components/ui/SectionContainer";
 import { useLanguage } from "@/context/LanguageContext";
-import { fadeUp, fadeUpSm, stagger } from "@/lib/motion";
+
 
 interface EducationProps {
   motionStyle?: MotionStyle;
@@ -11,8 +12,6 @@ interface EducationProps {
 
 export const Education = ({ motionStyle }: EducationProps) => {
   const { t } = useLanguage();
-  const reduceMotion = useReducedMotion();
-
   const items = [
     {
       institution: "Tokio School",
@@ -45,46 +44,28 @@ export const Education = ({ motionStyle }: EducationProps) => {
   return (
     <SectionContainer maxWidth="md" motionStyle={motionStyle} className="min-h-[65vh]">
       {/* Reveal moment 1 — the section header: one whileInView, staggered children. */}
-      <motion.div
-        initial={reduceMotion ? false : "hidden"}
-        whileInView="show"
-        viewport={{ once: true, margin: "-100px" }}
-        variants={stagger()}
-        className="mb-8"
-      >
-        <motion.div
-          variants={fadeUpSm}
-          className="mb-4 flex items-center gap-3 text-sm uppercase tracking-label text-muted-foreground"
-        >
+      <RevealStagger className="mb-8">
+        <Reveal variant="fadeUpSm" className="mb-4 flex items-center gap-3 text-sm uppercase tracking-label text-muted-foreground">
           <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
           <span>{t("education.section_label")}</span>
-        </motion.div>
-        <motion.h2 variants={fadeUp} className="text-h1 font-bold leading-tight tracking-heading">
+        </Reveal>
+        <Reveal variant="fadeUp" className="text-h1 font-bold leading-tight tracking-heading">
           {t("education.heading_before")} {t("education.heading_after")}
-        </motion.h2>
+        </Reveal>
         {/* Same heading→sub coupling as Projects/About: mt-2 under the
             leading-tight display heading (~15px real gap). */}
-        <motion.p
-          variants={fadeUpSm}
-          className="mt-2 text-sm leading-relaxed text-muted-foreground"
-        >
+        <Reveal variant="fadeUpSm" className="mt-2 text-sm leading-relaxed text-muted-foreground">
           {t("education.subheading")}
-        </motion.p>
-      </motion.div>
+        </Reveal>
+      </RevealStagger>
 
       {/* Reveal moment 2 — the card grid cascades from one parent. */}
-      <motion.div
-        initial={reduceMotion ? false : "hidden"}
-        whileInView="show"
-        viewport={{ once: true, margin: "-80px" }}
-        variants={stagger()}
-        className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
-      >
+      <RevealStagger className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {items.map((it) => {
             return (
-              <motion.div
+              <Reveal
                 key={it.institution}
-                variants={fadeUp}
+                variant="fadeUp"
                 onPointerMove={(e) => {
                   const rect = e.currentTarget.getBoundingClientRect();
                   e.currentTarget.style.setProperty("--mx", `${e.clientX - rect.left}px`);
@@ -146,10 +127,10 @@ export const Education = ({ motionStyle }: EducationProps) => {
                     </div>
                   )}
                 </div>
-              </motion.div>
+              </Reveal>
             );
           })}
-      </motion.div>
+      </RevealStagger>
     </SectionContainer>
   );
 };

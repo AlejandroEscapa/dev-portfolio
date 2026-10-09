@@ -1,4 +1,4 @@
-import { useContext, type ReactNode } from "react";
+import { useContext, type PointerEventHandler, type ReactNode } from "react";
 import { motion, type TargetAndTransition, type Variants } from "framer-motion";
 import { fadeUp, fadeUpSm } from "@/lib/motion";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
@@ -9,6 +9,7 @@ type RevealProps = {
   delay?: number;
   className?: string;
   children: ReactNode;
+  onPointerMove?: PointerEventHandler<HTMLDivElement>;
 };
 
 export function Reveal({
@@ -16,11 +17,12 @@ export function Reveal({
   delay = 0,
   className,
   children,
+  onPointerMove,
 }: RevealProps) {
   const reducedMotion = useReducedMotion();
   const inheritAnimation = useContext(RevealInheritanceContext);
 
-  if (reducedMotion) return <div className={className}>{children}</div>;
+  if (reducedMotion) return <div onPointerMove={onPointerMove} className={className}>{children}</div>;
 
   const baseVariants = variant === "fadeUp" ? fadeUp : fadeUpSm;
   const show = baseVariants.show as TargetAndTransition;
@@ -36,6 +38,7 @@ export function Reveal({
 
   return (
     <motion.div
+      onPointerMove={onPointerMove}
       className={className}
       variants={variants}
       {...(!inheritAnimation && {
