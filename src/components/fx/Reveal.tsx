@@ -44,7 +44,9 @@ export function Reveal({
       {...(!inheritAnimation && {
         initial: "hidden",
         whileInView: "show",
-        viewport: { once: true, amount: 0.3 },
+        // Mismo motivo que en RevealStagger: un umbral proporcional deja
+        // invisible cualquier contenedor más alto que ~3.3 viewports.
+        viewport: { once: true, amount: "some" },
       })}
     >
       {children}

@@ -27,7 +27,11 @@ export function RevealStagger({
         className={className}
         initial="hidden"
         whileInView="show"
-        viewport={{ once: true, amount: 0.3 }}
+        // `amount: "some"` (cualquier parte visible), NO una fracción: una
+        // grilla más alta que ~3.3 viewports jamás alcanza un umbral
+        // proporcional y se quedaría invisible para siempre (pantalla corta,
+        // ventana pequeña o zoom del navegador).
+        viewport={{ once: true, amount: "some" }}
         variants={stagger(staggerChildren, delayChildren)}
       >
         {children}
