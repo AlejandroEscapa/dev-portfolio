@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { motion } from "framer-motion";
+import { LayoutGroup, motion } from "framer-motion";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { RevealStagger } from "@/components/fx/RevealStagger";
 import { Reveal } from "@/components/fx/Reveal";
 import type { MotionStyle } from "framer-motion";
@@ -22,6 +23,8 @@ const SWAP_MS = 420;
 export const Projects = ({ motionStyle }: ProjectsProps) => {
   const { t } = useLanguage();
   const isMobile = useMediaQuery("(max-width: 768px)");
+  const reduceMotion = useReducedMotion();
+  const enableSharedLayout = !isMobile && !reduceMotion;
 
   const [activeCategories, setActiveCategories] = useState<ProjectCategoryId[]>([]);
   const [currentIndex, setCurrentIndex] = useState(() =>
@@ -49,6 +52,10 @@ export const Projects = ({ motionStyle }: ProjectsProps) => {
   const handleSelect = (project: Project) => {
     if (isExiting) return;
     setSelectedProject(project);
+    if (enableSharedLayout) {
+      setViewMode("detail");
+      return;
+    }
     setIsExiting(true);
     window.setTimeout(() => {
       setViewMode("detail");
@@ -58,6 +65,11 @@ export const Projects = ({ motionStyle }: ProjectsProps) => {
 
   const handleBack = () => {
     if (isExiting) return;
+    if (enableSharedLayout) {
+      setSelectedProject(null);
+      setViewMode("carousel");
+      return;
+    }
     setIsExiting(true);
     window.setTimeout(() => {
       setSelectedProject(null);
@@ -95,6 +107,7 @@ export const Projects = ({ motionStyle }: ProjectsProps) => {
       style={motionStyle}
       className={cn("relative flex flex-col justify-center")}
     >
+      <LayoutGroup id="projects-shared">
       <div className="container mx-auto max-w-6xl">
         {/* Header stays mounted in BOTH view modes: the swap below happens
             inside a fixed-height stage, so the window never changes size and
@@ -121,7 +134,7 @@ export const Projects = ({ motionStyle }: ProjectsProps) => {
 
         <div className={styles.stage}>
           {viewMode === "carousel" ? (
-            <div className={cn(styles.viewFlip, isExiting ? styles.exiting : styles.entering)}>
+            <div className={cn(styles.viewFlip, isExiting ? styles.exiting : !enableSharedLayout && styles.entering)}>
               <ProjectCategoryChips
                 activeCategories={activeCategories}
                 onChange={handleCategoriesChange}
@@ -136,6 +149,7 @@ export const Projects = ({ motionStyle }: ProjectsProps) => {
                   currentIndex={currentIndex}
                   setCurrentIndex={setCurrentIndex}
                   onSelect={handleSelect}
+                  enableSharedLayout={enableSharedLayout}
                 />
               )}
             </div>
@@ -145,11 +159,13 @@ export const Projects = ({ motionStyle }: ProjectsProps) => {
                 project={selectedProject}
                 isExiting={isExiting}
                 onBack={handleBack}
+                enableSharedLayout={enableSharedLayout}
               />
             )
           )}
         </div>
       </div>
+      </LayoutGroup>
     </motion.section>
   );
 };

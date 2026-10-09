@@ -968,7 +968,7 @@
   color: hsl(var(--muted-foreground));
 }
 
-/* Reduced motion */
+/* Reduced motion: preserve the existing 420ms CSS cross-fade, without a layout morph. */
 @media (prefers-reduced-motion: reduce) {
   .card {
     transition: opacity 200ms ease;

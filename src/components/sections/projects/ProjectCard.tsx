@@ -1,4 +1,5 @@
 import { Github, ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/LanguageContext";
 import { cn } from "@/lib/utils";
@@ -10,9 +11,16 @@ interface ProjectCardProps {
   position: number;
   isActive: boolean;
   onSelect: (project: Project) => void;
+  enableSharedLayout?: boolean;
 }
 
-export const ProjectCard = ({ project, position, isActive, onSelect }: ProjectCardProps) => {
+export const ProjectCard = ({
+  project,
+  position,
+  isActive,
+  onSelect,
+  enableSharedLayout = false,
+}: ProjectCardProps) => {
   const { t } = useLanguage();
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -34,7 +42,10 @@ export const ProjectCard = ({ project, position, isActive, onSelect }: ProjectCa
       aria-hidden={!isActive}
       aria-label={`${t(project.nameKey)} — ${t(project.badgeKey)}`}
     >
-      <div className={styles.cardMedia}>
+      <motion.div
+        className={styles.cardMedia}
+        layoutId={enableSharedLayout ? `proj-media-${project.id}` : undefined}
+      >
         {project.media.type === "video" ? (
           <video
             src={project.media.src}
@@ -47,14 +58,19 @@ export const ProjectCard = ({ project, position, isActive, onSelect }: ProjectCa
         ) : (
           <img src={project.media.src} alt={project.media.alt ?? t(project.nameKey)} loading="lazy" />
         )}
-      </div>
+      </motion.div>
 
       <div className={styles.cardBody}>
         <span className={styles.tabBar}>
           <span className={styles.cardBadge}>{t(project.badgeKey)}</span>
           <span className={styles.tabRail} aria-hidden="true" />
         </span>
-        <h3 className={styles.cardTitle}>{t(project.nameKey)}</h3>
+        <motion.h3
+          className={styles.cardTitle}
+          layoutId={enableSharedLayout ? `proj-title-${project.id}` : undefined}
+        >
+          {t(project.nameKey)}
+        </motion.h3>
         <p className={styles.cardDesc}>{t(project.descKey)}</p>
 
         <div className={styles.techRow}>
