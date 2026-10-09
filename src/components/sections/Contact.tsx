@@ -2,6 +2,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Send } from "lucide-react";
+import { RevealStagger } from "@/components/fx/RevealStagger";
+import { Reveal } from "@/components/fx/Reveal";
 
 import { useLanguage } from "@/context/LanguageContext";
 import { portfolioConfig } from "@/lib/config";
@@ -57,14 +59,14 @@ export const Contact = () => {
        composition sits centred inside the window; data + socials + signature
        live in the site footer (src/components/Footer.tsx). */
     <section className="relative min-h-[60vh] flex flex-col pt-7 md:pt-10 pb-4">
-      {/* No internal reveal: the content rides the WindowChrome entry moment. */}
+      {/* WindowChrome owns the section entry; reveals only orchestrate its contents. */}
       {/* Same content inset as Projects/Education (container max-w-6xl):
           the window stays full-bleed, the content floats inside it. */}
       <div className="flex-1 flex flex-col container mx-auto max-w-6xl">
-        <div className="flex-1 grid grid-cols-1 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] gap-10 lg:gap-12">
+        <RevealStagger className="flex-1 grid grid-cols-1 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] gap-10 lg:gap-12">
           {/* Left column — numbered label + title, vertically centred; the
               narrower column defers to the form */}
-          <div className="flex flex-col justify-center">
+          <Reveal variant="fadeUpSm" className="flex flex-col justify-center">
             <div className="space-y-3">
               <div className="mb-4 flex items-center gap-3 text-sm uppercase tracking-label text-muted-foreground">
                 <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
@@ -80,11 +82,11 @@ export const Contact = () => {
                 {t("contact.heading_line1")} {t("contact.heading_line2")}
               </p>
             </div>
-          </div>
+          </Reveal>
 
           {/* Right column — the form card takes the wider column (~55%)
               so it leads the composition */}
-          <div className="flex flex-col justify-center">
+          <Reveal variant="fadeUpSm" className="flex flex-col justify-center">
             <div className="relative w-full rounded-lg glass border border-neutral-tint/[0.08] overflow-hidden transition-[transform,border-color,background] duration-300 hover:-translate-y-0.5">
               {/* Primary accent border */}
               <div
@@ -173,8 +175,8 @@ export const Contact = () => {
                 </form>
               </Form>
             </div>
-          </div>
-        </div>
+          </Reveal>
+        </RevealStagger>
       </div>
     </section>
   );

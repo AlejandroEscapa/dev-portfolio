@@ -13,6 +13,10 @@ export interface PortfolioConfig {
   keepCli: 'yes' | 'no';
   keepBoot: 'yes' | 'no';
   aiCoderSection: 'yes' | 'no';
+  /** Opt-in feature flags. Each effect must leave zero trace when off. */
+  features: {
+    cursorHalo: boolean;
+  };
 }
 
 export const portfolioConfig: PortfolioConfig = config as PortfolioConfig;

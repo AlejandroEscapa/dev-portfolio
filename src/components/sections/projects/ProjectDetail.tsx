@@ -2,6 +2,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { motion } from "framer-motion";
 import {
   ArrowLeft,
   ExternalLink,
@@ -41,9 +42,10 @@ interface ProjectDetailProps {
   project: Project;
   isExiting: boolean;
   onBack: () => void;
+  enableSharedLayout?: boolean;
 }
 
-export const ProjectDetail = ({ project, isExiting, onBack }: ProjectDetailProps) => {
+export const ProjectDetail = ({ project, isExiting, onBack, enableSharedLayout = false }: ProjectDetailProps) => {
   const { t } = useLanguage();
   const stack = groupTechByCategory(project.techTags);
   // Dedup: the card chips and the About narrative already carry the stack,
@@ -86,7 +88,10 @@ export const ProjectDetail = ({ project, isExiting, onBack }: ProjectDetailProps
 
   return (
     <div
-      className={cn(styles.detail, isExiting ? styles.exiting : styles.entering)}
+      className={cn(
+        styles.detail,
+        !enableSharedLayout && (isExiting ? styles.exiting : styles.entering),
+      )}
       role="region"
       aria-label={t(project.nameKey)}
     >
@@ -108,7 +113,10 @@ export const ProjectDetail = ({ project, isExiting, onBack }: ProjectDetailProps
           grid + actions right */}
       <div className={styles.detailContent}>
         <div className={styles.detailMediaCol}>
-          <div className={styles.detailMedia}>
+          <motion.div
+            className={styles.detailMedia}
+            layoutId={enableSharedLayout ? `proj-media-${project.id}` : undefined}
+          >
             {project.media.type === "video" ? (
               <>
                 <video
@@ -144,11 +152,16 @@ export const ProjectDetail = ({ project, isExiting, onBack }: ProjectDetailProps
             ) : (
               <img src={project.media.src} alt={project.media.alt ?? t(project.nameKey)} />
             )}
-          </div>
+          </motion.div>
         </div>
 
         <div className={styles.detailInfo}>
-          <h2 className={styles.detailName}>{t(project.nameKey)}</h2>
+          <motion.h2
+            className={styles.detailName}
+            layoutId={enableSharedLayout ? `proj-title-${project.id}` : undefined}
+          >
+            {t(project.nameKey)}
+          </motion.h2>
 
           <div className={styles.detailSection}>
             <h4 className={styles.detailSectionTitle}>{t("projects.about")}</h4>

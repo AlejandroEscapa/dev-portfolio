@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-
-const KEY = "portfolio-booted";
+import { isBooted, markBooted } from "@/lib/boot-state";
 
 export function useBootSequence(totalSteps: number, stepMs = 220) {
   const [running, setRunning] = useState(false);
@@ -9,14 +8,14 @@ export function useBootSequence(totalSteps: number, stepMs = 220) {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    if (localStorage.getItem(KEY) === "1") { setDone(true); return; }
+    if (isBooted()) { setDone(true); return; }
     setRunning(true);
   }, []);
 
   useEffect(() => {
     if (!running) return;
     if (step >= totalSteps) {
-      localStorage.setItem(KEY, "1");
+      markBooted();
       setRunning(false);
       setDone(true);
       return;
@@ -26,7 +25,7 @@ export function useBootSequence(totalSteps: number, stepMs = 220) {
   }, [step, running, totalSteps, stepMs]);
 
   const skip = () => {
-    localStorage.setItem(KEY, "1");
+    markBooted();
     setStep(totalSteps);
     setRunning(false);
     setDone(true);

@@ -67,3 +67,6 @@ src/styles/generated/
 # === Local tool caches ===
 .freebuff/
 .zcode/
+
+# Artefactos de tooling
+repomix-output.xml

@@ -11,13 +11,6 @@ export interface FxAttribution {
 
 export const FX_ATTRIBUTIONS: FxAttribution[] = [
   {
-    file: 'src/components/fx/magic-card.tsx',
-    source: 'Magic UI',
-    registryItem: '@magicui/magic-card',
-    license: 'MIT',
-    changes: 'solo modo gradient; next-themes fuera; framer-motion; tokens via props; reduced-motion desactiva el spotlight; innerClassName para cristal',
-  },
-  {
     file: 'src/components/fx/DecryptedText.tsx',
     source: 'React Bits',
     registryItem: '@react-bits/DecryptedText-TS-TW',
@@ -37,12 +30,5 @@ export const FX_ATTRIBUTIONS: FxAttribution[] = [
     registryItem: '@reactbits/Noise-TS-TW',
     license: 'MIT',
     changes: 'reduced-motion -> un solo frame estático (sin rAF); aria-hidden',
-  },
-  {
-    file: 'src/components/fx/ElectricBorder.tsx',
-    source: 'React Bits',
-    registryItem: '@react-bits/ElectricBorder-TS-TW',
-    license: 'MIT',
-    changes: 'color por token via useCssColor; hexToRgba tolerante a hsl() via color-mix; reduced-motion -> un frame estático',
   },
 ];

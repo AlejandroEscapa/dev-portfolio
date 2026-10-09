@@ -1,4 +1,6 @@
 import { Fragment } from "react";
+import { RevealStagger } from "@/components/fx/RevealStagger";
+import { Reveal } from "@/components/fx/Reveal";
 
 import { useLanguage } from "@/context/LanguageContext";
 import { portfolioConfig } from "@/lib/config";
@@ -49,10 +51,10 @@ export function Footer() {
 
   return (
     <footer className="section-y pb-2">
-      <div className="flex flex-col items-center gap-5 border-t border-neutral-tint/10 pt-8 pb-4">
+      <RevealStagger className="flex flex-col items-center gap-5 border-t border-neutral-tint/10 pt-8 pb-4">
         {/* Data row: location + direct channels, hairline-separated
             (the same per-item separator pattern the Education cards use) */}
-        <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 font-mono text-xs sm:text-sm text-muted-foreground">
+        <Reveal variant="fadeUpSm" className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 font-mono text-xs sm:text-sm text-muted-foreground">
           {dataRow.map((item, i) => (
             <Fragment key={item.key}>
               {i > 0 && <span className="h-3 w-px bg-neutral-tint/15" aria-hidden="true" />}
@@ -69,10 +71,10 @@ export function Footer() {
               )}
             </Fragment>
           ))}
-        </div>
+        </Reveal>
 
         {/* Social marks — same hover treatment the Contact icons had */}
-        <div className="flex items-center gap-5">
+        <Reveal variant="fadeUpSm" className="flex items-center gap-5">
           {socials.map(({ key, href, Icon, aria }) => (
             <a
               key={key}
@@ -85,12 +87,12 @@ export function Footer() {
               <Icon />
             </a>
           ))}
-        </div>
+        </Reveal>
 
-        <p className="text-xs sm:text-[11px] font-medium leading-none text-muted-foreground/90">
+        <Reveal variant="fadeUpSm" className="text-xs sm:text-[11px] font-medium leading-none text-muted-foreground/90">
           {t("contact.signature")}
-        </p>
-      </div>
+        </Reveal>
+      </RevealStagger>
     </footer>
   );
 }

@@ -25,6 +25,7 @@ export const MobileProjectList = ({ projects, onSelect }: MobileProjectListProps
           key={project.id}
           type="button"
           className={styles.mobileCard}
+          data-cursor="view"
           onClick={() => onSelect(project)}
           aria-label={`${t(project.nameKey)} — ${t("projects.view_details")}`}
         >

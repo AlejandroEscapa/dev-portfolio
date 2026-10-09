@@ -11,9 +11,16 @@ interface ProjectsCarouselProps {
   currentIndex: number;
   setCurrentIndex: (next: number) => void;
   onSelect: (project: Project) => void;
+  enableSharedLayout?: boolean;
 }
 
-export const ProjectsCarousel = ({ projects, currentIndex, setCurrentIndex, onSelect }: ProjectsCarouselProps) => {
+export const ProjectsCarousel = ({
+  projects,
+  currentIndex,
+  setCurrentIndex,
+  onSelect,
+  enableSharedLayout = false,
+}: ProjectsCarouselProps) => {
   const dragStartX = useRef<number | null>(null);
   const lastShiftAt = useRef<number>(0);
   const dragging = useRef<boolean>(false);
@@ -98,6 +105,7 @@ export const ProjectsCarousel = ({ projects, currentIndex, setCurrentIndex, onSe
               position={positionMap[i]}
               isActive={positionMap[i] === 3}
               onSelect={onSelect}
+              enableSharedLayout={enableSharedLayout}
             />
           ))}
         </div>
