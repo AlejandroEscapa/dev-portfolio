@@ -590,7 +590,10 @@ Source-of-truth for the following, located in `public/`:
    ref, so React strict-mode double-mount + HMR re-runs don't leak
    pinned ScrollTriggers.
 9. **Don't add new external font weight requests** — the Google Fonts
-   `<link>` already covers 400/500/600/700 of all three families.
+   `<link>` already covers every weight actually loaded: Plex Sans
+   400/500/600/700, Plex Mono **400/500 only** (any mono text at ≥600
+   renders synthetic bold — fix the component, not the link), Fraunces
+   variable 100-900.
 10. **Don't ship a "Use anywhere" global state** — preference state
     (theme, lang, CRT, boot-seen) is intentionally per-key
     `localStorage`. Avoid adding a global preferences store until that's
