@@ -123,7 +123,6 @@ export function Dock({ onOpenSpotlight, terminalOpen, onToggleTerminal }: DockPr
       node: <FileText size={ICON_SIZE} strokeWidth={2} className="text-icon-resume" />,
       label: resumeFeedback ?? t("dock.resume"),
       onClick: () => {
-        // TODO: drop the actual CV at public/cv.pdf — until then the click 404s.
         const link = document.createElement("a");
         link.href = "/cv.pdf";
         link.download = "Alejandro-Olivares-Escapa-CV.pdf";
