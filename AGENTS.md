@@ -41,8 +41,9 @@ Real versions live in `package.json`. Highlights:
 | Tooling          | ESLint 9 flat config, Vitest 3, Lovable dev-tagger                            |
 
 > **Skip**: TanStack Query has no real cache consumers in the portfolio.
-> i18next packages are installed for migration, but the current
-> translator is the flat object in `src/i18n/translations.ts` (see §5).
+> The runtime translator is the flat object in `src/i18n/translations.ts`
+> (see §5); `i18next` and `react-i18next` were uninstalled in Fase 0 of the
+> Next Level plan (reinstall only if that migration is ever wanted).
 > `sharp` lives in `devDependencies` and is consumed only by
 > `scripts/optimize-pexels.mjs` (off-build image preprocessing) — it
 > is not a runtime dependency.
@@ -51,8 +52,8 @@ Real versions live in `package.json`. Highlights:
 > come from the `simple-icons` npm package — EXCEPT LinkedIn, removed
 > from simple-icons in v11 (trademark): its last published path is
 > kept as an in-repo constant in `src/components/brand-icons.tsx`,
-> which is also imported by `Contact.tsx`. `@phosphor-icons/react`
-> remains installed but has zero imports — candidate for removal.
+> which is also imported by `Contact.tsx`. `@phosphor-icons/react` was
+> uninstalled in Fase 0: Lucide + `simple-icons` cover every glyph.
 
 ---
 
@@ -234,8 +235,8 @@ Honour this in any new animation.
 
 ## 6. i18n
 
-Implemented by **a custom flat-object system**, not the installed
-i18next:
+Implemented by **a custom flat-object system** (`i18next` is not
+installed — see §1):
 
 - `src/context/LanguageContext.tsx` — `LanguageProvider`, `useLanguage()`.
 - `src/i18n/translations.ts` — single `Record<Lang, { [key: string]:
@@ -368,10 +369,14 @@ Third-party effects copied from shadcn registries and adapted:
 spark/indicator was removed at the user's request; the buttons keep
 only highlight + backdrop), `Noise` (film-grain overlay on the
 background image, mounted in `Index.tsx`).
-`ElectricBorder.tsx` and `magic-card.tsx` remain in the folder with
-ZERO consumers (user rejected both: ElectricBorder on Contact,
-MagicCard on TechBento — TechBento tiles use the inline `specular`
-glass recipe again); candidates for deletion if not reused. Rules for anything added here:
+In-repo primitives (no registry origin): `Reveal` + `RevealStagger`
+(the shared below-the-fold reveals; `amount: "some"`, never a
+proportional threshold, or a container taller than the viewport would
+never reveal) and `CursorHalo` (opt-in cursor halo behind
+`features.cursorHalo`, fine-pointer only). `ElectricBorder.tsx` and
+`magic-card.tsx` were deleted in Fase 0 — already zero consumers (the
+user rejected both: ElectricBorder on Contact, MagicCard on TechBento —
+TechBento tiles use the inline `specular` glass recipe). Rules for anything added here:
 imports from `framer-motion` (never `motion/react`), colours ONLY
 via semantic tokens/props (see `useCssColor` for canvas-driven
 colour), `prefers-reduced-motion` must degrade gracefully, and
@@ -515,6 +520,10 @@ iteration; surface tightening as a separate refactor change.
   `WindowChrome`, `useTerminalHistory`, `useTheme`, `cli-commands`,
   `spotlight-items`, `data/projects` (`projects.test.ts`),
   `data/trayectoria` (`trayectoria.test.ts`),
+  `fx/Reveal` (+ `Reveal.viewport.test.tsx`), `fx/CursorHalo`,
+  `sections/Hero`, `projects/ProjectCard`, `lib/boot-state`,
+  `i18n/translations` (en/es symmetry), `scripts/public-assets.test.ts`
+  (every referenced public asset exists),
   `src/scripts/build-tokens.test.ts`,
   `src/scripts/token-contrast.test.ts` (WCAG AA guard for muted text).
 - Coverage guidance: any new data-shaping helper (`groupTechByCategory`,
