@@ -244,6 +244,9 @@ export const translations: Record<Lang, Translations> = {
     "dock.theme": "Theme",
     "dock.expand": "Expand",
     "dock.collapse": "Collapse",
+
+    "cursor.view": "View",
+    "cursor.open": "Open",
   },
   es: {
     "nav.hero": "Inicio",
@@ -489,5 +492,8 @@ export const translations: Record<Lang, Translations> = {
     "dock.theme": "Tema",
     "dock.expand": "Expandir",
     "dock.collapse": "Colapsar",
+
+    "cursor.view": "Ver",
+    "cursor.open": "Abrir",
   },
 };

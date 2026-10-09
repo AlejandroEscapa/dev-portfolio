@@ -10,5 +10,8 @@
   "displayFont": "Space Grotesk",
   "keepCli": "yes",
   "keepBoot": "yes",
-  "aiCoderSection": "yes"
+  "aiCoderSection": "yes",
+  "features": {
+    "cursorHalo": true
+  }
 }

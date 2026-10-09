@@ -36,6 +36,8 @@ export const ProjectCard = ({
       className={cn(styles.card)}
       data-position={position}
       data-active={isActive}
+      // Contexto del halo de cursor: la card entera invita a abrir la ficha.
+      data-cursor="view"
       onClick={() => isActive && onSelect(project)}
       onKeyDown={handleKeyDown}
       tabIndex={isActive ? 0 : -1}
@@ -96,6 +98,7 @@ export const ProjectCard = ({
               href={project.githubUrl}
               target="_blank"
               rel="noopener noreferrer"
+              data-cursor="open"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Outline defaults melt into the card: --input border is a ~12
