@@ -84,17 +84,17 @@ decididos tienen su fase asignada en la sección "Trabajo bloqueado").
 - Consumes: nada.
 - Produces: la ruta pública `/cv.pdf` sirviendo 200; Task 5 la vigila.
 
-- [ ] **Step 1: Copiar el CV** desde la ruta fuente a `public/cv.pdf`
+- [x] **Step 1: Copiar el CV** desde la ruta fuente a `public/cv.pdf`
   (nombre exacto, minúsculas) y validar que el archivo es un PDF íntegro
   (cabecera `%PDF` y apertura visual correcta). Si el contenido está
   desactualizado respecto a la trayectoria actual, avisar a Alejandro
   antes de seguir: el fichero sirve, pero conviene regenerarlo pronto
   (Fase 5, B4).
-- [ ] **Step 2: Eliminar el TODO de `Dock.tsx`** ya resuelto, dejando el
+- [x] **Step 2: Eliminar el TODO de `Dock.tsx`** ya resuelto, dejando el
   handler de descarga tal cual (apunta a `/cv.pdf`).
-- [ ] **Step 3: Verificación manual**: `npm run dev`, click en Resume del
+- [x] **Step 3: Verificación manual**: `npm run dev`, click en Resume del
   Dock → descarga del PDF real. Esperado: 200 y archivo correcto.
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add public/cv.pdf src/components/dock/Dock.tsx
@@ -113,7 +113,7 @@ git commit -m "fix: restaurar descarga del CV (cv.pdf 404)"
 **Interfaces:**
 - Consumes: nada. Produces: nada (borrado puro).
 
-- [ ] **Step 1: Demostrar que son huérfanos**:
+- [x] **Step 1: Demostrar que son huérfanos**:
 
 ```bash
 grep -rn "ElectricBorder\|magic-card\|useScrollReveal\|useMousePosition\|phosphor\|react-i18next\|from \"i18next\"\|from 'i18next'" src --include="*.ts" --include="*.tsx" | grep -v "fx/ElectricBorder\|fx/magic-card\|hooks/useScrollReveal\|hooks/useMousePosition"
@@ -122,11 +122,11 @@ grep -rn "ElectricBorder\|magic-card\|useScrollReveal\|useMousePosition\|phospho
 Esperado: cero resultados (si aparece un consumidor, PARAR y avisar a
 Alejandro antes de borrar ese fichero).
 
-- [ ] **Step 2: Borrar los 4 ficheros** y ejecutar
+- [x] **Step 2: Borrar los 4 ficheros** y ejecutar
   `npm uninstall @phosphor-icons/react i18next react-i18next`.
-- [ ] **Step 3: Verificar**: `npm test`, `npm run typecheck`,
+- [x] **Step 3: Verificar**: `npm test`, `npm run typecheck`,
   `npm run lint`. Esperado: todo verde.
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add -A
@@ -144,13 +144,13 @@ git commit -m "chore: eliminar efectos y hooks huérfanos (ElectricBorder, magic
 **Interfaces:**
 - Consumes: nada. Produces: raíz del repo limpia de artefactos.
 
-- [ ] **Step 1**: Añadir `repomix-output.xml` a `.gitignore` y ejecutar
+- [x] **Step 1**: Añadir `repomix-output.xml` a `.gitignore` y ejecutar
   `git rm --cached repomix-output.xml` (conserva el archivo local).
-- [ ] **Step 2**: `mkdir -p docs/assets && git mv` no aplica (no
+- [x] **Step 2**: `mkdir -p docs/assets && git mv` no aplica (no
   trackeado): mover con `mv flip-check.webm docs/assets/`.
-- [ ] **Step 3: Verificar**: `git status` limpio de ambos artefactos;
+- [x] **Step 3: Verificar**: `git status` limpio de ambos artefactos;
   `npm run build` sigue verde.
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add .gitignore docs/assets/flip-check.webm
@@ -169,24 +169,24 @@ git commit -m "chore: ignorar repomix-output.xml y archivar flip-check.webm en d
 - Consumes: nada.
 - Produces: política de pesos mono documentada y real.
 
-- [ ] **Step 1: Auditar uso real**:
+- [x] **Step 1: Auditar uso real**:
 
 ```bash
 grep -rn "font-mono" src --include="*.tsx" --include="*.css" -A1 | grep -i "600\|700\|800\|semibold\|bold\|font-\["
 grep -rn "font-weight" src --include="*.css"
 ```
 
-- [ ] **Step 2: Resolver según resultado**:
+- [x] **Step 2: Resolver según resultado**:
   - Si hay mono ≥600 (pocos casos): remapear a 500 (decisión preferida;
     los labels mono no necesitan más) y dejar el `<link>` intacto.
   - Si el diseño realmente pierde (caso excepcional): añadir 600 al link
     de Plex Mono ÚNICAMENTE, anotándolo como excepción autorizada a la
     regla de no nuevos pesos.
-- [ ] **Step 3: Corregir AGENTS.md §15.9** con la realidad del link
+- [x] **Step 3: Corregir AGENTS.md §15.9** con la realidad del link
   (Sans 400-700, Mono 400/500 [+600 si se autorizó], Fraunces variable).
-- [ ] **Step 4: Verificar**: `npm run build` verde; revisión visual de
+- [x] **Step 4: Verificar**: `npm run build` verde; revisión visual de
   terminal/CLI y labels mono sin negrita sintética.
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add index.html AGENTS.md src
@@ -207,7 +207,7 @@ git commit -m "fix: eliminar negritas sintéticas de Plex Mono y corregir invent
 - Produces: fallo de `npm test` si cualquier asset referenciado no
   existe en `public/`. Es la cura sistémica del 404 de `cv.pdf`.
 
-- [ ] **Step 1: Escribir el test que falla primero** (con `cv.pdf`
+- [x] **Step 1: Escribir el test que falla primero** (con `cv.pdf`
   ausente debe fallar hasta que Task 1 esté hecha en la rama; si Task 1
   ya se mergeó, pasa directamente):
 
@@ -237,9 +237,9 @@ test("todo asset referenciado existe en public/", () => {
 implementar; el test nace de la lista §14 del AGENTS.md corregida por lo
 que haya en disco.)
 
-- [ ] **Step 2: Ejecutar** `npm test -- public-assets` → esperado: PASS
+- [x] **Step 2: Ejecutar** `npm test -- public-assets` → esperado: PASS
   con Task 1 aplicada (o FAIL listando exactamente lo que falte).
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add src/scripts/public-assets.test.ts
@@ -271,7 +271,7 @@ npm run build` todo verde → pedir okey de Alejandro para merge a `main`.
   - Contrato de reduced-motion: si `useReducedMotion()` es true, ambos
     renderizan `children` en un `div` plano (sin props de motion).
 
-- [ ] **Step 1: Test primero** (`Reveal.test.tsx`):
+- [x] **Step 1: Test primero** (`Reveal.test.tsx`):
 
 ```ts
 it("renderiza los hijos", ...); // getByText visible
@@ -280,11 +280,11 @@ it("bajo reduced-motion no aplica estado hidden", ...);
 // initial/variants de motion (render plano)
 ```
 
-- [ ] **Step 2: Ejecutar** `npm test -- Reveal` → FAIL (módulo no existe).
-- [ ] **Step 3: Implementar ambos componentes** en `fx/`, importando
+- [x] **Step 2: Ejecutar** `npm test -- Reveal` → FAIL (módulo no existe).
+- [x] **Step 3: Implementar ambos componentes** en `fx/`, importando
   `framer-motion` (regla del folder) y las variants de `@/lib/motion`.
-- [ ] **Step 4: Ejecutar** `npm test -- Reveal` → PASS.
-- [ ] **Step 5: Commit**
+- [x] **Step 4: Ejecutar** `npm test -- Reveal` → PASS.
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/components/fx/Reveal.tsx src/components/fx/RevealStagger.tsx src/components/fx/Reveal.test.tsx
@@ -303,19 +303,19 @@ git commit -m "feat(fx): primitivas Reveal y RevealStagger sobre los tokens de m
 - Consumes: `Reveal`/`RevealStagger` de Task 6.
 - Produces: nada nuevo para terceros.
 
-- [ ] **Step 1: Auditoría previa**: listar qué secciones usan ya
+- [x] **Step 1: Auditoría previa**: listar qué secciones usan ya
   `@/lib/motion` directamente (Education lo hace) y cuáles no tienen
   entrada animada (Footer, Contact). Anotar el resultado en el cuerpo del
   commit.
-- [ ] **Step 2: Aplicar** `RevealStagger`+`Reveal` a las grillas bajo el
+- [x] **Step 2: Aplicar** `RevealStagger`+`Reveal` a las grillas bajo el
   fold: items de Education, bloque de Contact, datos del Footer, entrada
   del WindowChrome de Projects. PROHIBIDO aplicarlos a la columna del
   hero / TechBento (above the fold: eso es territorio de Task 9).
-- [ ] **Step 3: Verificación**: `npm run dev`, scroll completo en los 4
+- [x] **Step 3: Verificación**: `npm run dev`, scroll completo en los 4
   temas; entradas escalonadas una sola vez; con
   `prefers-reduced-motion: reduce` emulado, todo estático. `npm test` y
   `npm run lint` verdes.
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add src/components/sections src/components/Footer.tsx
@@ -336,20 +336,20 @@ git commit -m "feat: entradas escalonadas consistentes en secciones bajo el fold
 - Produces: nada nuevo. El contrato visual: la media y el título de la
   card "vuelan" hasta su posición en la ficha de detalle (shared element).
 
-- [ ] **Step 1: Envolver las dos vistas en `LayoutGroup`** y dar al media
+- [x] **Step 1: Envolver las dos vistas en `LayoutGroup`** y dar al media
   y al título de card y detalle el mismo `layoutId` por proyecto:
   `proj-media-${project.id}`, `proj-title-${project.id}` (verificar el
   campo id real en `src/data/projects.ts` al implementar). El swap sigue
   siendo una sola vista montada (`AnimatePresence mode="wait"` si hace
   falta para no duplicar ids).
-- [ ] **Step 2: Ramificación reduced-motion**: con reduced-motion activo,
+- [x] **Step 2: Ramificación reduced-motion**: con reduced-motion activo,
   se usa el cross-fade CSS actual (transición de opacidad, sin layout
   animation). `MobileProjectList` NO se toca.
-- [ ] **Step 3: Verificación manual** (núcleo de la tarea): card →
+- [x] **Step 3: Verificación manual** (núcleo de la tarea): card →
   detalle → atrás en los 4 temas, móvil intacto, sin saltos de layout
   (CLS) ni parpadeos; `npm run build` verde; Lighthouse local sin
   regresión de CLS.
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add src/components/sections
@@ -376,26 +376,26 @@ git commit -m "feat(projects): transición shared-element entre card y ficha con
 - `useBootSequence` pasa a usar `markBooted()` en sus dos caminos (fin
   natural y skip).
 
-- [ ] **Step 1: Test primero** (`boot-state.test.ts`):
+- [x] **Step 1: Test primero** (`boot-state.test.ts`):
 
 ```ts
 it("isBooted es false sin key y true tras markBooted", ...);
 it("markBooted despacha BOOTED_EVENT", ...); // listener espía
 ```
 
-- [ ] **Step 2: Ejecutar** `npm test -- boot-state` → FAIL.
-- [ ] **Step 3: Implementar `boot-state.ts`** y rewirar
+- [x] **Step 2: Ejecutar** `npm test -- boot-state` → FAIL.
+- [x] **Step 3: Implementar `boot-state.ts`** y rewirar
   `useBootSequence` (los tests existentes del hook, si los hay, deben
   seguir verdes; si el hook no tiene test, esta tarea no añade más).
-- [ ] **Step 4: Hero orquestado**: el estado inicial de las animaciones
+- [x] **Step 4: Hero orquestado**: el estado inicial de las animaciones
   de entrada del hero (título + CTAs; la materialización 3D queda como
   stretch opcional) se dispara cuando `isBooted()` ya es true en el
   primer render, o al recibir `BOOTED_EVENT`. Nada de delays mágicos:
   el encadenado es boot → hero.
-- [ ] **Step 5: Verificación**: primera visita (localStorage limpio) →
+- [x] **Step 5: Verificación**: primera visita (localStorage limpio) →
   boot y entrada orquestada tras él; segunda visita → hero inmediato, sin
   espera; skip con click → hero entra al instante. `npm test` verde.
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add src/lib/boot-state.ts src/lib/boot-state.test.ts src/hooks/useBootSequence.ts src/components/sections/Hero.tsx
@@ -429,7 +429,7 @@ git commit -m "feat(boot): señal de arranque síncrona y entrada del hero coreo
   - Puertas de montaje (todas): flag ON, `pointer: fine`, NO
     reduced-motion. Con cualquiera a NO: `null`, cero listeners.
 
-- [ ] **Step 1: Tests primero**:
+- [x] **Step 1: Tests primero**:
 
 ```ts
 // CursorHalo.test.tsx
@@ -441,16 +441,16 @@ it("flag on + pointer fine → monta un elemento aria-hidden", ...);
 it("toda clave de en existe en es y viceversa", ...);
 ```
 
-- [ ] **Step 2: Ejecutar** → FAIL.
-- [ ] **Step 3: Implementar** config + tipo, claves i18n en ambos
+- [x] **Step 2: Ejecutar** → FAIL.
+- [x] **Step 3: Implementar** config + tipo, claves i18n en ambos
   idiomas, componente y mount en `App.tsx`, atributos `data-cursor` en
   cards/CTAs del carrusel.
-- [ ] **Step 4: Ejecutar** `npm test` → PASS; `npm run typecheck` verde.
-- [ ] **Step 5: Verificación manual**: halo fluido (spring ~300/30),
+- [x] **Step 4: Ejecutar** `npm test` → PASS; `npm run typecheck` verde.
+- [x] **Step 5: Verificación manual**: halo fluido (spring ~300/30),
   crece/etiqueta sobre cards; no aparece emulando touch ni
   reduced-motion; click y selección de texto intactos. Si a Alejandro no
   le convence en vivo: flag a `false` y fin (sin dejar rastro).
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add portfolio.config.json src/lib/config.ts src/components/fx/CursorHalo.tsx src/components/fx/CursorHalo.test.tsx src/i18n src/App.tsx src/components/sections/projects
