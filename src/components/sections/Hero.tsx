@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
 import DecryptedText from "@/components/fx/DecryptedText";
 import { ShimmerButton } from "@/components/fx/shimmer-button";
+import { Magnetic } from "@/components/fx/Magnetic";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { scrollToSection } from "@/lib/scroll";
 import { BOOTED_EVENT, isBooted } from "@/lib/boot-state";
@@ -86,30 +87,34 @@ export const Hero = () => {
           initial={prefersReducedMotion ? "show" : "hidden"}
           animate={ctaAnimationState}
         >
-          <ShimmerButton
-            className="rounded-lg px-5 py-2.5 text-sm font-medium"
-            shimmerColor="hsl(var(--primary))"
-            shimmerDuration="4s"
-            onClick={() => scrollToSection("projects")}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="mr-2 h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z" />
-              <path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z" />
-            </svg>
-            {t("hero.cta_projects")}
-          </ShimmerButton>
-          <ShimmerButton
-            className="rounded-lg px-5 py-2.5 text-sm font-medium"
-            shimmerColor="hsl(var(--accent))"
-            shimmerDuration="4s"
-            onClick={() => scrollToSection("contact")}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="mr-2 h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-              <polyline points="22,6 12,13 2,6" />
-            </svg>
-            {t("hero.cta_contact")}
-          </ShimmerButton>
+          <Magnetic>
+            <ShimmerButton
+              className="rounded-lg px-5 py-2.5 text-sm font-medium"
+              shimmerColor="hsl(var(--primary))"
+              shimmerDuration="4s"
+              onClick={() => scrollToSection("projects")}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="mr-2 h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z" />
+                <path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z" />
+              </svg>
+              {t("hero.cta_projects")}
+            </ShimmerButton>
+          </Magnetic>
+          <Magnetic>
+            <ShimmerButton
+              className="rounded-lg px-5 py-2.5 text-sm font-medium"
+              shimmerColor="hsl(var(--accent))"
+              shimmerDuration="4s"
+              onClick={() => scrollToSection("contact")}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="mr-2 h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              {t("hero.cta_contact")}
+            </ShimmerButton>
+          </Magnetic>
         </motion.div>
       </div>
     </section>
