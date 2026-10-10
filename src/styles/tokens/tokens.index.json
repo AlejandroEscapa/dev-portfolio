@@ -11,6 +11,7 @@
     "themes/indigo.json",
     "themes/catppuccin.json",
     "themes/dracula.json",
-    "themes/tokyo-night.json"
+    "themes/tokyo-night.json",
+    "themes/amber.json"
   ]
 }

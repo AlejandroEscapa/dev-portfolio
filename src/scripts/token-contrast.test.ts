@@ -10,7 +10,8 @@
  * Why this exists: muted text is the most common secondary copy in the app
  * (~59 usages) and three of the four themes shipped it below AA on `card`
  * (catppuccin 4.37, dracula 4.00, tokyo-night 4.38). A future palette tweak
- * must not silently reintroduce that.
+ * must not silently reintroduce that. El tema oculto (amber) entra en la
+ * misma guardia: que no se liste en el menú no lo exime de ser legible.
  *
  * The formula is validated against published reference pairs first, so a
  * broken implementation cannot make the AA assertions pass by accident.
@@ -39,7 +40,7 @@ describe("token contrast", () => {
     const { themes } = await loadModel();
     const names = Object.keys(themes);
 
-    expect(names).toEqual(["indigo", "catppuccin", "dracula", "tokyo-night"]);
+    expect(names).toEqual(["indigo", "catppuccin", "dracula", "tokyo-night", "amber"]);
 
     const failures: string[] = [];
     for (const name of names) {

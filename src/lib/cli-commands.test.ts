@@ -30,4 +30,28 @@ describe("executeCommand", () => {
     expect(out).toContain("indigo");
     expect(out).toContain("catppuccin");
   });
+
+  it("does not reveal the hidden theme through the public command", () => {
+    const setTheme = vi.fn();
+    const out = executeCommand("theme amber", { setTheme, clear: vi.fn() });
+
+    expect(setTheme).not.toHaveBeenCalled();
+    expect(out).toMatch(/unknown theme/i);
+  });
+
+  it("unlocks the hidden theme from sudo", () => {
+    const setTheme = vi.fn();
+    const out = executeCommand("sudo theme amber", { setTheme, clear: vi.fn() });
+
+    expect(setTheme).toHaveBeenCalledWith("amber");
+    expect(out).toContain("amber");
+  });
+
+  it("sudo theme with a non-secret name changes nothing", () => {
+    const setTheme = vi.fn();
+    const out = executeCommand("sudo theme neon", { setTheme, clear: vi.fn() });
+
+    expect(setTheme).not.toHaveBeenCalled();
+    expect(out).toMatch(/no such theme/i);
+  });
 });

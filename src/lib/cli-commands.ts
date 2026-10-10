@@ -1,4 +1,4 @@
-import { type ThemeId, THEMES } from "./themes";
+import { type ThemeId, THEMES, SECRET_THEMES, isSecretTheme } from "./themes";
 
 export interface CommandContext {
   setTheme: (t: ThemeId) => void;
@@ -93,8 +93,16 @@ export function executeCommand(rawInput: string, ctx: CommandContext): string {
       return BANNER;
     case "neofetch":
       return NEOFETCH;
-    case "sudo":
-      return "Nice try. This incident will be reported. 🚨";
+    case "sudo": {
+      // Easter egg (BRAINSTORM §5 C2): el quinto tema no aparece en el menú
+      // del dock ni en Spotlight. Este es su única puerta.
+      if (args[0] !== "theme") return "Nice try. This incident will be reported. 🚨";
+      const name = args[1];
+      if (!name) return "usage: sudo theme <name>";
+      if (!isSecretTheme(name)) return `sudo: ${name}: no such theme`;
+      ctx.setTheme(name);
+      return `🔓 hidden theme unlocked: ${SECRET_THEMES[name].label} (${name}) — keep it to yourself.`;
+    }
     case "rm":
       return "🚫 rm disabled. This is a portfolio, not a server.";
     case "exit":
