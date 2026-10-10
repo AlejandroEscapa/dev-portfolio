@@ -15,6 +15,9 @@ export const DURATION_FAST = durationToSeconds(TOKENS_DEFAULT.durationFast);
 export const DURATION_BASE = durationToSeconds(TOKENS_DEFAULT.durationBase);
 export const DURATION_SLOW = durationToSeconds(TOKENS_DEFAULT.durationSlow);
 export const EASE_OUT_EXPO = parseCubicBezier(TOKENS_DEFAULT.easeOutExpo);
+/** El mismo easing como string CSS, para los consumidores que no son framer
+    (Web Animations API en `theme-transition.ts`, `gsap` en Trayectoria). */
+export const EASE_OUT_EXPO_CSS = TOKENS_DEFAULT.easeOutExpo;
 
 /** Section-header step: the full 40px rise for headlines. */
 export const fadeUp: Variants = {

@@ -271,3 +271,20 @@
   }
 
 }
+
+/* === View Transitions: el cambio de tema ===
+   `startThemeTransition` (src/lib/theme-transition.ts) anima
+   `::view-transition-new(root)` con un clip-path circular que nace del dock.
+   Aquí se apaga el fundido por defecto y se deja QUIETO el snapshot viejo:
+   sin estas dos reglas el wipe vuelve a leerse como un cross-fade. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}
