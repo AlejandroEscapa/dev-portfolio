@@ -157,6 +157,11 @@ only the weights actually used are requested in `index.html`.
    `tokens.index.json`
 4. Refresh — `useTheme.setTheme("<name>")` is now a valid call.
 
+Para un tema **oculto** (el ámbar CRT de §5) los mismos tres pasos, pero
+registrándolo en `SECRET_THEMES` en vez de `THEMES`: así no aparece ni en
+el menú del dock ni en Spotlight, y su única puerta es `sudo theme
+<name>` en la terminal.
+
 ### Layout variables to know
 
 - `--nav-height` (default `60px`) — drives the
@@ -210,26 +215,41 @@ other sections without asking.
 ### `prefers-reduced-motion`
 
 Always respected in: `.crt-*`, `.terminal-fog` (`transform: none`,
-`backdrop-filter: none`), and `Trayectoria.tsx` (the GSAP
-horizontal-scroll effect is skipped when the media query matches).
+`backdrop-filter: none`), `Trayectoria.tsx` (the GSAP horizontal-scroll
+effect is skipped when the media query matches), `lib/theme-transition.ts`
+(the theme swap falls back to the instant one) and `fx/Magnetic` (renders
+its child with no listeners at all).
 Honour this in any new animation.
 
 ---
 
 ## 5. Theming
 
-- 4 themes: **indigo** (default), **catppuccin**, **dracula**,
-  **tokyo-night**.
+- 4 **public** themes: **indigo** (default), **catppuccin**, **dracula**,
+  **tokyo-night** — the ones `THEMES` lists.
+- 1 **hidden** theme: **amber** (CRT phosphor). It lives in the pipeline
+  like any other, but it is only in `SECRET_THEMES`: the dock menu and
+  Spotlight never show it. The only door is `sudo theme amber` in the CLI
+  (`theme amber`, without sudo, answers "unknown theme").
 - Stored on `<html>` as `[data-theme="<id>"]`. Indigo is the default
   *and is the absence of the attribute*; never set
   `data-theme="indigo"`.
 - Persistence: `localStorage["portfolio-theme"]`.
 - Toggle UX: `ThemeMenu` (`src/components/theme-switcher/ThemeMenu.tsx`)
-  in the dock rail opens a popover with all themes; `cli theme <name>`
-  swaps themes from the CLI terminal; Spotlight groups a "Theme: …"
-  entry per theme.
-- Source: `src/lib/themes.ts` (`THEMES`, `ThemeId`, `DEFAULT_THEME`,
-  `THEME_STORAGE_KEY`).
+  in the dock rail opens a popover with the public themes; `cli theme
+  <name>` swaps themes from the CLI terminal; Spotlight groups a "Theme: …"
+  entry per public theme.
+- **Cinematic switch (Fase 1.5):** `useTheme().setTheme(theme, origin?)` is
+  the single owner of the change. It applies `data-theme` *and* persists it
+  inside a View Transition callback (`src/lib/theme-transition.ts`), so the
+  wipe circle is inherited by all three entry points and the choice sticks
+  even when the caller unmounts in the same commit (the dock popover closing
+  on pick). The wipe is born at the dock rail and degrades to the instant
+  swap without `document.startViewTransition` or under reduced motion.
+  The `::view-transition-*` pseudo-element rules live at the end of
+  `src/index.css`.
+- Source: `src/lib/themes.ts` (`THEMES`, `SECRET_THEMES`, `ThemeId`,
+  `isThemeId`, `isSecretTheme`, `DEFAULT_THEME`, `THEME_STORAGE_KEY`).
 
 ---
 
@@ -372,8 +392,10 @@ background image, mounted in `Index.tsx`).
 In-repo primitives (no registry origin): `Reveal` + `RevealStagger`
 (the shared below-the-fold reveals; `amount: "some"`, never a
 proportional threshold, or a container taller than the viewport would
-never reveal) and `CursorHalo` (opt-in cursor halo behind
-`features.cursorHalo`, fine-pointer only). `ElectricBorder.tsx` and
+never reveal), `CursorHalo` (opt-in cursor halo behind
+`features.cursorHalo`, fine-pointer only) and `Magnetic` (proximity magnet
+for the hero CTAs; geometry in `src/lib/magnetic.ts`, so the `.tsx` exports
+only the component). `ElectricBorder.tsx` and
 `magic-card.tsx` were deleted in Fase 0 — already zero consumers (the
 user rejected both: ElectricBorder on Contact, MagicCard on TechBento —
 TechBento tiles use the inline `specular` glass recipe). Rules for anything added here:
@@ -463,7 +485,13 @@ Spotlight items: add to `src/lib/spotlight-items.ts` via
   (`gsap.ticker.lagSmoothing(0)`).
 - **Framer Motion**: used for component-level micro-animations
   (TrafficLights, Spotlight dialog, dock icon flip
-  via `data-motion="enabled"`).
+  via `data-motion="enabled"`, `Magnetic` via motion values + spring).
+- **View Transitions API**: only for the theme switch
+  (`src/lib/theme-transition.ts`). Feature-detected, reduced-motion aware,
+  and never a requirement: if the API is missing or the transition is
+  skipped, the theme change has already been applied. Duration/easing come
+  from `--duration-slow` / `--ease-out-expo` (`EASE_OUT_EXPO_CSS` in
+  `src/lib/motion.ts` is the CSS-string form of the easing, for WAAPI).
 - **`useDeviceTier`** (`src/hooks/useDeviceTier.ts`): combines
   `(max-width: 767px)` + `prefers-reduced-motion` + a WebGL renderer
   sniff (regex on `WEBGL_debug_renderer_info.UNMASKED_RENDERER_WEBGL`
@@ -521,11 +549,15 @@ iteration; surface tightening as a separate refactor change.
   `spotlight-items`, `data/projects` (`projects.test.ts`),
   `data/trayectoria` (`trayectoria.test.ts`),
   `fx/Reveal` (+ `Reveal.viewport.test.tsx`), `fx/CursorHalo`,
+  `fx/Magnetic` (+ `lib/magnetic` for the geometry),
+  `lib/theme-transition` (wipe, origin resolution, fallbacks),
+  `lib/themes` (public vs hidden split),
   `sections/Hero`, `projects/ProjectCard`, `lib/boot-state`,
   `i18n/translations` (en/es symmetry), `scripts/public-assets.test.ts`
   (every referenced public asset exists),
   `src/scripts/build-tokens.test.ts`,
-  `src/scripts/token-contrast.test.ts` (WCAG AA guard for muted text).
+  `src/scripts/token-contrast.test.ts` (WCAG AA guard for muted text,
+  covering the five themes including the hidden one).
 - Coverage guidance: any new data-shaping helper (`groupTechByCategory`,
   command dispatch, theme overlay, spotlight filter) gets a co-located
   `.test.ts` BEFORE the implementation lands.
