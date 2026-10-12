@@ -12,7 +12,7 @@ import { CliTerminal } from "@/components/cli/CliTerminal";
 import { Spotlight, useSpotlightToggle } from "@/components/spotlight/Spotlight";
 import { CrtOverlay } from "@/components/crt/CrtOverlay";
 import { CRTToggle } from "@/components/crt/CRTToggle";
-import { CursorHalo } from "@/components/fx/CursorHalo";
+import { TerminalCursor } from "@/components/fx/TerminalCursor";
 
 const queryClient = new QueryClient();
 
@@ -40,7 +40,7 @@ const App = () => {
         />
         <CrtOverlay />
         <CRTToggle />
-        <CursorHalo />
+        <TerminalCursor />
       </TooltipProvider>
     </QueryClientProvider>
   );

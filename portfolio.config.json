@@ -12,6 +12,6 @@
   "keepBoot": "yes",
   "aiCoderSection": "yes",
   "features": {
-    "cursorHalo": true
+    "terminalCursor": true
   }
 }

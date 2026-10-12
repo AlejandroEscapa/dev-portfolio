@@ -55,6 +55,12 @@
     background: hsl(var(--primary) / 0.4);
     color: hsl(var(--foreground));
   }
+  /* Cursor de retícula terminal (src/components/fx/TerminalCursor): mientras
+     el cursor custom está activo ocultamos el nativo. El `!important` es
+     necesario para ganar a los `cursor-pointer` de los primitivos shadcn. */
+  @media (pointer: fine) {
+    html[data-custom-cursor="on"] * { cursor: none !important; }
+  }
 }
 
 @layer utilities {

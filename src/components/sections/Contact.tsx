@@ -108,6 +108,7 @@ export const Contact = () => {
                         <FormItem className="grid gap-2">
                           <FormControl>
                             <Input
+                              data-cursor="text"
                               placeholder={t("contact.form_name")}
                               aria-label={t("contact.form_name")}
                               autoComplete="name"
@@ -126,6 +127,7 @@ export const Contact = () => {
                         <FormItem className="grid gap-2">
                           <FormControl>
                             <Input
+                              data-cursor="text"
                               type="email"
                               placeholder="you@domain.com"
                               aria-label={t("contact.form_email")}
@@ -149,6 +151,7 @@ export const Contact = () => {
                         <FormItem className="grid gap-2">
                           <FormControl>
                             <Textarea
+                              data-cursor="text"
                               placeholder={t(
                                 "contact.form_message_placeholder",
                               )}
