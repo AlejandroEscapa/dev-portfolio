@@ -130,6 +130,24 @@ export const translations: Record<Lang, Translations> = {
     "trayectoria.item_creators_bullet_2": "Management backend in Laravel with an operational API in Slim 3.",
     "trayectoria.item_creators_bullet_3": "Native Android app integration on industrial PDAs, alongside Magento and Odoo.",
 
+    "contributions.leasba_period": "Mar-May 2023",
+    "contributions.leasba_title": "Invoicing adapted to the real business",
+    "contributions.leasba_problema": "The standard ERP did not reflect how the business actually invoices.",
+    "contributions.leasba_hilo": "Business Central is not configured: it is extended with AL.",
+    "contributions.leasba_resolucion": "Bespoke invoicing and workflows designed per client.",
+
+    "contributions.mas_period": "Mar-Jun 2026",
+    "contributions.mas_title": "Kiosk frontend built from scratch",
+    "contributions.mas_problema": "A physical kiosk is not a website: touch screen, custom hardware, zero margin for error.",
+    "contributions.mas_hilo": "A modular architecture was the only workable way to scale the product.",
+    "contributions.mas_resolucion": "NixNexo frontend from zero, coordinating directly with backend and product.",
+
+    "contributions.creators_period": "Jul 2026 - now",
+    "contributions.creators_title": "WMS ecosystem running on SQL Server",
+    "contributions.creators_problema": "A distributed WMS where the logic lives inside the database.",
+    "contributions.creators_hilo": "In a warehouse, code does not reload: it runs live against real production.",
+    "contributions.creators_resolucion": "WMS incident resolution, Laravel backend + Slim 3 API and an Android app on industrial PDAs alongside Magento and Odoo.",
+
     "projects.section_label": "02 — Projects",
     "projects.subheading": "A selection of my work.",
     "projects.heading": "Projects.",
@@ -376,6 +394,24 @@ export const translations: Record<Lang, Translations> = {
     "trayectoria.item_creators_bullet_1": "Mantenimiento y resolución de incidencias en un WMS distribuido sobre SQL Server.",
     "trayectoria.item_creators_bullet_2": "Backend de gestión en Laravel y API operativa en Slim 3.",
     "trayectoria.item_creators_bullet_3": "Integración con app Android nativa en PDAs industriales, con Magento y Odoo.",
+
+    "contributions.leasba_period": "Mar-May 2023",
+    "contributions.leasba_title": "Facturación adaptada al negocio real",
+    "contributions.leasba_problema": "El ERP estándar no reflejaba cómo factura el negocio de verdad.",
+    "contributions.leasba_hilo": "Business Central no se configura: se extiende con AL.",
+    "contributions.leasba_resolucion": "Facturación a medida y workflows diseñados por cliente.",
+
+    "contributions.mas_period": "Mar-Jun 2026",
+    "contributions.mas_title": "Frontend del kiosco digital desde cero",
+    "contributions.mas_problema": "Un kiosco físico no es una web: pantalla táctil, hardware propio y cero margen de error.",
+    "contributions.mas_hilo": "La arquitectura modular era la única salida salvable a escala de producto.",
+    "contributions.mas_resolucion": "Frontend de NixNexo desde cero y coordinación directa con backend y producto.",
+
+    "contributions.creators_period": "Jul 2026 - hoy",
+    "contributions.creators_title": "Ecosistema SGA operativo sobre SQL Server",
+    "contributions.creators_problema": "Un WMS distribuido donde la lógica vive dentro de la base de datos.",
+    "contributions.creators_hilo": "En un almacén el código no se recarga: opera en vivo, contra producción real.",
+    "contributions.creators_resolucion": "Resolución de incidentes del SGA, backend Laravel + API Slim 3 y app Android sobre PDAs industriales junto a Magento y Odoo.",
 
     "projects.section_label": "02 — Proyectos",
     "projects.subheading": "Muestras de mi trabajo.",
