@@ -7,7 +7,9 @@ const linksConfig = [
   { labelKey: "nav.about", href: "#about" },
   { labelKey: "nav.projects", href: "#projects" },
   { labelKey: "nav.experience", href: "#trayectoria" },
+  { labelKey: "nav.impact", href: "#contributions" },
   { labelKey: "nav.education", href: "#education" },
+  { labelKey: "nav.sidequests", href: "#sidequests" },
   { labelKey: "nav.contact", href: "#contact" },
 ];
 

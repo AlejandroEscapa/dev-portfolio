@@ -25,6 +25,20 @@ describe("executeCommand", () => {
     expect(out).toContain("dracula");
   });
 
+  it("responds to the new info commands without error", () => {
+    const ctx = { setTheme: vi.fn(), clear: vi.fn() };
+    ["impact", "certs", "stats"].forEach((cmd) => {
+      const out = executeCommand(cmd, ctx);
+      expect(out).not.toMatch(/command not found/);
+      expect(out).toContain("→");
+    });
+  });
+
+  it("lists the new commands in HELP", () => {
+    const out = executeCommand("help", { setTheme: vi.fn(), clear: vi.fn() });
+    ["impact", "certs", "stats"].forEach((cmd) => expect(out).toContain(cmd));
+  });
+
   it("returns theme list when no arg given", () => {
     const out = executeCommand("theme", { setTheme: vi.fn(), clear: vi.fn() });
     expect(out).toContain("indigo");

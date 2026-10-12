@@ -13,6 +13,9 @@ const HELP = `Available commands:
   skills            Tech stack
   experience        Work history
   education         Education
+  impact            Contributions
+  certs             Certifications
+  stats             Skill bars
   contact           Get in touch
   theme [name]      Switch theme (indigo|catppuccin|dracula|tokyo-night)
   clear             Clear terminal
@@ -71,6 +74,12 @@ export function executeCommand(rawInput: string, ctx: CommandContext): string {
       return "→ ~/experience.log";
     case "education":
       return "→ ~/education.txt";
+    case "impact":
+      return "→ ~/contributions.log";
+    case "certs":
+      return "→ ~/certifications.md";
+    case "stats":
+      return "→ ~/stats.json";
     case "contact":
       return "alejandro.oliesc97@gmail.com | linkedin.com/in/alejandro-olivares-escapa";
     case "theme":

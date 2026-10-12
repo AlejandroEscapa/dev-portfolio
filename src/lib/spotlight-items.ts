@@ -21,7 +21,11 @@ export function getSpotlightItems(ctx: Ctx): SpotlightItem[] {
     { key: "about", label: "Go to stack" },
     { key: "projects", label: "Go to projects" },
     { key: "trayectoria", label: "Go to experience" },
+    { key: "contributions", label: "Go to impact" },
     { key: "education", label: "Go to education" },
+    { key: "certifications", label: "Go to certifications" },
+    { key: "sidequests", label: "Go to side quests" },
+    { key: "stats", label: "Go to stats" },
     { key: "contact", label: "Go to contact" },
   ].map(({ key, label }) => ({
     id: `section-${key}`,
