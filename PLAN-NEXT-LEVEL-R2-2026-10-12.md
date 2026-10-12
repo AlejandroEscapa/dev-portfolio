@@ -351,3 +351,11 @@ Hallazgo principal: `reduceMotion` resuelto en scope del componente
 - Task 7: minor (deferred): (1) `tech.section_label` muerto con número (riesgo futuro); (2) verificación visual del nav a 1024px pendiente de entorno → Task 9.
 - Task 8: minor (deferred): `PhoneSvg` en brand-icons queda sin uso (preexistente, no resto de la purga) — limpieza futura.
 - Nota para revisión final: encadenar `typecheck` al script `build` del package.json (vite build usa esbuild y no typecheckea — es como pasó el bug de Task 5). Fuera de alcance de r2; decisión de My G.
+
+## Fix wave de revisión final
+
+1 commit (`5a91457`), 3 hallazgos — 3 resueltos: purga del teléfono en `scripts/onboard.mjs`
+(form default + config generado), `typecheck` encadenado a `build` y `build:dev`, y frase
+rota del FX block en `AGENTS.md` reparada. Verificación: typecheck, vitest 126/126 y
+`npm run build` (ya con typecheck) verdes. Único hit residual de teléfono: cero (los SVG
+de `brand-icons` son falsos positivos de coordenadas de path).
