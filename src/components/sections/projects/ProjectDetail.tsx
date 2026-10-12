@@ -173,6 +173,14 @@ export const ProjectDetail = ({ project, isExiting, onBack, enableSharedLayout =
               cells; the CTA carries the real GitHub mark, not a generic
               glyph, with the brand gradient treatment. */}
           <div className={styles.specBento}>
+            {/* The project's thread: full-width mosaic cell that opens the
+                mosaic with the one-line "why" shared across surfaces. */}
+            {project.threadKey && (
+              <div className={cn(styles.bentoCell, styles.bentoThread)}>
+                <span className={styles.bentoLabel}>{t("projects.thread_label")}</span>
+                <span className={styles.bentoThreadText}>{t(project.threadKey)}</span>
+              </div>
+            )}
             {tiles.map((tile) => {
               const Icon = HIGHLIGHT_ICONS[tile.icon];
               return (

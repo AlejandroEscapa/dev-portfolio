@@ -2,8 +2,8 @@ import { describe, it, expect } from "vitest";
 import { trayectoriaItems } from "./trayectoria";
 
 describe("trayectoria items", () => {
-  it("contains 10 items in chronological order", () => {
-    expect(trayectoriaItems).toHaveLength(10);
+  it("contains 11 items in chronological order", () => {
+    expect(trayectoriaItems).toHaveLength(11);
     expect(trayectoriaItems.map((i) => i.id)).toEqual([
       "alsea",
       "dam",
@@ -11,11 +11,24 @@ describe("trayectoria items", () => {
       "master",
       "pez_tomillo",
       "udon",
+      "puente",
       "ibm_ai",
       "mas",
       "big_school",
       "creators",
     ]);
+  });
+
+  it("has the puente bridge item sorted between udon and mas", () => {
+    const ids = trayectoriaItems.map((i) => i.id);
+    expect(ids.indexOf("puente")).toBeGreaterThan(ids.indexOf("udon"));
+    expect(ids.indexOf("puente")).toBeLessThan(ids.indexOf("mas"));
+    const puente = trayectoriaItems.find((i) => i.id === "puente");
+    expect(puente).toBeDefined();
+    expect(puente!.category).toBe("bridge");
+    expect(puente!.variant).toBe("bridge");
+    expect(puente!.startDate).toBe("2026-01");
+    expect(puente!.endDate).toBe("2026-02");
   });
 
   it("uses milestone variant for short items and experience for long ones", () => {

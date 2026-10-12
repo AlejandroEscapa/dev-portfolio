@@ -105,6 +105,11 @@ export const translations: Record<Lang, Translations> = {
     "trayectoria.item_udon_modality": "Part-time \u00b7 On-site",
     "trayectoria.item_udon_detail": "Asian cuisine operations in a high-volume franchise.",
 
+    "trayectoria.item_puente_title": "The Bridge",
+    "trayectoria.item_puente_org": "From kitchen to code",
+    "trayectoria.item_puente_location": "León, Spain",
+    "trayectoria.item_puente_detail": "The kitchen was not a detour: it paid for the master's and trained what no course teaches. Pressure, timing and service with a full room: the method I used to go professional and reach the industry.",
+
     "trayectoria.item_ibm_ai_title": "Artificial Intelligence Fundamentals",
     "trayectoria.item_ibm_ai_org": "IBM",
     "trayectoria.item_ibm_ai_location": "Online",
@@ -216,6 +221,11 @@ export const translations: Record<Lang, Translations> = {
     "projects.category_styling": "Styling",
     "projects.category_integration": "Integration",
     "projects.category_context": "Context",
+
+    "projects.thread_label": "THE THREAD",
+    "projects.thread_gamevision": "The app does not list games: it learns your taste. Identity by uid, discovery guided by real signals.",
+    "projects.thread_matchvision": "A match is a stream, not a page you reload.",
+    "projects.thread_casahumedo": "SSR + zero-commission booking: hand local business the control of its own site.",
 
     "education.section_label": "03 \u2014 Education",
     "education.subheading": "Formal training, certifications and continuous learning.",
@@ -390,6 +400,11 @@ export const translations: Record<Lang, Translations> = {
     "trayectoria.item_udon_modality": "Jornada parcial \u00b7 Presencial",
     "trayectoria.item_udon_detail": "Operaciones de cocina asi\u00e1tica en franquicia de alto volumen.",
 
+    "trayectoria.item_puente_title": "El Puente",
+    "trayectoria.item_puente_org": "De la cocina al c\u00f3digo",
+    "trayectoria.item_puente_location": "Le\u00f3n, Espa\u00f1a",
+    "trayectoria.item_puente_detail": "La cocina no fue un desv\u00edo: financi\u00f3 el m\u00e1ster y entren\u00f3 lo que ning\u00fan curso ense\u00f1a. Presi\u00f3n, timing y servicio con la sala llena: el m\u00e9todo para profesionalizarme y llegar al sector.",
+
     "trayectoria.item_ibm_ai_title": "Fundamentos de Inteligencia Artificial",
     "trayectoria.item_ibm_ai_org": "IBM",
     "trayectoria.item_ibm_ai_location": "Online",
@@ -502,6 +517,11 @@ export const translations: Record<Lang, Translations> = {
     "projects.category_styling": "Estilos",
     "projects.category_integration": "Integración",
     "projects.category_context": "Contexto",
+
+    "projects.thread_label": "EL HILO",
+    "projects.thread_gamevision": "La app no lista juegos: aprende tu gusto. Identidad por uid, descubrimiento guiado por señales reales.",
+    "projects.thread_matchvision": "Un partido es un stream, no una página que recargas.",
+    "projects.thread_casahumedo": "SSR + reserva sin comisiones: devolver al negocio local el control de su web.",
 
     "education.section_label": "03 \u2014 Formaci\u00f3n",
     "education.subheading": "Formaci\u00f3n reglada, certificaciones y aprendizaje continuo.",

@@ -1,5 +1,5 @@
-export type Category = "experience" | "education" | "certification" | "internship";
-export type Variant = "milestone" | "experience";
+export type Category = "experience" | "education" | "certification" | "internship" | "bridge";
+export type Variant = "milestone" | "experience" | "bridge";
 
 export interface TrayectoriaItem {
   id: string;
@@ -98,6 +98,17 @@ export const trayectoriaItems: TrayectoriaItem[] = [
     modalityKey: "trayectoria.item_udon_modality",
     detailKey: "trayectoria.item_udon_detail",
     variant: "milestone",
+  },
+  {
+    id: "puente",
+    category: "bridge",
+    startDate: "2026-01",
+    endDate: "2026-02",
+    titleKey: "trayectoria.item_puente_title",
+    orgKey: "trayectoria.item_puente_org",
+    locationKey: "trayectoria.item_puente_location",
+    detailKey: "trayectoria.item_puente_detail",
+    variant: "bridge",
   },
   {
     id: "ibm_ai",
