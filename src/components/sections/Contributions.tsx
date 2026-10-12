@@ -23,14 +23,19 @@ const storyParts = (c: Contribution) => [
 
 const ContributionRow = ({ c, open, onToggle }: { c: Contribution; open: boolean; onToggle: () => void }) => {
   const { t } = useLanguage();
+  // El hook vive en la fila porque la transición del panel es suya: cada
+  // fila resuelve su propio reduce-motion sin acoplar al padre.
+  const reduceMotion = useReducedMotion();
   return (
-    <li className="border-t border-neutral-tint/10 last:border-b last:border-neutral-tint/10">
+    <li className="border-t border-neutral-tint/10 first:border-t-0 last:border-b last:border-neutral-tint/10">
       {/* Botón-fila: la cabecera del commit es toda el área clicable; la story
           expandida vive FUERA del botón. Con una única fila abierta a la vez
           (accordion), aria-expanded marca la fila sobre la que se lee. */}
       <button
         type="button"
+        id={`contributions-${c.id}-button`}
         aria-expanded={open}
+        aria-controls={`contributions-${c.id}-panel`}
         onClick={onToggle}
         className="group w-full cursor-pointer py-5 text-left"
       >
@@ -73,6 +78,9 @@ const ContributionRow = ({ c, open, onToggle }: { c: Contribution; open: boolean
         {open && (
           <motion.div
             key="story"
+            id={`contributions-${c.id}-panel`}
+            role="region"
+            aria-labelledby={`contributions-${c.id}-button`}
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
@@ -104,7 +112,6 @@ const ContributionRow = ({ c, open, onToggle }: { c: Contribution; open: boolean
 
 export const Contributions = ({ motionStyle }: ContributionsProps) => {
   const { t } = useLanguage();
-  const reduceMotion = useReducedMotion();
   const [openId, setOpenId] = useState<string | null>(null);
 
   return (
