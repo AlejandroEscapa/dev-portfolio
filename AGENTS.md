@@ -272,8 +272,11 @@ installed — see §1):
 - Key naming convention (always check before adding):
   - `nav.*` — top-nav labels
   - `hero.*`, `about.*`, `tech.*`, `trayectoria.*`,
-    `projects.*` (incl. `projects.highlight_*`, `projects.category_*`),
-    `education.*`, `contact.*`, `aria.*`
+    `projects.*` (incl. `projects.highlight_*`, `projects.category_*`,
+    and the `projects.thread_*` copy for detail threads),
+    `contributions.*`, `certifications.*`, `sidequests.*`, `stats.*`,
+    `education.*`, `contact.*`, `footer.*`, `cursor.*` (cursor state
+    labels), `aria.*`
 
 When adding a key: add an entry to **both** `en` and `es` blocks to
 keep symmetry.
@@ -339,13 +342,29 @@ Real order top → bottom:
    dots, scroll progress `current / total`); mobile = vertical
    timeline. `<a>` CTA card at the rightmost end of the desktop
    track.
-6. `Education` — `<WindowChrome title="~/education.txt">`.
-7. `Contact` — `<WindowChrome title="~/contact — mail">` — form is
-   a `mailto:` launcher (no backend). The personal data rows (location,
-   email, phone, social marks) moved OUT of this window.
-8. `Footer` (`src/components/Footer.tsx`) — quiet centered strip under
-   the last window, no window chrome: location, direct email/phone links
-   and the social marks. The page ends on it, after Contact.
+6. `Contributions` — `<WindowChrome title="~/contributions — git log">`
+   (id `contributions`). Ledger of open-source contributions rendered as
+   git-log lines; each row is an expandable accordion revealing the full
+   war story in a single column (mobile-safe).
+7. `Education` — `<WindowChrome title="~/education.txt">`. Formal
+   education only (the standalone IBM credential card was removed), in
+   a 2-col grid; credentials live in Certifications now.
+8. `Certifications` — `<WindowChrome title="~/certifications — credentials --verify">`
+   (id `certifications`). Credential cards pulled out of the
+   Trayectoria/Education timelines into their own window, 2-col grid.
+9. `SideQuests` — `<WindowChrome title="~/side-quests — ls ~/hobbies">`
+   (id `sidequests`). Sober mono list of out-of-building projects.
+10. `Stats` — `<WindowChrome title="~/stats — uptime">` (id `stats`).
+    neofetch-style window compacta with ASCII bars (`statBar`) instead
+    of invented metrics.
+11. `Contact` — `<WindowChrome title="~/contact — mail">` — form is
+    a `mailto:` launcher (no backend). The personal data rows (location,
+    email, social marks) moved OUT of this window.
+12. `Footer` (`src/components/Footer.tsx`) — editorial 3-zone footer,
+    no window chrome: identity block + quick nav + social marks, then a
+    hairline with © line, signature and the site's single status dot
+    (`footer.status`), coloured with the `success` token. No phone
+    number anywhere on the page. The page ends on it, after Contact.
 
 ### Glue components (`App.tsx`)
 
@@ -379,6 +398,15 @@ Real list (no longer matches the AGENTS.md in old branches):
 - `Education.tsx`, `Contact.tsx` — content sections (the contact data
   itself lives in `src/components/Footer.tsx`, rendered by `Index.tsx`
   after Contact — see the page composition above).
+- `Contributions.tsx` — git-log ledger window; `ContributionRow` is the
+  `data-cursor="open"` accordion row that expands the full story.
+- `Certifications.tsx` — 2-col credential grid moved out of the
+  timelines; `valid_until` dates resolve a `{year}` template (no i18n
+  interpolation at runtime).
+- `SideQuests.tsx` — sober mono list of side projects; titles come from
+  `data/sidequests.ts` (each stores an i18n key).
+- `Stats.tsx` — neofetch-style compact window; bars come from
+  `statBar` in `data/stats.ts` (`█`/`░` glyphs, no real metrics).
 - (`HeroShowcase.tsx` lives in this folder but is not strictly a
   section — see glue components above.)
 
@@ -392,8 +420,17 @@ background image, mounted in `Index.tsx`).
 In-repo primitives (no registry origin): `Reveal` + `RevealStagger`
 (the shared below-the-fold reveals; `amount: "some"`, never a
 proportional threshold, or a container taller than the viewport would
-never reveal), `CursorHalo` (opt-in cursor halo behind
-`features.cursorHalo`, fine-pointer only) and `Magnetic` (proximity magnet
+never reveal), `TerminalCursor` — **replaced `CursorHalo` in ronda 2**
+(the old file and its test were deleted). Same event-delegation
+contract (`mouseover`/`mouseout` on `document` reading
+`closest("[data-cursor]")`), values now `view | open | text`
+(`text` = I-beam bar over form fields). Three layers: dot (6px),
+ring (88px, rest `scale 0.32`) with crosshair ticks, and the
+`open`-state corner brackets. Mounted state is opt-in via
+`features.terminalCursor`, fine-pointer only; the native cursor is
+hidden by `cursor: none` on `html[data-custom-cursor="on"]` (set on
+mount, cleared on unmount) — rule lives in `src/index.css`, so the
+native cursor survives any unmount. and `Magnetic` (proximity magnet
 for the hero CTAs; geometry in `src/lib/magnetic.ts`, so the `.tsx` exports
 only the component). `ElectricBorder.tsx` and
 `magic-card.tsx` were deleted in Fase 0 — already zero consumers (the
@@ -509,11 +546,28 @@ Spotlight items: add to `src/lib/spotlight-items.ts` via
   `integration`, `context`. Order in `CATEGORY_ORDER` array = display
   order. Optional `apis?: string[]` / `features?: string[]` per project
   feed the detail's additive strip — they must hold facts NO other
-  surface shows (never tech already covered by techTags).
-- `src/data/trayectoria.ts` — 9 timeline items spanning 2019→2026.
-  Two variants: `milestone` (single-paragraph) and `experience`
-  (bullet list). Categories: `experience`, `education`,
-  `certification`, `internship`.
+  surface shows (never tech already covered by techTags). Optional
+  `threadKey?: string` per project carries the i18n key of the detail's
+  THE THREAD cell (`projects.thread_*`); every project has one, and
+  its test asserts the key resolves in BOTH locales.
+- `src/data/trayectoria.ts` — timeline items spanning 2019→2026.
+  Three variants: `milestone` (single-paragraph), `experience`
+  (bullet list) and `bridge` (the ronda-2 "El Puente" CTA card,
+  category `bridge` too). Categories: `experience`, `education`,
+  `certification`, `internship`, `bridge`. Note: `certification`
+  items are chronology events only since ronda 2 — their dedicated
+  display moved to the `Certifications` section/data.
+- `src/data/contributions.ts` — the contributions ledger (one entry
+  per war story, copy in `en`/`es` via i18n keys). Qualitative by
+  design: no invented metrics.
+- `src/data/certifications.ts` — credential cards (issuer, year,
+  URL, `valid_until` if any) feeding `Certifications.tsx`.
+- `src/data/sidequests.ts` — side quests list; each `title` field
+  stores an i18n key (`sidequests.<id>_title`), resolved with
+  `t()`.
+- `src/data/stats.ts` — neofetch-style rows + the `statBar(value, max)`
+  helper (ASCII `█`/`░` bars, 16 cells). Purely stylistic values, no
+  real-time metrics.
 
 ---
 
@@ -548,7 +602,7 @@ iteration; surface tightening as a separate refactor change.
   `WindowChrome`, `useTerminalHistory`, `useTheme`, `cli-commands`,
   `spotlight-items`, `data/projects` (`projects.test.ts`),
   `data/trayectoria` (`trayectoria.test.ts`),
-  `fx/Reveal` (+ `Reveal.viewport.test.tsx`), `fx/CursorHalo`,
+  `fx/Reveal` (+ `Reveal.viewport.test.tsx`), `fx/TerminalCursor`,
   `fx/Magnetic` (+ `lib/magnetic` for the geometry),
   `lib/theme-transition` (wipe, origin resolution, fallbacks),
   `lib/themes` (public vs hidden split),

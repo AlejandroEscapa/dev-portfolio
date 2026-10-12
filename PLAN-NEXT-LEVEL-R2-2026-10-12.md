@@ -304,3 +304,50 @@ Construido con café y ganas
 ## Estrategia de commits y rama
 
 Rama de trabajo: `feat/next-level-r2` desde `feat/next-level-fase-1.5` (la rama con el estado más reciente; la rama principal del repo es `main`, no existe `master`). Commits atómicos por fase (uno por Task, `docs:` para el propio plan como primer commit). Sin push ni PR salvo petición de My G (merge a `main`: confirmar antes).
+
+---
+
+# Registro de ejecución
+
+## Tasks 1-8 (commits de `git log --oneline 479d816..HEAD`)
+
+| Task    | Commit(es)                                     | Contenido |
+| ------- | ---------------------------------------------- | --------- |
+| Task 1  | `37689a8`                                      | `TerminalCursor` sustituye a `CursorHalo` (estados `view`/`open`/`text`) |
+| Task 2  | `9b02e17`                                      | Datos de contributions (ledger de aportaciones) con copy es/en |
+| Task 3  | `ecce882`                                      | Datos de certifications, side quests y stats con copy es/en |
+| Task 4  | `91af517`                                      | Hilo por proyecto en el detalle y tarjeta El Puente en trayectoria |
+| Task 5  | `7d35062` (feat) + `1893acc` (fix)             | Sección contributions con war stories expandibles y education solo formal |
+| Task 6  | `4cef076`                                      | Secciones certifications, side-quests y stats |
+| Task 7  | `987af34`                                      | Nav, spotlight y CLI con las secciones nuevas |
+| Task 8  | `a2fe3fd`                                      | Footer editorial profesional sin teléfono público |
+
+## Fix round de Task 5
+
+1 ronda, 3 hallazgos — 3 resueltos, 0 abiertos (commits `7d35062..1893acc`).
+Hallazgo principal: `reduceMotion` resuelto en scope del componente
+`ContributionRow` y `aria-controls` añadido al accordion del ledger
+(commit `1893acc`).
+
+## QA (Task 9)
+
+- `tokens:test`: verde (pipeline de tokens no alterado en r2 salvo `success` vía paleta)
+- `vitest`: 126/126
+- `lint`: 0 errores
+- `typecheck`: verde
+- `build`: OK
+- **Verificación visual en preview**: contributions expandible (acordeón
+  móvil apto), certs grid 2-col, side quests sobrio, stats ASCII OK,
+  footer 3 zonas en sin nada de teléfono (tel:/601: 0 hits en el DOM),
+  temas indigo + dracula, móvil 390px OK, cursor en sus estados.
+
+## Minors diferidos (del ledger SDD, verbatim)
+
+- Task 1: minor (deferred): (1) reporte declara espía de listeners que el test no tiene (restaurar espía o corregir reporte); (2) `-RING_SIZE` como offset inicial del dot merece constante propia; (3) sin test de `mouseout` con `relatedTarget`.
+- Task 2: minor (deferred): (1) keys `_period` de leasba/mas duplican literal — Task 5 decide si consume t(c.period) uniforme o literal; (2) comentar en el tipo que `period` es clave i18n.
+- Task 3: minor (deferred): (1) tests no pinnean valores de stats por id (solo rango); (2) copy exacto verificado a ojo, no por suite; (3) URL de big_school con slug↔titulo menos estricta — validar con My G en QA.
+- Task 4: minor (deferred): location del puente ("León, España"/"León, Spain") no pinneado en el brief — decisión mínima documentada; validar con My G en QA.
+- Task 6: minor (deferred): (1) heading split en Certifications sin efecto visual — candidata a clave única; (2) receta de cabecera duplicada x3 — extraer solo si llega una 4a sección; (3) barra ASCII sin overflow guard (solo crecimiento).
+- Task 7: minor (deferred): (1) `tech.section_label` muerto con número (riesgo futuro); (2) verificación visual del nav a 1024px pendiente de entorno → Task 9.
+- Task 8: minor (deferred): `PhoneSvg` en brand-icons queda sin uso (preexistente, no resto de la purga) — limpieza futura.
+- Nota para revisión final: encadenar `typecheck` al script `build` del package.json (vite build usa esbuild y no typecheckea — es como pasó el bug de Task 5). Fuera de alcance de r2; decisión de My G.
