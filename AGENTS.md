@@ -430,7 +430,7 @@ ring (88px, rest `scale 0.32`) with crosshair ticks, and the
 `features.terminalCursor`, fine-pointer only; the native cursor is
 hidden by `cursor: none` on `html[data-custom-cursor="on"]` (set on
 mount, cleared on unmount) — rule lives in `src/index.css`, so the
-native cursor survives any unmount. and `Magnetic` (proximity magnet
+native cursor survives any unmount), and `Magnetic` (proximity magnet
 for the hero CTAs; geometry in `src/lib/magnetic.ts`, so the `.tsx` exports
 only the component). `ElectricBorder.tsx` and
 `magic-card.tsx` were deleted in Fase 0 — already zero consumers (the
