@@ -148,6 +148,26 @@ export const translations: Record<Lang, Translations> = {
     "contributions.creators_hilo": "In a warehouse, code does not reload: it runs live against real production.",
     "contributions.creators_resolucion": "WMS incident resolution, Laravel backend + Slim 3 API and an Android app on industrial PDAs alongside Magento and Odoo.",
 
+    "certifications.elev8_title": "IA Agéntica Aplicada al Desarrollo de Software",
+    "certifications.big_school_title": "Initiation to AI development: programming with agents",
+    "certifications.ibm_title": "Artificial Intelligence Fundamentals",
+
+    "sidequests.dj_title": "DJ",
+    "sidequests.dj_body": "Learned to beatmatch: read the room and fix the tempo live, no safety net.",
+    "sidequests.dj_transfer": "In code: read the user, tune the system in real time.",
+    "sidequests.voz_title": "Voice & video",
+    "sidequests.voz_body": "Used to edit voices by hand: cuts, silences, critical listening frame by frame.",
+    "sidequests.voz_transfer": "In code: post-production is detail in micro-interactions.",
+    "sidequests.gaming_title": "Gaming",
+    "sidequests.gaming_body": "Systems, feedback loops, decisions with incomplete information.",
+    "sidequests.gaming_transfer": "In code: game design applied to UX.",
+
+    "stats.frontend_caption": "strong",
+    "stats.backend_caption": "solid",
+    "stats.mobile_caption": "core",
+    "stats.erp_legacy_caption": "battle-tested",
+    "stats.ai_tooling_caption": "daily driver",
+
     "projects.section_label": "02 — Projects",
     "projects.subheading": "A selection of my work.",
     "projects.heading": "Projects.",
@@ -412,6 +432,26 @@ export const translations: Record<Lang, Translations> = {
     "contributions.creators_problema": "Un WMS distribuido donde la lógica vive dentro de la base de datos.",
     "contributions.creators_hilo": "En un almacén el código no se recarga: opera en vivo, contra producción real.",
     "contributions.creators_resolucion": "Resolución de incidentes del SGA, backend Laravel + API Slim 3 y app Android sobre PDAs industriales junto a Magento y Odoo.",
+
+    "certifications.elev8_title": "IA Agéntica Aplicada al Desarrollo de Software",
+    "certifications.big_school_title": "Iniciación al desarrollo con IA: programación con agentes",
+    "certifications.ibm_title": "Fundamentos de Inteligencia Artificial",
+
+    "sidequests.dj_title": "DJ",
+    "sidequests.dj_body": "Aprendí a pinchar: leer la sala y corregir el tempo en vivo, sin red.",
+    "sidequests.dj_transfer": "En el código: leer al usuario y ajustar el sistema en tiempo real.",
+    "sidequests.voz_title": "Voz & vídeo",
+    "sidequests.voz_body": "Editaba voces a mano: cortes, silencios, oído crítico frame a frame.",
+    "sidequests.voz_transfer": "En el código: post-producción es detalle en microinteracciones.",
+    "sidequests.gaming_title": "Gaming",
+    "sidequests.gaming_body": "Sistemas, feedback loops y decisiones con información incompleta.",
+    "sidequests.gaming_transfer": "En el código: game design aplicado a UX.",
+
+    "stats.frontend_caption": "fuerte",
+    "stats.backend_caption": "sólido",
+    "stats.mobile_caption": "núcleo",
+    "stats.erp_legacy_caption": "batallas ganadas",
+    "stats.ai_tooling_caption": "de diario",
 
     "projects.section_label": "02 — Proyectos",
     "projects.subheading": "Muestras de mi trabajo.",
