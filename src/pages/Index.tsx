@@ -6,6 +6,7 @@ import { HeroShowcase } from "@/components/sections/HeroShowcase";
 import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
 import { Trayectoria } from "@/components/sections/Trayectoria";
+import { Contributions } from "@/components/sections/Contributions";
 import { Projects } from "@/components/sections/Projects";
 import { Education } from "@/components/sections/Education";
 import { Contact } from "@/components/sections/Contact";
@@ -46,6 +47,9 @@ const Index = () => {
             <Projects />
           </WindowChrome>
           <Trayectoria />
+          <WindowChrome title="~/contributions — git log --author=alejandro" id="contributions" className="max-w-none w-full section-y">
+            <Contributions />
+          </WindowChrome>
           <WindowChrome title="~/education.txt" id="education" className="max-w-none w-full section-y">
             <Education />
           </WindowChrome>

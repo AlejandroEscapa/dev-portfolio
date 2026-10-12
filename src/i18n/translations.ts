@@ -153,6 +153,11 @@ export const translations: Record<Lang, Translations> = {
     "contributions.creators_hilo": "In a warehouse, code does not reload: it runs live against real production.",
     "contributions.creators_resolucion": "WMS incident resolution, Laravel backend + Slim 3 API and an Android app on industrial PDAs alongside Magento and Odoo.",
 
+    "contributions.section_label": "04 \u2014 Contributions",
+    "contributions.story_problema": "Problem",
+    "contributions.story_hilo": "The thread",
+    "contributions.story_resolucion": "Resolution",
+
     "certifications.elev8_title": "IA Agéntica Aplicada al Desarrollo de Software",
     "certifications.big_school_title": "Initiation to AI development: programming with agents",
     "certifications.ibm_title": "Artificial Intelligence Fundamentals",
@@ -447,6 +452,11 @@ export const translations: Record<Lang, Translations> = {
     "contributions.creators_problema": "Un WMS distribuido donde la lógica vive dentro de la base de datos.",
     "contributions.creators_hilo": "En un almacén el código no se recarga: opera en vivo, contra producción real.",
     "contributions.creators_resolucion": "Resolución de incidentes del SGA, backend Laravel + API Slim 3 y app Android sobre PDAs industriales junto a Magento y Odoo.",
+
+    "contributions.section_label": "04 \u2014 Contribuciones",
+    "contributions.story_problema": "Problema",
+    "contributions.story_hilo": "El hilo",
+    "contributions.story_resolucion": "Resolución",
 
     "certifications.elev8_title": "IA Agéntica Aplicada al Desarrollo de Software",
     "certifications.big_school_title": "Iniciación al desarrollo con IA: programación con agentes",
