@@ -4,7 +4,6 @@ export interface PortfolioConfig {
   name: string;
   tagline: string;
   email: string;
-  phone: string;
   linkedin: string;
   github: string;
   primaryColor: string;
