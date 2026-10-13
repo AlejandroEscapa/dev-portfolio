@@ -109,6 +109,8 @@ Recomendación técnica: A ahora, B después, C solo si se valida el cambio de I
 - [x] F1.5: Quitado `min-h-[65vh]` solo en bloque CV. Intactas: Hero/About `viewport-content`, Projects con flip, Trayectoria pin, Contact.
 
 > Fase 1 verificada: `vitest` 29 ficheros/126 tests EXIT 0, `lint` 0 errores EXIT 0, `build` EXIT 0. Pendiente merge a `main` al cerrar la fase.
+>
+> Fase intermedia cursor verificada en `feat/fase-1-compresion` (`88c2b24`): `TerminalCursor.tsx` a dot morado único 6px→56px con label, fuera ring gris/ticks/brackets; cursor test 7/7, vitest 126/126, lint 0 errores, medido en vivo solo dot `rgb(111,90,246)` en reposo.
 
 ## 7. Política de ramas por fase (acordada 2026-10-13)
 
