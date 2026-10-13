@@ -14,7 +14,8 @@ export const Certifications = ({ motionStyle }: CertificationsProps) => {
   const { t } = useLanguage();
 
   return (
-    <SectionContainer maxWidth="md" motionStyle={motionStyle} className="min-h-[65vh]">
+    // F1.5 sin min-h sistemático en bloque CV.
+    <SectionContainer maxWidth="md" motionStyle={motionStyle}>
       {/* Header espejo de Education: eyebrow con hairline y display heading. */}
       <RevealStagger className="mb-8">
         <Reveal variant="fadeUpSm" className="mb-4 flex items-center gap-3 font-mono text-sm uppercase tracking-label text-muted-foreground">

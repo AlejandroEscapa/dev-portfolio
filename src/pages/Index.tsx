@@ -53,18 +53,23 @@ const Index = () => {
           <WindowChrome title="~/contributions — git log --author=alejandro" id="contributions" className="max-w-none w-full section-y">
             <Contributions />
           </WindowChrome>
-          <WindowChrome title="~/education.txt" id="education" className="max-w-none w-full section-y">
-            <Education />
-          </WindowChrome>
-          <WindowChrome title="~/certifications — credentials --verify" id="certifications" className="max-w-none w-full section-y">
-            <Certifications />
+          {/* F1.1 Formación verificable: un solo chrome visual con anclas internas education + certifications intactas. */}
+          <WindowChrome title="~/formacion — cat education.txt certifications --verify" id="formacion" className="max-w-none w-full section-y">
+            <div id="education" style={{ scrollMarginTop: "calc(var(--nav-height, 60px) + 8px)" }}>
+              <Education />
+            </div>
+            <div aria-hidden="true" className="my-8 h-px bg-neutral-tint/10" />
+            <div id="certifications" style={{ scrollMarginTop: "calc(var(--nav-height, 60px) + 8px)" }}>
+              <Certifications />
+            </div>
           </WindowChrome>
           <WindowChrome title="~/side-quests — ls ~/hobbies" id="sidequests" className="max-w-none w-full section-y">
             <SideQuests />
           </WindowChrome>
-          <WindowChrome title="~/stats — uptime" id="stats" className="max-w-none w-full section-y">
+          {/* F1.2 Stats tira compacta sin chrome propio; id stats conservado para anchors/Spotlight. */}
+          <div id="stats" style={{ scrollMarginTop: "calc(var(--nav-height, 60px) + 8px)" }} className="mx-auto max-w-5xl section-y">
             <Stats />
-          </WindowChrome>
+          </div>
           <WindowChrome title="~/contact — mail" id="contact" className="max-w-none w-full section-y">
             <Contact />
           </WindowChrome>

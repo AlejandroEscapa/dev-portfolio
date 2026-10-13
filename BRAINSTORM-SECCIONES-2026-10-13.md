@@ -100,15 +100,15 @@ Recomendación técnica: A ahora, B después, C solo si se valida el cambio de I
 - Ninguna fase se ejecuta sin diseño corto en chat + sí explícito de My G + verificación (`vitest`/`lint`/`build`) posterior.
 - Orden acordado: Fase 1 = Vía A (compresión conservadora). Fase 2 = Vía B (ritmo editorial, requiere fotos reales cerradas). Fase 3 = Vía C (capítulo Impacto, solo si se valida migración de anchors/Spotlight/CLI).
 
-### Fase 1 — decisiones maduradas 2026-10-13 (pendiente de sí final al diseño corto)
+### Fase 1 — implementada en `feat/fase-1-compresion` (verificada)
 
-- [x] F1.1: Fusionar Education + Certifications en "Formación verificable" manteniendo ids `education` y `certifications` como anclas internas. No se toca Spotlight/CLI/anchors.
-- [x] F1.2: Stats a tira compacta bajo Contributions, sin `WindowChrome` propio, con id `stats` interno conservado.
-- [x] F1.3: Secciones Contributions y Stats abiertas; acordeones de ContributionRow cerrados de serie (ninguna fila abierta por defecto).
-- [x] F1.4: SideQuests a banda de una frase (solo transferencia, sin body).
-- [x] F1.5: Quitar `min-h-[65vh]` sistemático solo en bloque CV (Contributions/Education/Certifications/SideQuests/Stats). Se mantienen alturas garantizadas: Hero/About `viewport-content`, Projects con su altura + flip 420ms, Trayectoria con pin GSAP, Contact como está.
+- [x] F1.1: Fusionar Education + Certifications en "Formación verificable" manteniendo ids `education` y `certifications` como anclas internas (`Index.tsx` un solo `WindowChrome id="formacion"` + divs internos con scroll-margin por token). No se toca Spotlight/CLI/anchors.
+- [x] F1.2: Stats a tira compacta bajo Contributions, sin `WindowChrome` propio, con id `stats` en wrapper conservado (`Stats.tsx` panel compacto p-4 + space-y-3, sin min-h).
+- [x] F1.3: Secciones Contributions y Stats abiertas; acordeones de ContributionRow cerrados de serie (estado inicial `null`, verificado sin cambios).
+- [x] F1.4: SideQuests a banda de una frase (`SideQuests.tsx` lista con icono + título + transferencia, sin body).
+- [x] F1.5: Quitado `min-h-[65vh]` solo en bloque CV. Intactas: Hero/About `viewport-content`, Projects con flip, Trayectoria pin, Contact.
 
-> Fase 1 madurada en chat: no implementar hasta sí explícito al diseño corto F1.
+> Fase 1 verificada: `vitest` 29 ficheros/126 tests EXIT 0, `lint` 0 errores EXIT 0, `build` EXIT 0. Pendiente merge a `main` al cerrar la fase.
 
 ## 7. Política de ramas por fase (acordada 2026-10-13)
 

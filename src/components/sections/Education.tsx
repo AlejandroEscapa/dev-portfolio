@@ -33,7 +33,8 @@ export const Education = ({ motionStyle }: EducationProps) => {
   ];
 
   return (
-    <SectionContainer maxWidth="md" motionStyle={motionStyle} className="min-h-[65vh]">
+    // F1.5 sin min-h sistemático en bloque CV.
+    <SectionContainer maxWidth="md" motionStyle={motionStyle}>
       {/* Reveal moment 1 — the section header: one whileInView, staggered children. */}
       <RevealStagger className="mb-8">
         <Reveal variant="fadeUpSm" className="mb-4 flex items-center gap-3 font-mono text-sm uppercase tracking-label text-muted-foreground">

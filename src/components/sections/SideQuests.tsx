@@ -23,7 +23,8 @@ export const SideQuests = ({ motionStyle }: SideQuestsProps) => {
   const { t } = useLanguage();
 
   return (
-    <SectionContainer maxWidth="md" motionStyle={motionStyle} className="min-h-[65vh]">
+    // F1.5 sin min-h sistemático en bloque CV; F1.4 banda una frase sin body.
+    <SectionContainer maxWidth="md" motionStyle={motionStyle}>
       {/* Header sobrio: eyebrow + display heading, sin decoración de más. */}
       <RevealStagger className="mb-8">
         <Reveal variant="fadeUpSm" className="mb-4 flex items-center gap-3 font-mono text-sm uppercase tracking-label text-muted-foreground">
@@ -38,42 +39,27 @@ export const SideQuests = ({ motionStyle }: SideQuestsProps) => {
         </Reveal>
       </RevealStagger>
 
-      {/* Cero animaciones en loop: solo entradas whileInView, una vez. */}
-      <RevealStagger className="grid gap-6 md:grid-cols-3">
-        {sidequests.map((s) => {
-          const Icon = iconMap[s.icon];
-          return (
-            <Reveal
-              key={s.id}
-              variant="fadeUp"
-              onPointerMove={(e) => {
-                const rect = e.currentTarget.getBoundingClientRect();
-                e.currentTarget.style.setProperty("--mx", `${e.clientX - rect.left}px`);
-                e.currentTarget.style.setProperty("--my", `${e.clientY - rect.top}px`);
-              }}
-              className="specular group relative flex flex-col overflow-hidden rounded-lg glass p-8 hover-glow"
-            >
-              {/* Icono discreto: pequeño y en muted, sin decorarlo más. */}
-              <div className="flex items-center gap-3">
-                <Icon className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
-                <h3 className="text-h3 font-semibold tracking-tight text-foreground">
-                  {t(s.title)}
-                </h3>
-              </div>
-              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                {t(s.bodyKey)}
-              </p>
-
-              {/* Transferencia: línea mono con prefijo flecha. */}
-              <div className="mt-auto pt-5 border-t border-neutral-tint/10">
-                <p className="font-mono text-caption text-muted-foreground">
-                  <span aria-hidden="true">→ </span>
-                  {t(s.transferKey)}
-                </p>
-              </div>
-            </Reveal>
-          );
-        })}
+      {/* F1.4 banda de una frase: icono + título + transferencia, sin body. */}
+      <RevealStagger className="border-y border-neutral-tint/10 divide-y divide-neutral-tint/10">
+        <ul>
+          {sidequests.map((s) => {
+            const Icon = iconMap[s.icon];
+            return (
+              <li key={s.id}>
+                <Reveal variant="fadeUp" className="flex items-baseline gap-3 py-3">
+                  <Icon className="h-4 w-4 shrink-0 translate-y-0.5 text-muted-foreground" aria-hidden="true" />
+                  <h3 className="shrink-0 text-sm font-semibold tracking-tight text-foreground">
+                    {t(s.title)}
+                  </h3>
+                  <p className="ml-auto text-right font-mono text-caption text-muted-foreground">
+                    <span aria-hidden="true">→ </span>
+                    {t(s.transferKey)}
+                  </p>
+                </Reveal>
+              </li>
+            );
+          })}
+        </ul>
       </RevealStagger>
     </SectionContainer>
   );
