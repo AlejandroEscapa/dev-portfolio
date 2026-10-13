@@ -160,6 +160,34 @@
   height: 260px;
 }
 
+/* The bridge: same glass, rimmed in the theme accent so the pivot reads as
+   a different kind of card. Mono eyebrow above the detail text. */
+.cardBridge {
+  background: var(--surface-glass-elevated);
+  backdrop-filter: blur(var(--surface-glass-elevated-blur)) saturate(var(--surface-glass-elevated-saturate));
+  -webkit-backdrop-filter: blur(var(--surface-glass-elevated-blur)) saturate(var(--surface-glass-elevated-saturate));
+  border: 1px solid hsl(var(--accent) / 0.55);
+  padding: 20px;
+  gap: 12px;
+  height: 260px;
+}
+
+.cardEyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: hsl(var(--accent));
+  white-space: nowrap;
+}
+
+/* Hover keeps the accent rim (never downgrades it to the primary hover hue
+   inherited from .card:hover). */
+.cardBridge:hover {
+  border-color: hsl(var(--accent) / 0.8);
+}
+
 .cardCta {
   background: var(--surface-glass-elevated);
   backdrop-filter: blur(var(--surface-glass-elevated-blur)) saturate(var(--surface-glass-elevated-saturate));
@@ -206,6 +234,7 @@
 
 .cardTitle {
   margin: 0;
+  font-family: var(--font-sans);
   font-size: 1.05rem;
   font-weight: 600;
   letter-spacing: -0.01em;
@@ -380,7 +409,8 @@
 }
 
 .mobileCardWrap .cardMilestone,
-.mobileCardWrap .cardExperience {
+.mobileCardWrap .cardExperience,
+.mobileCardWrap .cardBridge {
   height: auto;
   min-height: 0;
   width: 100%;

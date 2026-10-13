@@ -33,7 +33,6 @@ const existing = existsSync('portfolio.config.json')
 const name = await ask('Your name', existing.name || 'Alejandro Olivares');
 const tagline = await ask('Tagline', existing.tagline || 'Frontend & Mobile Developer · AI-Assisted Development');
 const email = await ask('Email', existing.email || 'alejandro.oliesc97@gmail.com');
-const phone = await ask('Phone', existing.phone || '+34601175067');
 const linkedin = await ask('LinkedIn URL', existing.linkedin || 'https://www.linkedin.com/in/alejandro-olivares-escapa/');
 const github = await ask('GitHub URL', existing.github || 'https://github.com/alejandrooliesc');
 const primaryColor = await askHex('Primary color (#RRGGBB)', existing.primaryColor || '#7c5cff');
@@ -43,7 +42,7 @@ const keepCli = await askChoice('Keep terminal CLI?', ['yes', 'no'], existing.ke
 const keepBoot = await askChoice('Keep boot sequence?', ['yes', 'no'], existing.keepBoot ?? 'yes');
 const aiCoderSection = await askChoice('Enable AI-Coder section?', ['yes', 'no'], existing.aiCoderSection ?? 'yes');
 
-const config = { name, tagline, email, phone, linkedin, github, primaryColor, accentColor, displayFont, keepCli, keepBoot, aiCoderSection };
+const config = { name, tagline, email, linkedin, github, primaryColor, accentColor, displayFont, keepCli, keepBoot, aiCoderSection };
 writeFileSync('portfolio.config.json', JSON.stringify(config, null, 2) + '\n');
 console.log('\nSaved to portfolio.config.json');
 rl.close();

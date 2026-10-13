@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { projects, projectCategories, type Project, type ProjectCategoryId } from "./projects";
+import { translations } from "../i18n/translations";
 
 describe("projects data", () => {
   it("exports a non-empty list of projects", () => {
@@ -65,6 +66,15 @@ describe("projects data", () => {
     const mobileProjects = projects.filter((p: Project) => p.categories.includes("mobile"));
     for (const p of mobileProjects) {
       expect(p.categories).toContain("mobile");
+    }
+  });
+
+  it("every project has a threadKey that resolves in both es and en", () => {
+    for (const p of projects) {
+      expect(p.threadKey).toBeTruthy();
+      for (const lang of ["es", "en"] as const) {
+        expect(translations[lang][p.threadKey]).toBeTruthy();
+      }
     }
   });
 });

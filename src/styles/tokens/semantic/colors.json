@@ -26,6 +26,7 @@
 
   "destructive":            { "$value": "{status.destructive}",            "$type": "color" },
   "destructive-foreground": { "$value": "{status.destructive-foreground}", "$type": "color" },
+  "success":                { "$value": "{palette.green.500}",             "$type": "color", "$description": "Positive status tone (the footer's availability dot is its sole consumer)." },
 
 
   "border": { "$value": "230 25% 18%", "$type": "color" },

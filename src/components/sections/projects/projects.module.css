@@ -445,9 +445,9 @@
   border: none;
   padding: 0;
   color: hsl(var(--foreground));
-  font-family: var(--font-display);
+  font-family: var(--font-mono);
   font-size: 0.95rem;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   cursor: pointer;
@@ -722,6 +722,26 @@
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
+}
+
+/* The thread cell: spans the full mosaic width at its start. Same glass +
+   hairline recipe as .bentoCell, but text wraps (the sentence is body copy,
+   not a spec fact) and the cell grows with content. */
+.bentoThread {
+  grid-column: span 2;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3rem;
+  white-space: normal;
+  min-height: 0;
+  padding: 0.7rem 0.8rem;
+}
+
+.bentoThreadText {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: hsl(var(--foreground));
 }
 
 /* "Ver sitio": glass surface, action-glyph voice. */

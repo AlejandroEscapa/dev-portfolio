@@ -1,0 +1,35 @@
+{
+  "$description": "Amber CRT — tema oculto (BRAINSTORM §5 C2). Fósforo ámbar sobre negro cálido, en homenaje a los monitores monocromos: la paleta se queda dentro de la familia ámbar/naranja a propósito (nada de acentos fríos, que romperían la ilusión). No se lista en el menú del dock ni en Spotlight: solo lo desbloquea `sudo theme amber`. muted-foreground medido para AA (>= 4.5:1) sobre background y card, como el resto de temas.",
+
+
+  "overrides": {
+
+    "background":           "30 25% 4%",
+    "foreground":           "35 55% 90%",
+    "card":                 "30 22% 7%",
+    "card-foreground":      "35 55% 90%",
+    "popover":              "30 25% 5%",
+    "popover-foreground":   "35 55% 90%",
+    "primary":              "41 100% 50%",
+    "primary-foreground":   "30 25% 5%",
+    "primary-glow":         "45 100% 62%",
+    "secondary":            "30 20% 12%",
+    "secondary-foreground": "35 55% 90%",
+    "muted":                "30 20% 12%",
+    "muted-foreground":     "35 35% 55%",
+    "accent":               "30 95% 58%",
+    "icon-linkedin":        "41 100% 50%",
+    "icon-mail":            "48 100% 62%",
+    "icon-resume":          "30 95% 58%",
+    "accent-foreground":    "30 25% 5%",
+    "border":               "30 25% 16%",
+    "input":                "30 20% 12%",
+    "ring":                 "41 100% 50%",
+    "mesh-1":               "41 100% 50%",
+    "mesh-2":               "30 95% 58%",
+    "mesh-3":               "48 100% 62%",
+    "mesh-4":               "35 80% 45%",
+    "shadow-glow":          "0 0 60px hsl(41 100% 50% / 0.45)",
+    "shadow-glow-accent":   "0 0 60px hsl(30 95% 58% / 0.4)"
+  }
+}

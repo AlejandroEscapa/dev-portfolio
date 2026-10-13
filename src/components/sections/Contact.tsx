@@ -68,11 +68,11 @@ export const Contact = () => {
               narrower column defers to the form */}
           <Reveal variant="fadeUpSm" className="flex flex-col justify-center">
             <div className="space-y-3">
-              <div className="mb-4 flex items-center gap-3 text-sm uppercase tracking-label text-muted-foreground">
+              <div className="mb-4 flex items-center gap-3 font-mono text-sm uppercase tracking-label text-muted-foreground">
                 <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
                 <span>{t("contact.section_label")}</span>
               </div>
-              <h2 className="text-display font-display font-bold tracking-heading leading-none">
+              <h2 className="text-h1 font-bold tracking-heading leading-tight">
                 {t("contact.heading")}
               </h2>
 
@@ -108,6 +108,7 @@ export const Contact = () => {
                         <FormItem className="grid gap-2">
                           <FormControl>
                             <Input
+                              data-cursor="text"
                               placeholder={t("contact.form_name")}
                               aria-label={t("contact.form_name")}
                               autoComplete="name"
@@ -126,6 +127,7 @@ export const Contact = () => {
                         <FormItem className="grid gap-2">
                           <FormControl>
                             <Input
+                              data-cursor="text"
                               type="email"
                               placeholder="you@domain.com"
                               aria-label={t("contact.form_email")}
@@ -149,6 +151,7 @@ export const Contact = () => {
                         <FormItem className="grid gap-2">
                           <FormControl>
                             <Textarea
+                              data-cursor="text"
                               placeholder={t(
                                 "contact.form_message_placeholder",
                               )}

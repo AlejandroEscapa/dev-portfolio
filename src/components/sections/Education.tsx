@@ -1,7 +1,6 @@
 import type { MotionStyle } from "framer-motion";
 import { Reveal } from "@/components/fx/Reveal";
 import { RevealStagger } from "@/components/fx/RevealStagger";
-import { ExternalLink } from "lucide-react";
 import { SectionContainer } from "@/components/ui/SectionContainer";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -31,21 +30,13 @@ export const Education = ({ motionStyle }: EducationProps) => {
       tags: ["Java", "Kotlin", "SQL", "Spring"],
       accent: "from-accent",
     },
-    {
-      institution: "IBM",
-      titleKey: "education.ibm_title",
-      locationKey: "education.ibm_location",
-      periodKey: "education.ibm_period",
-      credential: "1965d5c5-2593-47ca-bed5-a5190bfa7667",
-      accent: "from-primary-glow",
-    },
   ];
 
   return (
     <SectionContainer maxWidth="md" motionStyle={motionStyle} className="min-h-[65vh]">
       {/* Reveal moment 1 — the section header: one whileInView, staggered children. */}
       <RevealStagger className="mb-8">
-        <Reveal variant="fadeUpSm" className="mb-4 flex items-center gap-3 text-sm uppercase tracking-label text-muted-foreground">
+        <Reveal variant="fadeUpSm" className="mb-4 flex items-center gap-3 font-mono text-sm uppercase tracking-label text-muted-foreground">
           <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
           <span>{t("education.section_label")}</span>
         </Reveal>
@@ -60,7 +51,7 @@ export const Education = ({ motionStyle }: EducationProps) => {
       </RevealStagger>
 
       {/* Reveal moment 2 — the card grid cascades from one parent. */}
-      <RevealStagger className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <RevealStagger className="grid gap-6 md:grid-cols-2">
           {items.map((it) => {
             return (
               <Reveal
@@ -110,20 +101,6 @@ export const Education = ({ motionStyle }: EducationProps) => {
                           </span>
                         </span>
                       ))}
-                    </div>
-                  )}
-                  {it.credential && (
-                    <div className="border-t border-neutral-tint/10 pt-4">
-                      <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                        {t("education.credential_label")}
-                      </p>
-                      <p className="mt-1 break-all font-mono text-caption text-foreground/80">
-                        {it.credential}
-                      </p>
-                      <div className="mt-2 inline-flex items-center gap-1.5 text-xs text-accent transition-colors group-hover:text-primary-glow">
-                        <ExternalLink className="h-3 w-3" />
-                        {t("education.verifiable")}
-                      </div>
                     </div>
                   )}
                 </div>

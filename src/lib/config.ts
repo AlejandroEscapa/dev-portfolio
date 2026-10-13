@@ -4,7 +4,6 @@ export interface PortfolioConfig {
   name: string;
   tagline: string;
   email: string;
-  phone: string;
   linkedin: string;
   github: string;
   primaryColor: string;
@@ -15,7 +14,7 @@ export interface PortfolioConfig {
   aiCoderSection: 'yes' | 'no';
   /** Opt-in feature flags. Each effect must leave zero trace when off. */
   features: {
-    cursorHalo: boolean;
+    terminalCursor: boolean;
   };
 }
 

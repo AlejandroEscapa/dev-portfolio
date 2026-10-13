@@ -44,6 +44,9 @@ export type Project = {
   // surface shows — never tech already covered by techTags.
   apis?: string[];
   features?: string[];
+  // One-line "why" for the detail view: the thread that ties the project to
+  // the story told elsewhere in the portfolio (i18n key, both languages).
+  threadKey?: string;
 };
 
 export type ProjectCategory = {
@@ -114,6 +117,7 @@ export const projects: Project[] = [
     githubUrl: "https://github.com/AlejandroEscapa/GameVisionTFM",
     apis: ["RAWG", "Twitch"],
     features: ["Red social", "Recomendador propio"],
+    threadKey: "projects.thread_gamevision",
     techTags: ["Android", "Kotlin", "Jetpack Compose", "MVVM", "Clean Architecture", "TFM"],
     categories: ["mobile"],
     highlights: [
@@ -133,6 +137,7 @@ export const projects: Project[] = [
     githubUrl: "https://github.com/AlejandroEscapa/MatchVisionTFM",
     apis: ["API-Football"],
     features: ["Tracking en vivo", "Noticias curadas"],
+    threadKey: "projects.thread_matchvision",
     techTags: ["iOS", "Swift", "SwiftUI", "MVVM", "Firebase", "API-Football", "TFM"],
     categories: ["mobile"],
     highlights: [
@@ -153,6 +158,7 @@ export const projects: Project[] = [
     githubUrl: "https://github.com/AlejandroEscapa",
     liveUrl: "https://casa-humedo-demo.vercel.app",
     features: ["Reservas sin comisiones"],
+    threadKey: "projects.thread_casahumedo",
     techTags: ["Next.js 14", "TypeScript", "Tailwind CSS", "Supabase", "n8n", "Framer Motion"],
     categories: ["web"],
     highlights: [

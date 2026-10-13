@@ -1,13 +1,10 @@
 import { useLayoutEffect, useRef, useState } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { Linkedin } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { trayectoriaItems, type TrayectoriaItem } from "@/data/trayectoria";
 import styles from "./Trayectoria.module.css";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const formatDate = (yyyymm: string): string => {
   const [y, m] = yyyymm.split("-");
@@ -23,7 +20,7 @@ const formatPeriod = (item: TrayectoriaItem, presentLabel: string): string => {
 };
 
 const CategoryLabel = ({ category, t }: { category: TrayectoriaItem["category"]; t: (k: string) => string }) => (
-  <span className="inline-flex items-center rounded-full border border-accent/40 bg-accent/10 px-2.5 py-1 text-[10px] uppercase tracking-wider text-accent">
+  <span className="inline-flex items-center rounded-full border border-accent/40 bg-accent/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-accent">
     {t(`trayectoria.cat_${category}`)}
   </span>
 );
@@ -76,9 +73,21 @@ const ExperienceCard = ({ item, t, presentLabel }: { item: TrayectoriaItem; t: (
   </article>
 );
 
+// The bridge: kitchen-to-code pivot. Accent-rimmed card with a mono eyebrow
+// (the item title) and the detail text as body copy, no bullets.
+const BridgeCard = ({ item, t, presentLabel }: { item: TrayectoriaItem; t: (k: string) => string; presentLabel: string }) => (
+  <article className={`${styles.card} ${styles.cardBridge}`} aria-label={t(item.titleKey)}>
+    <div className={styles.cardTop}>
+      <span className={styles.cardEyebrow}>{t(item.titleKey)}</span>
+      <span className={styles.cardDate}>{formatPeriod(item, presentLabel)}</span>
+    </div>
+    {item.detailKey && <p className={styles.cardDetail}>{t(item.detailKey)}</p>}
+  </article>
+);
+
 const ItemWrapper = ({ item, index, t, presentLabel, isLatest }: { item: TrayectoriaItem; index: number; t: (k: string) => string; presentLabel: string; isLatest: boolean }) => {
   const position = index % 2 === 0 ? "top" : "bottom";
-  const Card = item.variant === "milestone" ? MilestoneCard : ExperienceCard;
+  const Card = item.variant === "milestone" ? MilestoneCard : item.variant === "bridge" ? BridgeCard : ExperienceCard;
   return (
     <div className={styles.itemWrapper} data-position={position}>
       <div className={styles.connectorDot} data-latest={isLatest ? "true" : undefined} />
@@ -200,7 +209,9 @@ const MobileTrayectoria = ({ t, presentLabel }: { t: (k: string) => string; pres
           <div className={styles.mobileCardWrap}>
             {item.variant === "milestone"
               ? <MilestoneCard item={item} t={t} presentLabel={presentLabel} />
-              : <ExperienceCard item={item} t={t} presentLabel={presentLabel} />}
+              : item.variant === "bridge"
+                ? <BridgeCard item={item} t={t} presentLabel={presentLabel} />
+                : <ExperienceCard item={item} t={t} presentLabel={presentLabel} />}
           </div>
         </div>
       ))}

@@ -6,8 +6,12 @@ import { HeroShowcase } from "@/components/sections/HeroShowcase";
 import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
 import { Trayectoria } from "@/components/sections/Trayectoria";
+import { Contributions } from "@/components/sections/Contributions";
 import { Projects } from "@/components/sections/Projects";
 import { Education } from "@/components/sections/Education";
+import { Certifications } from "@/components/sections/Certifications";
+import { SideQuests } from "@/components/sections/SideQuests";
+import { Stats } from "@/components/sections/Stats";
 import { Contact } from "@/components/sections/Contact";
 import { Footer } from "@/components/Footer";
 import { useLenis } from "@/hooks/useLenis";
@@ -46,8 +50,20 @@ const Index = () => {
             <Projects />
           </WindowChrome>
           <Trayectoria />
+          <WindowChrome title="~/contributions — git log --author=alejandro" id="contributions" className="max-w-none w-full section-y">
+            <Contributions />
+          </WindowChrome>
           <WindowChrome title="~/education.txt" id="education" className="max-w-none w-full section-y">
             <Education />
+          </WindowChrome>
+          <WindowChrome title="~/certifications — credentials --verify" id="certifications" className="max-w-none w-full section-y">
+            <Certifications />
+          </WindowChrome>
+          <WindowChrome title="~/side-quests — ls ~/hobbies" id="sidequests" className="max-w-none w-full section-y">
+            <SideQuests />
+          </WindowChrome>
+          <WindowChrome title="~/stats — uptime" id="stats" className="max-w-none w-full section-y">
+            <Stats />
           </WindowChrome>
           <WindowChrome title="~/contact — mail" id="contact" className="max-w-none w-full section-y">
             <Contact />

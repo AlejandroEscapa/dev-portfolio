@@ -157,6 +157,11 @@ only the weights actually used are requested in `index.html`.
    `tokens.index.json`
 4. Refresh — `useTheme.setTheme("<name>")` is now a valid call.
 
+Para un tema **oculto** (el ámbar CRT de §5) los mismos tres pasos, pero
+registrándolo en `SECRET_THEMES` en vez de `THEMES`: así no aparece ni en
+el menú del dock ni en Spotlight, y su única puerta es `sudo theme
+<name>` en la terminal.
+
 ### Layout variables to know
 
 - `--nav-height` (default `60px`) — drives the
@@ -200,36 +205,54 @@ positioned so the dock (z-30) and terminal panel (z-40) stay sharp.
 Loaded via the Google Fonts `<link>` in `index.html` (single request,
 all three families).
 
-Scoped override (typed-titles round): the Project card titles
-(`.cardTitle`, `.mobileCardTitle`) and the detail's project title
-(`.detailName`) render in `--font-sans` instead of Fraunces (product
-voice). Section headings across the site keep the serif — the Projects
-h2 is NOT part of this override. Do not extend the sans override to
-other sections without asking.
+Scoped override (typed-titles round, extended 2026-10-13): card titles
+(`.cardTitle` in Projects + Trayectoria, `.mobileCardTitle`) and the
+detail's project title (`.detailName`) render in `--font-sans` (product
+voice). Section h2 headings keep Fraunces at `text-h1` — Contact was
+downsized from `text-display` to `text-h1` for coherence. Eyebrows
+(`section_label`), pills, window titles and stats bars are `font-mono`;
+Plex Mono tops at 500, so mono text never uses 600+ (synthetic bold).
+Stats/Contributions expose sr-only h2 for a11y (no visible display
+heading by design). Do not extend the sans override without asking.
 
 ### `prefers-reduced-motion`
 
 Always respected in: `.crt-*`, `.terminal-fog` (`transform: none`,
-`backdrop-filter: none`), and `Trayectoria.tsx` (the GSAP
-horizontal-scroll effect is skipped when the media query matches).
+`backdrop-filter: none`), `Trayectoria.tsx` (the GSAP horizontal-scroll
+effect is skipped when the media query matches), `lib/theme-transition.ts`
+(the theme swap falls back to the instant one) and `fx/Magnetic` (renders
+its child with no listeners at all).
 Honour this in any new animation.
 
 ---
 
 ## 5. Theming
 
-- 4 themes: **indigo** (default), **catppuccin**, **dracula**,
-  **tokyo-night**.
+- 4 **public** themes: **indigo** (default), **catppuccin**, **dracula**,
+  **tokyo-night** — the ones `THEMES` lists.
+- 1 **hidden** theme: **amber** (CRT phosphor). It lives in the pipeline
+  like any other, but it is only in `SECRET_THEMES`: the dock menu and
+  Spotlight never show it. The only door is `sudo theme amber` in the CLI
+  (`theme amber`, without sudo, answers "unknown theme").
 - Stored on `<html>` as `[data-theme="<id>"]`. Indigo is the default
   *and is the absence of the attribute*; never set
   `data-theme="indigo"`.
 - Persistence: `localStorage["portfolio-theme"]`.
 - Toggle UX: `ThemeMenu` (`src/components/theme-switcher/ThemeMenu.tsx`)
-  in the dock rail opens a popover with all themes; `cli theme <name>`
-  swaps themes from the CLI terminal; Spotlight groups a "Theme: …"
-  entry per theme.
-- Source: `src/lib/themes.ts` (`THEMES`, `ThemeId`, `DEFAULT_THEME`,
-  `THEME_STORAGE_KEY`).
+  in the dock rail opens a popover with the public themes; `cli theme
+  <name>` swaps themes from the CLI terminal; Spotlight groups a "Theme: …"
+  entry per public theme.
+- **Cinematic switch (Fase 1.5):** `useTheme().setTheme(theme, origin?)` is
+  the single owner of the change. It applies `data-theme` *and* persists it
+  inside a View Transition callback (`src/lib/theme-transition.ts`), so the
+  wipe circle is inherited by all three entry points and the choice sticks
+  even when the caller unmounts in the same commit (the dock popover closing
+  on pick). The wipe is born at the dock rail and degrades to the instant
+  swap without `document.startViewTransition` or under reduced motion.
+  The `::view-transition-*` pseudo-element rules live at the end of
+  `src/index.css`.
+- Source: `src/lib/themes.ts` (`THEMES`, `SECRET_THEMES`, `ThemeId`,
+  `isThemeId`, `isSecretTheme`, `DEFAULT_THEME`, `THEME_STORAGE_KEY`).
 
 ---
 
@@ -252,8 +275,11 @@ installed — see §1):
 - Key naming convention (always check before adding):
   - `nav.*` — top-nav labels
   - `hero.*`, `about.*`, `tech.*`, `trayectoria.*`,
-    `projects.*` (incl. `projects.highlight_*`, `projects.category_*`),
-    `education.*`, `contact.*`, `aria.*`
+    `projects.*` (incl. `projects.highlight_*`, `projects.category_*`,
+    and the `projects.thread_*` copy for detail threads),
+    `contributions.*`, `certifications.*`, `sidequests.*`, `stats.*`,
+    `education.*`, `contact.*`, `footer.*`, `cursor.*` (cursor state
+    labels), `aria.*`
 
 When adding a key: add an entry to **both** `en` and `es` blocks to
 keep symmetry.
@@ -319,13 +345,29 @@ Real order top → bottom:
    dots, scroll progress `current / total`); mobile = vertical
    timeline. `<a>` CTA card at the rightmost end of the desktop
    track.
-6. `Education` — `<WindowChrome title="~/education.txt">`.
-7. `Contact` — `<WindowChrome title="~/contact — mail">` — form is
-   a `mailto:` launcher (no backend). The personal data rows (location,
-   email, phone, social marks) moved OUT of this window.
-8. `Footer` (`src/components/Footer.tsx`) — quiet centered strip under
-   the last window, no window chrome: location, direct email/phone links
-   and the social marks. The page ends on it, after Contact.
+6. `Contributions` — `<WindowChrome title="~/contributions — git log">`
+   (id `contributions`). Ledger of open-source contributions rendered as
+   git-log lines; each row is an expandable accordion revealing the full
+   war story in a single column (mobile-safe).
+7. `Education` — `<WindowChrome title="~/education.txt">`. Formal
+   education only (the standalone IBM credential card was removed), in
+   a 2-col grid; credentials live in Certifications now.
+8. `Certifications` — `<WindowChrome title="~/certifications — credentials --verify">`
+   (id `certifications`). Credential cards pulled out of the
+   Trayectoria/Education timelines into their own window, 2-col grid.
+9. `SideQuests` — `<WindowChrome title="~/side-quests — ls ~/hobbies">`
+   (id `sidequests`). Sober mono list of out-of-building projects.
+10. `Stats` — `<WindowChrome title="~/stats — uptime">` (id `stats`).
+    neofetch-style window compacta with ASCII bars (`statBar`) instead
+    of invented metrics.
+11. `Contact` — `<WindowChrome title="~/contact — mail">` — form is
+    a `mailto:` launcher (no backend). The personal data rows (location,
+    email, social marks) moved OUT of this window.
+12. `Footer` (`src/components/Footer.tsx`) — editorial 3-zone footer,
+    no window chrome: identity block + quick nav + social marks, then a
+    hairline with © line, signature and the site's single status dot
+    (`footer.status`), coloured with the `success` token. No phone
+    number anywhere on the page. The page ends on it, after Contact.
 
 ### Glue components (`App.tsx`)
 
@@ -359,6 +401,15 @@ Real list (no longer matches the AGENTS.md in old branches):
 - `Education.tsx`, `Contact.tsx` — content sections (the contact data
   itself lives in `src/components/Footer.tsx`, rendered by `Index.tsx`
   after Contact — see the page composition above).
+- `Contributions.tsx` — git-log ledger window; `ContributionRow` is the
+  `data-cursor="open"` accordion row that expands the full story.
+- `Certifications.tsx` — 2-col credential grid moved out of the
+  timelines; `valid_until` dates resolve a `{year}` template (no i18n
+  interpolation at runtime).
+- `SideQuests.tsx` — sober mono list of side projects; titles come from
+  `data/sidequests.ts` (each stores an i18n key).
+- `Stats.tsx` — neofetch-style compact window; bars come from
+  `statBar` in `data/stats.ts` (`█`/`░` glyphs, no real metrics).
 - (`HeroShowcase.tsx` lives in this folder but is not strictly a
   section — see glue components above.)
 
@@ -372,8 +423,19 @@ background image, mounted in `Index.tsx`).
 In-repo primitives (no registry origin): `Reveal` + `RevealStagger`
 (the shared below-the-fold reveals; `amount: "some"`, never a
 proportional threshold, or a container taller than the viewport would
-never reveal) and `CursorHalo` (opt-in cursor halo behind
-`features.cursorHalo`, fine-pointer only). `ElectricBorder.tsx` and
+never reveal), `TerminalCursor` — **replaced `CursorHalo` in ronda 2**
+(the old file and its test were deleted). Same event-delegation
+contract (`mouseover`/`mouseout` on `document` reading
+`closest("[data-cursor]")`), values now `view | open | text`
+(`text` = I-beam bar over form fields). Three layers: dot (6px),
+ring (88px, rest `scale 0.32`) with crosshair ticks, and the
+`open`-state corner brackets. Mounted state is opt-in via
+`features.terminalCursor`, fine-pointer only; the native cursor is
+hidden by `cursor: none` on `html[data-custom-cursor="on"]` (set on
+mount, cleared on unmount) — rule lives in `src/index.css`, so the
+native cursor survives any unmount), and `Magnetic` (proximity magnet
+for the hero CTAs; geometry in `src/lib/magnetic.ts`, so the `.tsx` exports
+only the component). `ElectricBorder.tsx` and
 `magic-card.tsx` were deleted in Fase 0 — already zero consumers (the
 user rejected both: ElectricBorder on Contact, MagicCard on TechBento —
 TechBento tiles use the inline `specular` glass recipe). Rules for anything added here:
@@ -463,7 +525,13 @@ Spotlight items: add to `src/lib/spotlight-items.ts` via
   (`gsap.ticker.lagSmoothing(0)`).
 - **Framer Motion**: used for component-level micro-animations
   (TrafficLights, Spotlight dialog, dock icon flip
-  via `data-motion="enabled"`).
+  via `data-motion="enabled"`, `Magnetic` via motion values + spring).
+- **View Transitions API**: only for the theme switch
+  (`src/lib/theme-transition.ts`). Feature-detected, reduced-motion aware,
+  and never a requirement: if the API is missing or the transition is
+  skipped, the theme change has already been applied. Duration/easing come
+  from `--duration-slow` / `--ease-out-expo` (`EASE_OUT_EXPO_CSS` in
+  `src/lib/motion.ts` is the CSS-string form of the easing, for WAAPI).
 - **`useDeviceTier`** (`src/hooks/useDeviceTier.ts`): combines
   `(max-width: 767px)` + `prefers-reduced-motion` + a WebGL renderer
   sniff (regex on `WEBGL_debug_renderer_info.UNMASKED_RENDERER_WEBGL`
@@ -481,11 +549,28 @@ Spotlight items: add to `src/lib/spotlight-items.ts` via
   `integration`, `context`. Order in `CATEGORY_ORDER` array = display
   order. Optional `apis?: string[]` / `features?: string[]` per project
   feed the detail's additive strip — they must hold facts NO other
-  surface shows (never tech already covered by techTags).
-- `src/data/trayectoria.ts` — 9 timeline items spanning 2019→2026.
-  Two variants: `milestone` (single-paragraph) and `experience`
-  (bullet list). Categories: `experience`, `education`,
-  `certification`, `internship`.
+  surface shows (never tech already covered by techTags). Optional
+  `threadKey?: string` per project carries the i18n key of the detail's
+  THE THREAD cell (`projects.thread_*`); every project has one, and
+  its test asserts the key resolves in BOTH locales.
+- `src/data/trayectoria.ts` — timeline items spanning 2019→2026.
+  Three variants: `milestone` (single-paragraph), `experience`
+  (bullet list) and `bridge` (the ronda-2 "El Puente" CTA card,
+  category `bridge` too). Categories: `experience`, `education`,
+  `certification`, `internship`, `bridge`. Note: `certification`
+  items are chronology events only since ronda 2 — their dedicated
+  display moved to the `Certifications` section/data.
+- `src/data/contributions.ts` — the contributions ledger (one entry
+  per war story, copy in `en`/`es` via i18n keys). Qualitative by
+  design: no invented metrics.
+- `src/data/certifications.ts` — credential cards (issuer, year,
+  URL, `valid_until` if any) feeding `Certifications.tsx`.
+- `src/data/sidequests.ts` — side quests list; each `title` field
+  stores an i18n key (`sidequests.<id>_title`), resolved with
+  `t()`.
+- `src/data/stats.ts` — neofetch-style rows + the `statBar(value, max)`
+  helper (ASCII `█`/`░` bars, 16 cells). Purely stylistic values, no
+  real-time metrics.
 
 ---
 
@@ -520,12 +605,16 @@ iteration; surface tightening as a separate refactor change.
   `WindowChrome`, `useTerminalHistory`, `useTheme`, `cli-commands`,
   `spotlight-items`, `data/projects` (`projects.test.ts`),
   `data/trayectoria` (`trayectoria.test.ts`),
-  `fx/Reveal` (+ `Reveal.viewport.test.tsx`), `fx/CursorHalo`,
+  `fx/Reveal` (+ `Reveal.viewport.test.tsx`), `fx/TerminalCursor`,
+  `fx/Magnetic` (+ `lib/magnetic` for the geometry),
+  `lib/theme-transition` (wipe, origin resolution, fallbacks),
+  `lib/themes` (public vs hidden split),
   `sections/Hero`, `projects/ProjectCard`, `lib/boot-state`,
   `i18n/translations` (en/es symmetry), `scripts/public-assets.test.ts`
   (every referenced public asset exists),
   `src/scripts/build-tokens.test.ts`,
-  `src/scripts/token-contrast.test.ts` (WCAG AA guard for muted text).
+  `src/scripts/token-contrast.test.ts` (WCAG AA guard for muted text,
+  covering the five themes including the hidden one).
 - Coverage guidance: any new data-shaping helper (`groupTechByCategory`,
   command dispatch, theme overlay, spotlight filter) gets a co-located
   `.test.ts` BEFORE the implementation lands.
