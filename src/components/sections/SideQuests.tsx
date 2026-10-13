@@ -41,15 +41,15 @@ export const SideQuests = ({ motionStyle }: SideQuestsProps) => {
         </Reveal>
       </RevealStagger>
 
-      {/* F1.4 banda de una frase: icono + título + transferencia, sin body. */}
+      {/* F2a banda con icono grande: icono + título + transferencia, sin body. */}
       <RevealStagger className="border-y border-neutral-tint/10 divide-y divide-neutral-tint/10">
         <ul>
           {sidequests.map((s) => {
             const Icon = iconMap[s.icon];
             return (
               <li key={s.id}>
-                <Reveal variant="fadeUp" className="flex items-baseline gap-3 py-3">
-                  <Icon className="h-4 w-4 shrink-0 translate-y-0.5 text-muted-foreground" aria-hidden="true" />
+                <Reveal variant="fadeUp" className="flex items-center gap-4 py-4">
+                  <Icon className="h-7 w-7 shrink-0 text-accent" aria-hidden="true" />
                   <h3 className="shrink-0 font-sans text-sm font-semibold tracking-tight text-foreground">
                     {t(s.title)}
                   </h3>

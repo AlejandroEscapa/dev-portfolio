@@ -13,7 +13,7 @@ export const Stats = ({ motionStyle }: StatsProps) => {
   const { t } = useLanguage();
 
   return (
-    // F1.2 tira compacta sin chrome propio; F1.5 sin min-h sistemático en bloque CV.
+    // F2a tira teñida sin glass; F1.5 sin min-h sistemático en bloque CV.
     <SectionContainer maxWidth="md" motionStyle={motionStyle}>
       {/* Eyebrow mono + h2 sr-only: la ventana compacta no lleva display heading
           visible; la jerarquía para lectores la da el h2 oculto. */}
@@ -25,7 +25,7 @@ export const Stats = ({ motionStyle }: StatsProps) => {
         <h2 className="sr-only">{t("stats.section_label")}</h2>
       </RevealStagger>
 
-      <Reveal variant="fadeUp" className="rounded-lg border border-neutral-tint/10 bg-neutral-tint/[0.03] p-4 md:p-5">
+      <Reveal variant="fadeUp" className="rounded-lg border border-primary/20 bg-primary/[0.06] p-4 md:p-5">
         {/* Panel único: label mono + barra ASCII en <code> + caption muted.
             Sin tracks CSS: la barra es texto que hereda --font-mono. */}
         <ul className="space-y-3">

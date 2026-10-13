@@ -122,3 +122,8 @@ Recomendación técnica: A ahora, B después, C solo si se valida el cambio de I
 
 - Alcance elegido: pack editorial completo (ledger ancho + bento 2+1 + banda con icono grande + tira teñida).
 - Fotos: ninguna aún — sin fotos reales no se ejecuta a medias. Fase 2 aparcada hasta lista cerrada (setup, kiosco, PDA).
+
+### Fase 2a — estructural sin fotos (implementada en `feat/fase-2a-estructura`)
+
+- Ledger Contributions a `lg`; bento Certs 2+1 con las 3 credenciales + slot estable `aspect-video` (`data-slot="foto-futura"`, badges hoy, `TODO(2b)` para swap 1:1 a img setup/kiosco/PDA); banda SideQuests con icono grande; tira Stats teñida sin glass.
+- Sin ficheros nuevos en `public/`; mapping pexels solo documentado para 2b.

@@ -115,7 +115,8 @@ export const Contributions = ({ motionStyle }: ContributionsProps) => {
   const [openId, setOpenId] = useState<string | null>(null);
 
   return (
-    <SectionContainer maxWidth="md" motionStyle={motionStyle}>
+    // F2a ledger ancho: lg rompe la repetición grid-3 sin tocar el accordion.
+    <SectionContainer maxWidth="lg" motionStyle={motionStyle}>
       {/* Header del ledger: eyebrow mono + h2 sr-only — un git log no lleva display
           heading visible; la jerarquía para lectores de pantalla la da el h2 oculto. */}
       <RevealStagger className="mb-2">

@@ -1,5 +1,5 @@
 import type { MotionStyle } from "framer-motion";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, ImagePlus } from "lucide-react";
 import { Reveal } from "@/components/fx/Reveal";
 import { RevealStagger } from "@/components/fx/RevealStagger";
 import { SectionContainer } from "@/components/ui/SectionContainer";
@@ -32,8 +32,9 @@ export const Certifications = ({ motionStyle }: CertificationsProps) => {
         </Reveal>
       </RevealStagger>
 
-      {/* Grid 3 en desktop, columna única en móvil (mismo escalado que Education). */}
-      <RevealStagger className="grid gap-6 md:grid-cols-3">
+      {/* F2a bento 2+1: rompe el grid-3 gemelo. Fila 1: elev8 (span 2) + big_school;
+          fila 2: ibm + slot estable. El slot conserva caja aspect-video para 2b. */}
+      <RevealStagger className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {certifications.map((c) => (
           <Reveal
             key={c.id}
@@ -43,7 +44,7 @@ export const Certifications = ({ motionStyle }: CertificationsProps) => {
               e.currentTarget.style.setProperty("--mx", `${e.clientX - rect.left}px`);
               e.currentTarget.style.setProperty("--my", `${e.clientY - rect.top}px`);
             }}
-            className="specular group relative flex flex-col overflow-hidden rounded-lg glass p-8 hover-glow"
+            className={`specular group relative flex flex-col overflow-hidden rounded-lg glass p-8 hover-glow${c.id === "elev8" ? " lg:col-span-2" : ""}`}
           >
             {/* Eyebrow editorial: hairline con acento + emisor en mono. */}
             <div className="flex items-center gap-3">
@@ -86,6 +87,37 @@ export const Certifications = ({ motionStyle }: CertificationsProps) => {
             </div>
           </Reveal>
         ))}
+        {/* TODO(2b): slot foto-futura. Misma caja aspect-video; hoy badges, mañana
+            img object-cover 1:1 (setup/kiosco/PDA). Mapping pexels reservado en
+            manifiesto, sin <img> ni peso nuevo en 2a. */}
+        <Reveal
+          variant="fadeUp"
+          data-slot="foto-futura"
+          className="group relative flex flex-col overflow-hidden rounded-lg border border-neutral-tint/10 bg-neutral-tint/[0.03] p-8 md:col-span-2 lg:col-span-2"
+        >
+          <div className="flex aspect-video flex-col justify-between">
+            <div className="flex items-center gap-3">
+              <span className="h-px w-8 bg-gradient-to-r from-primary to-transparent" />
+              <p className="font-mono text-label uppercase tracking-label text-muted-foreground">
+                demo / badges hoy
+              </p>
+              <ImagePlus className="ml-auto h-4 w-4 text-muted-foreground/60" aria-hidden="true" />
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {certifications.map((c) => (
+                <span
+                  key={c.id}
+                  className="rounded-full border border-accent/40 bg-accent/10 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-accent"
+                >
+                  {c.issuer}
+                </span>
+              ))}
+              <span className="rounded-full border border-neutral-tint/15 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                3 verificables
+              </span>
+            </div>
+          </div>
+        </Reveal>
       </RevealStagger>
     </SectionContainer>
   );
