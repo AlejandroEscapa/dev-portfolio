@@ -26,7 +26,7 @@ export const SideQuests = ({ motionStyle }: SideQuestsProps) => {
     <SectionContainer maxWidth="md" motionStyle={motionStyle} className="min-h-[65vh]">
       {/* Header sobrio: eyebrow + display heading, sin decoración de más. */}
       <RevealStagger className="mb-8">
-        <Reveal variant="fadeUpSm" className="mb-4 flex items-center gap-3 text-sm uppercase tracking-label text-muted-foreground">
+        <Reveal variant="fadeUpSm" className="mb-4 flex items-center gap-3 font-mono text-sm uppercase tracking-label text-muted-foreground">
           <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
           <span>{t("sidequests.section_label")}</span>
         </Reveal>

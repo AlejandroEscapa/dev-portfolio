@@ -205,12 +205,15 @@ positioned so the dock (z-30) and terminal panel (z-40) stay sharp.
 Loaded via the Google Fonts `<link>` in `index.html` (single request,
 all three families).
 
-Scoped override (typed-titles round): the Project card titles
-(`.cardTitle`, `.mobileCardTitle`) and the detail's project title
-(`.detailName`) render in `--font-sans` instead of Fraunces (product
-voice). Section headings across the site keep the serif — the Projects
-h2 is NOT part of this override. Do not extend the sans override to
-other sections without asking.
+Scoped override (typed-titles round, extended 2026-10-13): card titles
+(`.cardTitle` in Projects + Trayectoria, `.mobileCardTitle`) and the
+detail's project title (`.detailName`) render in `--font-sans` (product
+voice). Section h2 headings keep Fraunces at `text-h1` — Contact was
+downsized from `text-display` to `text-h1` for coherence. Eyebrows
+(`section_label`), pills, window titles and stats bars are `font-mono`;
+Plex Mono tops at 500, so mono text never uses 600+ (synthetic bold).
+Stats/Contributions expose sr-only h2 for a11y (no visible display
+heading by design). Do not extend the sans override without asking.
 
 ### `prefers-reduced-motion`
 

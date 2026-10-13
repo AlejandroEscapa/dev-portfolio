@@ -116,13 +116,14 @@ export const Contributions = ({ motionStyle }: ContributionsProps) => {
 
   return (
     <SectionContainer maxWidth="md" motionStyle={motionStyle}>
-      {/* Header del ledger: sólo eyebrow + label — un git log no lleva display
-          heading; la jerarquía la llevan las filas. */}
+      {/* Header del ledger: eyebrow mono + h2 sr-only — un git log no lleva display
+          heading visible; la jerarquía para lectores de pantalla la da el h2 oculto. */}
       <RevealStagger className="mb-2">
-        <Reveal variant="fadeUpSm" className="mb-4 flex items-center gap-3 text-sm uppercase tracking-label text-muted-foreground">
+        <Reveal variant="fadeUpSm" className="mb-4 flex items-center gap-3 font-mono text-sm uppercase tracking-label text-muted-foreground">
           <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
-          <span>{t("contributions.section_label")}</span>
+          <span aria-hidden="true">{t("contributions.section_label")}</span>
         </Reveal>
+        <h2 className="sr-only">{t("contributions.section_label")}</h2>
       </RevealStagger>
 
       {/* Accordion: una sola fila abierta; click en la fila abierta la cierra.

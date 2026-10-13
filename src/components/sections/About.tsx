@@ -16,7 +16,9 @@ export const About = ({ motionStyle }: AboutProps) => {
   return (
     <SectionContainer maxWidth="lg" motionStyle={motionStyle} className="h-full">
       {/* One reveal moment: the wrapper enters and staggers its children —
-          no per-element whileInView. With reduced motion everything is static. */}
+          no per-element whileInView. With reduced motion everything is static.
+          NOTE: about.section_label stays reserved for the future bio layout;
+          this window currently shows the Stack (tech.* copy). */}
       <motion.div
         initial={reduceMotion ? false : "hidden"}
         whileInView="show"
@@ -26,10 +28,10 @@ export const About = ({ motionStyle }: AboutProps) => {
       >
         <motion.div
           variants={fadeUpSm}
-          className="mb-4 flex items-center gap-3 text-sm uppercase tracking-label text-muted-foreground"
+          className="mb-4 flex items-center gap-3 font-mono text-sm uppercase tracking-label text-muted-foreground"
         >
           <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
-          <span>{t("about.section_label")}</span>
+          <span>{t("tech.section_label")}</span>
         </motion.div>
 
         {/* Same numbered-header recipe as Education/Projects (text-h1) so the

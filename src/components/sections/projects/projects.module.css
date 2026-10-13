@@ -445,9 +445,9 @@
   border: none;
   padding: 0;
   color: hsl(var(--foreground));
-  font-family: var(--font-display);
+  font-family: var(--font-mono);
   font-size: 0.95rem;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   cursor: pointer;

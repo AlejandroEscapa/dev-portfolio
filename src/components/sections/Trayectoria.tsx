@@ -20,7 +20,7 @@ const formatPeriod = (item: TrayectoriaItem, presentLabel: string): string => {
 };
 
 const CategoryLabel = ({ category, t }: { category: TrayectoriaItem["category"]; t: (k: string) => string }) => (
-  <span className="inline-flex items-center rounded-full border border-accent/40 bg-accent/10 px-2.5 py-1 text-[10px] uppercase tracking-wider text-accent">
+  <span className="inline-flex items-center rounded-full border border-accent/40 bg-accent/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-accent">
     {t(`trayectoria.cat_${category}`)}
   </span>
 );
