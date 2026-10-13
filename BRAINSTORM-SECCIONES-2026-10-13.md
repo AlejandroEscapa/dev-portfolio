@@ -117,3 +117,8 @@ Recomendación técnica: A ahora, B después, C solo si se valida el cambio de I
 - Una rama por fase, con merge a `main` al final de cada implementación de cada fase.
 - `feat/next-level-r2` se mergea a `main` antes de abrir Fase 1; Fase 1 se implementa en rama nueva (p. ej. `feat/fase-1-compresion`) creada desde `main`.
 - Al cerrar cada fase: verificación (`vitest`/`lint`/`build`) en la rama, merge a `main`, y apertura de la siguiente fase en rama nueva.
+
+### Fase 2 — maduración 2026-10-13 (bloqueada por fotos)
+
+- Alcance elegido: pack editorial completo (ledger ancho + bento 2+1 + banda con icono grande + tira teñida).
+- Fotos: ninguna aún — sin fotos reales no se ejecuta a medias. Fase 2 aparcada hasta lista cerrada (setup, kiosco, PDA).
