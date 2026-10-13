@@ -70,7 +70,7 @@ export const Hero = () => {
 
         {/* Professional summary */}
         <div className="space-y-3">
-          <div className="flex items-center gap-3 text-label uppercase tracking-label text-muted-foreground">
+          <div className="flex items-center gap-3 font-mono text-label uppercase tracking-label text-muted-foreground">
             <span className="h-px w-10 bg-gradient-to-r from-primary to-transparent" />
             <span>{t("hero.description_label")}</span>
           </div>

@@ -23,7 +23,7 @@ export const translations: Record<Lang, Translations> = {
     "hero.description_label": "Professional Summary",
     "hero.description": "Mobile & Frontend Developer — Android (Kotlin/Compose), iOS (Swift). Tech Lead track record in production Angular. AI-assisted workflows with local LLMs, clean architecture, shipping fast.",
 
-    "about.section_label": "01 \u2014 About",
+    "about.section_label": "01 - About",
     "about.heading_before": "Professional",
     "about.heading_after": "summary.",
     "about.bio_p1": "Mobile and Frontend Developer with proven leadership experience as",
@@ -47,7 +47,7 @@ export const translations: Record<Lang, Translations> = {
     "about.edge_value": "AI-assisted workflows",
     "about.edge_detail": "Local LLMs \u00b7 Agentic tooling",
 
-    "tech.section_label": "01 \u2014 Stack",
+    "tech.section_label": "01 - Stack",
     "tech.heading_before": "The tools",
     "tech.heading_after": "that matter.",
     "tech.subheading": "Pragmatism over dogma. Every choice answers a real problem.",
@@ -55,7 +55,7 @@ export const translations: Record<Lang, Translations> = {
     "tech.frontend_title": "Frontend",
     "tech.backend_title": "Backend & Cloud",
 
-    "trayectoria.section_label": "03 \u2014 Journey",
+    "trayectoria.section_label": "03 - Journey",
     "trayectoria.heading_before": "My",
     "trayectoria.heading_after": "Journey",
     "trayectoria.progress": "{current} / {total}",
@@ -155,7 +155,7 @@ export const translations: Record<Lang, Translations> = {
     "contributions.creators_hilo": "In a warehouse, code does not reload: it runs live against real production.",
     "contributions.creators_resolucion": "WMS incident resolution, Laravel backend + Slim 3 API and an Android app on industrial PDAs alongside Magento and Odoo.",
 
-    "contributions.section_label": "04 \u2014 Contributions",
+    "contributions.section_label": "04 - Contributions",
     "contributions.story_problema": "Problem",
     "contributions.story_hilo": "The thread",
     "contributions.story_resolucion": "Resolution",
@@ -196,7 +196,7 @@ export const translations: Record<Lang, Translations> = {
     "stats.erp_legacy_label": "ERP legacy",
     "stats.ai_tooling_label": "AI tooling",
 
-    "projects.section_label": "02 — Projects",
+    "projects.section_label": "02 - Projects",
     "projects.subheading": "A selection of my work.",
     "projects.heading": "Projects.",
     "projects.gamevision_badge": "Featured \u00b7 TFM 9/10",
@@ -250,7 +250,7 @@ export const translations: Record<Lang, Translations> = {
     "projects.thread_matchvision": "A match is a stream, not a page you reload.",
     "projects.thread_casahumedo": "SSR + zero-commission booking: hand local business the control of its own site.",
 
-    "education.section_label": "05 \u2014 Education",
+    "education.section_label": "05 - Education",
     "education.subheading": "Formal training, certifications and continuous learning.",
     "education.heading_before": "Learning",
     "education.heading_after": "is not optional.",
@@ -269,7 +269,7 @@ export const translations: Record<Lang, Translations> = {
     "education.credential_label": "Credential ID",
     "education.verifiable": "Verifiable",
 
-    "contact.section_label": "09 \u2014 Contact",
+    "contact.section_label": "09 - Contact",
     "contact.heading": "Contact",
     "contact.heading_line1": "Got a project in mind or looking for a developer?",
     "contact.heading_line2": "Let's build something together.",
@@ -339,7 +339,7 @@ export const translations: Record<Lang, Translations> = {
     "hero.description_label": "Resumen Profesional",
     "hero.description": "Desarrollador Mobile & Frontend — Android (Kotlin/Compose), iOS (Swift). Experiencia Tech Lead en proyectos Angular en producci\u00f3n. Flujos asistidos por IA con LLMs locales, arquitectura limpia, shipping r\u00e1pido.",
 
-    "about.section_label": "01 \u2014 Sobre m\u00ed",
+    "about.section_label": "01 - Sobre m\u00ed",
     "about.heading_before": "Resumen",
     "about.heading_after": "profesional.",
     "about.bio_p1": "Desarrollador Fulltstack con experiencia demostrada como",
@@ -363,7 +363,7 @@ export const translations: Record<Lang, Translations> = {
     "about.edge_value": "Flujos asistidos por IA",
     "about.edge_detail": "LLMs locales \u00b7 Efectividad mejorada",
 
-    "tech.section_label": "01 \u2014 Stack",
+    "tech.section_label": "01 - Stack",
     "tech.heading_before": "Las herramientas",
     "tech.heading_after": "que importan.",
     "tech.subheading": "Pragmatismo sobre dogma. Cada elecci\u00f3n responde a un problema real.",
@@ -373,7 +373,7 @@ export const translations: Record<Lang, Translations> = {
     "tech.frontend_title": "Frontend y M\u00f3vil",
     "tech.backend_title": "Backend y Cloud",
 
-    "trayectoria.section_label": "03 \u2014 Trayectoria",
+    "trayectoria.section_label": "03 - Trayectoria",
     "trayectoria.heading_before": "Mi",
     "trayectoria.heading_after": "Trayectoria",
     "trayectoria.progress": "{current} / {total}",
@@ -473,7 +473,7 @@ export const translations: Record<Lang, Translations> = {
     "contributions.creators_hilo": "En un almacén el código no se recarga: opera en vivo, contra producción real.",
     "contributions.creators_resolucion": "Resolución de incidentes del SGA, backend Laravel + API Slim 3 y app Android sobre PDAs industriales junto a Magento y Odoo.",
 
-    "contributions.section_label": "04 \u2014 Contribuciones",
+    "contributions.section_label": "04 - Contribuciones",
     "contributions.story_problema": "Problema",
     "contributions.story_hilo": "El hilo",
     "contributions.story_resolucion": "Resolución",
@@ -514,7 +514,7 @@ export const translations: Record<Lang, Translations> = {
     "stats.erp_legacy_label": "ERP legacy",
     "stats.ai_tooling_label": "Herramientas IA",
 
-    "projects.section_label": "02 — Proyectos",
+    "projects.section_label": "02 - Proyectos",
     "projects.subheading": "Muestras de mi trabajo.",
     "projects.heading": "Proyectos.",
     "projects.gamevision_badge": "Destacado \u00b7 TFM 9/10",
@@ -569,7 +569,7 @@ export const translations: Record<Lang, Translations> = {
     "projects.thread_matchvision": "Un partido es un stream, no una página que recargas.",
     "projects.thread_casahumedo": "SSR + reserva sin comisiones: devolver al negocio local el control de su web.",
 
-    "education.section_label": "05 \u2014 Formaci\u00f3n",
+    "education.section_label": "05 - Formaci\u00f3n",
     "education.subheading": "Formaci\u00f3n reglada, certificaciones y aprendizaje continuo.",
     "education.heading_before": "Aprender",
     "education.heading_after": "no es opcional.",
@@ -588,7 +588,7 @@ export const translations: Record<Lang, Translations> = {
     "education.credential_label": "ID de Credencial",
     "education.verifiable": "Verificable",
 
-    "contact.section_label": "09 \u2014 Contacto",
+    "contact.section_label": "09 - Contacto",
     "contact.heading": "Contacto",
     "contact.field_name": "Nombre",
     "contact.field_email": "Email",

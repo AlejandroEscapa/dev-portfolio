@@ -22,8 +22,10 @@ export const Certifications = ({ motionStyle }: CertificationsProps) => {
           <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
           <span>{t("certifications.section_label")}</span>
         </Reveal>
-        <Reveal variant="fadeUp" className="text-h1 font-bold leading-tight tracking-heading">
-          {t("certifications.heading_before")} {t("certifications.heading_after")}
+        <Reveal variant="fadeUp">
+          <h2 className="text-h1 font-bold leading-tight tracking-heading">
+            {t("certifications.heading_before")} {t("certifications.heading_after")}
+          </h2>
         </Reveal>
         <Reveal variant="fadeUpSm" className="mt-2 text-sm leading-relaxed text-muted-foreground">
           {t("certifications.subheading")}
@@ -50,7 +52,7 @@ export const Certifications = ({ motionStyle }: CertificationsProps) => {
                 {c.issuer}
               </p>
             </div>
-            <h3 className="mt-4 text-h3 font-semibold tracking-tight text-foreground">
+            <h3 className="mt-4 font-sans text-h3 font-semibold tracking-tight text-foreground">
               {t(c.titleKey)}
             </h3>
             <p className="mt-1 font-mono text-xs text-muted-foreground/70">{c.date}</p>

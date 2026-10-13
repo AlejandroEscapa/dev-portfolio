@@ -31,8 +31,10 @@ export const SideQuests = ({ motionStyle }: SideQuestsProps) => {
           <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
           <span>{t("sidequests.section_label")}</span>
         </Reveal>
-        <Reveal variant="fadeUp" className="text-h1 font-bold leading-tight tracking-heading">
-          {t("sidequests.heading")}
+        <Reveal variant="fadeUp">
+          <h2 className="text-h1 font-bold leading-tight tracking-heading">
+            {t("sidequests.heading")}
+          </h2>
         </Reveal>
         <Reveal variant="fadeUpSm" className="mt-2 text-sm leading-relaxed text-muted-foreground">
           {t("sidequests.subheading")}
@@ -48,7 +50,7 @@ export const SideQuests = ({ motionStyle }: SideQuestsProps) => {
               <li key={s.id}>
                 <Reveal variant="fadeUp" className="flex items-baseline gap-3 py-3">
                   <Icon className="h-4 w-4 shrink-0 translate-y-0.5 text-muted-foreground" aria-hidden="true" />
-                  <h3 className="shrink-0 text-sm font-semibold tracking-tight text-foreground">
+                  <h3 className="shrink-0 font-sans text-sm font-semibold tracking-tight text-foreground">
                     {t(s.title)}
                   </h3>
                   <p className="ml-auto text-right font-mono text-caption text-muted-foreground">

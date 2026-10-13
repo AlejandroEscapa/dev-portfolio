@@ -41,8 +41,10 @@ export const Education = ({ motionStyle }: EducationProps) => {
           <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
           <span>{t("education.section_label")}</span>
         </Reveal>
-        <Reveal variant="fadeUp" className="text-h1 font-bold leading-tight tracking-heading">
-          {t("education.heading_before")} {t("education.heading_after")}
+        <Reveal variant="fadeUp">
+          <h2 className="text-h1 font-bold leading-tight tracking-heading">
+            {t("education.heading_before")} {t("education.heading_after")}
+          </h2>
         </Reveal>
         {/* Same heading→sub coupling as Projects/About: mt-2 under the
             leading-tight display heading (~15px real gap). */}
@@ -73,7 +75,7 @@ export const Education = ({ motionStyle }: EducationProps) => {
                     {t(it.periodKey)}
                   </p>
                 </div>
-                <h3 className="mt-4 text-h3 font-semibold tracking-tight text-foreground">
+                <h3 className="mt-4 font-sans text-h3 font-semibold tracking-tight text-foreground">
                   {it.institution}
                 </h3>
                 <p className="mt-1.5 text-sm text-foreground/80">

@@ -117,15 +117,17 @@ export const Projects = ({ motionStyle }: ProjectsProps) => {
               mono label, left-aligned display heading and a sub line. The extra
               top air + mb-8 match the Education header rhythm (whose content
               is vertically centred, so its title never hugs the chrome). */}
-          <Reveal variant="fadeUpSm" className="mb-4 flex items-center gap-3 text-sm uppercase tracking-label text-muted-foreground">
+          <Reveal variant="fadeUpSm" className="mb-4 flex items-center gap-3 font-mono text-sm uppercase tracking-label text-muted-foreground">
             <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
             <span>{t("projects.section_label")}</span>
           </Reveal>
           {/* leading-tight: text-h1 inherits body line-height (1.5), leaving
               ~15px of dead air under the display glyphs before the stage.
               The subline couples at mt-2 so heading + sub read as one block. */}
-          <Reveal variant="fadeUp" className="text-h1 font-bold leading-tight tracking-heading">
-            {t("projects.heading")}
+          <Reveal variant="fadeUp">
+            <h2 className="text-h1 font-bold leading-tight tracking-heading">
+              {t("projects.heading")}
+            </h2>
           </Reveal>
           <Reveal variant="fadeUpSm" className="mt-2 text-sm leading-relaxed text-muted-foreground">
             {t("projects.subheading")}
