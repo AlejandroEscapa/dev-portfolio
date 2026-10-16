@@ -1,13 +1,14 @@
 import { ImageBackground } from '@/components/background/ImageBackground';
 import Noise from '@/components/fx/Noise';
 import { Nav } from "@/components/Nav";
-import { WindowChrome } from "@/components/window/WindowChrome";
+import { SectionDivider } from "@/components/section/SectionDivider";
 import { HeroShowcase } from "@/components/sections/HeroShowcase";
 import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
 import { Trayectoria } from "@/components/sections/Trayectoria";
 import { Contributions } from "@/components/sections/Contributions";
 import { Projects } from "@/components/sections/Projects";
+import { AIWorkbench } from "@/components/sections/AIWorkbench";
 import { Education } from "@/components/sections/Education";
 import { Certifications } from "@/components/sections/Certifications";
 import { SideQuests } from "@/components/sections/SideQuests";
@@ -15,6 +16,9 @@ import { Stats } from "@/components/sections/Stats";
 import { Contact } from "@/components/sections/Contact";
 import { Footer } from "@/components/Footer";
 import { useLenis } from "@/hooks/useLenis";
+
+// Hoja continua: 9 secciones seguidas sin ventanas. El único ritmo es el
+// divisor (filete + folio); los anchors de navegación viven en cada <section>.
 
 const Index = () => {
   useLenis();
@@ -30,49 +34,60 @@ const Index = () => {
       />
       {/* Grain film sobre la foto (fx/Noise): tapa el dineral de pérdida de detalle del cover — sutileza */}
       <div className="fixed inset-0 z-0 pointer-events-none" aria-hidden="true">
-        <Noise patternAlpha={10} patternRefreshInterval={4} />
+        <Noise patternAlpha={8} patternRefreshInterval={6} />
       </div>
       <Nav />
       <div className="relative z-10">
         <HeroShowcase>
-          <WindowChrome title="~/welcome.sh — zsh" id="hero" className="max-w-none w-full mx-0 viewport-content" fullHeight>
+          <section id="hero" className="max-w-none w-full mx-0 viewport-content section-y">
             <Hero />
-          </WindowChrome>
-          <WindowChrome title="~/stack — npx skills" id="about" className="max-w-none w-full mx-0 viewport-content" fullHeight>
+          </section>
+          <section id="about" className="max-w-none w-full mx-0 viewport-content section-y">
             <About />
-          </WindowChrome>
+          </section>
         </HeroShowcase>
 
-        {/* Vertical rhythm is declared HERE, once per section, via .section-y.
-            .section-px owns horizontal padding; WindowChrome adds no margins. */}
+        {/* Vertical rhythm is declared HERE, once per section, via .section-y
+            + SectionDivider. .section-px owns horizontal padding. */}
         <div className="section-px">
-          <WindowChrome title="~/projects — ls -la" id="projects" className="max-w-none w-full section-y">
+          <section id="projects" className="max-w-none w-full section-y">
             <Projects />
-          </WindowChrome>
+          </section>
+          <SectionDivider index={2} total={9} label="Workbench" />
+          <section id="ai-workbench" className="max-w-none w-full section-y">
+            <AIWorkbench />
+          </section>
+          <SectionDivider index={3} total={9} label="Trayectoria" />
           <Trayectoria />
-          <WindowChrome title="~/contributions — git log --author=alejandro" id="contributions" className="max-w-none w-full section-y">
+          <SectionDivider index={4} total={9} label="Contribuciones" />
+          <section id="contributions" className="max-w-none w-full section-y">
             <Contributions />
-          </WindowChrome>
-          {/* F1.1 Formación verificable: un solo chrome visual con anclas internas education + certifications intactas. */}
-          <WindowChrome title="~/formacion — cat education.txt certifications --verify" id="formacion" className="max-w-none w-full section-y">
+          </section>
+          <SectionDivider index={5} total={9} label="Formación" />
+          <section id="formacion" className="max-w-none w-full section-y">
             <div id="education" style={{ scrollMarginTop: "calc(var(--nav-height, 60px) + 8px)" }}>
               <Education />
             </div>
-            <div aria-hidden="true" className="my-8 h-px bg-neutral-tint/10" />
+            <div aria-hidden="true" className="rule-double my-8" />
             <div id="certifications" style={{ scrollMarginTop: "calc(var(--nav-height, 60px) + 8px)" }}>
               <Certifications />
             </div>
-          </WindowChrome>
-          <WindowChrome title="~/side-quests — ls ~/hobbies" id="sidequests" className="max-w-none w-full section-y">
+          </section>
+          <SectionDivider index={6} total={9} label="Side quests" />
+          <section id="sidequests" className="max-w-none w-full section-y">
             <SideQuests />
-          </WindowChrome>
-          {/* F1.2 Stats tira compacta sin chrome propio; id stats conservado para anchors/Spotlight. */}
-          <div id="stats" style={{ scrollMarginTop: "calc(var(--nav-height, 60px) + 8px)" }} className="mx-auto max-w-5xl section-y">
+          </section>
+          <SectionDivider index={7} total={9} label="Métricas" />
+          {/* Stats subordinado (max-w-5xl centrado): infografía dentro del
+              ejemplar, no sección gemela. */}
+          <section id="stats" className="mx-auto max-w-5xl section-y">
             <Stats />
-          </div>
-          <WindowChrome title="~/contact — mail" id="contact" className="max-w-none w-full section-y">
+          </section>
+          <SectionDivider index={8} total={9} label="Contacto" />
+          <section id="contact" className="max-w-none w-full section-y">
             <Contact />
-          </WindowChrome>
+          </section>
+          <SectionDivider index={9} total={9} label="Cierre" />
           <Footer />
         </div>
         <div className="window-rail" />
