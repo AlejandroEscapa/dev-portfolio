@@ -16,6 +16,7 @@ const HELP = `Available commands:
   impact            Contributions
   certs             Certifications
   stats             Skill bars
+  workbench         AI-assisted workflow
   contact           Get in touch
   theme [name]      Switch theme (indigo|catppuccin|dracula|tokyo-night)
   clear             Clear terminal
@@ -80,6 +81,9 @@ export function executeCommand(rawInput: string, ctx: CommandContext): string {
       return "→ ~/certifications.md";
     case "stats":
       return "→ ~/stats.json";
+    case "workbench":
+      ctx.navigate?.("ai-workbench");
+      return "→ ~/workbench (scroll to AI Workbench)";
     case "contact":
       return "alejandro.oliesc97@gmail.com | linkedin.com/in/alejandro-olivares-escapa";
     case "theme":
@@ -93,7 +97,7 @@ export function executeCommand(rawInput: string, ctx: CommandContext): string {
     case "history":
       return "(history is rendered by the terminal host)";
     case "ls":
-      return "hero/  about/  profile/  stack/  experience/  projects/  education/  contact/";
+      return "hero/  about/  profile/  stack/  projects/  workbench/  experience/  education/  contact/";
     case "pwd":
       return "/home/alejandro/portfolio";
     case "date":

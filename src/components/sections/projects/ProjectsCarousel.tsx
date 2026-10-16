@@ -106,6 +106,7 @@ export const ProjectsCarousel = ({
               isActive={positionMap[i] === 3}
               onSelect={onSelect}
               enableSharedLayout={enableSharedLayout}
+              dossierNo={`${String(i + 1).padStart(2, "0")} / ${String(projects.length).padStart(2, "0")}`}
             />
           ))}
         </div>

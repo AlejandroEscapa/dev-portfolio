@@ -59,7 +59,7 @@ export const Contact = () => {
        composition sits centred inside the window; data + socials + signature
        live in the site footer (src/components/Footer.tsx). */
     <section className="relative min-h-[60vh] flex flex-col pt-7 md:pt-10 pb-4">
-      {/* WindowChrome owns the section entry; reveals only orchestrate its contents. */}
+      {/* The sheet section owns the entry; reveals only orchestrate its contents. */}
       {/* Same content inset as Projects/Education (container max-w-6xl):
           the window stays full-bleed, the content floats inside it. */}
       <div className="flex-1 flex flex-col container mx-auto max-w-6xl">

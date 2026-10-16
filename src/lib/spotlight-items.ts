@@ -13,13 +13,14 @@ export interface SpotlightItem {
 interface Ctx { setTheme: (t: ThemeId) => void; }
 
 export function getSpotlightItems(ctx: Ctx): SpotlightItem[] {
-  // Keys MUST be real DOM ids (WindowChrome wrappers in Index.tsx) or the
+  // Keys MUST be real DOM ids (section wrappers in Index.tsx) or the
   // scroll no-ops silently. Labels may differ from the key when the
-  // window title reads better (about = "~/stack", trayectoria = experience).
+  // old window title read better (about = "~/stack", trayectoria = experience).
   const sections: SpotlightItem[] = [
     { key: "hero", label: "Go to hero" },
     { key: "about", label: "Go to stack" },
     { key: "projects", label: "Go to projects" },
+    { key: "ai-workbench", label: "Go to AI Workbench" },
     { key: "trayectoria", label: "Go to experience" },
     { key: "contributions", label: "Go to impact" },
     { key: "education", label: "Go to education" },

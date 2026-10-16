@@ -25,6 +25,20 @@ describe("executeCommand", () => {
     expect(out).toContain("dracula");
   });
 
+  it("navigates to Workbench from the CLI", () => {
+    const navigate = vi.fn();
+    const out = executeCommand("workbench", { setTheme: vi.fn(), clear: vi.fn(), navigate });
+
+    expect(navigate).toHaveBeenCalledWith("ai-workbench");
+    expect(out).toContain("~/workbench");
+  });
+
+  it("lists Workbench in help and ls", () => {
+    const ctx = { setTheme: vi.fn(), clear: vi.fn() };
+    expect(executeCommand("help", ctx)).toContain("workbench");
+    expect(executeCommand("ls", ctx)).toContain("workbench/");
+  });
+
   it("responds to the new info commands without error", () => {
     const ctx = { setTheme: vi.fn(), clear: vi.fn() };
     ["impact", "certs", "stats"].forEach((cmd) => {

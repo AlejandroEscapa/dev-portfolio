@@ -5,7 +5,7 @@ describe("spotlight items", () => {
   it("includes all sections", () => {
     const items = getSpotlightItems({ setTheme: () => {} });
     const ids = items.map((i) => i.id);
-    ["section-hero", "section-about", "section-contributions", "section-certifications", "section-sidequests", "section-stats", "section-contact", "theme-catppuccin"].forEach((id) => expect(ids).toContain(id));
+    ["section-hero", "section-about", "section-ai-workbench", "section-contributions", "section-certifications", "section-sidequests", "section-stats", "section-contact", "theme-catppuccin"].forEach((id) => expect(ids).toContain(id));
   });
 
   it("targets only real DOM section ids", () => {
@@ -15,7 +15,7 @@ describe("spotlight items", () => {
       .filter((i) => i.group === "Sections")
       .map((i) => i.id.replace("section-", ""));
     expect(sectionKeys).toEqual([
-      "hero", "about", "projects", "trayectoria", "contributions", "education",
+      "hero", "about", "projects", "ai-workbench", "trayectoria", "contributions", "education",
       "certifications", "sidequests", "stats", "contact",
     ]);
   });
@@ -23,6 +23,7 @@ describe("spotlight items", () => {
   it("labels the new sections for the palette", () => {
     const items = getSpotlightItems({ setTheme: () => {} });
     const byLabel = Object.fromEntries(items.filter((i) => i.group === "Sections").map((i) => [i.id, i.label]));
+    expect(byLabel["section-ai-workbench"]).toBe("Go to AI Workbench");
     expect(byLabel["section-contributions"]).toBe("Go to impact");
     expect(byLabel["section-certifications"]).toBe("Go to certifications");
     expect(byLabel["section-sidequests"]).toBe("Go to side quests");

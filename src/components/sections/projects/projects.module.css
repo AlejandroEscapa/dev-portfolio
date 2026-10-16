@@ -120,13 +120,26 @@
   display: block;
 }
 
+.dossierMeta {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  margin: 0 0 0.15rem;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+  color: hsl(var(--muted-foreground) / 0.85);
+}
+
 .cardBody {
   position: relative;
-  padding: 1rem;
+  padding: 1.05rem 1.15rem 1.1rem;
   text-align: left;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.6rem;
   flex: 1;
   overflow: hidden;
   min-height: 0;
@@ -281,10 +294,12 @@
    min-content, so "View details" (126px) and "GitHub" (95px) landed at
    different widths despite equal flex-grow. minmax(0, 1fr) floors at zero,
    forcing strictly equal columns and heights. */
+/* Dossier hierarchy: UN solo CTA primario a ancho completo; el repo es
+   voz secundaria mono, sin competir en peso ni en caja. */
 .cardActionRow {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.4rem;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.35rem;
   width: 100%;
 }
 

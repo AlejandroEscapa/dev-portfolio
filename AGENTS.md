@@ -316,14 +316,14 @@ Real order top → bottom:
    `index.html` primes the LCP fetch.
 2. `Nav` — fixed top, hidden until scroll past `#projects`,
    active-section tracking via rAF-light scroll listener.
-3. `HeroShowcase` — left: sticky 3D window (lazy `HeroScene`, GLB
-   figure on a holo pedestal — see 3D components below); right:
-   stacked `WindowChrome` Welcome (`<Hero>`) + About
-   (`<TechBento>`). Both right-side windows are `viewport-content`
+3. `HeroShowcase` — left: sticky 3D figure (lazy `HeroScene`, GLB
+   figure on a holo pedestal — see 3D components below), no window
+   frame; right: stacked sheet blocks Welcome (`<Hero>`) + About
+   (`<TechBento>`). Both right-side blocks are `viewport-content`
    (i.e. `100vh − --nav-height`) so they line up with the sticky
    3D column. Mobile falls back to a vertical stack with the 3D at
    `55vh` non-sticky.
-4. `Projects` — `<WindowChrome title="~/projects — ls -la">`. Two
+4. `Projects` — sheet section (id `projects`). Two
    view modes (`carousel` | `detail`) with a 420ms cross-fade via
    `isExiting` + `viewFlip/entering/exiting` CSS animation. Filter
    chips sit visually below the cards thanks to DOM order swap
@@ -340,29 +340,42 @@ Real order top → bottom:
    spec cells pair up, half when sharing a row; repo CTA carries the
    real GitHub mark); a one-line additive fact strip (APIs, features)
    sits at the bottom of the window, capped to a single row.
-5. `Trayectoria` — desktop = GSAP horizontal-scrolling timeline
+4b. `AIWorkbench` — sección llana (id `ai-workbench` en `Index.tsx`).
+   El `SectionContainer` interior no lleva id (evita anchors duplicados).
+
+   **Hoja continua (edición nocturna):** las ventanas murieron — 9 secciones
+   seguidas sin `WindowChrome` (borrado con su test), separadas solo por
+   `<SectionDivider>` (filete doble + folio `02 / 09 · workbench`).
+   El único ritmo es `.section-y`. Stats va subordinado
+   (`mx-auto max-w-5xl`): infografía dentro del ejemplar, no gemela.
+   Guiños editoriales (`.rule-double`, `.folio`, `.photo-credit`,
+   `.dropcap` en `src/index.css`). `Trayectoria` y `Projects` conservan
+   su lógica interna (pin GSAP, carousel 3D) sin marco.
+5. `Trayectoria` — estructura especial con horizontal-scroll pineado por
+   GSAP (sin marco, como todo lo demás). Desktop = GSAP horizontal-scrolling timeline
    (pin + scrub, alt cards above/below the axis, axes + connector
    dots, scroll progress `current / total`); mobile = vertical
    timeline. `<a>` CTA card at the rightmost end of the desktop
    track.
-6. `Contributions` — `<WindowChrome title="~/contributions — git log">`
-   (id `contributions`). Ledger of open-source contributions rendered as
+6. `Contributions` — sheet section (id `contributions`).
+   Ledger of open-source contributions rendered as
    git-log lines; each row is an expandable accordion revealing the full
    war story in a single column (mobile-safe).
-7. `Education` — `<WindowChrome title="~/education.txt">`. Formal
+7. `Education` — dentro de la sección `formacion` (anclas internas
+   `education` + `certifications`). Formal
    education only (the standalone IBM credential card was removed), in
    a 2-col grid; credentials live in Certifications now.
-8. `Certifications` — `<WindowChrome title="~/certifications — credentials --verify">`
-   (id `certifications`). Credential cards pulled out of the
+8. `Certifications` — dentro de `formacion` (id `certifications`).
+   Credential cards pulled out of the
    Trayectoria/Education timelines into their own window, 2-col grid.
-9. `SideQuests` — `<WindowChrome title="~/side-quests — ls ~/hobbies">`
-   (id `sidequests`). Sober mono list of out-of-building projects.
-10. `Stats` — `<WindowChrome title="~/stats — uptime">` (id `stats`).
-    neofetch-style window compacta with ASCII bars (`statBar`) instead
+9. `SideQuests` — sheet section (id `sidequests`).
+   Sober mono list of out-of-building projects.
+10. `Stats` — sheet section (id `stats`), subordinada `max-w-5xl`.
+    neofetch-style compacta with ASCII bars (`statBar`) instead
     of invented metrics.
-11. `Contact` — `<WindowChrome title="~/contact — mail">` — form is
+11. `Contact` — sheet section (id `contact`) — form is
     a `mailto:` launcher (no backend). The personal data rows (location,
-    email, social marks) moved OUT of this window.
+    email, social marks) moved OUT into the footer.
 12. `Footer` (`src/components/Footer.tsx`) — editorial 3-zone footer,
     no window chrome: identity block + quick nav + social marks, then a
     hairline with © line, signature and the site's single status dot
@@ -480,14 +493,11 @@ materials silently fall back to white if you change this).
 (`frameloop="demand"`), no postprocessing, no float/materialisation.
 Mid/high tiers get the full experience.
 
-### Window chrome (`src/components/window/`)
+### Window chrome — ELIMINADO (hoja continua)
 
-`WindowChrome` exposes `title`, `id`, `defaultOpen`, `fullHeight`,
-and a `className`. Three traffic-light buttons: **close** removes the
-window entirely (clicking a small "open" pill restores it),
-**minimize** collapses height to 0 (or fades children when
-`fullHeight`), **maximize** un-minimizes. Used as the wrapping shell
-around every major window.
+`src/components/window/` se borró con su test: la página ya no tiene
+ventanas. Si algún día vuelve un marco, se reintroduce desde git,
+no se reinventa.
 
 ### Shell chrome
 
@@ -602,7 +612,7 @@ iteration; surface tightening as a separate refactor change.
   - stubs `window.matchMedia` with a full `MediaQueryList` shape
   - stubs `window.IntersectionObserver` (no-op)
 - Co-located tests exist for:
-  `WindowChrome`, `useTerminalHistory`, `useTheme`, `cli-commands`,
+  `section/SectionDivider`, `useTerminalHistory`, `useTheme`, `cli-commands`,
   `spotlight-items`, `data/projects` (`projects.test.ts`),
   `data/trayectoria` (`trayectoria.test.ts`),
   `fx/Reveal` (+ `Reveal.viewport.test.tsx`), `fx/TerminalCursor`,

@@ -128,7 +128,9 @@ export const Contributions = ({ motionStyle }: ContributionsProps) => {
       </RevealStagger>
 
       {/* Accordion: una sola fila abierta; click en la fila abierta la cierra.
-          Con reduce-motion el cambio de estado es inmediato y sin transición. */}
+          Con reduce-motion el cambio de estado es inmediato y sin transición.
+          Filete doble de apertura: el ledger entra como página del ejemplar. */}
+      <div aria-hidden="true" className="rule-double mb-2" />
       <ul>
         {contributions.map((c) => {
           const open = openId === c.id;

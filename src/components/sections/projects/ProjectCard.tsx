@@ -12,6 +12,8 @@ interface ProjectCardProps {
   isActive: boolean;
   onSelect: (project: Project) => void;
   enableSharedLayout?: boolean;
+  /** Dossier editorial: "01 / 03" — lo pasa el carousel, no la posición 3D. */
+  dossierNo?: string;
 }
 
 export const ProjectCard = ({
@@ -20,6 +22,7 @@ export const ProjectCard = ({
   isActive,
   onSelect,
   enableSharedLayout = false,
+  dossierNo,
 }: ProjectCardProps) => {
   const { t } = useLanguage();
 
@@ -63,6 +66,15 @@ export const ProjectCard = ({
       </motion.div>
 
       <div className={styles.cardBody}>
+        {dossierNo && (
+          <p className={cn(styles.dossierMeta, "folio")} aria-hidden={!isActive}>
+            <span>{dossierNo}</span>
+            <span aria-hidden="true">·</span>
+            <span>{project.media.type === "video" ? "motion" : "still"}</span>
+            <span aria-hidden="true">·</span>
+            <span>{project.techTags.length} tech</span>
+          </p>
+        )}
         <span className={styles.tabBar}>
           <span className={styles.cardBadge}>{t(project.badgeKey)}</span>
           <span className={styles.tabRail} aria-hidden="true" />
@@ -106,9 +118,9 @@ export const ProjectCard = ({
                   than the filled sibling. Chip-recipe edge + interior keep the
                   secondary variant but make its footprint legible. */}
               <Button
-                variant="outline"
+                variant="ghost"
                 size="sm"
-                className="w-full border-neutral-tint/25 bg-neutral-tint/[0.04] hover:bg-neutral-tint/[0.08]"
+                className="w-full justify-start px-1 font-mono text-[0.72rem] tracking-wide text-muted-foreground hover:text-foreground"
               >
                 <Github className="h-4 w-4" />
                 {t("projects.view_repo")}

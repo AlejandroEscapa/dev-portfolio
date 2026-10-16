@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Terminal as TerminalIcon } from "lucide-react";
 import { executeCommand } from "@/lib/cli-commands";
+import { scrollToSection } from "@/lib/scroll";
 import { useTheme } from "@/hooks/useTheme";
 import { useTerminalHistory } from "@/hooks/useTerminalHistory";
 import { cn } from "@/lib/utils";
@@ -49,7 +50,7 @@ export function CliTerminal({ open, onOpenChange }: CliTerminalProps) {
     if (!input.trim()) return;
     push("user", `alejandro@dev:~$ ${input}`);
     pushCommand(input);
-    const out = executeCommand(input, { setTheme, clear });
+    const out = executeCommand(input, { setTheme, clear, navigate: scrollToSection });
     if (out) push("bot", out);
     setInput("");
   }

@@ -38,8 +38,8 @@ export function scrollToSection(id: string) {
   }
 
   // Numeric target: bypasses Lenis's own scroll-margin handling and corrects
-  // for the translateY that WindowChrome's whileInView entrance keeps on
-  // not-yet-seen windows (it inflates rect.top and makes landings undershoot).
+  // for the translateY that section whileInView entrances keep on not-yet-seen
+  // blocks (it inflates rect.top and makes landings undershoot).
   const transform = getComputedStyle(el).transform;
   const translateY =
     transform && transform !== "none" ? new DOMMatrixReadOnly(transform).m42 : 0;

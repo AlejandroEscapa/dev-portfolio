@@ -1,14 +1,14 @@
 /**
- * HeroShowcase — 40/60 split layout with three windows that measure
+ * HeroShowcase — 40/60 split layout with three sheet blocks that measure
  * the SAME height (`.viewport-content` = 100vh − --nav-height):
  *
  *   ┌────────────────────────┬──────────────────────────────────┐
- *   │  3D window             │  Welcome window (Hero)           │
+ *   │  3D figure             │  Welcome (Hero)                  │
  *   │  viewport-content       │  viewport-content                │
  *   │  ─ sticky top-0        │                                  │
  *   │                        ├──────────────────────────────────┤
- *   │                        │  About window                    │
- *   │                        │  viewport-content + fullHeight   │
+ *   │                        │  About                           │
+ *   │                        │  viewport-content                │
  *   └────────────────────────┴──────────────────────────────────┘
  *
  * All three panels share the exact same height. The 3D stays pinned
@@ -32,9 +32,9 @@ import { type ReactNode, lazy, Suspense } from 'react';
 const HeroScene = lazy(() => import('@/components/three/HeroScene'));
 
 interface HeroShowcaseProps {
-  /** Right-column content. Typically:
-   *    <WindowChrome className="viewport-content" fullHeight><Hero /></WindowChrome>
-   *    <WindowChrome className="viewport-content" fullHeight><About /></WindowChrome> */
+  /** Right-column content. Typically plain sheet sections:
+   *    <section id="hero" className="viewport-content">…
+   *    <section id="about" className="viewport-content">… */
   children: ReactNode;
 }
 

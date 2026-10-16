@@ -6,6 +6,7 @@ import { ScrollTrigger } from "@/lib/gsap";
 const linksConfig = [
   { labelKey: "nav.about", href: "#about" },
   { labelKey: "nav.projects", href: "#projects" },
+  { labelKey: "nav.workbench", href: "#ai-workbench" },
   { labelKey: "nav.experience", href: "#trayectoria" },
   { labelKey: "nav.impact", href: "#contributions" },
   { labelKey: "nav.education", href: "#education" },

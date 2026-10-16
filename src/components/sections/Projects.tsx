@@ -103,7 +103,7 @@ export const Projects = ({ motionStyle }: ProjectsProps) => {
 
   return (
     <motion.section
-      // No id here: the WindowChrome wrapper in Index owns the "projects" anchor.
+      // No id here: the sheet section in Index owns the "projects" anchor.
       style={motionStyle}
       className={cn("relative flex flex-col justify-center")}
     >
