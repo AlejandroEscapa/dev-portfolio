@@ -26,7 +26,6 @@
  */
 
 import { type ReactNode, lazy, Suspense } from 'react';
-import { WindowChrome } from '@/components/window/WindowChrome';
 
 // The whole R3F tree (fiber + drei + postprocessing + GLB) is code-split
 // out of the initial bundle; the mono "loading" line covers the fetch.
@@ -49,40 +48,28 @@ export function HeroShowcase({ children }: HeroShowcaseProps) {
             `lg:self-start` is required for `position: sticky` to work
             on a CSS grid item. */}
         <div className="relative max-lg:h-[55vh] lg:viewport-content lg:sticky lg:top-[var(--hero-pad-top)] lg:self-start">
-          <WindowChrome
-            title="~/object.glb"
-            id="hero-3d"
-            // h-full fills the sticky left column; overrides WindowChrome's
-            // max-w-5xl / mx-auto defaults.
-            className="h-full max-w-none mx-0"
-            fullHeight
-          >
-            <div className="relative h-full min-h-[360px]">
-              {/* Soft primary glow behind the 3D figure */}
-              <div className="pointer-events-none absolute inset-0 -z-10 scale-90 rounded-full bg-primary/15 blur-3xl" />
-              <Suspense
-                fallback={
-                  <div className="absolute inset-0 grid place-items-center">
-                    <span className="animate-pulse font-mono text-xs text-muted-foreground">
-                      loading ~/object.glb …
-                    </span>
-                  </div>
-                }
-              >
-                <HeroScene />
-              </Suspense>
-            </div>
-          </WindowChrome>
+          {/* Hoja continua: la figura va sin marco de ventana. El sticky y la
+              altura viewport-content se conservan en este contenedor. */}
+          <div className="relative h-full min-h-[360px]">
+            {/* Soft primary glow behind the 3D figure */}
+            <div className="pointer-events-none absolute inset-0 -z-10 scale-90 rounded-full bg-primary/15 blur-3xl" />
+            <Suspense
+              fallback={
+                <div className="absolute inset-0 grid place-items-center">
+                  <span className="animate-pulse font-mono text-xs text-muted-foreground">
+                    loading ~/object.glb …
+                  </span>
+                </div>
+              }
+            >
+              <HeroScene />
+            </Suspense>
+          </div>
         </div>
 
-        {/* Right: Welcome (Hero) + About stacked. `gap-8` (32px) gives a
-            touch more breathing room than the default `gap-6` so the
-            rounded bottom border of the Welcome window doesn't read
-            as touching the rounded top border of the About window.
-            Both windows measure viewport-content (set by the parent's
-            fullHeight prop on WindowChrome). The 3D stays pinned for
-            the full height of this column, so visual alignment is
-            preserved. */}
+        {/* Right: Welcome (Hero) + About stacked as plain sheet blocks.
+            Both keep viewport-content so the sticky 3D column stays aligned
+            for the full height of this column. */}
         <div className="relative flex flex-col gap-8">
           {children}
         </div>
