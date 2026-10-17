@@ -1,58 +1,38 @@
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { Send } from "lucide-react";
+import { lazy, Suspense } from "react";
 import { RevealStagger } from "@/components/fx/RevealStagger";
 import { Reveal } from "@/components/fx/Reveal";
 
 import { useLanguage } from "@/context/LanguageContext";
-import { portfolioConfig } from "@/lib/config";
-import { toast } from "@/components/ui/sonner";
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormControl,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
 
-const inputCls =
-  "h-11 bg-transparent border-neutral-tint/10 text-foreground placeholder:text-muted-foreground focus-visible:border-primary/50 focus-visible:ring-1 focus-visible:ring-primary/30 focus-visible:ring-offset-0 transition-colors";
-const textareaCls =
-  "bg-transparent border-neutral-tint/10 text-foreground placeholder:text-muted-foreground focus-visible:border-primary/50 focus-visible:ring-1 focus-visible:ring-primary/30 focus-visible:ring-offset-0 min-h-[80px] resize-none transition-colors";
-const messageCls = "text-xs";
+// El formulario (react-hook-form + zod) va en su propio chunk: está al final
+// de la página y es un lanzador `mailto:`, así que no tiene por qué ejecutarse
+// antes de pintar nada (auditoría de rendimiento 2026-10-17).
+const ContactForm = lazy(() =>
+  import("./contact/ContactForm").then((m) => ({ default: m.ContactForm })),
+);
+
+/**
+ * Placeholder con la geometría EXACTA del formulario real (inputs h-11,
+ * textarea min-h-[80px], mismo grid y mismo padding): el hueco que deja
+ * mientras carga el chunk mide lo mismo, así que no hay salto de layout.
+ */
+function ContactFormSkeleton() {
+  return (
+    <div className="grid gap-5 p-6 md:p-8" aria-hidden="true">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <div className="h-11 rounded-md border border-neutral-tint/10" />
+        <div className="h-11 rounded-md border border-neutral-tint/10" />
+      </div>
+      <div className="grid grid-cols-1 items-stretch gap-5 sm:grid-cols-[1fr_auto]">
+        <div className="min-h-[80px] rounded-md border border-neutral-tint/10" />
+        <div className="min-h-[80px] w-full rounded-lg border border-neutral-tint/10 sm:w-44" />
+      </div>
+    </div>
+  );
+}
 
 export const Contact = () => {
-  const { t, lang } = useLanguage();
-
-  const formSchema = z.object({
-    name: z.string().min(2, t("contact.form_error_name")),
-    email: z.string().email(t("contact.form_error_email")),
-    message: z.string().min(10, t("contact.form_error_message")),
-  });
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: { name: "", email: "", message: "" },
-  });
-
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    const subjectTemplate =
-      lang === "es" ? "Nuevo mensaje de {name}" : "New message from {name}";
-    const subject = encodeURIComponent(
-      subjectTemplate.replace("{name}", values.name),
-    );
-    const body = encodeURIComponent(
-      `Name: ${values.name}\nEmail: ${values.email}\n\n${values.message}`,
-    );
-    const mailto = `mailto:${portfolioConfig.email}?subject=${subject}&body=${body}`;
-    toast(t("contact.form_sending"));
-    window.location.href = mailto;
-    form.reset();
-  }
+  const { t } = useLanguage();
 
   return (
     /* The section keeps its asymmetric vertical padding so the two-column
@@ -93,90 +73,9 @@ export const Contact = () => {
                 aria-hidden="true"
                 className="absolute top-0 left-0 right-0 h-[3px] bg-primary"
               />
-
-              <Form {...form}>
-                <form
-                  onSubmit={form.handleSubmit(onSubmit)}
-                  className="grid gap-5 p-6 md:p-8"
-                >
-                  {/* Row 1: name + email — visible mono labels, placeholders as examples */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <FormField
-                      control={form.control}
-                      name="name"
-                      render={({ field }) => (
-                        <FormItem className="grid gap-2">
-                          <FormControl>
-                            <Input
-                              data-cursor="text"
-                              placeholder={t("contact.form_name")}
-                              aria-label={t("contact.form_name")}
-                              autoComplete="name"
-                              className={inputCls}
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage className={messageCls} />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem className="grid gap-2">
-                          <FormControl>
-                            <Input
-                              data-cursor="text"
-                              type="email"
-                              placeholder="you@domain.com"
-                              aria-label={t("contact.form_email")}
-                              autoComplete="email"
-                              className={inputCls}
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage className={messageCls} />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-
-                  {/* Row 2: message + submit button — items-stretch */}
-                  <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-5 items-stretch">
-                    <FormField
-                      control={form.control}
-                      name="message"
-                      render={({ field }) => (
-                        <FormItem className="grid gap-2">
-                          <FormControl>
-                            <Textarea
-                              data-cursor="text"
-                              placeholder={t(
-                                "contact.form_message_placeholder",
-                              )}
-                              aria-label={t("contact.form_message")}
-                              className={textareaCls}
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage className={messageCls} />
-                        </FormItem>
-                      )}
-                    />
-                    <Button
-                      type="submit"
-                      disabled={form.formState.isSubmitting}
-                      className="group h-auto min-h-[80px] py-2 px-5 w-full sm:w-44 rounded-lg bg-gradient-to-r from-primary to-primary-glow text-primary-foreground hover:shadow-[0_0_40px_var(--shadow-glow)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 flex items-center justify-center gap-2"
-                    >
-                      <Send className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5" />
-                      <span className="hidden sm:inline">
-                        {t("contact.form_submit")}
-                      </span>
-                    </Button>
-                  </div>
-                </form>
-              </Form>
+              <Suspense fallback={<ContactFormSkeleton />}>
+                <ContactForm />
+              </Suspense>
             </div>
           </Reveal>
         </RevealStagger>
