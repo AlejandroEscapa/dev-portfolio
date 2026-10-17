@@ -71,6 +71,7 @@ All run via `npm` (a `bun.lockb` also exists; the lockfile story is in §11).
 | `npm run tokens:test`           | Vitest for the token pipeline (core + AA contrast tests)             |
 | `npm run lint`                  | `eslint .` (flat config; ignores `dist`)                            |
 | `npm run onboard`               | Interactive wizard that rewrites `portfolio.config.json`            |
+| `npm run perf:budget`           | Gzip de `dist/assets` contra los topes de `scripts/bundle-budget.mjs` |
 | `npm test`                      | Vitest single run                                                   |
 | `npm run test:watch`            | Vitest watch                                                        |
 
@@ -439,7 +440,11 @@ Third-party effects copied from shadcn registries and adapted:
 `DecryptedText` (hero h1), `ShimmerButton` (hero CTAs — the luminous
 spark/indicator was removed at the user's request; the buttons keep
 only highlight + backdrop), `Noise` (film-grain overlay on the
-background image, mounted in `Index.tsx`).
+background image, mounted in `Index.tsx`). El grano NO se genera por
+frame: `lib/grain.ts` pinta dos frames de 1024×1024 una sola vez al
+montar y el bucle de rAF (cadencia en `grainIntervalMs`) solo alterna
+`drawImage`. Generarlo por frame costaba 12,7 ms de CPU y 4,19 MB de
+basura cada ~100 ms (auditoría 2026-10-17).
 In-repo primitives (no registry origin): `Reveal` + `RevealStagger`
 (the shared below-the-fold reveals; `amount: "some"`, never a
 proportional threshold, or a container taller than the viewport would
@@ -517,6 +522,14 @@ no se reinventa.
 | `crt/CrtOverlay.tsx`+`CRTToggle`  | Top-right toggle              | Body class `crt-on` (scanlines + vignette)              |
 | `Nav.tsx`                         | Always (top-fixed)            | Scroll + resize listeners, hides itself before `#projects`; one link per numbered section (`#formacion`, not the inner `#education`) |
 | `background/ImageBackground.tsx`  | Mounted once                  | Responsive `<img>` w/ srcSet/sizes                      |
+
+**Política de handlers de scroll/pointer (auditoría 2026-10-17):** un solo
+listener por superficie, pasivo cuando toca, coalescido a una rAF por ráfaga,
+y medidas cacheadas. `Nav` mide sus 9 anchors al montar y solo remide en
+`resize` y en `ScrollTrigger` `"refresh"`; `Dock`, `TerminalCursor`,
+`Magnetic` y `useSpecular` leen la posición del elemento en la rAF, no en cada
+evento. Cualquier handler nuevo sigue esa forma: nada de
+`getBoundingClientRect()` dentro del listener de `scroll`/`pointermove`.
 
 CLI commands are a single switch in `src/lib/cli-commands.ts`
 (`help`, `whoami`, `projects`, `skills`, `experience`, `education`,
@@ -631,7 +644,10 @@ iteration; surface tightening as a separate refactor change.
   (every referenced public asset exists),
   `src/scripts/build-tokens.test.ts`,
   `src/scripts/token-contrast.test.ts` (WCAG AA guard for muted text,
-  covering the five themes including the hidden one).
+  covering the five themes including the hidden one),
+  `src/scripts/bundle-budget.test.ts` (política del presupuesto de gzip),
+  `lib/grain`, `lib/nav-scroll`, `lib/dock-hover`, `lib/specular`,
+  `lib/video-playback`, `sections/Contact`, `hooks/useInViewport`.
 - Coverage guidance: any new data-shaping helper (`groupTechByCategory`,
   command dispatch, theme overlay, spotlight filter) gets a co-located
   `.test.ts` BEFORE the implementation lands.

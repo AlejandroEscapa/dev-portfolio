@@ -40,6 +40,20 @@ export const Projects = ({ motionStyle }: ProjectsProps) => {
   const stageRef = useRef<HTMLDivElement>(null);
   const sectionVisible = useInViewport(stageRef);
 
+  // Un solo timer para el cross-fade: cambiar de ruta a mitad del flip dejaba
+  // un setState programado sobre un componente desmontado (auditoria 2026-10-17).
+  const swapTimer = useRef<number | null>(null);
+  const scheduleSwap = (fn: () => void) => {
+    if (swapTimer.current !== null) window.clearTimeout(swapTimer.current);
+    swapTimer.current = window.setTimeout(() => {
+      swapTimer.current = null;
+      fn();
+    }, SWAP_MS);
+  };
+  useEffect(() => () => {
+    if (swapTimer.current !== null) window.clearTimeout(swapTimer.current);
+  }, []);
+
   const filteredProjects = useMemo(() => {
     if (activeCategories.length === 0) return allProjects;
     return allProjects.filter((p) => p.categories.some((c) => activeCategories.includes(c)));
@@ -63,10 +77,10 @@ export const Projects = ({ motionStyle }: ProjectsProps) => {
       return;
     }
     setIsExiting(true);
-    window.setTimeout(() => {
+    scheduleSwap(() => {
       setViewMode("detail");
       setIsExiting(false);
-    }, SWAP_MS);
+    });
   };
 
   const handleBack = () => {
@@ -77,11 +91,11 @@ export const Projects = ({ motionStyle }: ProjectsProps) => {
       return;
     }
     setIsExiting(true);
-    window.setTimeout(() => {
+    scheduleSwap(() => {
       setSelectedProject(null);
       setViewMode("carousel");
       setIsExiting(false);
-    }, SWAP_MS);
+    });
   };
 
   const handleCategoriesChange = (next: ProjectCategoryId[]) => {
