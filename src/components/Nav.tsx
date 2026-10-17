@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { scrollToSection } from "@/lib/scroll";
 import { ScrollTrigger } from "@/lib/gsap";
+import { resolveActiveSection, isNavVisible, type SectionAnchor } from "@/lib/nav-scroll";
 
 // Un enlace por cada una de las 9 secciones numeradas, en el orden real de la
 // pagina (el hero es la portada, sin numeral: no entra en el menu). El href de
@@ -29,55 +30,61 @@ export const Nav = () => {
   useEffect(() => {
     const allSections = linksConfig.map((l) => l.href.slice(1));
 
-    const computeThreshold = () => {
+    // Medidas cacheadas: se recalculan al montar, al redimensionar y cuando
+    // ScrollTrigger refresca (los pin-spacers mueven los offsets después del
+    // montaje). Antes esto eran 9 getBoundingClientRect por CADA evento de
+    // scroll (~900 lecturas de layout por segundo con Lenis a 90-120 Hz).
+    const anchors: SectionAnchor[] = [];
+    let threshold = 500;
+
+    const measure = () => {
       // First section AFTER the hero rail: the nav stays hidden while the
       // visitor is inside the hero screens and appears past this anchor.
       const projectsEl = document.getElementById("projects");
-      if (!projectsEl) return 500;
-      return projectsEl.getBoundingClientRect().top + window.scrollY - 100;
-    };
+      threshold = projectsEl
+        ? projectsEl.getBoundingClientRect().top + window.scrollY - 100
+        : 500;
 
-    let threshold = computeThreshold();
-
-    const onScroll = () => {
-      const scrollY = window.scrollY;
-      setScrolled(scrollY > 40);
-
-      setVisible(scrollY >= threshold);
-
-      const viewportCenter = window.innerHeight / 2;
-      let closestSection = "hero";
-      let closestDistance = Infinity;
-
+      anchors.length = 0;
       for (const id of allSections) {
         const el = document.getElementById(id);
         if (!el) continue;
         const rect = el.getBoundingClientRect();
-        const sectionCenter = rect.top + rect.height / 2;
-        const distance = Math.abs(sectionCenter - viewportCenter);
-        if (distance < closestDistance) {
-          closestDistance = distance;
-          closestSection = id;
-        }
+        anchors.push({ id, center: rect.top + window.scrollY + rect.height / 2 });
       }
+    };
 
-      setActiveSection(closestSection);
+    // Una sola rAF por ráfaga de eventos: el estado de React solo cambia de
+    // valor cuando de verdad cambia, pero el cálculo tampoco se repite.
+    let pending = false;
+    const update = () => {
+      pending = false;
+      const scrollY = window.scrollY;
+      setScrolled(scrollY > 40);
+      setVisible(isNavVisible(scrollY, threshold));
+      setActiveSection(
+        resolveActiveSection(anchors, scrollY + window.innerHeight / 2),
+      );
+    };
+
+    const onScroll = () => {
+      if (pending) return;
+      pending = true;
+      requestAnimationFrame(update);
     };
 
     const onResize = () => {
-      threshold = computeThreshold();
+      measure();
+      onScroll();
     };
 
-    // ScrollTrigger pin-spacers and refreshes shift section offsets after
-    // mount — keep the nav's visibility threshold in sync with them.
-    const onRefresh = () => {
-      threshold = computeThreshold();
-    };
+    const onRefresh = measure;
     ScrollTrigger.addEventListener("refresh", onRefresh);
 
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onResize);
-    onScroll();
+    measure();
+    update();
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
