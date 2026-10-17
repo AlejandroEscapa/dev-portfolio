@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FileText, Globe, Mail, Palette, Search, SquareTerminal, ChevronLeft, ChevronRight } from "lucide-react";
 import { siGithub } from "simple-icons";
 import { useDockHover } from "@/hooks/useDockHover";
+import { magnifyScale } from "@/lib/dock-hover";
 import { DockItem } from "./DockItem";
 import { ThemeMenu } from "@/components/theme-switcher/ThemeMenu";
 import { EASE_OUT_EXPO, DURATION_BASE } from "@/lib/motion";
@@ -15,7 +16,6 @@ interface DockProps {
   onToggleTerminal: () => void;
 }
 
-const RADIUS = 56;
 const ICON_SIZE = 20;
 
 // simple-icons dropped the LinkedIn mark in v11 (trademark policy); this is
@@ -53,7 +53,8 @@ function LanguageIcon() {
 }
 
 export function Dock({ onOpenSpotlight, terminalOpen, onToggleTerminal }: DockProps) {
-  const { ref, hoveredIdx, onMouseMove, onMouseLeave } = useDockHover("y");
+  const { ref, hoveredIdx, onMouseMove, onMouseEnter, onMouseLeave, remeasure } =
+    useDockHover("y");
   const { t } = useLanguage();
   const { lang, toggleLang } = useLanguage();
   const [expanded, setExpanded] = useState(false);
@@ -65,6 +66,11 @@ export function Dock({ onOpenSpotlight, terminalOpen, onToggleTerminal }: DockPr
     const id = setTimeout(() => setResumeFeedback(null), 2200);
     return () => clearTimeout(id);
   }, [resumeFeedback]);
+
+  // Expandir/colapsar mueve los centros de los items sin mover el puntero.
+  useEffect(() => {
+    remeasure();
+  }, [expanded, remeasure]);
 
   const items = [
     {
@@ -165,6 +171,7 @@ export function Dock({ onOpenSpotlight, terminalOpen, onToggleTerminal }: DockPr
         aria-label={t("aria.dock")}
         aria-orientation="vertical"
         onMouseMove={onMouseMove}
+        onMouseEnter={onMouseEnter}
         onMouseLeave={() => { onMouseLeave(); setThemeMenuOpen(false); }}
         animate={{ width: expanded ? 184 : 52 }}
         transition={{ duration: DURATION_BASE, ease: EASE_OUT_EXPO }}
@@ -182,7 +189,7 @@ export function Dock({ onOpenSpotlight, terminalOpen, onToggleTerminal }: DockPr
           }
           const scale = expanded || hoveredIdx === null
             ? 0
-            : 1 - Math.min(RADIUS, Math.abs(("dockIdx" in it ? it.dockIdx : 0) - hoveredIdx) * 26) / RADIUS;
+            : magnifyScale("dockIdx" in it ? it.dockIdx : 0, hoveredIdx);
           const showLabel = expanded;
           if ("isLanguage" in it && it.isLanguage) {
             return (
