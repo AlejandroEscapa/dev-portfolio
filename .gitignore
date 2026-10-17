@@ -70,3 +70,6 @@ src/styles/generated/
 
 # Artefactos de tooling
 repomix-output.xml
+
+# === Scratch del método (superpowers) ===
+.superpowers/
