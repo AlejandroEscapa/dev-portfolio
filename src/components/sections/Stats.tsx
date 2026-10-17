@@ -15,14 +15,21 @@ export const Stats = ({ motionStyle }: StatsProps) => {
   return (
     // F2a tira teñida sin glass; F1.5 sin min-h sistemático en bloque CV.
     <SectionContainer maxWidth="md" motionStyle={motionStyle}>
-      {/* Eyebrow mono + h2 sr-only: la ventana compacta no lleva display heading
-          visible; la jerarquía para lectores la da el h2 oculto. */}
+      {/* Misma receta de cabecera que el resto de secciones: label numerada
+          + display heading + sub. El panel sigue subordinado debajo. */}
       <RevealStagger className="mb-8">
         <Reveal variant="fadeUpSm" className="mb-4 flex items-center gap-3 font-mono text-sm uppercase tracking-label text-muted-foreground">
           <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
-          <span aria-hidden="true">{t("stats.section_label")}</span>
+          <span>{t("stats.section_label")}</span>
         </Reveal>
-        <h2 className="sr-only">{t("stats.section_label")}</h2>
+        <Reveal variant="fadeUp">
+          <h2 className="text-h1 font-bold leading-tight tracking-heading">
+            {t("stats.heading")}
+          </h2>
+        </Reveal>
+        <Reveal variant="fadeUpSm" className="mt-2 text-sm leading-relaxed text-muted-foreground">
+          {t("stats.subheading")}
+        </Reveal>
       </RevealStagger>
 
       <Reveal variant="fadeUp" className="rounded-lg border border-primary/20 bg-primary/[0.06] p-4 md:p-5">

@@ -15,23 +15,9 @@ export const Certifications = ({ motionStyle }: CertificationsProps) => {
 
   return (
     // F1.5 sin min-h sistemático en bloque CV.
+    // La sección ya tiene su heading unificado en AIWorkbench (flujo de IA + credenciales).
+    // Este sub-bloque aporta solo las tarjetas de certificaciones.
     <SectionContainer maxWidth="md" motionStyle={motionStyle}>
-      {/* Header espejo de Education: eyebrow con hairline y display heading. */}
-      <RevealStagger className="mb-8">
-        <Reveal variant="fadeUpSm" className="mb-4 flex items-center gap-3 font-mono text-sm uppercase tracking-label text-muted-foreground">
-          <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
-          <span>{t("certifications.section_label")}</span>
-        </Reveal>
-        <Reveal variant="fadeUp">
-          <h2 className="text-h1 font-bold leading-tight tracking-heading">
-            {t("certifications.heading_before")} {t("certifications.heading_after")}
-          </h2>
-        </Reveal>
-        <Reveal variant="fadeUpSm" className="mt-2 text-sm leading-relaxed text-muted-foreground">
-          {t("certifications.subheading")}
-        </Reveal>
-      </RevealStagger>
-
       {/* F2a bento 2+1: rompe el grid-3 gemelo. Fila 1: elev8 (span 2) + big_school;
           fila 2: ibm + slot estable. El slot conserva caja aspect-video para 2b. */}
       <RevealStagger className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

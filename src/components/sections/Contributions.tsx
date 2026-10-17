@@ -117,20 +117,26 @@ export const Contributions = ({ motionStyle }: ContributionsProps) => {
   return (
     // F2a ledger ancho: lg rompe la repetición grid-3 sin tocar el accordion.
     <SectionContainer maxWidth="lg" motionStyle={motionStyle}>
-      {/* Header del ledger: eyebrow mono + h2 sr-only — un git log no lleva display
-          heading visible; la jerarquía para lectores de pantalla la da el h2 oculto. */}
-      <RevealStagger className="mb-2">
+      {/* Header del ledger con la receta del resto de secciones: label numerada
+          + display heading + sub. El filete lo pone el SectionDivider de Index;
+          dentro de la sección no se repite (un solo separador por corte). */}
+      <RevealStagger className="mb-8">
         <Reveal variant="fadeUpSm" className="mb-4 flex items-center gap-3 font-mono text-sm uppercase tracking-label text-muted-foreground">
           <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
-          <span aria-hidden="true">{t("contributions.section_label")}</span>
+          <span>{t("contributions.section_label")}</span>
         </Reveal>
-        <h2 className="sr-only">{t("contributions.section_label")}</h2>
+        <Reveal variant="fadeUp">
+          <h2 className="text-h1 font-bold leading-tight tracking-heading">
+            {t("contributions.heading")}
+          </h2>
+        </Reveal>
+        <Reveal variant="fadeUpSm" className="mt-2 text-sm leading-relaxed text-muted-foreground">
+          {t("contributions.subheading")}
+        </Reveal>
       </RevealStagger>
 
       {/* Accordion: una sola fila abierta; click en la fila abierta la cierra.
-          Con reduce-motion el cambio de estado es inmediato y sin transición.
-          Filete doble de apertura: el ledger entra como página del ejemplar. */}
-      <div aria-hidden="true" className="rule-double mb-2" />
+          Con reduce-motion el cambio de estado es inmediato y sin transición. */}
       <ul>
         {contributions.map((c) => {
           const open = openId === c.id;

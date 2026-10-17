@@ -3,14 +3,20 @@ import { useLanguage } from "@/context/LanguageContext";
 import { scrollToSection } from "@/lib/scroll";
 import { ScrollTrigger } from "@/lib/gsap";
 
+// Un enlace por cada una de las 9 secciones numeradas, en el orden real de la
+// pagina (el hero es la portada, sin numeral: no entra en el menu). El href de
+// Education apunta a la seccion `formacion` (su anchor interna `education`
+// queda para Spotlight/CLI), para que el tracking de seccion activa mida el
+// bloque completo y no un div interior.
 const linksConfig = [
   { labelKey: "nav.about", href: "#about" },
   { labelKey: "nav.projects", href: "#projects" },
   { labelKey: "nav.workbench", href: "#ai-workbench" },
   { labelKey: "nav.experience", href: "#trayectoria" },
   { labelKey: "nav.impact", href: "#contributions" },
-  { labelKey: "nav.education", href: "#education" },
+  { labelKey: "nav.education", href: "#formacion" },
   { labelKey: "nav.sidequests", href: "#sidequests" },
+  { labelKey: "nav.stats", href: "#stats" },
   { labelKey: "nav.contact", href: "#contact" },
 ];
 
@@ -21,7 +27,7 @@ export const Nav = () => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const allSections = ["hero", ...linksConfig.map((l) => l.href.slice(1))];
+    const allSections = linksConfig.map((l) => l.href.slice(1));
 
     const computeThreshold = () => {
       // First section AFTER the hero rail: the nav stays hidden while the
@@ -99,13 +105,15 @@ export const Nav = () => {
             : "bg-background/30 backdrop-blur-md"
         }`}
       >
-        <div className="hidden items-center gap-1 sm:flex">
+        {/* 10 enlaces + ⌘K no caben a 640px: el menu entra en md y el atajo
+            solo en lg, con tracking mas cerrado por debajo de lg. */}
+        <div className="hidden items-center gap-1 md:flex">
           {linksConfig.map((l) => (
             <a
               key={l.href}
               href={l.href}
               onClick={(e) => handleNavClick(e, l.href)}
-              className={`px-3 py-1.5 font-mono text-xs tracking-mono transition-colors ${
+              className={`whitespace-nowrap px-1.5 py-1.5 font-mono text-[11px] tracking-mono transition-colors lg:px-3 lg:text-xs ${
                 activeSection === l.href.slice(1)
                   ? "text-foreground"
                   : "text-muted-foreground hover:text-foreground"
@@ -114,7 +122,7 @@ export const Nav = () => {
               {t(l.labelKey)}
             </a>
           ))}
-          <kbd className="ml-1 hidden items-center gap-0.5 rounded border border-neutral-tint/10 bg-neutral-tint/5 px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground md:inline-flex">⌘K</kbd>
+          <kbd className="ml-1 hidden items-center gap-0.5 rounded border border-neutral-tint/10 bg-neutral-tint/5 px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground lg:inline-flex">⌘K</kbd>
         </div>
       </div>
     </nav>

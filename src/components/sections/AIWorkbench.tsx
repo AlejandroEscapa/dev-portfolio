@@ -20,6 +20,9 @@ export const AIWorkbench = () => {
             {t("workbench.heading")}
           </h2>
         </Reveal>
+        <Reveal variant="fadeUpSm" className="mt-2 text-sm leading-relaxed text-muted-foreground">
+          {t("workbench.subheading")}
+        </Reveal>
       </RevealStagger>
 
       <RevealStagger className="grid gap-5 border-y border-neutral-tint/10 py-5 md:grid-cols-2 md:gap-8">

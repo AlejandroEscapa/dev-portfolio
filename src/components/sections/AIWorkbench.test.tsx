@@ -15,7 +15,7 @@ describe("AIWorkbench", () => {
 
     // The #ai-workbench anchor lives on the sheet section in
     // Index.tsx (hoja continua); the section itself carries no id.
-    expect(screen.getByRole("heading", { level: 2, name: "AI in the loop, not at the wheel." })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 2, name: "AI in the process, with verifiable credentials." })).toBeInTheDocument();
     expect(screen.getByText(/Cursor with MCP integrations/)).toBeInTheDocument();
     expect(screen.getByText(/inspect the diff/)).toBeInTheDocument();
   });
@@ -29,7 +29,7 @@ describe("AIWorkbench", () => {
       </LanguageProvider>,
     );
 
-    expect(screen.getByRole("heading", { level: 2, name: "IA en el proceso, no al volante." })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 2, name: "IA en el proceso, con credenciales verificables." })).toBeInTheDocument();
     expect(screen.getByText(/integraciones MCP/)).toBeInTheDocument();
     expect(screen.getByText(/inspecciono el diff/)).toBeInTheDocument();
   });

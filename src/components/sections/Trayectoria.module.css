@@ -320,12 +320,48 @@
 /* ─── Title card (start of track, single-line) ─── */
 
 .titleCard {
-  display: inline-flex;
-  align-items: baseline;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  width: max-content;
+  max-width: 600px;
   flex-shrink: 0;
   padding: 0 12px;
   pointer-events: none;
+}
+
+/* Misma receta de label que las secciones estandar: mono + hairline primaria. */
+.titleLabel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+}
+
+.titleLabel::before {
+  content: "";
+  width: 48px;
+  height: 1px;
+  background: linear-gradient(to right, hsl(var(--primary)), transparent);
+}
+
+.titleHeading {
+  display: flex;
+  align-items: baseline;
   white-space: nowrap;
+}
+
+.titleSub {
+  max-width: 46ch;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: hsl(var(--muted-foreground));
+  white-space: normal;
 }
 
 .titleMi {
@@ -365,9 +401,14 @@
 
 /* ─── Mobile (vertical stack) ─── */
 
+/* Sin padding propio: el ritmo vertical viene de los divisores y el
+   horizontal de `.section-px` (Index), como en el resto de secciones. */
 .mobileSection {
   position: relative;
-  padding: 64px 20px 96px;
+}
+
+.mobileHeader {
+  margin-bottom: 32px;
 }
 
 .mobileTimeline {

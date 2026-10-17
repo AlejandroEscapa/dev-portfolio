@@ -276,10 +276,13 @@
   }
 
   /* === Edición nocturna: sistema editorial mínimo (guiños, no periódico total) ===
-     Todo con tokens, sin hex. Filete doble de apertura, folio mono,
-     pie de foto y capitular Fraunces. */
+     Todo con tokens, sin hex. Filete sencillo de separación, pie de foto y
+     capitular Fraunces. Se quitó el folio numérico: cada sección da su propio contexto. */
   .rule-double {
     border-top: 3px double hsl(var(--neutral-tint) / 0.22);
+  }
+  .rule-single {
+    border-top: 1px solid hsl(var(--neutral-tint) / 0.22);
   }
   .folio {
     font-family: var(--font-mono);

@@ -212,8 +212,13 @@ voice). Section h2 headings keep Fraunces at `text-h1` — Contact was
 downsized from `text-display` to `text-h1` for coherence. Eyebrows
 (`section_label`), pills, window titles and stats bars are `font-mono`;
 Plex Mono tops at 500, so mono text never uses 600+ (synthetic bold).
-Stats/Contributions expose sr-only h2 for a11y (no visible display
-heading by design). Do not extend the sans override without asking.
+The nine sheet sections carry the same header recipe: mono
+`section_label` with its page-order numerator (`01`–`09`), visible
+`text-h1` h2 and a `mt-2` muted subline. Hero is the cover (no numeral)
+and `Certifications` is the proof inside `03 - AI workflow`, so neither
+gets a header of its own; `Trayectoria` keeps its pinned display title
+but adds the label + subline. Do not extend the sans override without
+asking.
 
 ### `prefers-reduced-motion`
 
@@ -340,12 +345,14 @@ Real order top → bottom:
    spec cells pair up, half when sharing a row; repo CTA carries the
    real GitHub mark); a one-line additive fact strip (APIs, features)
    sits at the bottom of the window, capped to a single row.
-4b. `AIWorkbench` — sección llana (id `ai-workbench` en `Index.tsx`).
-   El `SectionContainer` interior no lleva id (evita anchors duplicados).
+4b. Bloque IA único — sección llana (id `ai-workbench` en `Index.tsx`):
+   método (`AIWorkbench`) + prueba (`Certifications`, ancla interna
+   `certifications` para Spotlight). `Formacion` queda solo con `Education`.
+   Ningún `SectionContainer` interior lleva el id de su sección.
 
    **Hoja continua (edición nocturna):** las ventanas murieron — 9 secciones
    seguidas sin `WindowChrome` (borrado con su test), separadas solo por
-   `<SectionDivider>` (filete doble + folio `02 / 09 · workbench`).
+   `<SectionDivider>` (filete sencillo, sin folio numérico ni texto; cada sección aporta su propia etiqueta de contexto).
    El único ritmo es `.section-y`. Stats va subordinado
    (`mx-auto max-w-5xl`): infografía dentro del ejemplar, no gemela.
    Guiños editoriales (`.rule-double`, `.folio`, `.photo-credit`,
@@ -361,11 +368,11 @@ Real order top → bottom:
    Ledger of open-source contributions rendered as
    git-log lines; each row is an expandable accordion revealing the full
    war story in a single column (mobile-safe).
-7. `Education` — dentro de la sección `formacion` (anclas internas
-   `education` + `certifications`). Formal
+7. `Education` — dentro de la sección `formacion` (ancla interna
+   `education`; `certifications` vive en el bloque IA). Formal
    education only (the standalone IBM credential card was removed), in
    a 2-col grid; credentials live in Certifications now.
-8. `Certifications` — dentro de `formacion` (id `certifications`).
+8. `Certifications` — dentro del bloque IA (id `certifications`).
    Credential cards pulled out of the
    Trayectoria/Education timelines into their own window, 2-col grid.
 9. `SideQuests` — sheet section (id `sidequests`).
@@ -508,7 +515,7 @@ no se reinventa.
 | `spotlight/Spotlight.tsx`         | `⌘K` / `Ctrl+K`              | `useSpotlightToggle` + `getSpotlightItems({ setTheme })` |
 | `dock/Dock.tsx`                   | Always (LEFT vertical rail, collapsed 52px by default; chevron expands to 184px) | `useDockHover("y")` (glyph magnify-on-hover, 3px nudge — never the button) |
 | `crt/CrtOverlay.tsx`+`CRTToggle`  | Top-right toggle              | Body class `crt-on` (scanlines + vignette)              |
-| `Nav.tsx`                         | Always (top-fixed)            | Scroll + resize listeners, hides itself before `#projects` |
+| `Nav.tsx`                         | Always (top-fixed)            | Scroll + resize listeners, hides itself before `#projects`; one link per numbered section (`#formacion`, not the inner `#education`) |
 | `background/ImageBackground.tsx`  | Mounted once                  | Responsive `<img>` w/ srcSet/sizes                      |
 
 CLI commands are a single switch in `src/lib/cli-commands.ts`

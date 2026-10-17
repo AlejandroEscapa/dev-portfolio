@@ -43,9 +43,12 @@ export function Footer() {
   const linkFocus =
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-0";
 
+  // Sin .section-y ni filete propio: el SectionDivider de Index es el único
+  // separador de cierre y su margen marca el ritmo; el footer arranca justo
+  // debajo. Evita la doble raya y el aire duplicado.
   return (
-    <footer className="section-y pb-2">
-      <div className="border-t border-neutral-tint/10 pt-8 pb-4">
+    <footer className="pb-2">
+      <div className="pb-4">
         <RevealStagger className="grid gap-8 md:grid-cols-3">
           {/* Zone left: identity */}
           <Reveal variant="fadeUpSm" className="flex flex-col gap-1.5 font-mono text-xs sm:text-sm text-muted-foreground">

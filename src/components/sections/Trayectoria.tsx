@@ -122,11 +122,18 @@ const CtaCard = ({ t }: { t: (k: string) => string }) => (
   </a>
 );
 
+// Cabecera de la estructura especial: misma receta que el resto de la hoja
+// (label numerada + display heading + subline), aunque el titulo se monte
+// sobre el eje horizontal en lugar de en una columna.
 const TitleCard = ({ t }: { t: (k: string) => string }) => (
-  <h2 className={styles.titleCard} aria-hidden="true">
-    <span className={styles.titleMi}>{t("trayectoria.heading_before")}</span>
-    <span className={styles.titleTrayectoria}>{t("trayectoria.heading_after")}</span>
-  </h2>
+  <div className={styles.titleCard}>
+    <p className={styles.titleLabel}>{t("trayectoria.section_label")}</p>
+    <h2 className={styles.titleHeading}>
+      <span className={styles.titleMi}>{t("trayectoria.heading_before")}</span>{" "}
+      <span className={styles.titleTrayectoria}>{t("trayectoria.heading_after")}</span>
+    </h2>
+    <p className={styles.titleSub}>{t("trayectoria.subheading")}</p>
+  </div>
 );
 
 const DesktopTrayectoria = ({ t, presentLabel }: { t: (k: string) => string; presentLabel: string }) => {
@@ -201,6 +208,17 @@ const DesktopTrayectoria = ({ t, presentLabel }: { t: (k: string) => string; pre
 
 const MobileTrayectoria = ({ t, presentLabel }: { t: (k: string) => string; presentLabel: string }) => (
   <section id="trayectoria" aria-label={t("trayectoria.heading_after")} className={styles.mobileSection}>
+    {/* En movil la cabecera recupera la receta estandar: el track pineado
+        (y su TitleCard) no existe en este layout. */}
+    <header className={styles.mobileHeader}>
+      <p className={`${styles.titleLabel} mb-4`}>{t("trayectoria.section_label")}</p>
+      <h2 className="text-h1 font-bold leading-tight tracking-heading">
+        {t("trayectoria.heading_before")} {t("trayectoria.heading_after")}
+      </h2>
+      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+        {t("trayectoria.subheading")}
+      </p>
+    </header>
     <div className={styles.mobileTimeline}>
       <div className={styles.mobileLine} />
       {trayectoriaItems.map((item) => (

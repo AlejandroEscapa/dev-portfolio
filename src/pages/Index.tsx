@@ -18,8 +18,8 @@ import { Footer } from "@/components/Footer";
 import { useLenis } from "@/hooks/useLenis";
 
 // Hoja continua: 9 secciones seguidas sin ventanas. El único ritmo es el
-// divisor (filete + folio); los anchors de navegación viven en cada <section>.
-
+// divisor (filete sencillo, sin folio ni texto); los anchors de navegación
+// viven en cada <section>, cuya propia etiqueta da contexto.
 const Index = () => {
   useLenis();
   return (
@@ -50,40 +50,43 @@ const Index = () => {
         {/* Vertical rhythm is declared HERE, once per section, via .section-y
             + SectionDivider. .section-px owns horizontal padding. */}
         <div className="section-px">
+          <SectionDivider index={2} total={9} label="Proyectos" showFolio />
           <section id="projects" className="max-w-none w-full section-y">
             <Projects />
           </section>
-          <SectionDivider index={2} total={9} label="Workbench" />
+          <SectionDivider index={3} total={9} label="IA" />
+          {/* Bloque IA único: método (workbench) + prueba (credenciales).
+              Tienen un mismo heading unificado en AIWorkbench; certifications
+              sigue viva como ancla interna para Spotlight/lectores. */}
           <section id="ai-workbench" className="max-w-none w-full section-y">
             <AIWorkbench />
-          </section>
-          <SectionDivider index={3} total={9} label="Trayectoria" />
-          <Trayectoria />
-          <SectionDivider index={4} total={9} label="Contribuciones" />
-          <section id="contributions" className="max-w-none w-full section-y">
-            <Contributions />
-          </section>
-          <SectionDivider index={5} total={9} label="Formación" />
-          <section id="formacion" className="max-w-none w-full section-y">
-            <div id="education" style={{ scrollMarginTop: "calc(var(--nav-height, 60px) + 8px)" }}>
-              <Education />
-            </div>
-            <div aria-hidden="true" className="rule-double my-8" />
             <div id="certifications" style={{ scrollMarginTop: "calc(var(--nav-height, 60px) + 8px)" }}>
               <Certifications />
             </div>
           </section>
-          <SectionDivider index={6} total={9} label="Side quests" />
+          <SectionDivider index={4} total={9} label="Trayectoria" />
+          <Trayectoria />
+          <SectionDivider index={5} total={9} label="Contribuciones" />
+          <section id="contributions" className="max-w-none w-full section-y">
+            <Contributions />
+          </section>
+          <SectionDivider index={6} total={9} label="Formación" />
+          <section id="formacion" className="max-w-none w-full section-y">
+            <div id="education" style={{ scrollMarginTop: "calc(var(--nav-height, 60px) + 8px)" }}>
+              <Education />
+            </div>
+          </section>
+          <SectionDivider index={7} total={9} label="Side quests" />
           <section id="sidequests" className="max-w-none w-full section-y">
             <SideQuests />
           </section>
-          <SectionDivider index={7} total={9} label="Métricas" />
+          <SectionDivider index={8} total={9} label="Métricas" />
           {/* Stats subordinado (max-w-5xl centrado): infografía dentro del
               ejemplar, no sección gemela. */}
           <section id="stats" className="mx-auto max-w-5xl section-y">
             <Stats />
           </section>
-          <SectionDivider index={8} total={9} label="Contacto" />
+          <SectionDivider index={9} total={9} label="Contacto" />
           <section id="contact" className="max-w-none w-full section-y">
             <Contact />
           </section>
