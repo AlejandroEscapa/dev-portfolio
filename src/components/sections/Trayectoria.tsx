@@ -140,10 +140,11 @@ const DesktopTrayectoria = ({ t, presentLabel }: { t: (k: string) => string; pre
   const sectionRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState({ current: 1, total: trayectoriaItems.length });
+  // Regla §15.7: nada de `window.matchMedia` suelto en componentes.
+  const reducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
 
   useLayoutEffect(() => {
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduceMotion) return;
+    if (reducedMotion) return;
 
     const section = sectionRef.current;
     const track = trackRef.current;
@@ -179,7 +180,7 @@ const DesktopTrayectoria = ({ t, presentLabel }: { t: (k: string) => string; pre
     }, section);
 
     return () => ctx.revert();
-  }, []);
+  }, [reducedMotion]);
 
   return (
     <section ref={sectionRef} id="trayectoria" aria-label={t("trayectoria.heading_after")} className={styles.section}>

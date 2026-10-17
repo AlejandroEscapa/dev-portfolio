@@ -31,7 +31,6 @@
   padding: 0 calc(50vw - 220px) 0 15vw;
   height: 600px;
   will-change: transform;
-  perspective: 1000px;
   pointer-events: none;
 }
 

@@ -1,9 +1,6 @@
 import { useEffect } from 'react';
 import Lenis from 'lenis';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
+import { gsap, ScrollTrigger } from '@/lib/gsap';
 
 let lenisInstance: Lenis | null = null;
 
@@ -22,7 +19,20 @@ export function useLenis() {
       lenis.raf(time * 1000);
     };
     gsap.ticker.add(raf);
+
+    // Con las metricas de la fuente fallback los offsets del pin se calculan
+    // mal (y quedan desplazados hasta el primer resize): este refresh los
+    // rehace con las definitivas. `cancelled` evita tocar ScrollTrigger si la
+    // promesa se resuelve despues del desmontaje.
+    let cancelled = false;
+    if (typeof document !== 'undefined' && 'fonts' in document) {
+      document.fonts.ready.then(() => {
+        if (!cancelled) ScrollTrigger.refresh();
+      });
+    }
+
     return () => {
+      cancelled = true;
       gsap.ticker.remove(raf);
       lenis.destroy();
       lenisInstance = null;
