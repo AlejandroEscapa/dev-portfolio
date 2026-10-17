@@ -38,7 +38,7 @@ export const Contact = () => {
     /* The section keeps its asymmetric vertical padding so the two-column
        composition sits centred inside the window; data + socials + signature
        live in the site footer (src/components/Footer.tsx). */
-    <section className="relative min-h-[60vh] flex flex-col pt-7 md:pt-10 pb-4">
+    <section className="relative min-h-[60vh] flex flex-col pt-7 md:pt-10 pb-4 px-6 md:px-8 lg:px-10">
       {/* The sheet section owns the entry; reveals only orchestrate its contents. */}
       {/* Same content inset as Projects/Education (container max-w-6xl):
           the window stays full-bleed, the content floats inside it. */}

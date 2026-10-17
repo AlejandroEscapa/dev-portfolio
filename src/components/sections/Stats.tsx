@@ -14,7 +14,7 @@ export const Stats = ({ motionStyle }: StatsProps) => {
 
   return (
     // F2a tira teñida sin glass; F1.5 sin min-h sistemático en bloque CV.
-    <SectionContainer maxWidth="md" motionStyle={motionStyle}>
+    <SectionContainer maxWidth="md" motionStyle={motionStyle} className="px-6 md:px-8 lg:px-10">
       {/* Misma receta de cabecera que el resto de secciones: label numerada
           + display heading + sub. El panel sigue subordinado debajo. */}
       <RevealStagger className="mb-8">

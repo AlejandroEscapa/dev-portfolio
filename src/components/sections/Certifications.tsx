@@ -20,7 +20,7 @@ export const Certifications = ({ motionStyle }: CertificationsProps) => {
     // F1.5 sin min-h sistemático en bloque CV.
     // La sección ya tiene su heading unificado en AIWorkbench (flujo de IA + credenciales).
     // Este sub-bloque aporta solo las tarjetas de certificaciones.
-    <SectionContainer maxWidth="md" motionStyle={motionStyle}>
+    <SectionContainer maxWidth="md" motionStyle={motionStyle} className="px-6 md:px-8 lg:px-10">
       {/* F2a bento 2+1: rompe el grid-3 gemelo. Fila 1: elev8 (span 2) + big_school;
           fila 2: ibm + slot estable. El slot conserva caja aspect-video para 2b. */}
       <RevealStagger className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

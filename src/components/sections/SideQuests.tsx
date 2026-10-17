@@ -24,7 +24,7 @@ export const SideQuests = ({ motionStyle }: SideQuestsProps) => {
 
   return (
     // F1.5 sin min-h sistemático en bloque CV; F1.4 banda una frase sin body.
-    <SectionContainer maxWidth="md" motionStyle={motionStyle}>
+    <SectionContainer maxWidth="md" motionStyle={motionStyle} className="px-6 md:px-8 lg:px-10">
       {/* Header sobrio: eyebrow + display heading, sin decoración de más. */}
       <RevealStagger className="mb-8">
         <Reveal variant="fadeUpSm" className="mb-4 flex items-center gap-3 font-mono text-sm uppercase tracking-label text-muted-foreground">

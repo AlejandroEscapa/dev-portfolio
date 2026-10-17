@@ -183,7 +183,7 @@ const DesktopTrayectoria = ({ t, presentLabel }: { t: (k: string) => string; pre
   }, [reducedMotion]);
 
   return (
-    <section ref={sectionRef} id="trayectoria" aria-label={t("trayectoria.heading_after")} className={styles.section}>
+    <section ref={sectionRef} id="trayectoria" aria-label={t("trayectoria.heading_after")} className={`${styles.section} px-6 md:px-8 lg:px-10`}>
       <div className={styles.trackArea}>
         <div ref={trackRef} className={styles.track}>
           <TitleCard t={t} />

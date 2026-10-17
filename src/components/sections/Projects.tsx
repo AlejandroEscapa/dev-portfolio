@@ -125,7 +125,7 @@ export const Projects = ({ motionStyle }: ProjectsProps) => {
     <motion.section
       // No id here: the sheet section in Index owns the "projects" anchor.
       style={motionStyle}
-      className={cn("relative flex flex-col justify-center")}
+      className={cn("relative flex flex-col justify-center px-6 md:px-8 lg:px-10")}
     >
       <LayoutGroup id="projects-shared">
       <div className="container mx-auto max-w-6xl">

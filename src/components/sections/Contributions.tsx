@@ -116,7 +116,7 @@ export const Contributions = ({ motionStyle }: ContributionsProps) => {
 
   return (
     // F2a ledger ancho: lg rompe la repetición grid-3 sin tocar el accordion.
-    <SectionContainer maxWidth="lg" motionStyle={motionStyle}>
+    <SectionContainer maxWidth="lg" motionStyle={motionStyle} className="px-6 md:px-8 lg:px-10">
       {/* Header del ledger con la receta del resto de secciones: label numerada
           + display heading + sub. El filete lo pone el SectionDivider de Index;
           dentro de la sección no se repite (un solo separador por corte). */}

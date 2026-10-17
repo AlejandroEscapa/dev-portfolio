@@ -51,14 +51,14 @@ const Index = () => {
             + SectionDivider. .section-px owns horizontal padding. */}
         <div className="section-px">
           <SectionDivider index={2} total={9} label="Proyectos" showFolio />
-          <section id="projects" className="max-w-none w-full section-y">
+          <section id="projects" className="max-w-none w-full section-y px-6 md:px-8 lg:px-10">
             <Projects />
           </section>
           <SectionDivider index={3} total={9} label="IA" />
           {/* Bloque IA único: método (workbench) + prueba (credenciales).
               Tienen un mismo heading unificado en AIWorkbench; certifications
               sigue viva como ancla interna para Spotlight/lectores. */}
-          <section id="ai-workbench" className="max-w-none w-full section-y">
+          <section id="ai-workbench" className="max-w-none w-full section-y px-6 md:px-8 lg:px-10">
             <AIWorkbench />
             <div id="certifications" style={{ scrollMarginTop: "calc(var(--nav-height, 60px) + 8px)" }}>
               <Certifications />
@@ -67,7 +67,7 @@ const Index = () => {
           <SectionDivider index={4} total={9} label="Trayectoria" />
           <Trayectoria />
           <SectionDivider index={5} total={9} label="Contribuciones" />
-          <section id="contributions" className="max-w-none w-full section-y">
+          <section id="contributions" className="max-w-none w-full section-y px-6 md:px-8 lg:px-10">
             <Contributions />
           </section>
           <SectionDivider index={6} total={9} label="Formación" />
@@ -77,7 +77,7 @@ const Index = () => {
             </div>
           </section>
           <SectionDivider index={7} total={9} label="Side quests" />
-          <section id="sidequests" className="max-w-none w-full section-y">
+          <section id="sidequests" className="max-w-none w-full section-y px-6 md:px-8 lg:px-10">
             <SideQuests />
           </section>
           <SectionDivider index={8} total={9} label="Métricas" />
@@ -87,7 +87,7 @@ const Index = () => {
             <Stats />
           </section>
           <SectionDivider index={9} total={9} label="Contacto" />
-          <section id="contact" className="max-w-none w-full section-y">
+          <section id="contact" className="max-w-none w-full section-y px-6 md:px-8 lg:px-10">
             <Contact />
           </section>
           <SectionDivider index={9} total={9} label="Cierre" />

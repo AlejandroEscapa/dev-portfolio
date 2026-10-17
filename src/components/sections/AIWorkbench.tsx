@@ -9,7 +9,7 @@ export const AIWorkbench = () => {
   return (
     // Anchor owned by the sheet section in Index.tsx (id="ai-workbench");
     // inner content carries no id to avoid duplicate anchors.
-    <SectionContainer maxWidth="md">
+    <SectionContainer maxWidth="md" className="px-6 md:px-8 lg:px-10">
       <RevealStagger className="mb-6">
         <Reveal variant="fadeUpSm" className="mb-3 flex items-center gap-3 font-mono text-sm uppercase tracking-label text-muted-foreground">
           <span className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />

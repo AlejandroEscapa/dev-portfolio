@@ -14,7 +14,7 @@ export const About = ({ motionStyle }: AboutProps) => {
   const reduceMotion = useReducedMotion();
 
   return (
-    <SectionContainer maxWidth="lg" motionStyle={motionStyle} className="h-full">
+    <SectionContainer maxWidth="lg" motionStyle={motionStyle} className="px-6 md:px-8 lg:px-10 h-full">
       {/* One reveal moment: the wrapper enters and staggers its children —
           no per-element whileInView. With reduced motion everything is static.
           NOTE: about.section_label stays reserved for the future bio layout;
