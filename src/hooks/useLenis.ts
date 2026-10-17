@@ -27,7 +27,10 @@ export function useLenis() {
     let cancelled = false;
     if (typeof document !== 'undefined' && 'fonts' in document) {
       document.fonts.ready.then(() => {
-        if (!cancelled) ScrollTrigger.refresh();
+        // Tras el desmontaje (o en un entorno ya desmantelado) refrescar deja
+        // timers de ScrollTrigger corriendo contra un DOM que no existe.
+        if (cancelled || typeof window === 'undefined' || !window.requestAnimationFrame) return;
+        ScrollTrigger.refresh();
       });
     }
 
