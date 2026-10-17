@@ -1,9 +1,6 @@
 import { useState } from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
-import { Toaster } from "@/components/ui/toaster";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import { BootSequence } from "@/components/boot/BootSequence";
@@ -14,35 +11,34 @@ import { CrtOverlay } from "@/components/crt/CrtOverlay";
 import { CRTToggle } from "@/components/crt/CRTToggle";
 import { TerminalCursor } from "@/components/fx/TerminalCursor";
 
-const queryClient = new QueryClient();
-
+// Sin QueryClientProvider (no hay un solo consumidor de datos remotos), sin el
+// Toaster de Radix (el toast real es Sonner) y sin TooltipProvider (ningún
+// Tooltip fuera de src/components/ui): los tres solo metían bytes y trabajo de
+// montaje en el bundle inicial. Ver auditoría de rendimiento 2026-10-17.
 const App = () => {
   const { open, setOpen } = useSpotlightToggle();
   const [terminalOpen, setTerminalOpen] = useState(false);
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BootSequence />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-        <Spotlight open={open} onOpenChange={setOpen} />
-        <CliTerminal open={terminalOpen} onOpenChange={setTerminalOpen} />
-        <Dock
-          onOpenSpotlight={() => setOpen(true)}
-          terminalOpen={terminalOpen}
-          onToggleTerminal={() => setTerminalOpen((o) => !o)}
-        />
-        <CrtOverlay />
-        <CRTToggle />
-        <TerminalCursor />
-      </TooltipProvider>
-    </QueryClientProvider>
+    <>
+      <Sonner />
+      <BootSequence />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+      <Spotlight open={open} onOpenChange={setOpen} />
+      <CliTerminal open={terminalOpen} onOpenChange={setTerminalOpen} />
+      <Dock
+        onOpenSpotlight={() => setOpen(true)}
+        terminalOpen={terminalOpen}
+        onToggleTerminal={() => setTerminalOpen((o) => !o)}
+      />
+      <CrtOverlay />
+      <CRTToggle />
+      <TerminalCursor />
+    </>
   );
 };
 
