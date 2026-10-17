@@ -1,10 +1,19 @@
 import React, { useRef, useEffect } from "react";
 
+import { fillGrainBuffer, grainIntervalMs } from "@/lib/grain";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 // Adaptado de React Bits "Noise" (MIT), item @reactbits/Noise-TS-TW:
 // con prefers-reduced-motion el grano se dibuja una sola vez (sin loop);
 // resto del canvas idéntico (gris neutro, alpha bajo — no lleva color).
+//
+// Rendimiento (auditoría 2026-10-17): antes cada refresco regeneraba un
+// ImageData de 1024×1024 con Math.random() — 12,7 ms de CPU y 4,19 MB de
+// basura cada ~100 ms, medidos dentro de la página. Ahora los frames se
+// pre-renderizan UNA vez y el bucle solo los intercambia con drawImage
+// (< 1 ms). Coste de la alternativa: FRAME_COUNT canvas de 1024×1024 fuera de
+// pantalla (~4,2 MB cada uno). Con FRAME_COUNT = 1 se ahorra la mitad de
+// memoria pero el grano deja de parpadear.
 
 interface NoiseProps {
   patternSize?: number;
@@ -13,6 +22,11 @@ interface NoiseProps {
   patternRefreshInterval?: number;
   patternAlpha?: number;
 }
+
+/** Lado del canvas de grano: mismo valor que la implementación original. */
+const GRAIN_SIZE = 1024;
+/** Frames pre-renderizados que se alternan. 2 = parpadeo, coste mínimo. */
+const FRAME_COUNT = 2;
 
 const Noise: React.FC<NoiseProps> = ({
   patternSize = 250,
@@ -31,57 +45,69 @@ const Noise: React.FC<NoiseProps> = ({
     const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) return;
 
-    let frame = 0;
-    let animationId: number;
+    const canvasSize = GRAIN_SIZE;
 
-    const canvasSize = 1024;
+    // Frames de grano fuera de pantalla: se pintan una sola vez aquí.
+    const frames: HTMLCanvasElement[] = [];
+    for (let i = 0; i < FRAME_COUNT; i++) {
+      const frame = document.createElement("canvas");
+      frame.width = canvasSize;
+      frame.height = canvasSize;
+      const frameCtx = frame.getContext("2d", { alpha: true });
+      if (!frameCtx) return;
+      const imageData = frameCtx.createImageData(canvasSize, canvasSize);
+      fillGrainBuffer(imageData.data, patternAlpha);
+      frameCtx.putImageData(imageData, 0, 0);
+      frames.push(frame);
+    }
+
+    let frameIndex = 0;
+    const present = () => {
+      ctx.clearRect(0, 0, canvasSize, canvasSize);
+      ctx.drawImage(frames[frameIndex], 0, 0);
+    };
 
     const resize = () => {
-      if (!canvas) return;
       canvas.width = canvasSize;
       canvas.height = canvasSize;
-
       canvas.style.width = "100vw";
       canvas.style.height = "100vh";
+      // Redimensionar vacía el canvas: hay que repintar el frame actual.
+      present();
     };
 
-    const drawGrain = () => {
-      const imageData = ctx.createImageData(canvasSize, canvasSize);
-      const data = imageData.data;
+    let animationId: number | undefined;
+    let lastDraw = 0;
 
-      for (let i = 0; i < data.length; i += 4) {
-        const value = Math.random() * 255;
-        data[i] = value;
-        data[i + 1] = value;
-        data[i + 2] = value;
-        data[i + 3] = patternAlpha;
-      }
-
-      ctx.putImageData(imageData, 0, 0);
-    };
-
-    const loop = () => {
-      if (frame % patternRefreshInterval === 0) {
-        drawGrain();
-      }
-      frame++;
-      animationId = window.requestAnimationFrame(loop);
-    };
-
-    window.addEventListener("resize", resize);
     resize();
+    window.addEventListener("resize", resize);
 
-    if (prefersReducedMotion) {
-      drawGrain(); // grano estático: un frame, sin animación
-    } else {
-      loop();
+    if (!prefersReducedMotion) {
+      const interval = grainIntervalMs(patternRefreshInterval);
+      const loop = (now: number) => {
+        if (now - lastDraw >= interval) {
+          frameIndex = (frameIndex + 1) % FRAME_COUNT;
+          present();
+          lastDraw = now;
+        }
+        animationId = window.requestAnimationFrame(loop);
+      };
+      animationId = window.requestAnimationFrame(loop);
     }
 
     return () => {
       window.removeEventListener("resize", resize);
-      window.cancelAnimationFrame(animationId);
+      if (animationId !== undefined) window.cancelAnimationFrame(animationId);
+      frames.length = 0;
     };
-  }, [prefersReducedMotion, patternSize, patternScaleX, patternScaleY, patternRefreshInterval, patternAlpha]);
+  }, [
+    prefersReducedMotion,
+    patternSize,
+    patternScaleX,
+    patternScaleY,
+    patternRefreshInterval,
+    patternAlpha,
+  ]);
 
   return (
     <canvas
