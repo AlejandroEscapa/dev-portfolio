@@ -177,15 +177,19 @@ look. Solo lo tocaría con datos de un dispositivo débil.
 
 ## 4. Riesgos residuales y cosas que no he podido cerrar
 
-- **Stall de ~990 ms de primera pasada**: en dos trazas (LoAF) aparecen dos
-  frames de ~990 ms **sin scripts atribuidos** (`scripts: []`), al primer scroll
-  profundo; no se reproducen en la segunda pasada ni con el blur de
-  `Trayectoria` desactivado. No lo atribuyo a un bug concreto: huele a oclusión
-  del panel de preview o a la primera composición de la pista pineada. **Hay que
-  confirmarlo en el navegador del usuario con el panel Performance** antes de
-  abrir ninguna tarea por él.
-- **LCP no medible con la sonda**: el observer siguió acumulando candidatos
-  tras el scroll programático. Hay que medirlo con Lighthouse en el deploy.
+- ~~Stall de ~990 ms de primera pasada~~ → **RESUELTO: artefacto del harness, no
+  de la web.** Los frames de ~990 ms sin scripts atribuidos eran la pestaña del
+  panel quedándose ocluida entre llamadas de herramienta: con la pestaña oculta,
+  Chromium estrangula `requestAnimationFrame` a 1 fps aunque `visibilityState`
+  siga diciendo `visible`. Verificado instrumentando la página: `frames: 7` en
+  4 s con un único `max` de **1000,2 ms**, y reproducible a voluntad. Lección
+  para futuras medidas: **en este harness el frame pacing solo es medible con la
+  pestaña en primer plano**; el resto de números de este informe no dependen de
+  rAF (microbenchmarks y contadores de llamadas).- **LCP no medible con la sonda**: el observer siguió acumulando candidatos
+tras el scroll programático. Hay que medirlo con Lighthouse en el deploy.
+- **Toda medida de frame pacing exige la pestaña en primer plano** (ver arriba);
+las verificaciones de las tareas que dependan de FPS hay que hacerlas así o con
+el panel Performance abierto a mano.
 - **`setTimeout` de `Projects` sin limpiar**: `handleSelect`/`handleBack` lanzan
   `window.setTimeout(…, 420)` y no lo cancelan al desmontar (cambio de ruta a
   `/nope`). Es un `setState` sobre componente desmontado, no una fuga grande,
