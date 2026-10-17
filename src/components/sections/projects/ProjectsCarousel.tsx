@@ -12,6 +12,8 @@ interface ProjectsCarouselProps {
   setCurrentIndex: (next: number) => void;
   onSelect: (project: Project) => void;
   enableSharedLayout?: boolean;
+  /** La sección está en el viewport: los vídeos solo decodifican entonces. */
+  videoPlayback?: boolean;
 }
 
 export const ProjectsCarousel = ({
@@ -20,6 +22,7 @@ export const ProjectsCarousel = ({
   setCurrentIndex,
   onSelect,
   enableSharedLayout = false,
+  videoPlayback = true,
 }: ProjectsCarouselProps) => {
   const dragStartX = useRef<number | null>(null);
   const lastShiftAt = useRef<number>(0);
@@ -106,6 +109,7 @@ export const ProjectsCarousel = ({
               isActive={positionMap[i] === 3}
               onSelect={onSelect}
               enableSharedLayout={enableSharedLayout}
+              play={videoPlayback}
               dossierNo={`${String(i + 1).padStart(2, "0")} / ${String(projects.length).padStart(2, "0")}`}
             />
           ))}

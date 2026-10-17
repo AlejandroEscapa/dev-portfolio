@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { LayoutGroup, motion } from "framer-motion";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { useInViewport } from "@/hooks/useInViewport";
 import { RevealStagger } from "@/components/fx/RevealStagger";
 import { Reveal } from "@/components/fx/Reveal";
 import type { MotionStyle } from "framer-motion";
@@ -33,6 +34,11 @@ export const Projects = ({ motionStyle }: ProjectsProps) => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [viewMode, setViewMode] = useState<"carousel" | "detail">("carousel");
   const [isExiting, setIsExiting] = useState(false);
+
+  // Los mp4 son 1080p y siguen decodificando fuera de pantalla: la visibilidad
+  // del stage decide si se reproducen (auditoría 2026-10-17).
+  const stageRef = useRef<HTMLDivElement>(null);
+  const sectionVisible = useInViewport(stageRef);
 
   const filteredProjects = useMemo(() => {
     if (activeCategories.length === 0) return allProjects;
@@ -134,7 +140,7 @@ export const Projects = ({ motionStyle }: ProjectsProps) => {
           </Reveal>
         </RevealStagger>
 
-        <div className={styles.stage}>
+        <div ref={stageRef} className={styles.stage}>
           {viewMode === "carousel" ? (
             <div className={cn(styles.viewFlip, isExiting ? styles.exiting : !enableSharedLayout && styles.entering)}>
               <ProjectCategoryChips
@@ -152,6 +158,7 @@ export const Projects = ({ motionStyle }: ProjectsProps) => {
                   setCurrentIndex={setCurrentIndex}
                   onSelect={handleSelect}
                   enableSharedLayout={enableSharedLayout}
+                  videoPlayback={sectionVisible}
                 />
               )}
             </div>
@@ -162,6 +169,7 @@ export const Projects = ({ motionStyle }: ProjectsProps) => {
                 isExiting={isExiting}
                 onBack={handleBack}
                 enableSharedLayout={enableSharedLayout}
+                sectionVisible={sectionVisible}
               />
             )
           )}

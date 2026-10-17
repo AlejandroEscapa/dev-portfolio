@@ -1,4 +1,6 @@
+import { useEffect, useRef } from "react";
 import { Github, ArrowRight } from "lucide-react";
+import { safePlay } from "@/lib/video-playback";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/LanguageContext";
@@ -14,6 +16,9 @@ interface ProjectCardProps {
   enableSharedLayout?: boolean;
   /** Dossier editorial: "01 / 03" — lo pasa el carousel, no la posición 3D. */
   dossierNo?: string;
+  /** Reproducir el vídeo. La sección lo apaga cuando sale del viewport
+      (los mp4 son 1080p y decodificar fuera de pantalla no aporta nada). */
+  play?: boolean;
 }
 
 export const ProjectCard = ({
@@ -23,8 +28,19 @@ export const ProjectCard = ({
   onSelect,
   enableSharedLayout = false,
   dossierNo,
+  play = true,
 }: ProjectCardProps) => {
   const { t } = useLanguage();
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  // play()/pause() en vez de montar y desmontar el <video>: no se recarga el
+  // medio ni se pierde el fotograma que está mostrando la tarjeta.
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (play) safePlay(video);
+    else video.pause();
+  }, [play]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (!isActive) return;
@@ -53,8 +69,8 @@ export const ProjectCard = ({
       >
         {project.media.type === "video" ? (
           <video
+            ref={videoRef}
             src={project.media.src}
-            autoPlay
             muted
             loop
             playsInline

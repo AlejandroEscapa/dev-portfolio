@@ -1,4 +1,5 @@
 import {
+  useEffect,
   useRef,
   useState,
 } from "react";
@@ -19,6 +20,7 @@ import {
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { GitHubSvg } from "@/components/brand-icons";
+import { safePlay } from "@/lib/video-playback";
 import { cn } from "@/lib/utils";
 import {
   groupTechByCategory,
@@ -43,9 +45,17 @@ interface ProjectDetailProps {
   isExiting: boolean;
   onBack: () => void;
   enableSharedLayout?: boolean;
+  /** Si la sección está en el viewport: fuera de él, el vídeo se pausa. */
+  sectionVisible?: boolean;
 }
 
-export const ProjectDetail = ({ project, isExiting, onBack, enableSharedLayout = false }: ProjectDetailProps) => {
+export const ProjectDetail = ({
+  project,
+  isExiting,
+  onBack,
+  enableSharedLayout = false,
+  sectionVisible = true,
+}: ProjectDetailProps) => {
   const { t } = useLanguage();
   const stack = groupTechByCategory(project.techTags);
   // Dedup: the card chips and the About narrative already carry the stack,
@@ -75,16 +85,31 @@ export const ProjectDetail = ({ project, isExiting, onBack, enableSharedLayout =
   ];
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(true);
+  // Intención del usuario, separada del estado real del <video>: la pausa por
+  // scroll no puede reescribirla (si el usuario pausa, sigue pausado al volver).
+  const userPaused = useRef(false);
 
   const togglePlay = () => {
     const video = videoRef.current;
     if (!video) return;
     if (video.paused) {
-      video.play().catch(() => {});
+      userPaused.current = false;
+      safePlay(video);
     } else {
+      userPaused.current = true;
       video.pause();
     }
   };
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || project.media.type !== "video") return;
+    if (!sectionVisible) {
+      video.pause();
+      return;
+    }
+    if (!userPaused.current) safePlay(video);
+  }, [sectionVisible, project.media.type]);
 
   return (
     <div
@@ -122,7 +147,6 @@ export const ProjectDetail = ({ project, isExiting, onBack, enableSharedLayout =
                 <video
                   ref={videoRef}
                   src={project.media.src}
-                  autoPlay
                   muted
                   loop
                   playsInline
