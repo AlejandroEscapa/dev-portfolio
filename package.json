@@ -12,6 +12,7 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit -p tsconfig.app.json && tsc --noEmit -p tsconfig.node.json",
     "preview": "vite preview",
+    "perf:budget": "node scripts/check-bundle-budget.mjs",
     "onboard": "node scripts/onboard.mjs",
     "test": "vitest run",
     "test:watch": "vitest"
