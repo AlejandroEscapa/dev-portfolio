@@ -3,6 +3,7 @@ import { Reveal } from "@/components/fx/Reveal";
 import { RevealStagger } from "@/components/fx/RevealStagger";
 import { SectionContainer } from "@/components/ui/SectionContainer";
 import { useLanguage } from "@/context/LanguageContext";
+import { useSpecular } from "@/hooks/useSpecular";
 
 
 interface EducationProps {
@@ -11,6 +12,8 @@ interface EducationProps {
 
 export const Education = ({ motionStyle }: EducationProps) => {
   const { t } = useLanguage();
+  // Un handler para las dos tarjetas: escribe --mx/--my una vez por frame.
+  const specular = useSpecular();
   const items = [
     {
       institution: "Tokio School",
@@ -60,11 +63,7 @@ export const Education = ({ motionStyle }: EducationProps) => {
               <Reveal
                 key={it.institution}
                 variant="fadeUp"
-                onPointerMove={(e) => {
-                  const rect = e.currentTarget.getBoundingClientRect();
-                  e.currentTarget.style.setProperty("--mx", `${e.clientX - rect.left}px`);
-                  e.currentTarget.style.setProperty("--my", `${e.clientY - rect.top}px`);
-                }}
+                onPointerMove={specular.onPointerMove}
                 className="specular group relative flex flex-col overflow-hidden rounded-lg glass p-8 hover-glow"
               >
                 {/* Editorial eyebrow: a single accent hairline + the period in

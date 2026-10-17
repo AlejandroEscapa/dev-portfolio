@@ -4,6 +4,7 @@ import { Reveal } from "@/components/fx/Reveal";
 import { RevealStagger } from "@/components/fx/RevealStagger";
 import { SectionContainer } from "@/components/ui/SectionContainer";
 import { useLanguage } from "@/context/LanguageContext";
+import { useSpecular } from "@/hooks/useSpecular";
 import { certifications } from "@/data/certifications";
 
 interface CertificationsProps {
@@ -12,6 +13,8 @@ interface CertificationsProps {
 
 export const Certifications = ({ motionStyle }: CertificationsProps) => {
   const { t } = useLanguage();
+  // Un handler para las cinco tarjetas: escribe --mx/--my una vez por frame.
+  const specular = useSpecular();
 
   return (
     // F1.5 sin min-h sistemático en bloque CV.
@@ -25,11 +28,7 @@ export const Certifications = ({ motionStyle }: CertificationsProps) => {
           <Reveal
             key={c.id}
             variant="fadeUp"
-            onPointerMove={(e) => {
-              const rect = e.currentTarget.getBoundingClientRect();
-              e.currentTarget.style.setProperty("--mx", `${e.clientX - rect.left}px`);
-              e.currentTarget.style.setProperty("--my", `${e.clientY - rect.top}px`);
-            }}
+            onPointerMove={specular.onPointerMove}
             className={`specular group relative flex flex-col overflow-hidden rounded-lg glass p-8 hover-glow${c.id === "elev8" ? " lg:col-span-2" : ""}`}
           >
             {/* Eyebrow editorial: hairline con acento + emisor en mono. */}

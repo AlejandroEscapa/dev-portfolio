@@ -1,6 +1,7 @@
 import { Code2, Brain, Layout, Cloud } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+import { useSpecular } from "@/hooks/useSpecular";
 
 interface TechItem {
   name: string;
@@ -92,6 +93,8 @@ function TechIcon({ item }: { item: TechItem }) {
 
 export function TechBento() {
   const { t } = useLanguage();
+  // Un handler para las tres superficies: escribe --mx/--my una vez por frame.
+  const specular = useSpecular();
 
   return (
     <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -101,11 +104,7 @@ export function TechBento() {
         return (
           <div
             key={cat.titleKey}
-            onPointerMove={(e) => {
-              const rect = e.currentTarget.getBoundingClientRect();
-              e.currentTarget.style.setProperty("--mx", `${e.clientX - rect.left}px`);
-              e.currentTarget.style.setProperty("--my", `${e.clientY - rect.top}px`);
-            }}
+            onPointerMove={specular.onPointerMove}
             className={`specular glass rounded-lg border-t-2 p-6 hover-glow hover:-translate-y-0.5 ${accentBorder[cat.accent]} ${cat.featured ? "sm:col-span-2" : ""}`}
           >
             {/* Header */}
