@@ -65,6 +65,7 @@ const TECH_CATEGORY: Record<string, StackCategoryId> = {
   Swift: "language",
   Kotlin: "language",
   TypeScript: "language",
+  Python: "language",
   SwiftUI: "framework",
   "Jetpack Compose": "framework",
   "Next.js 14": "framework",
@@ -72,11 +73,16 @@ const TECH_CATEGORY: Record<string, StackCategoryId> = {
   "Clean Architecture": "architecture",
   Firebase: "backend",
   Supabase: "backend",
+  SQLite: "backend",
   "API-Football": "backend",
   TFM: "context",
   "Tailwind CSS": "styling",
   "Framer Motion": "styling",
+  "HTML/CSS/JS": "framework",
   n8n: "integration",
+  TMDB: "integration",
+  OMDb: "integration",
+  unittest: "context",
 };
 
 const CATEGORY_ORDER: StackCategoryId[] = [
@@ -148,6 +154,31 @@ export const projects: Project[] = [
     ],
   },
   // TODO [FUTURO - URLs]: Actualizar liveUrl y githubUrl cuando el proyecto esté en producción
+  {
+    id: "bd-peliculas",
+    nameKey: "projects.bdpeliculas_name",
+    descKey: "projects.bdpeliculas_desc",
+    longDescKey: "projects.bdpeliculas_long",
+    badgeKey: "projects.bdpeliculas_badge",
+    media: {
+      type: "image",
+      src: "/bd-peliculas-preview.png",
+      alt: "Panel del catálogo personal de películas",
+    },
+    githubUrl: "https://github.com/AlejandroEscapa/bd-peliculas",
+    liveUrl: "https://bd-peliculas-weld.vercel.app",
+    apis: ["TMDB", "OMDb"],
+    features: ["Importación delta", "Enriquecido por huecos", "Panel estático"],
+    threadKey: "projects.thread_bdpeliculas",
+    techTags: ["Python", "SQLite", "HTML/CSS/JS", "TMDB", "OMDb", "unittest"],
+    categories: ["web"],
+    highlights: [
+      { icon: "Globe", label: "projects.highlight_platform", value: "Web" },
+      { icon: "Database", label: "projects.highlight_backend", value: "SQLite" },
+      { icon: "Boxes", label: "projects.highlight_architecture", value: "CSV delta" },
+      { icon: "Zap", label: "projects.highlight_deps", value: "0" },
+    ],
+  },
   {
     id: "casahumedo",
     nameKey: "projects.casahumedo_name",
